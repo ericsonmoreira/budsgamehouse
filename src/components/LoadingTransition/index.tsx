@@ -1,4 +1,5 @@
 import { Box, CircularProgress } from "@mui/material";
+
 const LoadingTransition: React.FC = () => {
   return (
     <Box

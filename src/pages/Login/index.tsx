@@ -1,16 +1,16 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Box,
   Button,
+  Container,
   Stack,
   TextField,
   Typography,
-  Container,
 } from "@mui/material";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../services/firebaseConfig";
-import { yupResolver } from "@hookform/resolvers/yup";
 import schema from "./schema ";
 
 type LoginFormData = {
