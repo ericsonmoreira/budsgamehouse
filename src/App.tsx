@@ -1,13 +1,7 @@
-import "./App.css";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  return (
-    <div className="App">
-      <img src="/atm-logo.png" alt="React logo" />
-      <h1>ATM Card House</h1>
-      <h2>Em breve!</h2>
-    </div>
-  );
+  return <AppRoutes />;
 }
 
 export default App;
