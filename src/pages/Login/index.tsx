@@ -7,8 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useState } from "react";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../services/firebaseConfig";
@@ -22,7 +21,8 @@ type LoginFormData = {
 const Login: React.FC = () => {
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
 
   const {
     register,
@@ -37,15 +37,11 @@ const Login: React.FC = () => {
     password,
   }) => {
     try {
-      setIsLoading(true);
-
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(email, password);
 
       navigate("/");
     } catch (error) {
       console.log(error); // TODO: tratamento de erro
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -53,7 +49,7 @@ const Login: React.FC = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Container maxWidth="xl">
         <Stack spacing={2} sx={{ width: "400px" }}>
-          <Typography>Login</Typography>
+          <Typography>Login ATM</Typography>
           <TextField
             label="Email"
             variant="outlined"
@@ -73,8 +69,9 @@ const Login: React.FC = () => {
           <Button
             type="submit"
             variant="outlined"
+            disabled={loading}
             endIcon={
-              isLoading && (
+              loading && (
                 <CircularProgress
                   size={12}
                   color="info"
