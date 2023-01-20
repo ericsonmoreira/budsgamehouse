@@ -15,7 +15,7 @@ import PersonIcon from "@mui/icons-material/Person";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
-  boxShadow: theme.shadows[3],
+  boxShadow: theme.shadows[1],
 }));
 
 type DashboardNavbarProps = {

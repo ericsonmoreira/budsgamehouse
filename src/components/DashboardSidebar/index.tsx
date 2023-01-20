@@ -1,22 +1,20 @@
+import HomeIcon from "@mui/icons-material/Home";
+import LogoutIcon from "@mui/icons-material/Logout";
 import {
   Box,
   Button,
   Divider,
   Drawer,
+  Stack,
   Typography,
   useMediaQuery,
-  IconButton,
-  Stack,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
-import HomeIcon from "@mui/icons-material/Home";
-import SearchIcon from "@mui/icons-material/Search";
-import NavItem from "../NavItem";
 import { useSignOut } from "react-firebase-hooks/auth";
-import { auth } from "../../services/firebaseConfig";
 import { useNavigate } from "react-router-dom";
-import LogoutIcon from "@mui/icons-material/Logout";
+import routesNames from "../../routes/routesNames";
+import { auth } from "../../services/firebaseConfig";
+import NavItem from "../NavItem";
 
 type AppDrawerItemData = {
   to: string;
@@ -32,18 +30,18 @@ type DashboardSidebarProps = {
 const items: AppDrawerItemData[] = [
   {
     icon: HomeIcon,
-    to: "/",
+    to: routesNames.HOME,
     title: "Home",
   },
   {
     icon: HomeIcon,
-    to: "/",
-    title: "Home",
+    to: routesNames.TRANDING_CARDS,
+    title: "Cartas de Troca",
   },
   {
     icon: HomeIcon,
-    to: "/",
-    title: "Home",
+    to: routesNames.WANTED_CARDS,
+    title: "Want List",
   },
 ];
 

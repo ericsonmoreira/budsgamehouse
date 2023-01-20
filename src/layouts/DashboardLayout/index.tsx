@@ -1,22 +1,11 @@
 import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
-import { useSignOut } from "react-firebase-hooks/auth";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import DashboardNavbar from "../../components/DashboardNavbar";
 import DashboardSidebar from "../../components/DashboardSidebar";
-import { auth } from "../../services/firebaseConfig";
 
 const DashboardLayout: React.FC = () => {
-  const navigate = useNavigate();
-
-  const [signOut] = useSignOut(auth);
-
-  const handleSignOut = async () => {
-    await signOut();
-    navigate("/login");
-  };
-
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   const DashboardLayoutRoot = styled("div")(({ theme }) => ({
