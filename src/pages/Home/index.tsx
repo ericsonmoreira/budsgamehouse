@@ -1,8 +1,10 @@
+import { Box, Typography } from "@mui/material";
+
 const Home: React.FC = () => {
   return (
-    <div>
-      <h2>Home</h2>
-    </div>
+    <Box sx={{ margin: 1 }}>
+      <Typography variant="h4">Home</Typography>
+    </Box>
   );
 };
 

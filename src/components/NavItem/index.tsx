@@ -5,12 +5,14 @@ export type NavItemProps = {
   to: string;
   icon: React.FC;
   title: string;
+  active: boolean;
 };
 
 const NavItem: React.FC<NavItemProps & ListItemProps> = ({
   to,
   icon: Icon,
   title,
+  active,
   ...rest
 }) => {
   return (
@@ -29,6 +31,7 @@ const NavItem: React.FC<NavItemProps & ListItemProps> = ({
           disableRipple
           sx={{
             borderRadius: 1,
+            color: active ? "secondary.main" : "neutral.300",
             justifyContent: "flex-start",
             px: 2,
             textAlign: "left",
