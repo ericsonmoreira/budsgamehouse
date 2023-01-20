@@ -11,10 +11,13 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useSignOut } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import routesNames from "../../routes/routesNames";
 import { auth } from "../../services/firebaseConfig";
 import NavItem from "../NavItem";
+import CachedIcon from "@mui/icons-material/Cached";
+import AddCardIcon from "@mui/icons-material/AddCard";
+import { useEffect } from "react";
 
 type AppDrawerItemData = {
   to: string;
@@ -34,12 +37,12 @@ const items: AppDrawerItemData[] = [
     title: "Home",
   },
   {
-    icon: HomeIcon,
+    icon: CachedIcon,
     to: routesNames.TRANDING_CARDS,
     title: "Cartas de Troca",
   },
   {
-    icon: HomeIcon,
+    icon: AddCardIcon,
     to: routesNames.WANTED_CARDS,
     title: "Want List",
   },
@@ -50,6 +53,8 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   onClose,
 }) => {
   const navigate = useNavigate();
+
+  const location = useLocation();
 
   const [signOut] = useSignOut(auth);
 
@@ -88,7 +93,13 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
       <Divider />
       <Box sx={{ flexGrow: 1, py: 2 }}>
         {items.map(({ icon, title, to }) => (
-          <NavItem key={title} icon={icon} to={to} title={title} />
+          <NavItem
+            key={title}
+            icon={icon}
+            to={to}
+            title={title}
+            active={to === location.pathname}
+          />
         ))}
       </Box>
       <Divider />

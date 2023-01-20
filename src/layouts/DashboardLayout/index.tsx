@@ -12,7 +12,9 @@ const DashboardLayout: React.FC = () => {
     display: "flex",
     flex: "1 1 auto",
     maxWidth: "100%",
+    height: "100vh",
     paddingTop: 64,
+    backgroundColor: "#f5f5f5",
     [theme.breakpoints.up("lg")]: {
       paddingLeft: 280,
     },
@@ -22,11 +24,11 @@ const DashboardLayout: React.FC = () => {
     <DashboardLayoutRoot>
       <Box
         sx={{
-          p: 1,
           display: "flex",
           flex: "1 1 auto",
           flexDirection: "column",
           width: "100%",
+          overflowY: "auto",
         }}
       >
         <Outlet />
