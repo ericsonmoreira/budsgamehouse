@@ -1,4 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import BasicLayout from "../layouts/BasicLayout";
+import DashboardLayout from "../layouts/DashboardLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import PrivateRoutes from "./PrivateRoutes";
@@ -8,9 +10,14 @@ const AppRoutes: React.FC = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<PrivateRoutes />}>
-          <Route path="/" element={<Home />} />
+          <Route element={<DashboardLayout />}>
+            <Route path="/" element={<Home />} />
+            {/* É possível colocar outras rotas protegidas aqui */}
+          </Route>
         </Route>
-        <Route path="/login" element={<Login />} />
+        <Route element={<BasicLayout />}>
+          <Route path="/login" element={<Login />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
