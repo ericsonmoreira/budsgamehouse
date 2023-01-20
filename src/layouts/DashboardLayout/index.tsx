@@ -1,14 +1,11 @@
-import LogoutIcon from "@mui/icons-material/Logout";
-import MenuIcon from "@mui/icons-material/Menu";
-import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
-import { useSignOut } from "react-firebase-hooks/auth";
-import { Outlet, useNavigate } from "react-router-dom";
-import AppDrawer from "../../components/AppDrawer";
-import { auth } from "../../services/firebaseConfig";
+import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
-import DashboardSidebar from "../../components/DashboardSidebar";
+import { useSignOut } from "react-firebase-hooks/auth";
+import { Outlet, useNavigate } from "react-router-dom";
 import DashboardNavbar from "../../components/DashboardNavbar";
+import DashboardSidebar from "../../components/DashboardSidebar";
+import { auth } from "../../services/firebaseConfig";
 
 const DashboardLayout: React.FC = () => {
   const navigate = useNavigate();
@@ -34,26 +31,6 @@ const DashboardLayout: React.FC = () => {
 
   return (
     <DashboardLayoutRoot>
-      {/* <AppBar sx={{ marginLeft: "300px", position: "fixed" }}>
-        <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="open drawer">
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            sx={{ flexGrow: 1 }}
-          >
-            Atm Card House
-          </Typography>
-          <IconButton color="inherit" onClick={handleSignOut}>
-            <LogoutIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar> */}
-      {/* <AppDrawer /> */}
       <Box
         sx={{
           p: 1,

@@ -6,6 +6,7 @@ import {
   Typography,
   useMediaQuery,
   IconButton,
+  Stack,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
@@ -64,62 +65,47 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   };
 
   const content = (
-    <>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-        }}
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+      }}
+    >
+      <Stack
+        spacing={1}
+        padding={2}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
       >
-        <div>
-          <Box sx={{ px: 2 }}>
-            <Box
-              sx={{
-                alignItems: "center",
-                backgroundColor: "rgba(255, 255, 255, 0.04)",
-                cursor: "pointer",
-                display: "flex",
-                justifyContent: "space-between",
-                px: 3,
-                py: "11px",
-                borderRadius: 1,
-              }}
-            >
-              {/* Acho que aqui vai a logo da ATM */}
-              <div>
-                <Typography color="inherit" variant="subtitle1">
-                  Acme Inc
-                </Typography>
-                <Typography color="neutral.400" variant="body2">
-                  Your tier : Premium
-                </Typography>
-              </div>
-            </Box>
-          </Box>
-        </div>
-        <Divider
-          sx={{
-            my: 3,
-          }}
+        <img
+          src="/atm-logo.png"
+          alt="Atm Logo"
+          style={{ width: "5rem", height: "5rem" }}
         />
-        <Box sx={{ flexGrow: 1 }}>
-          {items.map(({ icon, title, to }) => (
-            <NavItem key={title} icon={icon} to={to} title={title} />
-          ))}
-        </Box>
-        <Divider />
-        <Box
-          sx={{
-            p: 1,
-          }}
-        >
-          <IconButton color="error" onClick={handleSignOut}>
-            <LogoutIcon />
-          </IconButton>
-        </Box>
+        <Typography variant="body2">Associação Tabulerence de Magic</Typography>
+      </Stack>
+
+      <Divider />
+      <Box sx={{ flexGrow: 1, py: 2 }}>
+        {items.map(({ icon, title, to }) => (
+          <NavItem key={title} icon={icon} to={to} title={title} />
+        ))}
       </Box>
-    </>
+      <Divider />
+      <Box padding={1}>
+        <Button
+          fullWidth
+          color="error"
+          variant="outlined"
+          endIcon={<LogoutIcon />}
+          onClick={handleSignOut}
+        >
+          Logout
+        </Button>
+      </Box>
+    </Box>
   );
 
   if (upLg) {
@@ -129,7 +115,6 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         open
         PaperProps={{
           sx: {
-            backgroundColor: "neutral.900",
             width: 280,
           },
         }}
@@ -145,12 +130,6 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
       anchor="left"
       onClose={onClose}
       open={open}
-      PaperProps={{
-        sx: {
-          backgroundColor: "neutral.900",
-          width: 280,
-        },
-      }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
       variant="temporary"
     >

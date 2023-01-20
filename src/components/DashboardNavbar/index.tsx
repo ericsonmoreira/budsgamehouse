@@ -10,6 +10,8 @@ import {
   Tooltip,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import PersonIcon from "@mui/icons-material/Person";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -55,6 +57,17 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
         >
           <MenuIcon fontSize="small" />
         </IconButton>
+        <Tooltip title="Buscar">
+          <IconButton>
+            <SearchIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+        <Box sx={{ flexGrow: 1 }} />
+        <Tooltip title="Contacts">
+          <IconButton>
+            <PersonIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
       </Toolbar>
     </DashboardNavbarRoot>
   );

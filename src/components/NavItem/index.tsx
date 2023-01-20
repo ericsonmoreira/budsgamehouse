@@ -18,15 +18,13 @@ const NavItem: React.FC<NavItemProps & ListItemProps> = ({
       disableGutters
       sx={{
         display: "flex",
-        mb: 0.5,
         py: 0,
-        px: 2,
+        px: 1,
       }}
       {...rest}
     >
-      <NavLink to={to}>
+      <NavLink to={to} style={{ textDecoration: "none" }}>
         <Button
-          component="a"
           startIcon={<Icon />}
           disableRipple
           sx={{
