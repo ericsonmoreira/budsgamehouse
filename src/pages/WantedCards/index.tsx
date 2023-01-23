@@ -14,6 +14,8 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
+import AddWantCardDialog from "../../components/AddWantCardDialog";
 
 const imageUrlExample =
   "https://repositorio.sbrauble.com/arquivos/in/magic/425127/5f42441674d8c-3vgfy6-kvnoz0-69adc1e107f7f7d035d7baf04342e1ca.jpg";
@@ -33,6 +35,7 @@ const rows = [
 ];
 
 const WantedCards: React.FC = () => {
+  const [addWantCardDialogOpen, setAddWantCardDialogOpen] = useState(false);
   return (
     <>
       <Box
@@ -44,9 +47,14 @@ const WantedCards: React.FC = () => {
         }}
       >
         <Typography variant="h4">Want List</Typography>
-        <IconButton color="secondary">
-          <AddCircleIcon fontSize="large" />
-        </IconButton>
+        <Tooltip title="Add">
+          <IconButton
+            color="secondary"
+            onClick={() => setAddWantCardDialogOpen(true)}
+          >
+            <AddCircleIcon fontSize="large" />
+          </IconButton>
+        </Tooltip>
       </Box>
       <Box sx={{ margin: 1 }}>
         <TableContainer component={Paper}>
@@ -102,6 +110,13 @@ const WantedCards: React.FC = () => {
           </Table>
         </TableContainer>
       </Box>
+      <AddWantCardDialog
+        title="Add Card"
+        subTitle="Busque e adicione cartas para encontrar"
+        open={addWantCardDialogOpen}
+        setOpen={setAddWantCardDialogOpen}
+        onClose={() => setAddWantCardDialogOpen(false)}
+      />
     </>
   );
 };
