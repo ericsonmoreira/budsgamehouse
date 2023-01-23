@@ -14,6 +14,8 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
+import AddTradingCardDialog from "../../components/AddTradingCardDialog";
 
 const imageUrlExample =
   "https://repositorio.sbrauble.com/arquivos/in/magic/205/5f42434572c24-l74k9f-ah6rj5-eae27d77ca20db309e056e3d2dcd7d69.jpg";
@@ -33,6 +35,9 @@ const rows = [
 ];
 
 const TradingCards: React.FC = () => {
+  const [addTradingCardDialogOpen, setAddTradingCardDialogOpen] =
+    useState(false);
+
   return (
     <>
       <Box
@@ -44,7 +49,10 @@ const TradingCards: React.FC = () => {
         }}
       >
         <Typography variant="h4">Cartas de Troca</Typography>
-        <IconButton color="secondary">
+        <IconButton
+          color="secondary"
+          onClick={() => setAddTradingCardDialogOpen(true)}
+        >
           <AddCircleIcon fontSize="large" />
         </IconButton>
       </Box>
@@ -102,6 +110,13 @@ const TradingCards: React.FC = () => {
           </Table>
         </TableContainer>
       </Box>
+      <AddTradingCardDialog
+        title="Add Card"
+        subTitle="Busque e adicione cartas de troca"
+        open={addTradingCardDialogOpen}
+        setOpen={setAddTradingCardDialogOpen}
+        onClose={() => setAddTradingCardDialogOpen(false)}
+      />
     </>
   );
 };
