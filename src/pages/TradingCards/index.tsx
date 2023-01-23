@@ -49,12 +49,14 @@ const TradingCards: React.FC = () => {
         }}
       >
         <Typography variant="h4">Cartas de Troca</Typography>
-        <IconButton
-          color="secondary"
-          onClick={() => setAddTradingCardDialogOpen(true)}
-        >
-          <AddCircleIcon fontSize="large" />
-        </IconButton>
+        <Tooltip title="Add">
+          <IconButton
+            color="secondary"
+            onClick={() => setAddTradingCardDialogOpen(true)}
+          >
+            <AddCircleIcon fontSize="large" />
+          </IconButton>
+        </Tooltip>
       </Box>
       <Box sx={{ margin: 1 }}>
         <TableContainer component={Paper}>
