@@ -1,3 +1,5 @@
+import AddCardIcon from "@mui/icons-material/AddCard";
+import CachedIcon from "@mui/icons-material/Cached";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
 import {
@@ -11,13 +13,10 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useSignOut } from "react-firebase-hooks/auth";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import routesNames from "../../routes/routesNames";
 import { auth } from "../../services/firebaseConfig";
 import NavItem from "../NavItem";
-import CachedIcon from "@mui/icons-material/Cached";
-import AddCardIcon from "@mui/icons-material/AddCard";
-import { useEffect } from "react";
 
 type AppDrawerItemData = {
   to: string;

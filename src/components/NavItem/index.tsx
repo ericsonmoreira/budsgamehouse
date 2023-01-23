@@ -1,5 +1,5 @@
-import { NavLink } from "react-router-dom";
 import { Box, Button, ListItem, ListItemProps } from "@mui/material";
+import { NavLink } from "react-router-dom";
 
 export type NavItemProps = {
   to: string;

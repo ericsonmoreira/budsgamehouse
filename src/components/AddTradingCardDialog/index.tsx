@@ -57,6 +57,8 @@ const AddTradingCardDialog: React.FC<
   };
 
   const handleCancelAction = () => {
+    resetField("searchTerm");
+    setCardNameSelected("");
     setOpen(false);
   };
 
