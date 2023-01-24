@@ -2,15 +2,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Button,
   CircularProgress,
-  Container,
+  Paper,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { auth } from "../../services/firebaseConfig";
+import verifyFirebaseErroCode from "../../services/verifyFirebaseErroCode";
 import schema from "./schema ";
 
 type LoginFormData = {
@@ -19,9 +20,7 @@ type LoginFormData = {
 };
 
 const Login: React.FC = () => {
-  const navigate = useNavigate();
-
-  const [signInWithEmailAndPassword, user, loading, error] =
+  const [signInWithEmailAndPassword, user, loading, signError] =
     useSignInWithEmailAndPassword(auth);
 
   const {
@@ -38,18 +37,36 @@ const Login: React.FC = () => {
   }) => {
     try {
       await signInWithEmailAndPassword(email, password);
-
-      navigate("/");
-    } catch (error) {
-      console.log(error); // TODO: tratamento de erro
+    } catch (e) {
+      console.log("erro");
     }
   };
 
+  if (user) {
+    return <Navigate to="/" />;
+  }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Container maxWidth="xl">
-        <Stack spacing={2} sx={{ width: "400px" }}>
-          <Typography>Login ATM</Typography>
+    <Paper
+      elevation={0}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        p: 2,
+        width: "100%",
+        background: "rgba(255, 255, 255, 0.75)",
+        backdropFilter: "blur(5px)",
+      }}
+    >
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack
+          spacing={2}
+          sx={{
+            display: "flex",
+            flex: 1,
+          }}
+        >
+          <Typography variant="h4">Login ATM</Typography>
           <TextField
             label="Email"
             variant="outlined"
@@ -66,9 +83,15 @@ const Login: React.FC = () => {
             autoComplete="current-password"
             {...register("password")}
           />
+          {signError && (
+            <Typography sx={{ color: (theme) => theme.palette.error.dark }}>
+              {verifyFirebaseErroCode(signError.code)}
+            </Typography>
+          )}
           <Button
+            disableElevation
             type="submit"
-            variant="outlined"
+            variant="contained"
             disabled={loading}
             endIcon={
               loading && (
@@ -82,9 +105,10 @@ const Login: React.FC = () => {
           >
             Login
           </Button>
+          <Button>Redefinir senha</Button>
         </Stack>
-      </Container>
-    </form>
+      </form>
+    </Paper>
   );
 };
 
