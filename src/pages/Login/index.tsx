@@ -9,8 +9,9 @@ import {
 } from "@mui/material";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { auth } from "../../services/firebaseConfig";
+import verifyFirebaseErroCode from "../../services/verifyFirebaseErroCode";
 import schema from "./schema ";
 
 type LoginFormData = {
@@ -19,9 +20,7 @@ type LoginFormData = {
 };
 
 const Login: React.FC = () => {
-  const navigate = useNavigate();
-
-  const [signInWithEmailAndPassword, user, loading, error] =
+  const [signInWithEmailAndPassword, user, loading, signError] =
     useSignInWithEmailAndPassword(auth);
 
   const {
@@ -38,12 +37,14 @@ const Login: React.FC = () => {
   }) => {
     try {
       await signInWithEmailAndPassword(email, password);
-
-      navigate("/");
-    } catch (error) {
-      console.log(error); // TODO: tratamento de erro
+    } catch (e) {
+      console.log("erro");
     }
   };
+
+  if (user) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Paper
@@ -82,6 +83,11 @@ const Login: React.FC = () => {
             autoComplete="current-password"
             {...register("password")}
           />
+          {signError && (
+            <Typography sx={{ color: (theme) => theme.palette.error.dark }}>
+              {verifyFirebaseErroCode(signError.code)}
+            </Typography>
+          )}
           <Button
             disableElevation
             type="submit"
