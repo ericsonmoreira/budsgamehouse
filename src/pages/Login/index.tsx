@@ -2,7 +2,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Button,
   CircularProgress,
-  Container,
   Stack,
   TextField,
   Typography,
@@ -47,43 +46,37 @@ const Login: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Container maxWidth="xl">
-        <Stack spacing={2} sx={{ width: "400px" }}>
-          <Typography>Login ATM</Typography>
-          <TextField
-            label="Email"
-            variant="outlined"
-            error={!!errors.email}
-            helperText={errors.email?.message}
-            {...register("email")}
-          />
-          <TextField
-            label="Senha"
-            variant="outlined"
-            error={!!errors.password}
-            helperText={errors.password?.message}
-            type="password"
-            autoComplete="current-password"
-            {...register("password")}
-          />
-          <Button
-            type="submit"
-            variant="outlined"
-            disabled={loading}
-            endIcon={
-              loading && (
-                <CircularProgress
-                  size={12}
-                  color="info"
-                  sx={{ marginLeft: 2 }}
-                />
-              )
-            }
-          >
-            Login
-          </Button>
-        </Stack>
-      </Container>
+      <Stack spacing={2} sx={{ width: "400px" }}>
+        <Typography>Login ATM</Typography>
+        <TextField
+          label="Email"
+          variant="outlined"
+          error={!!errors.email}
+          helperText={errors.email?.message}
+          {...register("email")}
+        />
+        <TextField
+          label="Senha"
+          variant="outlined"
+          error={!!errors.password}
+          helperText={errors.password?.message}
+          type="password"
+          autoComplete="current-password"
+          {...register("password")}
+        />
+        <Button
+          type="submit"
+          variant="outlined"
+          disabled={loading}
+          endIcon={
+            loading && (
+              <CircularProgress size={12} color="info" sx={{ marginLeft: 2 }} />
+            )
+          }
+        >
+          Login
+        </Button>
+      </Stack>
     </form>
   );
 };
