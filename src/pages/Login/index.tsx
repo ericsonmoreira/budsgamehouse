@@ -2,6 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Button,
   CircularProgress,
+  Paper,
   Stack,
   TextField,
   Typography,
@@ -45,39 +46,63 @@ const Login: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={2} sx={{ width: "400px" }}>
-        <Typography>Login ATM</Typography>
-        <TextField
-          label="Email"
-          variant="outlined"
-          error={!!errors.email}
-          helperText={errors.email?.message}
-          {...register("email")}
-        />
-        <TextField
-          label="Senha"
-          variant="outlined"
-          error={!!errors.password}
-          helperText={errors.password?.message}
-          type="password"
-          autoComplete="current-password"
-          {...register("password")}
-        />
-        <Button
-          type="submit"
-          variant="outlined"
-          disabled={loading}
-          endIcon={
-            loading && (
-              <CircularProgress size={12} color="info" sx={{ marginLeft: 2 }} />
-            )
-          }
+    <Paper
+      elevation={0}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        p: 2,
+        width: "100%",
+        background: "rgba(255, 255, 255, 0.75)",
+        backdropFilter: "blur(5px)",
+      }}
+    >
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack
+          spacing={2}
+          sx={{
+            display: "flex",
+            flex: 1,
+          }}
         >
-          Login
-        </Button>
-      </Stack>
-    </form>
+          <Typography variant="h4">Login ATM</Typography>
+          <TextField
+            label="Email"
+            variant="outlined"
+            error={!!errors.email}
+            helperText={errors.email?.message}
+            {...register("email")}
+          />
+          <TextField
+            label="Senha"
+            variant="outlined"
+            error={!!errors.password}
+            helperText={errors.password?.message}
+            type="password"
+            autoComplete="current-password"
+            {...register("password")}
+          />
+          <Button
+            disableElevation
+            type="submit"
+            variant="contained"
+            disabled={loading}
+            endIcon={
+              loading && (
+                <CircularProgress
+                  size={12}
+                  color="info"
+                  sx={{ marginLeft: 2 }}
+                />
+              )
+            }
+          >
+            Login
+          </Button>
+          <Button>Redefinir senha</Button>
+        </Stack>
+      </form>
+    </Paper>
   );
 };
 
