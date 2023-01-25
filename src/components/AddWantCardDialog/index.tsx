@@ -60,10 +60,10 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
   // TODO: acho que nem precisavamos usar o useForm pra salvar esses dados
   // Mas possivelmente veveremos fazer um tratamento antes de enviar os dados
   // E possivelmente deve ficar mais fácil com ele usando validação com o yup
-  const handleConfirmAction = async () => {
+  const handleConfirmAction = () => {
     try {
       if (card) {
-        await addWantedCard({
+        addWantedCard({
           name: card.name,
           amount: Number(amount),
           imgUrl: card.image_uris?.normal || "",

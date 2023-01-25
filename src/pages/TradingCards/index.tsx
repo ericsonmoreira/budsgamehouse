@@ -16,13 +16,13 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import AddTradingCardDialog from "../../components/AddTradingCardDialog";
-import useWantedCards from "../../hooks/useWantedCards";
+import useTradingCards from "../../hooks/useTradingCards";
 
 const TradingCards: React.FC = () => {
   const [addTradingCardDialogOpen, setAddTradingCardDialogOpen] =
     useState(false);
 
-  const { cards: wantedCards } = useWantedCards();
+  const { cards: wantedCards, deleteTradingCard } = useTradingCards();
 
   return (
     <>
@@ -81,7 +81,10 @@ const TradingCards: React.FC = () => {
                   <TableCell align="right">
                     <Box>
                       <Tooltip title="Deletar">
-                        <IconButton color="error">
+                        <IconButton
+                          color="error"
+                          onClick={() => deleteTradingCard(id)}
+                        >
                           <RemoveCircleIcon fontSize="small" />
                         </IconButton>
                       </Tooltip>

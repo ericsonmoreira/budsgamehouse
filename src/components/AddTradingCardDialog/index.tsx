@@ -21,6 +21,8 @@ import useCardByName from "../../hooks/useCardByName";
 import useDebounce from "../../hooks/useDebounce";
 import NoCardImg from "../../assets/nocard.jpg";
 import ImgCard from "../ImgCard";
+import useTradingCards from "../../hooks/useTradingCards";
+import { toast } from "react-hot-toast";
 
 type AddTradingCardDialogProps = {
   title: string;
@@ -40,6 +42,10 @@ const AddTradingCardDialog: React.FC<
 
   const [cardNameSelected, setCardNameSelected] = useState<string>("");
 
+  const [amount, setAmount] = useState("0");
+
+  const { addTradingCard } = useTradingCards();
+
   const searchTermWatch = watch("searchTerm");
 
   const searchTermWatchDebounce = useDebounce(searchTermWatch, 500);
@@ -51,9 +57,24 @@ const AddTradingCardDialog: React.FC<
   const { card } = useCardByName(cardNameSelected);
 
   const handleConfirmAction = () => {
-    resetField("searchTerm");
-    setCardNameSelected("");
-    setOpen(false);
+    try {
+      if (card) {
+        addTradingCard({
+          name: card.name,
+          amount: Number(amount),
+          imgUrl: card.image_uris?.normal || "",
+        });
+
+        toast.success("Card adicionado com sucesso");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      resetField("searchTerm");
+      setCardNameSelected("");
+      setAmount("1");
+      setOpen(false);
+    }
   };
 
   const handleCancelAction = () => {
@@ -99,6 +120,16 @@ const AddTradingCardDialog: React.FC<
           ))}
         </Box>
         <ImgCard card={card} isLoading={isLoading} />
+        <TextField
+          type="number"
+          label="Quantidade"
+          variant="outlined"
+          value={amount}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setAmount(e.target.value)
+          }
+          inputProps={{ min: 1 }}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancelAction}>Cancelar</Button>

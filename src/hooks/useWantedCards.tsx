@@ -4,6 +4,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { firestore } from "../services/firebaseConfig";
@@ -50,6 +51,16 @@ function useWantedCards() {
     }
   );
 
+  const { mutate: updateWantedCard } = useMutation(
+    async ({ id, name, amount, imgUrl }: UseWantedCardsData) => {
+      const cardDoc = doc(firestore, "wanted-cards", id);
+
+      await updateDoc(cardDoc, { name, amount, imgUrl });
+
+      await queryClient.invalidateQueries("useWantedCards");
+    }
+  );
+
   const { mutate: deleteWantedCard } = useMutation(async (id: string) => {
     const cardDoc = doc(firestore, "wanted-cards", id);
 
@@ -58,7 +69,7 @@ function useWantedCards() {
     await queryClient.invalidateQueries("useWantedCards");
   });
 
-  return { cards, addWantedCard, deleteWantedCard, ...rest };
+  return { cards, addWantedCard, updateWantedCard, deleteWantedCard, ...rest };
 }
 
 export default useWantedCards;
