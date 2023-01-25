@@ -1,6 +1,8 @@
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Box,
   Button,
+  Chip,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -10,16 +12,14 @@ import {
   DialogTitle,
   InputAdornment,
   TextField,
-  Typography,
-  Chip,
-  Box,
 } from "@mui/material";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import useAutoCompleteCardNames from "../../hooks/useAutoCompleteCardNames";
 import useCardByName from "../../hooks/useCardByName";
 import useDebounce from "../../hooks/useDebounce";
-import NoCardImg from "../../assets/nocard.jpg";
+import useWantedCards from "../../hooks/useWantedCards";
 import ImgCard from "../ImgCard";
 
 type AddWantCardDialogProps = {
@@ -39,9 +39,13 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
   ...rest
 }) => {
   const { register, handleSubmit, watch, resetField } =
-    useForm<AddWantCardDialogFormData>({});
+    useForm<AddWantCardDialogFormData>();
 
   const [cardNameSelected, setCardNameSelected] = useState<string>("");
+
+  const [amount, setAmount] = useState("0");
+
+  const { addWantedCard } = useWantedCards();
 
   const searchTermWatch = watch("searchTerm");
 
@@ -53,10 +57,28 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
 
   const { card } = useCardByName(cardNameSelected);
 
-  const handleConfirmAction = () => {
-    resetField("searchTerm");
-    setCardNameSelected("");
-    setOpen(false);
+  // TODO: acho que nem precisavamos usar o useForm pra salvar esses dados
+  // Mas possivelmente veveremos fazer um tratamento antes de enviar os dados
+  // E possivelmente deve ficar mais fácil com ele usando validação com o yup
+  const handleConfirmAction = async () => {
+    try {
+      if (card) {
+        await addWantedCard({
+          name: card.name,
+          amount: Number(amount),
+          imgUrl: card.image_uris?.normal || "",
+        });
+
+        toast.success("Card adicionado com sucesso");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      resetField("searchTerm");
+      setCardNameSelected("");
+      setAmount("1");
+      setOpen(false);
+    }
   };
 
   const handleCancelAction = () => {
@@ -102,6 +124,16 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
           ))}
         </Box>
         <ImgCard card={card} isLoading={isLoading} />
+        <TextField
+          type="number"
+          label="Quantidade"
+          variant="outlined"
+          value={amount}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setAmount(e.target.value)
+          }
+          inputProps={{ min: 1 }}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancelAction}>Cancelar</Button>

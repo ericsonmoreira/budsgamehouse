@@ -20,7 +20,7 @@ const ImgCard: React.FC<ImgCardProps & ImgHTMLAttributes<HTMLImageElement>> = (
 
   if (isLoading) return <Skeleton variant="rounded" width={100} height={200} />;
 
-  if (card.card_faces?.length !== 1) {
+  if (card.card_faces?.length > 1) {
     return (
       <Box sx={{ display: "flex" }}>
         <ReactCardFlip

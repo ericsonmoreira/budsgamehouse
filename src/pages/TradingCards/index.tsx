@@ -16,27 +16,13 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import AddTradingCardDialog from "../../components/AddTradingCardDialog";
-
-const imageUrlExample =
-  "https://repositorio.sbrauble.com/arquivos/in/magic/205/5f42434572c24-l74k9f-ah6rj5-eae27d77ca20db309e056e3d2dcd7d69.jpg";
-
-const createData = (name: string, amount: number) => ({
-  name,
-  amount,
-  imageUrl: imageUrlExample,
-});
-
-const rows = [
-  createData("Goblin Piledriver1", 1),
-  createData("Goblin Piledriver2", 2),
-  createData("Goblin Piledriver3", 3),
-  createData("Goblin Piledriver4", 4),
-  createData("Goblin Piledriver5", 5),
-];
+import useWantedCards from "../../hooks/useWantedCards";
 
 const TradingCards: React.FC = () => {
   const [addTradingCardDialogOpen, setAddTradingCardDialogOpen] =
     useState(false);
+
+  const { cards: wantedCards } = useWantedCards();
 
   return (
     <>
@@ -70,9 +56,9 @@ const TradingCards: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map(({ name, amount, imageUrl }) => (
+              {wantedCards?.map(({ id, name, imgUrl, amount }) => (
                 <TableRow
-                  key={name}
+                  key={id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell scope="row">
@@ -80,12 +66,12 @@ const TradingCards: React.FC = () => {
                       PopperProps={{ sx: { backgroundColor: "none" } }}
                       title={
                         <img
-                          src={imageUrl}
+                          src={imgUrl}
                           style={{ height: 300, marginTop: 5 }}
                         />
                       }
                     >
-                      <img src={imageUrl} style={{ height: "2rem" }} />
+                      <img src={imgUrl} style={{ height: "2rem" }} />
                     </Tooltip>
                   </TableCell>
                   <TableCell scope="row">

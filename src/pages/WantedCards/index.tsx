@@ -3,6 +3,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import {
   Box,
+  CircularProgress,
   IconButton,
   Paper,
   Table,
@@ -16,26 +17,13 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import AddWantCardDialog from "../../components/AddWantCardDialog";
-
-const imageUrlExample =
-  "https://repositorio.sbrauble.com/arquivos/in/magic/425127/5f42441674d8c-3vgfy6-kvnoz0-69adc1e107f7f7d035d7baf04342e1ca.jpg";
-
-const createData = (name: string, amount: number) => ({
-  name,
-  amount,
-  imageUrl: imageUrlExample,
-});
-
-const rows = [
-  createData("Goblin Piledriver1", 1),
-  createData("Goblin Piledriver2", 2),
-  createData("Goblin Piledriver3", 3),
-  createData("Goblin Piledriver4", 4),
-  createData("Goblin Piledriver5", 5),
-];
+import useWantedCards from "../../hooks/useWantedCards";
 
 const WantedCards: React.FC = () => {
   const [addWantCardDialogOpen, setAddWantCardDialogOpen] = useState(false);
+
+  const { cards: wantedCards, isLoading, deleteWantedCard } = useWantedCards();
+
   return (
     <>
       <Box
@@ -57,6 +45,8 @@ const WantedCards: React.FC = () => {
         </Tooltip>
       </Box>
       <Box sx={{ margin: 1 }}>
+        {/* Remover isso depois pra colocar uma tabela melhor */}
+        {isLoading && <CircularProgress />}
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -68,9 +58,9 @@ const WantedCards: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map(({ name, amount, imageUrl }) => (
+              {wantedCards?.map(({ id, name, imgUrl, amount }) => (
                 <TableRow
-                  key={name}
+                  key={id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell scope="row">
@@ -78,12 +68,12 @@ const WantedCards: React.FC = () => {
                       PopperProps={{ sx: { backgroundColor: "none" } }}
                       title={
                         <img
-                          src={imageUrl}
+                          src={imgUrl}
                           style={{ height: 300, marginTop: 5 }}
                         />
                       }
                     >
-                      <img src={imageUrl} style={{ height: "2rem" }} />
+                      <img src={imgUrl} style={{ height: "2rem" }} />
                     </Tooltip>
                   </TableCell>
                   <TableCell scope="row">
@@ -93,7 +83,10 @@ const WantedCards: React.FC = () => {
                   <TableCell align="right">
                     <Box>
                       <Tooltip title="Deletar">
-                        <IconButton color="error">
+                        <IconButton
+                          color="error"
+                          onClick={() => deleteWantedCard(id)}
+                        >
                           <RemoveCircleIcon fontSize="small" />
                         </IconButton>
                       </Tooltip>
