@@ -9,6 +9,7 @@ import {
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
+import ControlledPasswordTextField from "../../components/ControlledPasswordTextField";
 import ControlledTextField from "../../components/ControlledTextField";
 import { auth } from "../../services/firebaseConfig";
 import verifyFirebaseErroCode from "../../services/verifyFirebaseErroCode";
@@ -23,7 +24,7 @@ const Login: React.FC = () => {
   const [signInWithEmailAndPassword, user, loading, signError] =
     useSignInWithEmailAndPassword(auth);
 
-  const { register, control, handleSubmit } = useForm<LoginFormData>({
+  const { control, handleSubmit } = useForm<LoginFormData>({
     resolver: yupResolver(schema),
   });
 
@@ -66,16 +67,12 @@ const Login: React.FC = () => {
           <ControlledTextField
             name="email"
             control={control}
-            textFieldProps={{ variant: "outlined" }}
+            textFieldProps={{ variant: "outlined", size: "small" }}
           />
-          <ControlledTextField
+          <ControlledPasswordTextField
             name="password"
             control={control}
-            textFieldProps={{
-              variant: "outlined",
-              type: "password",
-              autoComplete: "current-password",
-            }}
+            textFieldProps={{ variant: "outlined", size: "small" }}
           />
           {signError && (
             <Typography sx={{ color: (theme) => theme.palette.error.dark }}>
