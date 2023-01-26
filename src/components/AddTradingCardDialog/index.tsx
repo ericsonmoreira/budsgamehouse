@@ -1,6 +1,8 @@
 import SearchIcon from "@mui/icons-material/Search";
 import {
+  Box,
   Button,
+  Chip,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -10,19 +12,15 @@ import {
   DialogTitle,
   InputAdornment,
   TextField,
-  Typography,
-  Chip,
-  Box,
 } from "@mui/material";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import useAutoCompleteCardNames from "../../hooks/useAutoCompleteCardNames";
 import useCardByName from "../../hooks/useCardByName";
 import useDebounce from "../../hooks/useDebounce";
-import NoCardImg from "../../assets/nocard.jpg";
-import ImgCard from "../ImgCard";
 import useTradingCards from "../../hooks/useTradingCards";
-import { toast } from "react-hot-toast";
+import ImgCard from "../ImgCard";
 
 type AddTradingCardDialogProps = {
   title: string;

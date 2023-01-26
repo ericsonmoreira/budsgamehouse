@@ -1,3 +1,5 @@
+import EditIcon from "@mui/icons-material/Edit";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import {
   DataGrid,
@@ -5,8 +7,6 @@ import {
   GridRenderCellParams,
   GridToolbar,
 } from "@mui/x-data-grid";
-import EditIcon from "@mui/icons-material/Edit";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 type DataGridCardsRowData = {
   id: string;
