@@ -22,6 +22,7 @@ const TradingCards: React.FC = () => {
 
   const {
     cards: tradingCards,
+    isLoading,
     deleteTradingCard,
     updateTradingCard,
   } = useTradingCards();
@@ -52,23 +53,20 @@ const TradingCards: React.FC = () => {
         </Tooltip>
       </Box>
       <Box sx={{ margin: 1, height: 1 }}>
-        {tradingCards ? (
-          <DataGridCards
-            rows={tradingCards.map(({ id, name, amount, imgUrl }) => ({
-              id,
-              imgUrl,
-              name,
-              amount,
-              actions: {
-                handleUpdate: () =>
-                  updateTradingCard({ id, name, amount, imgUrl }), // TODO: ajustart pra abrir um Dialog para editar
-                handledelete: () => handledelete(id),
-              },
-            }))}
-          />
-        ) : (
-          <CircularProgress />
-        )}
+        <DataGridCards
+          loading={isLoading}
+          rows={tradingCards?.map(({ id, name, amount, imgUrl }) => ({
+            id,
+            imgUrl,
+            name,
+            amount,
+            actions: {
+              handleUpdate: () =>
+                updateTradingCard({ id, name, amount, imgUrl }), // TODO: ajustart pra abrir um Dialog para editar
+              handledelete: () => handledelete(id),
+            },
+          }))}
+        />
       </Box>
       <AddTradingCardDialog
         title="Add Card"

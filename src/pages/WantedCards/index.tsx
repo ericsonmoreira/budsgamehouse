@@ -21,6 +21,7 @@ const WantedCards: React.FC = () => {
 
   const {
     cards: wantedCards,
+    isLoading,
     deleteWantedCard,
     updateWantedCard,
   } = useWantedCards();
@@ -53,23 +54,20 @@ const WantedCards: React.FC = () => {
         </Tooltip>
       </Box>
       <Box sx={{ margin: 1, height: 1 }}>
-        {wantedCards ? (
-          <DataGridCards
-            rows={wantedCards.map(({ id, name, amount, imgUrl }) => ({
-              id,
-              imgUrl,
-              name,
-              amount,
-              actions: {
-                handleUpdate: () =>
-                  updateWantedCard({ id, name, amount, imgUrl }), // TODO: ajustart pra abrir um Dialog para editar
-                handledelete: () => handledelete(id), // TODO: perguntar antes de deletar
-              },
-            }))}
-          />
-        ) : (
-          <CircularProgress />
-        )}
+        <DataGridCards
+          loading={isLoading}
+          rows={wantedCards?.map(({ id, name, amount, imgUrl }) => ({
+            id,
+            imgUrl,
+            name,
+            amount,
+            actions: {
+              handleUpdate: () =>
+                updateWantedCard({ id, name, amount, imgUrl }), // TODO: ajustart pra abrir um Dialog para editar
+              handledelete: () => handledelete(id), // TODO: perguntar antes de deletar
+            },
+          }))}
+        />
       </Box>
       <AddWantCardDialog
         title="Add Card"

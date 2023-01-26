@@ -20,7 +20,7 @@ type DataGridCardsRowData = {
 };
 
 type DataGridCardsProps = {
-  rows: DataGridCardsRowData[];
+  rows?: DataGridCardsRowData[];
   loading?: boolean;
 };
 
@@ -71,7 +71,10 @@ const columns: GridColDef[] = [
   },
 ];
 
-const DataGridCards: React.FC<DataGridCardsProps> = ({ rows, loading }) => {
+const DataGridCards: React.FC<DataGridCardsProps> = ({
+  rows = [], // default enpty array
+  loading,
+}) => {
   return (
     <DataGrid
       rows={rows}

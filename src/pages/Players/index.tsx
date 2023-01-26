@@ -22,7 +22,7 @@ const Players: React.FC = () => {
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  const { players, deletePlayer } = usePlayers();
+  const { players, deletePlayer, isLoading } = usePlayers();
 
   const [playerToDeleteId, setPlayerToDeleteId] = useState("");
 
@@ -63,21 +63,18 @@ const Players: React.FC = () => {
         </Tooltip>
       </Box>
       <Box sx={{ margin: 1, height: 1 }}>
-        {players ? (
-          <DataGridPlaysers
-            rows={players.map(({ id, name, email }) => ({
-              id,
-              name,
-              email,
-              actions: {
-                handleUpdate: () => handleUpdate({ id, name, email }),
-                handledelete: () => handledelete(id),
-              },
-            }))}
-          />
-        ) : (
-          <CircularProgress />
-        )}
+        <DataGridPlaysers
+          loading={isLoading}
+          rows={players?.map(({ id, name, email }) => ({
+            id,
+            name,
+            email,
+            actions: {
+              handleUpdate: () => handleUpdate({ id, name, email }),
+              handledelete: () => handledelete(id),
+            },
+          }))}
+        />
       </Box>
       <AddPlayerDialog
         title="Adicionar Players"

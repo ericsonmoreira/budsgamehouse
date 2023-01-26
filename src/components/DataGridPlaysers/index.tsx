@@ -19,7 +19,7 @@ type DataGridPlaysersRowData = {
 };
 
 type DataGridPlaysersProps = {
-  rows: DataGridPlaysersRowData[];
+  rows?: DataGridPlaysersRowData[];
   loading?: boolean;
 };
 
@@ -56,7 +56,7 @@ const columns: GridColDef[] = [
 ];
 
 const DataGridPlaysers: React.FC<DataGridPlaysersProps> = ({
-  rows,
+  rows = [],
   loading,
 }) => {
   return (
