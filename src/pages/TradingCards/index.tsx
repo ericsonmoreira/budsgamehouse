@@ -1,28 +1,35 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import EditIcon from "@mui/icons-material/Edit";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import {
   Box,
+  CircularProgress,
   IconButton,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Tooltip,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
 import AddTradingCardDialog from "../../components/AddTradingCardDialog";
+import ConfirmActionDialog from "../../components/ConfirmActionDialog";
+import DataGridCards from "../../components/DataGridCards";
 import useTradingCards from "../../hooks/useTradingCards";
 
 const TradingCards: React.FC = () => {
   const [addTradingCardDialogOpen, setAddTradingCardDialogOpen] =
     useState(false);
 
-  const { cards: wantedCards, deleteTradingCard } = useTradingCards();
+  const [confirmActionDialogOpen, setConfirmActionDialogOpen] = useState(false);
+
+  const [tradingCardToDeleteId, setTradingCardToDeleteId] = useState("");
+
+  const {
+    cards: tradingCards,
+    deleteTradingCard,
+    updateTradingCard,
+  } = useTradingCards();
+
+  const handledelete = (id: string) => {
+    setTradingCardToDeleteId(id);
+    setConfirmActionDialogOpen(true);
+  };
 
   return (
     <>
@@ -44,62 +51,24 @@ const TradingCards: React.FC = () => {
           </IconButton>
         </Tooltip>
       </Box>
-      <Box sx={{ margin: 1 }}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Imagem</TableCell>
-                <TableCell>Nome</TableCell>
-                <TableCell align="right">Quantidade</TableCell>
-                <TableCell align="right">Açoes</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {wantedCards?.map(({ id, name, imgUrl, amount }) => (
-                <TableRow
-                  key={id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell scope="row">
-                    <Tooltip
-                      PopperProps={{ sx: { backgroundColor: "none" } }}
-                      title={
-                        <img
-                          src={imgUrl}
-                          style={{ height: 300, marginTop: 5 }}
-                        />
-                      }
-                    >
-                      <img src={imgUrl} style={{ height: "2rem" }} />
-                    </Tooltip>
-                  </TableCell>
-                  <TableCell scope="row">
-                    <Typography variant="body2">{name}</Typography>
-                  </TableCell>
-                  <TableCell align="right">{amount}</TableCell>
-                  <TableCell align="right">
-                    <Box>
-                      <Tooltip title="Deletar">
-                        <IconButton
-                          color="error"
-                          onClick={() => deleteTradingCard(id)}
-                        >
-                          <RemoveCircleIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Editar">
-                        <IconButton color="info">
-                          <EditIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+      <Box sx={{ margin: 1, height: 1 }}>
+        {tradingCards ? (
+          <DataGridCards
+            rows={tradingCards.map(({ id, name, amount, imgUrl }) => ({
+              id,
+              imgUrl,
+              name,
+              amount,
+              actions: {
+                handleUpdate: () =>
+                  updateTradingCard({ id, name, amount, imgUrl }), // TODO: ajustart pra abrir um Dialog para editar
+                handledelete: () => handledelete(id), // TODO: perguntar antes de deletar
+              },
+            }))}
+          />
+        ) : (
+          <CircularProgress />
+        )}
       </Box>
       <AddTradingCardDialog
         title="Add Card"
@@ -107,6 +76,15 @@ const TradingCards: React.FC = () => {
         open={addTradingCardDialogOpen}
         setOpen={setAddTradingCardDialogOpen}
         onClose={() => setAddTradingCardDialogOpen(false)}
+      />
+      <ConfirmActionDialog
+        title="Remover Card"
+        subTitle="Deseja realmente remover esse Card"
+        open={confirmActionDialogOpen}
+        confirmationMesage="Card Removido com sucesso"
+        setOpen={setConfirmActionDialogOpen}
+        onClose={() => setConfirmActionDialogOpen(false)}
+        handleConfirmAction={() => deleteTradingCard(tradingCardToDeleteId)}
       />
     </>
   );

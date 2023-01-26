@@ -1,28 +1,24 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import EditIcon from "@mui/icons-material/Edit";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import {
   Box,
   CircularProgress,
   IconButton,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Tooltip,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
 import AddWantCardDialog from "../../components/AddWantCardDialog";
+import DataGridCards from "../../components/DataGridCards";
 import useWantedCards from "../../hooks/useWantedCards";
 
 const WantedCards: React.FC = () => {
   const [addWantCardDialogOpen, setAddWantCardDialogOpen] = useState(false);
 
-  const { cards: wantedCards, isLoading, deleteWantedCard } = useWantedCards();
+  const {
+    cards: wantedCards,
+    deleteWantedCard,
+    updateWantedCard,
+  } = useWantedCards();
 
   return (
     <>
@@ -34,7 +30,9 @@ const WantedCards: React.FC = () => {
           justifyContent: "space-between",
         }}
       >
-        <Typography variant="h4">Want List</Typography>
+        <Typography variant="h4">
+          Want List - Lista de cartas para aquisição
+        </Typography>
         <Tooltip title="Add">
           <IconButton
             color="secondary"
@@ -44,64 +42,24 @@ const WantedCards: React.FC = () => {
           </IconButton>
         </Tooltip>
       </Box>
-      <Box sx={{ margin: 1 }}>
-        {/* Remover isso depois pra colocar uma tabela melhor */}
-        {isLoading && <CircularProgress />}
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Imagem</TableCell>
-                <TableCell>Nome</TableCell>
-                <TableCell align="right">Quantidade</TableCell>
-                <TableCell align="right">Açoes</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {wantedCards?.map(({ id, name, imgUrl, amount }) => (
-                <TableRow
-                  key={id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell scope="row">
-                    <Tooltip
-                      PopperProps={{ sx: { backgroundColor: "none" } }}
-                      title={
-                        <img
-                          src={imgUrl}
-                          style={{ height: 300, marginTop: 5 }}
-                        />
-                      }
-                    >
-                      <img src={imgUrl} style={{ height: "2rem" }} />
-                    </Tooltip>
-                  </TableCell>
-                  <TableCell scope="row">
-                    <Typography variant="body2">{name}</Typography>
-                  </TableCell>
-                  <TableCell align="right">{amount}</TableCell>
-                  <TableCell align="right">
-                    <Box>
-                      <Tooltip title="Deletar">
-                        <IconButton
-                          color="error"
-                          onClick={() => deleteWantedCard(id)}
-                        >
-                          <RemoveCircleIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Editar">
-                        <IconButton color="info">
-                          <EditIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+      <Box sx={{ margin: 1, height: 1 }}>
+        {wantedCards ? (
+          <DataGridCards
+            rows={wantedCards.map(({ id, name, amount, imgUrl }) => ({
+              id,
+              imgUrl,
+              name,
+              amount,
+              actions: {
+                handleUpdate: () =>
+                  updateWantedCard({ id, name, amount, imgUrl }), // TODO: ajustart pra abrir um Dialog para editar
+                handledelete: () => deleteWantedCard(id), // TODO: perguntar antes de deletar
+              },
+            }))}
+          />
+        ) : (
+          <CircularProgress />
+        )}
       </Box>
       <AddWantCardDialog
         title="Add Card"
