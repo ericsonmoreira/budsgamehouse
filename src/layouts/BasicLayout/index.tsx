@@ -26,16 +26,21 @@ const BasicLayout: React.FC = () => {
       >
         <Box
           sx={{
+            padding: 1,
             display: "flex",
             flex: 1,
             alignItems: "center",
             justifyContent: "center",
           }}
         >
-          <img src="/atm-logo.png" width="300rem" />
+          <img
+            src="/atm-logo.png"
+            style={{ maxWidth: "100%", width: "auto" }}
+          />
         </Box>
         <Box
           sx={{
+            padding: 1,
             display: "flex",
             flexDirection: "column",
             flex: 1,

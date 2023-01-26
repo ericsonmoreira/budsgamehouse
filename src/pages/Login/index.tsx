@@ -63,7 +63,7 @@ const Login: React.FC = () => {
             flex: 1,
           }}
         >
-          <Typography variant="h4">Login ATM</Typography>
+          <Typography variant="h6">Login ATM</Typography>
           <ControlledTextField
             name="email"
             control={control}
