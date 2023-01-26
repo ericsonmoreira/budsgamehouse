@@ -9,39 +9,51 @@ import {
   DialogTitle,
   Stack,
 } from "@mui/material";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import usePlayers from "../../hooks/usePlayers";
 import ControlledTextField from "../ControlledTextField";
 import schema from "./schema ";
 
-type AddPlayerDialogProps = {
-  title: string;
-  subTitle: string;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-type AddPlayerDialogFormData = {
+export type PlayerUpdateData = {
+  id: string;
   name: string;
   email: string;
 };
 
-const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
+type UpdatePlayerDialogProps = {
+  title: string;
+  subTitle: string;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  playerToUpdate: PlayerUpdateData;
+};
+
+type UpdatePlayerDialogFormData = {
+  name: string;
+  email: string;
+};
+
+const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
   title,
   subTitle,
   setOpen,
+  playerToUpdate,
   ...rest
 }) => {
-  const { control, handleSubmit } = useForm<AddPlayerDialogFormData>({
-    resolver: yupResolver(schema),
-  });
+  const { id, name, email } = playerToUpdate;
 
-  const { addPlayer } = usePlayers();
+  const { updatePlayer } = usePlayers();
 
-  const handleConfirmAction = ({ name, email }: AddPlayerDialogFormData) => {
-    addPlayer({ name, email });
+  const { control, handleSubmit, setValue } =
+    useForm<UpdatePlayerDialogFormData>({
+      resolver: yupResolver(schema),
+    });
 
-    toast.success("Player adicionado com sucesso!");
+  const handleConfirmAction = ({ name, email }: UpdatePlayerDialogFormData) => {
+    updatePlayer({ id, name, email });
+
+    toast.success("Player atualizado com sucesso!");
 
     setOpen(false);
   };
@@ -49,6 +61,11 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
   const handleCancelAction = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    setValue("name", name);
+    setValue("email", email);
+  }, [playerToUpdate]);
 
   return (
     <Dialog fullWidth maxWidth="md" {...rest}>
@@ -60,6 +77,7 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
           sx={{
             display: "flex",
             flex: 1,
+            marginY: 2,
           }}
         >
           <ControlledTextField
@@ -83,13 +101,20 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCancelAction}>Cancelar</Button>
+        <Button
+          variant="contained"
+          color="error"
+          disableElevation
+          onClick={handleCancelAction}
+        >
+          Cancelar
+        </Button>
         <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>
-          Add
+          Confirmar
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default AddPlayerDialog;
+export default UpdatePlayerDialog;

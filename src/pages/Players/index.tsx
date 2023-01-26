@@ -10,19 +10,35 @@ import { useState } from "react";
 import AddPlayerDialog from "../../components/AddPlayerDialog";
 import ConfirmActionDialog from "../../components/ConfirmActionDialog";
 import DataGridPlaysers from "../../components/DataGridPlaysers";
+import UpdatePlayerDialog, {
+  PlayerUpdateData,
+} from "../../components/UpdatePlayerDialog";
 import usePlayers from "../../hooks/usePlayers";
 
 const Players: React.FC = () => {
   const [addPlayerDialogOpen, setAddPlayerDialogOpen] = useState(false);
 
+  const [updatePlayerDialogOpen, setUpdatePlayerDialogOpen] = useState(false);
+
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  const { players, deletePlayer, updatePlayer } = usePlayers();
+  const { players, deletePlayer } = usePlayers();
 
-  const [playserToDeleteId, setPlayserToDeleteId] = useState("");
+  const [playerToDeleteId, setPlayerToDeleteId] = useState("");
+
+  const [playerToUpdate, setPlayerToUpdate] = useState<PlayerUpdateData>({
+    id: "",
+    name: "",
+    email: "",
+  });
+
+  const handleUpdate = ({ id, name, email }: PlayerUpdateData) => {
+    setPlayerToUpdate({ id, name, email });
+    setUpdatePlayerDialogOpen(true);
+  };
 
   const handledelete = (id: string) => {
-    setPlayserToDeleteId(id);
+    setPlayerToDeleteId(id);
     setDeleteDialogOpen(true);
   };
 
@@ -54,7 +70,7 @@ const Players: React.FC = () => {
               name,
               email,
               actions: {
-                handleUpdate: () => updatePlayer({ id, name, email }), // TODO: ajustart pra abrir um Dialog para editar
+                handleUpdate: () => handleUpdate({ id, name, email }),
                 handledelete: () => handledelete(id),
               },
             }))}
@@ -70,6 +86,14 @@ const Players: React.FC = () => {
         setOpen={setAddPlayerDialogOpen}
         onClose={() => setAddPlayerDialogOpen(false)}
       />
+      <UpdatePlayerDialog
+        title="Update Player"
+        subTitle="Atualize aqui o Jogador"
+        open={updatePlayerDialogOpen}
+        setOpen={setUpdatePlayerDialogOpen}
+        onClose={() => setUpdatePlayerDialogOpen(false)}
+        playerToUpdate={playerToUpdate}
+      />
       <ConfirmActionDialog
         title="Remover Player"
         subTitle="Deseja realmente remover esse Jogador"
@@ -77,7 +101,7 @@ const Players: React.FC = () => {
         open={deleteDialogOpen}
         setOpen={setDeleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
-        handleConfirmAction={() => deletePlayer(playserToDeleteId)}
+        handleConfirmAction={() => deletePlayer(playerToDeleteId)}
       />
     </>
   );
