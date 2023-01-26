@@ -8,17 +8,27 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import AddWantCardDialog from "../../components/AddWantCardDialog";
+import ConfirmActionDialog from "../../components/ConfirmActionDialog";
 import DataGridCards from "../../components/DataGridCards";
 import useWantedCards from "../../hooks/useWantedCards";
 
 const WantedCards: React.FC = () => {
   const [addWantCardDialogOpen, setAddWantCardDialogOpen] = useState(false);
 
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  const [wantedCardToDeleteId, setWantedCardToDeleteId] = useState("");
+
   const {
     cards: wantedCards,
     deleteWantedCard,
     updateWantedCard,
   } = useWantedCards();
+
+  const handledelete = (id: string) => {
+    setWantedCardToDeleteId(id);
+    setDeleteDialogOpen(true);
+  };
 
   return (
     <>
@@ -53,7 +63,7 @@ const WantedCards: React.FC = () => {
               actions: {
                 handleUpdate: () =>
                   updateWantedCard({ id, name, amount, imgUrl }), // TODO: ajustart pra abrir um Dialog para editar
-                handledelete: () => deleteWantedCard(id), // TODO: perguntar antes de deletar
+                handledelete: () => handledelete(id), // TODO: perguntar antes de deletar
               },
             }))}
           />
@@ -67,6 +77,15 @@ const WantedCards: React.FC = () => {
         open={addWantCardDialogOpen}
         setOpen={setAddWantCardDialogOpen}
         onClose={() => setAddWantCardDialogOpen(false)}
+      />
+      <ConfirmActionDialog
+        title="Remover Card"
+        subTitle="Deseja realmente remover esse Card"
+        confirmationMesage="Card Removido com sucesso"
+        open={deleteDialogOpen}
+        setOpen={setDeleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        handleConfirmAction={() => deleteWantedCard(wantedCardToDeleteId)}
       />
     </>
   );

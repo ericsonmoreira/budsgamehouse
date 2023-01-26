@@ -113,7 +113,7 @@ const AddTradingCardDialog: React.FC<
               key={name}
               label={name}
               onClick={() => {
-                console.log(card);
+                // console.log(card);
                 setCardNameSelected(name);
               }}
             />

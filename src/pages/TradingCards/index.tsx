@@ -16,7 +16,7 @@ const TradingCards: React.FC = () => {
   const [addTradingCardDialogOpen, setAddTradingCardDialogOpen] =
     useState(false);
 
-  const [confirmActionDialogOpen, setConfirmActionDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const [tradingCardToDeleteId, setTradingCardToDeleteId] = useState("");
 
@@ -28,7 +28,7 @@ const TradingCards: React.FC = () => {
 
   const handledelete = (id: string) => {
     setTradingCardToDeleteId(id);
-    setConfirmActionDialogOpen(true);
+    setDeleteDialogOpen(true);
   };
 
   return (
@@ -80,10 +80,10 @@ const TradingCards: React.FC = () => {
       <ConfirmActionDialog
         title="Remover Card"
         subTitle="Deseja realmente remover esse Card"
-        open={confirmActionDialogOpen}
         confirmationMesage="Card Removido com sucesso"
-        setOpen={setConfirmActionDialogOpen}
-        onClose={() => setConfirmActionDialogOpen(false)}
+        open={deleteDialogOpen}
+        setOpen={setDeleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
         handleConfirmAction={() => deleteTradingCard(tradingCardToDeleteId)}
       />
     </>

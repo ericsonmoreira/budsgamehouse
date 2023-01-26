@@ -32,7 +32,11 @@ const ConfirmActionDialog: React.FC<ConfirmActionDialogProps & DialogProps> = ({
         <DialogContentText>{subTitle}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="error">
+        <Button
+          variant="contained"
+          color="error"
+          onClick={() => setOpen(false)}
+        >
           Cancelar
         </Button>
         <Button
