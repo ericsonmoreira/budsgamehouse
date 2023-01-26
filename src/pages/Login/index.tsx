@@ -4,12 +4,12 @@ import {
   CircularProgress,
   Paper,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
+import ControlledTextField from "../../components/ControlledTextField";
 import { auth } from "../../services/firebaseConfig";
 import verifyFirebaseErroCode from "../../services/verifyFirebaseErroCode";
 import schema from "./schema ";
@@ -23,11 +23,7 @@ const Login: React.FC = () => {
   const [signInWithEmailAndPassword, user, loading, signError] =
     useSignInWithEmailAndPassword(auth);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>({
+  const { register, control, handleSubmit } = useForm<LoginFormData>({
     resolver: yupResolver(schema),
   });
 
@@ -67,21 +63,19 @@ const Login: React.FC = () => {
           }}
         >
           <Typography variant="h4">Login ATM</Typography>
-          <TextField
-            label="Email"
-            variant="outlined"
-            error={!!errors.email}
-            helperText={errors.email?.message}
-            {...register("email")}
+          <ControlledTextField
+            name="email"
+            control={control}
+            textFieldProps={{ variant: "outlined" }}
           />
-          <TextField
-            label="Senha"
-            variant="outlined"
-            error={!!errors.password}
-            helperText={errors.password?.message}
-            type="password"
-            autoComplete="current-password"
-            {...register("password")}
+          <ControlledTextField
+            name="password"
+            control={control}
+            textFieldProps={{
+              variant: "outlined",
+              type: "password",
+              autoComplete: "current-password",
+            }}
           />
           {signError && (
             <Typography sx={{ color: (theme) => theme.palette.error.dark }}>
