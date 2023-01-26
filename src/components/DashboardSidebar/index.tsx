@@ -2,6 +2,7 @@ import AddCardIcon from "@mui/icons-material/AddCard";
 import CachedIcon from "@mui/icons-material/Cached";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
+import PersonIcon from "@mui/icons-material/Person";
 import {
   Box,
   Button,
@@ -44,6 +45,11 @@ const items: AppDrawerItemData[] = [
     icon: AddCardIcon,
     to: routesNames.WANTED_CARDS,
     title: "Want List",
+  },
+  {
+    icon: PersonIcon,
+    to: routesNames.PLAYERS,
+    title: "Players",
   },
 ];
 

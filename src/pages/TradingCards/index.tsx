@@ -62,7 +62,7 @@ const TradingCards: React.FC = () => {
               actions: {
                 handleUpdate: () =>
                   updateTradingCard({ id, name, amount, imgUrl }), // TODO: ajustart pra abrir um Dialog para editar
-                handledelete: () => handledelete(id), // TODO: perguntar antes de deletar
+                handledelete: () => handledelete(id),
               },
             }))}
           />

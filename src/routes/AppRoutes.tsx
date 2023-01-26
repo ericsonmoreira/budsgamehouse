@@ -3,6 +3,7 @@ import BasicLayout from "../layouts/BasicLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import Players from "../pages/Players";
 import TradingCards from "../pages/TradingCards";
 import WantedCards from "../pages/WantedCards";
 import PrivateRoutes from "./PrivateRoutes";
@@ -20,6 +21,7 @@ const AppRoutes: React.FC = () => {
               element={<TradingCards />}
             />
             <Route path={routesNames.WANTED_CARDS} element={<WantedCards />} />
+            <Route path={routesNames.PLAYERS} element={<Players />} />
           </Route>
         </Route>
         <Route element={<BasicLayout />}>
