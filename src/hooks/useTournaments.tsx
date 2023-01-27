@@ -12,17 +12,17 @@ import { firestore } from "../services/firebaseConfig";
 type TournamentsData = {
   id: string;
   name: string;
-  format: string;
+  format: TournamentFormat;
   rounds: number;
-  state: string;
+  state: TournamentState;
   data: string;
 };
 
 type AddTournamentsData = {
   name: string;
-  format: string;
+  format: TournamentFormat;
   rounds: number;
-  state: string;
+  state: TournamentState;
   data: string;
 };
 

@@ -1,13 +1,15 @@
-import { Box, Grid } from "@mui/material";
-import HomeCard, { HomeCardProps } from "../../components/HomeCard";
-import usePlayers from "../../hooks/usePlayers";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import CachedIcon from "@mui/icons-material/Cached";
 import PersonIcon from "@mui/icons-material/Person";
-import routesNames from "../../routes/routesNames";
-import useWantedCards from "../../hooks/useWantedCards";
-import useTradingCards from "../../hooks/useTradingCards";
+import { Box, Grid } from "@mui/material";
 import { useMemo } from "react";
+import HomeCard, { HomeCardProps } from "../../components/HomeCard";
+import usePlayers from "../../hooks/usePlayers";
+import useTournaments from "../../hooks/useTournaments";
+import useTradingCards from "../../hooks/useTradingCards";
+import useWantedCards from "../../hooks/useWantedCards";
+import routesNames from "../../routes/routesNames";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 const Home: React.FC = () => {
   const { players, isLoading: isLoadingPlayers } = usePlayers();
@@ -17,6 +19,8 @@ const Home: React.FC = () => {
 
   const { cards: wantedCards, isLoading: isLoadingWantedCards } =
     useWantedCards();
+
+  const { tournaments, isLoading: isLoadingTournaments } = useTournaments();
 
   const items = useMemo<HomeCardProps[]>(
     () => [
@@ -29,10 +33,18 @@ const Home: React.FC = () => {
         isLoading: isLoadingPlayers,
       },
       {
+        title: "Torneios",
+        subheader: "Campeonatos realizados",
+        amount: tournaments?.length,
+        icon: EmojiEventsIcon,
+        to: routesNames.TOURNAMENTS,
+        isLoading: isLoadingTournaments,
+      },
+      {
         title: "Troca",
         subheader: "Cards para troca",
         amount: tradingCards?.length,
-        icon: AddCardIcon,
+        icon: CachedIcon,
         to: routesNames.TRANDING_CARDS,
         isLoading: isLoadingTradingCards,
       },
@@ -40,12 +52,12 @@ const Home: React.FC = () => {
         title: "Want",
         subheader: "Cartas que queremos",
         amount: wantedCards?.length,
-        icon: CachedIcon,
+        icon: AddCardIcon,
         to: routesNames.WANTED_CARDS,
         isLoading: isLoadingWantedCards,
       },
     ],
-    [players, wantedCards, tradingCards]
+    [players, wantedCards, tradingCards, tournaments]
   );
 
   return (
