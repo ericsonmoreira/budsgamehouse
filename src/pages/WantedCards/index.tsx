@@ -1,23 +1,36 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import {
-  Box,
-  CircularProgress,
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 import AddWantCardDialog from "../../components/AddWantCardDialog";
 import ConfirmActionDialog from "../../components/ConfirmActionDialog";
 import DataGridCards from "../../components/DataGridCards";
+import UpdateWantedCardDialog, {
+  WantedCardUpdateData,
+} from "../../components/UpdateWantedCardDialog";
 import useWantedCards from "../../hooks/useWantedCards";
 
 const WantedCards: React.FC = () => {
   const [addWantCardDialogOpen, setAddWantCardDialogOpen] = useState(false);
 
+  const [updateWantedCardDialogOpen, setUpdateWantedCardDialogOpen] =
+    useState(false);
+
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const [wantedCardToDeleteId, setWantedCardToDeleteId] = useState("");
+
+  const [wantedCardToUpdate, setWantedCardToUpdate] =
+    useState<WantedCardUpdateData>({
+      id: "",
+      name: "",
+      amount: "",
+      imgUrl: "",
+    });
+
+  const handleUpdate = ({ id, name, amount, imgUrl }: WantedCardUpdateData) => {
+    setWantedCardToUpdate({ id, name, amount, imgUrl });
+    setUpdateWantedCardDialogOpen(true);
+  };
 
   const {
     cards: wantedCards,
@@ -63,8 +76,8 @@ const WantedCards: React.FC = () => {
             amount,
             actions: {
               handleUpdate: () =>
-                updateWantedCard({ id, name, amount, imgUrl }), // TODO: ajustart pra abrir um Dialog para editar
-              handledelete: () => handledelete(id), // TODO: perguntar antes de deletar
+                handleUpdate({ id, name, amount: String(amount), imgUrl }),
+              handledelete: () => handledelete(id),
             },
           }))}
         />
@@ -75,6 +88,14 @@ const WantedCards: React.FC = () => {
         open={addWantCardDialogOpen}
         setOpen={setAddWantCardDialogOpen}
         onClose={() => setAddWantCardDialogOpen(false)}
+      />
+      <UpdateWantedCardDialog
+        title="Atualizar carta de troca"
+        subTitle="Mude a quantidade que deseja"
+        open={updateWantedCardDialogOpen}
+        setOpen={setUpdateWantedCardDialogOpen}
+        onClose={() => setUpdateWantedCardDialogOpen(false)}
+        tradingCardToUpdate={wantedCardToUpdate}
       />
       <ConfirmActionDialog
         title="Remover Card"

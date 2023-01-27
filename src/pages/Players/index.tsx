@@ -1,11 +1,5 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import {
-  Box,
-  CircularProgress,
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 import AddPlayerDialog from "../../components/AddPlayerDialog";
 import ConfirmActionDialog from "../../components/ConfirmActionDialog";

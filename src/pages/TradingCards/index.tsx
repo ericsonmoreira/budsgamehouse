@@ -10,21 +10,44 @@ import { useState } from "react";
 import AddTradingCardDialog from "../../components/AddTradingCardDialog";
 import ConfirmActionDialog from "../../components/ConfirmActionDialog";
 import DataGridCards from "../../components/DataGridCards";
+import UpdateTradingCardDialog, {
+  TradingCardUpdateData,
+} from "../../components/UpdateTradingCardDialog";
 import useTradingCards from "../../hooks/useTradingCards";
 
 const TradingCards: React.FC = () => {
   const [addTradingCardDialogOpen, setAddTradingCardDialogOpen] =
     useState(false);
 
+  const [updateTradingCardDialogOpen, setUpdateTradingCardDialogOpen] =
+    useState(false);
+
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const [tradingCardToDeleteId, setTradingCardToDeleteId] = useState("");
+
+  const [tradingCardToUpdate, setTradingCardToUpdate] =
+    useState<TradingCardUpdateData>({
+      id: "",
+      name: "",
+      amount: "",
+      imgUrl: "",
+    });
+
+  const handleUpdate = ({
+    id,
+    name,
+    amount,
+    imgUrl,
+  }: TradingCardUpdateData) => {
+    setTradingCardToUpdate({ id, name, amount, imgUrl });
+    setUpdateTradingCardDialogOpen(true);
+  };
 
   const {
     cards: tradingCards,
     isLoading,
     deleteTradingCard,
-    updateTradingCard,
   } = useTradingCards();
 
   const handledelete = (id: string) => {
@@ -62,7 +85,7 @@ const TradingCards: React.FC = () => {
             amount,
             actions: {
               handleUpdate: () =>
-                updateTradingCard({ id, name, amount, imgUrl }), // TODO: ajustart pra abrir um Dialog para editar
+                handleUpdate({ id, name, amount: String(amount), imgUrl }), // TODO: ajustart pra abrir um Dialog para editar
               handledelete: () => handledelete(id),
             },
           }))}
@@ -74,6 +97,14 @@ const TradingCards: React.FC = () => {
         open={addTradingCardDialogOpen}
         setOpen={setAddTradingCardDialogOpen}
         onClose={() => setAddTradingCardDialogOpen(false)}
+      />
+      <UpdateTradingCardDialog
+        title="Atualizar carta de troca"
+        subTitle="Mude a quantidade que deseja"
+        open={updateTradingCardDialogOpen}
+        setOpen={setUpdateTradingCardDialogOpen}
+        onClose={() => setUpdateTradingCardDialogOpen(false)}
+        tradingCardToUpdate={tradingCardToUpdate}
       />
       <ConfirmActionDialog
         title="Remover Card"
