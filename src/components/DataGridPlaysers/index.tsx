@@ -1,12 +1,13 @@
 import EditIcon from "@mui/icons-material/Edit";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import { Box, IconButton, Tooltip } from "@mui/material";
+import { Avatar, Box, IconButton, Tooltip } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
   GridRenderCellParams,
   GridToolbar,
 } from "@mui/x-data-grid";
+import AvatarPlayer from "../AvatarPlayer";
 
 type DataGridPlaysersRowData = {
   id: string;
@@ -24,6 +25,17 @@ type DataGridPlaysersProps = {
 };
 
 const columns: GridColDef[] = [
+  {
+    field: "avatar",
+    headerName: "",
+    width: 30,
+    align: "center",
+    disableColumnMenu: true,
+    sortable: false,
+    renderCell: ({ row }) => (
+      <AvatarPlayer name={row.name} sx={{ width: 24, height: 24 }} />
+    ),
+  },
   { field: "name", headerName: "Nome", flex: 1 },
   { field: "email", headerName: "Email", flex: 1 },
   {
@@ -68,6 +80,7 @@ const DataGridPlaysers: React.FC<DataGridPlaysersProps> = ({
       components={{ Toolbar: GridToolbar }}
       disableSelectionOnClick
       loading={loading}
+      sx={{ backgroundColor: (theme) => theme.palette.background.paper }}
     />
   );
 };

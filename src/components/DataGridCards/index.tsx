@@ -7,6 +7,7 @@ import {
   GridRenderCellParams,
   GridToolbar,
 } from "@mui/x-data-grid";
+import theme from "../../theme";
 
 type DataGridCardsRowData = {
   id: string;
@@ -84,6 +85,7 @@ const DataGridCards: React.FC<DataGridCardsProps> = ({
       components={{ Toolbar: GridToolbar }}
       disableSelectionOnClick
       loading={loading}
+      sx={{ backgroundColor: (theme) => theme.palette.background.paper }}
     />
   );
 };
