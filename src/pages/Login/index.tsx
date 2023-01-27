@@ -8,9 +8,10 @@ import {
 } from "@mui/material";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import ControlledPasswordTextField from "../../components/ControlledPasswordTextField";
 import ControlledTextField from "../../components/ControlledTextField";
+import routesNames from "../../routes/routesNames";
 import { auth } from "../../services/firebaseConfig";
 import verifyFirebaseErroCode from "../../services/verifyFirebaseErroCode";
 import schema from "./schema ";
@@ -21,6 +22,8 @@ type LoginFormData = {
 };
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+
   const [signInWithEmailAndPassword, user, loading, signError] =
     useSignInWithEmailAndPassword(auth);
 
@@ -104,7 +107,12 @@ const Login: React.FC = () => {
           >
             Login
           </Button>
-          <Button>Redefinir senha</Button>
+          <Button
+            variant="text"
+            onClick={() => navigate(routesNames.RECOVER_PASSWORD)}
+          >
+            Redefinir senha
+          </Button>
         </Stack>
       </form>
     </Paper>

@@ -4,6 +4,7 @@ const routesNames = {
   WANTED_CARDS: "/wanted-cards",
   PLAYERS: "/players",
   LOGIN: "/login",
+  RECOVER_PASSWORD: "/recover-password",
 };
 
 export default routesNames;

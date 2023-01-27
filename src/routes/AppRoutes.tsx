@@ -4,6 +4,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Players from "../pages/Players";
+import RecoverPassword from "../pages/RecoverPassword";
 import TradingCards from "../pages/TradingCards";
 import WantedCards from "../pages/WantedCards";
 import PrivateRoutes from "./PrivateRoutes";
@@ -26,6 +27,10 @@ const AppRoutes: React.FC = () => {
         </Route>
         <Route element={<BasicLayout />}>
           <Route path={routesNames.LOGIN} element={<Login />} />
+          <Route
+            path={routesNames.RECOVER_PASSWORD}
+            element={<RecoverPassword />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
