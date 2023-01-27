@@ -10,9 +10,13 @@ import useTradingCards from "../../hooks/useTradingCards";
 import { useMemo } from "react";
 
 const Home: React.FC = () => {
-  const { players } = usePlayers();
-  const { cards: tradingCards } = useTradingCards();
-  const { cards: wantedCards } = useWantedCards();
+  const { players, isLoading: isLoadingPlayers } = usePlayers();
+
+  const { cards: tradingCards, isLoading: isLoadingTradingCards } =
+    useTradingCards();
+
+  const { cards: wantedCards, isLoading: isLoadingWantedCards } =
+    useWantedCards();
 
   const items = useMemo<HomeCardProps[]>(
     () => [
@@ -22,6 +26,7 @@ const Home: React.FC = () => {
         amount: players?.length,
         icon: PersonIcon,
         to: routesNames.PLAYERS,
+        isLoading: isLoadingPlayers,
       },
       {
         title: "Troca",
@@ -29,6 +34,7 @@ const Home: React.FC = () => {
         amount: tradingCards?.length,
         icon: AddCardIcon,
         to: routesNames.TRANDING_CARDS,
+        isLoading: isLoadingTradingCards,
       },
       {
         title: "Want",
@@ -36,6 +42,7 @@ const Home: React.FC = () => {
         amount: wantedCards?.length,
         icon: CachedIcon,
         to: routesNames.WANTED_CARDS,
+        isLoading: isLoadingWantedCards,
       },
     ],
     [players, wantedCards, tradingCards]

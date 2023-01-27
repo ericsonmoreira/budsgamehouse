@@ -6,9 +6,10 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  Typography,
-  useTheme,
+  Skeleton,
   SvgIcon,
+  useTheme,
+  Typography,
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
@@ -19,6 +20,7 @@ export type HomeCardProps = {
   icon: typeof SvgIcon;
   amount?: number;
   to: string;
+  isLoading?: boolean;
 };
 
 const HomeCard: React.FC<HomeCardProps> = ({
@@ -27,6 +29,7 @@ const HomeCard: React.FC<HomeCardProps> = ({
   amount,
   icon: Icon,
   to,
+  isLoading,
 }) => {
   const theme = useTheme();
 
@@ -46,7 +49,9 @@ const HomeCard: React.FC<HomeCardProps> = ({
           }}
         >
           <Icon fontSize="inherit" color="secondary" />
-          <Typography fontSize="inherit"># {amount}</Typography>
+          <Typography fontSize="inherit">
+            {isLoading ? <Skeleton variant="text" width={50} /> : amount}
+          </Typography>
         </Box>
       </CardContent>
       <CardActions
