@@ -18,6 +18,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import routesNames from "../../routes/routesNames";
 import { auth } from "../../services/firebaseConfig";
 import NavItem from "../NavItem";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 type AppDrawerItemData = {
   to: string;
@@ -50,6 +51,11 @@ const items: AppDrawerItemData[] = [
     icon: PersonIcon,
     to: routesNames.PLAYERS,
     title: "Players",
+  },
+  {
+    icon: EmojiEventsIcon,
+    to: routesNames.TOURNAMENTS,
+    title: "Torneiros",
   },
 ];
 
