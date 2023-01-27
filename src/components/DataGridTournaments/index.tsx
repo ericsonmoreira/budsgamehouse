@@ -31,10 +31,20 @@ const stateNameMap: { [T in TournamentState]: string } = {
 
 const columns: GridColDef[] = [
   {
+    field: "id",
+    headerName: "id",
+    width: 0,
+    hide: true,
+  },
+  {
     field: "name",
     headerName: "Nome",
     flex: 1,
-    renderCell: ({ value }) => <Link to={routesNames.HOME}>{value}</Link>,
+    renderCell: ({ value, row }) => (
+      <Link to={routesNames.TOURNAMENT_VIEW.replace(":id", row.id)}>
+        {value}
+      </Link>
+    ),
   },
   {
     field: "format",

@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import Players from "../pages/Players";
 import RecoverPassword from "../pages/RecoverPassword";
 import Tournaments from "../pages/Tournaments";
+import TournamentView from "../pages/TournamentView";
 import TradingCards from "../pages/TradingCards";
 import WantedCards from "../pages/WantedCards";
 import PrivateRoutes from "./PrivateRoutes";
@@ -25,6 +26,10 @@ const AppRoutes: React.FC = () => {
             <Route path={routesNames.WANTED_CARDS} element={<WantedCards />} />
             <Route path={routesNames.PLAYERS} element={<Players />} />
             <Route path={routesNames.TOURNAMENTS} element={<Tournaments />} />
+            <Route
+              path={routesNames.TOURNAMENT_VIEW}
+              element={<TournamentView />}
+            />
           </Route>
         </Route>
         <Route element={<BasicLayout />}>

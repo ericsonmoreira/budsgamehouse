@@ -4,6 +4,7 @@ const routesNames = {
   WANTED_CARDS: "/wanted-cards",
   PLAYERS: "/players",
   TOURNAMENTS: "/tournaments",
+  TOURNAMENT_VIEW: "/tournaments/:id",
   LOGIN: "/login",
   RECOVER_PASSWORD: "/recover-password",
 };

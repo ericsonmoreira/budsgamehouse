@@ -3,6 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   updateDoc,
 } from "firebase/firestore";
@@ -44,6 +45,17 @@ function useTournaments() {
     }
   );
 
+  const findTournament = (id: string | undefined) =>
+    useQuery(["useTournaments", id], async () => {
+      if (!id) return null;
+
+      const tournamentDoc = doc(firestore, "tournaments", id);
+
+      const docSnap = await getDoc(tournamentDoc);
+
+      return { id: docSnap.id, ...docSnap.data() } as TournamentsData;
+    });
+
   const { mutate: addTournament } = useMutation(
     async (tournament: AddTournamentsData) => {
       const tournamentDoc = await addDoc(tradingCardsCollectionRef, tournament);
@@ -74,6 +86,7 @@ function useTournaments() {
 
   return {
     tournaments,
+    findTournament,
     addTournament,
     updateTournament,
     deleteTournament,
