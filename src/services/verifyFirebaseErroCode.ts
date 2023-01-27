@@ -9,7 +9,7 @@ const verifyFirebaseErroCode = (errorCode: string): string => {
     case "auth/user-disabled":
       return "O usuário correspondente à credencial fornecida foi desativado.";
     case "auth/user-not-found":
-      return "O usuário não correponde à nenhuma credencial.";
+      return "O usuário não corresponde à nenhuma credencial.";
     case "auth/weak-password":
       return "A senha é muito fraca.";
     case "auth/email-already-in-use":
