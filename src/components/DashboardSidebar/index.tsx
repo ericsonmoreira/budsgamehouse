@@ -73,6 +73,11 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
   const upLg = useMediaQuery(theme.breakpoints.up("lg"));
 
+  const isNavItemActive = (to: string): boolean =>
+    to === routesNames.HOME
+      ? to === location.pathname
+      : location.pathname.includes(to);
+
   const handleSignOut = async () => {
     await signOut();
     navigate("/login");
@@ -109,7 +114,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
             icon={icon}
             to={to}
             title={title}
-            active={to === location.pathname}
+            active={isNavItemActive(to)}
           />
         ))}
       </Box>
