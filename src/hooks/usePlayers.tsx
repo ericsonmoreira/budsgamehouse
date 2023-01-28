@@ -9,7 +9,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { firestore } from "../services/firebaseConfig";
 
-type PlayerData = {
+export type PlayerData = {
   id: string;
   name: string;
   email: string;
