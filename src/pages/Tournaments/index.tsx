@@ -1,9 +1,13 @@
-import { Box, Typography, IconButton, Tooltip } from "@mui/material";
-import useTournaments from "../../hooks/useTournaments";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import { useState } from "react";
+import AddTournamentDialog from "../../components/AddTournamentDialog";
 import DataGridTournaments from "../../components/DataGridTournaments";
+import useTournaments from "../../hooks/useTournaments";
 
 const Tournaments: React.FC = () => {
+  const [addTournamentDialogOpen, setAddTournamentDialogOpen] = useState(false);
+
   const { tournaments, isLoading } = useTournaments();
 
   return (
@@ -20,7 +24,7 @@ const Tournaments: React.FC = () => {
         <Tooltip title="Add">
           <IconButton
             color="secondary"
-            // onClick={() => setAddPlayerDialogOpen(true)}
+            onClick={() => setAddTournamentDialogOpen(true)}
           >
             <AddCircleIcon fontSize="large" />
           </IconButton>
@@ -38,6 +42,13 @@ const Tournaments: React.FC = () => {
           }))}
         />
       </Box>
+      <AddTournamentDialog
+        title="Adicionar um Torneio"
+        subTitle="Crie um novo campeonato e cadastre seus Jogadores"
+        open={addTournamentDialogOpen}
+        setOpen={setAddTournamentDialogOpen}
+        onClose={() => setAddTournamentDialogOpen(false)}
+      />
     </>
   );
 };

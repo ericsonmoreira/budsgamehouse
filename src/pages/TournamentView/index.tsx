@@ -40,6 +40,14 @@ const TournamentView: React.FC = () => {
 
   const { data: tournament, isLoading } = findTournament(id);
 
+  const tournamentData = useMemo<TournamentData | null>(() => {
+    if (tournament?.data) {
+      return JSON.parse(tournament.data);
+    } else {
+      return null;
+    }
+  }, [tournament]);
+
   if (isLoading) return <CircularProgress />;
 
   return (
@@ -100,6 +108,12 @@ const TournamentView: React.FC = () => {
           </Box>
         ))}
       </Stack>
+      {tournamentData && (
+        <>
+          <code>{JSON.stringify(tournamentData, undefined, 2)}</code>
+          <code>{tournamentData.players.map(({ name }) => name)}</code>
+        </>
+      )}
     </>
   );
 };

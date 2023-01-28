@@ -34,6 +34,10 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
 }) => {
   const { control, handleSubmit } = useForm<AddPlayerDialogFormData>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      name: "",
+      email: "",
+    },
   });
 
   const { addPlayer } = usePlayers();
@@ -60,6 +64,7 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
           sx={{
             display: "flex",
             flex: 1,
+            marginTop: 1,
           }}
         >
           <ControlledTextField
