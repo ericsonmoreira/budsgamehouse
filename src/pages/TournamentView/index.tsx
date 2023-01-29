@@ -6,6 +6,7 @@ import MatchAccordion, {
   HandleConfirmMatchResultImp,
 } from "../../components/MatchAccordion";
 import TournamentCard from "../../components/TournamentCard";
+import RatingsController from "../../controllers/RatingsController";
 import useTournaments from "../../hooks/useTournaments";
 
 type TournamentViewParams = {
@@ -122,6 +123,14 @@ const TournamentView: React.FC = () => {
     }
   };
 
+  const handleRatingsGenerate = () => {
+    if (tournamentData) {
+      const ratingsController = new RatingsController(tournamentData);
+
+      console.log(ratingsController.generateRatings());
+    }
+  };
+
   if (isLoading || !tournament) return <CircularProgress />;
 
   return (
@@ -131,10 +140,12 @@ const TournamentView: React.FC = () => {
           margin: 1,
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
         }}
       >
         <Typography variant="h4">Torneio</Typography>
+        <Button size="large" onClick={handleRatingsGenerate}>
+          Gerar Ratings
+        </Button>
       </Box>
       {tournament && tournamentData && (
         <Box sx={{ margin: 1, maxWidth: 275 }}>
