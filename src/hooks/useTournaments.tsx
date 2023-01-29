@@ -10,15 +10,6 @@ import {
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { firestore } from "../services/firebaseConfig";
 
-type TournamentsData = {
-  id: string;
-  name: string;
-  format: TournamentFormat;
-  rounds: number;
-  state: TournamentState;
-  data: string;
-};
-
 type AddTournamentsData = {
   name: string;
   format: TournamentFormat;
@@ -38,9 +29,7 @@ function useTournaments() {
       const { docs } = await getDocs(tradingCardsCollectionRef);
 
       return [
-        ...docs.map(
-          (doc) => ({ id: doc.id, ...doc.data() } as TournamentsData)
-        ),
+        ...docs.map((doc) => ({ id: doc.id, ...doc.data() } as Tournament)),
       ];
     }
   );
@@ -53,7 +42,7 @@ function useTournaments() {
 
       const docSnap = await getDoc(tournamentDoc);
 
-      return { id: docSnap.id, ...docSnap.data() } as TournamentsData;
+      return { id: docSnap.id, ...docSnap.data() } as Tournament;
     });
 
   const { mutate: addTournament } = useMutation(
@@ -67,7 +56,7 @@ function useTournaments() {
   );
 
   const { mutate: updateTournament } = useMutation(
-    async (tournament: TournamentsData) => {
+    async (tournament: Tournament) => {
       const tournamentDoc = doc(firestore, "tournaments", tournament.id);
 
       await updateDoc(tournamentDoc, tournament);

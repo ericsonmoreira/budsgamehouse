@@ -93,7 +93,13 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
   }: AddTournamentDialogFormData) => {
     addTournament({
       name,
-      data: JSON.stringify({ players: selectedPlayers, rounds, name, format }),
+      data: JSON.stringify({
+        players: selectedPlayers,
+        rounds,
+        name,
+        format,
+        ratings: [],
+      }),
       format,
       rounds: Number(rounds),
       state: "not-started",

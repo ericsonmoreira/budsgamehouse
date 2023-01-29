@@ -1,17 +1,11 @@
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
-import {
-  Autocomplete,
-  Box,
-  IconButton,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
-import { useMemo, useState } from "react";
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
+import { shuffle } from "lodash";
+import { useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import usePlayers, { PlayerData } from "../../hooks/usePlayers";
+import MatchAccordion, {
+  HandleConfirmMatchResultImp,
+} from "../../components/MatchAccordion";
+import TournamentCard from "../../components/TournamentCard";
 import useTournaments from "../../hooks/useTournaments";
 
 type TournamentViewParams = {
@@ -21,22 +15,7 @@ type TournamentViewParams = {
 const TournamentView: React.FC = () => {
   const { id } = useParams<TournamentViewParams>();
 
-  const { players } = usePlayers();
-
-  const [activePlayer, setActivePlayer] = useState<PlayerData | null>();
-
-  const [autocompleteInputValue, setAutocompleteInputValue] =
-    useState<string>("");
-
-  const [selectedPlayers, setSelectedPlayers] = useState<PlayerData[]>([]);
-
-  const selectablePlayers = useMemo<PlayerData[]>(() => {
-    if (!players) return [];
-
-    return players.filter((player) => !selectedPlayers.includes(player));
-  }, [selectedPlayers, players]);
-
-  const { findTournament } = useTournaments();
+  const { findTournament, updateTournament } = useTournaments();
 
   const { data: tournament, isLoading } = findTournament(id);
 
@@ -48,7 +27,102 @@ const TournamentView: React.FC = () => {
     }
   }, [tournament]);
 
-  if (isLoading) return <CircularProgress />;
+  const getPlayerNameById = useCallback(
+    (id: string) => {
+      if (tournamentData) {
+        if (id === "bay") return "Bay";
+
+        return (
+          tournamentData.players.find((player) => player.id === id)?.name || ""
+        );
+      } else {
+        return "";
+      }
+    },
+    [tournamentData]
+  );
+
+  const handleInitTornament = () => {
+    if (tournament) {
+      const newTournamentData = { ...tournamentData, ratings: [] };
+      updateTournament({
+        ...tournament,
+        state: "started",
+        data: JSON.stringify(newTournamentData),
+      });
+    }
+  };
+
+  const handleConfirmMatchResult: HandleConfirmMatchResultImp = ({
+    ratingIndex,
+    matchIndex,
+    firstPlayerVictories,
+    seconfPlayerVictories,
+  }) => {
+    if (tournament && tournamentData) {
+      const newRatings = tournamentData.ratings;
+
+      newRatings[ratingIndex][matchIndex].playersVirories[0] =
+        firstPlayerVictories;
+      newRatings[ratingIndex][matchIndex].playersVirories[1] =
+        seconfPlayerVictories;
+
+      const newTournamentData = { ...tournamentData, ratings: newRatings };
+
+      updateTournament({
+        ...tournament,
+        data: JSON.stringify(newTournamentData),
+      });
+    }
+  };
+
+  const handleInitRound = () => {
+    if (tournamentData && tournament) {
+      const { ratings, players } = tournamentData;
+
+      // Primero Round
+      if (ratings.length === 0) {
+        const playsersShuffle = shuffle(players);
+
+        const matches: Match[] = [];
+
+        while (playsersShuffle.length >= 1) {
+          if (playsersShuffle.length === 1) {
+            matches.push({
+              playersIds: [playsersShuffle[0].id, "bay"],
+              playersVirories: [0, 0],
+            });
+
+            playsersShuffle.shift(); // removendo o primeiro elemento do array
+          } else {
+            matches.push({
+              playersIds: [playsersShuffle[0].id, playsersShuffle[1].id],
+              playersVirories: [0, 0],
+            });
+
+            playsersShuffle.shift();
+            playsersShuffle.shift();
+          }
+        }
+
+        const newTournamentData = {
+          ...tournamentData,
+          ratings: [...tournamentData.ratings, matches],
+        };
+
+        updateTournament({
+          ...tournament,
+          data: JSON.stringify(newTournamentData),
+        });
+
+        console.log(JSON.stringify({ matches }, null, 2));
+      } else {
+        console.log("Mais de uma rodada");
+      }
+    }
+  };
+
+  if (isLoading || !tournament) return <CircularProgress />;
 
   return (
     <>
@@ -62,58 +136,44 @@ const TournamentView: React.FC = () => {
       >
         <Typography variant="h4">Torneio</Typography>
       </Box>
-      <Typography>Nome: {tournament?.name}</Typography>
-      <Typography>Formato: {tournament?.format}</Typography>
-      <Typography>Rodadas: {tournament?.rounds}</Typography>
-      <Typography>Status: {tournament?.state}</Typography>
-      <Typography variant="h6">Add Players</Typography>
-      <Box sx={{ display: "flex" }}>
-        <Autocomplete
-          options={selectablePlayers}
-          value={activePlayer || null}
-          onChange={(_, newValue) => setActivePlayer(newValue)}
-          inputValue={autocompleteInputValue}
-          onInputChange={(_, newValue) => setAutocompleteInputValue(newValue)}
-          isOptionEqualToValue={(option, value) => option.id === value.id}
-          getOptionLabel={(option) => option.name}
-          renderInput={(params) => (
-            <TextField {...params} ref={null} size="small" label="Jogadores" />
-          )}
-          sx={{ width: 500 }}
-        />
-        <IconButton
-          disabled={!activePlayer}
-          onClick={() => {
-            setSelectedPlayers((old) => [...old, activePlayer as PlayerData]);
-            setActivePlayer(null);
-            setAutocompleteInputValue("");
-          }}
-        >
-          <PersonAddIcon />
-        </IconButton>
-      </Box>
-      <Stack>
-        {selectedPlayers.map(({ id, name }) => (
-          <Box key={id} sx={{ display: "flex", alignItems: "center" }}>
-            <Typography variant="h6">{name}</Typography>
-            <IconButton
-              onClick={() => {
-                setSelectedPlayers((old) =>
-                  old.filter((player) => player.id !== id)
-                );
-              }}
-            >
-              <PersonRemoveIcon />
-            </IconButton>
-          </Box>
-        ))}
-      </Stack>
-      {tournamentData && (
-        <>
-          <code>{JSON.stringify(tournamentData, undefined, 2)}</code>
-          <code>{tournamentData.players.map(({ name }) => name)}</code>
-        </>
+      {tournament && tournamentData && (
+        <Box sx={{ margin: 1, maxWidth: 275 }}>
+          <TournamentCard
+            data={{
+              id: tournament.id,
+              name: tournament.name,
+              format: tournament.format,
+              rouns: tournament.rounds,
+              state: tournament.state,
+              players: tournamentData.players,
+            }}
+          />
+          <Button onClick={handleInitTornament}>Iniciar</Button>
+          <Button onClick={handleInitRound}>
+            Iniciar Round {tournamentData.ratings.length + 1}
+          </Button>
+        </Box>
       )}
+      {tournamentData?.ratings.map((rating, ratingIndex) => (
+        <Box key={`round-${ratingIndex}`} sx={{ width: 500, margin: 1 }}>
+          <Typography variant="h6">Rodada {ratingIndex + 1}</Typography>
+          <Box sx={{ marginTop: 1 }}>
+            {rating.map((match, matchIndex) => (
+              <MatchAccordion
+                ratingIndex={ratingIndex}
+                matchIndex={matchIndex}
+                tournament={tournament}
+                tournamentData={tournamentData}
+                key={`match-${match.playersIds[0]}-${match.playersIds[1]}`}
+                getPlayerNameById={getPlayerNameById}
+                match={match}
+                handleConfirmMatchResult={handleConfirmMatchResult}
+              />
+            ))}
+          </Box>
+        </Box>
+      ))}
+      <Typography>{JSON.stringify(tournamentData)}</Typography>
     </>
   );
 };
