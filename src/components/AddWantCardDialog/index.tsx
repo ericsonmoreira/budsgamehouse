@@ -117,7 +117,6 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
               key={name}
               label={name}
               onClick={() => {
-                console.log(card);
                 setCardNameSelected(name);
               }}
             />

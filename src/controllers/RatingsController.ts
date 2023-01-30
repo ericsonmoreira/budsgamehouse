@@ -53,19 +53,18 @@ class RatingsController {
     }));
 
     // Ordenando
-    this.ratingsTable = sortBy(
-      this.ratingsTable,
-      ["points", "mwp", "gwp", "omwp"],
-      ["desc", "desc", "desc", "desc"]
-    );
+    this.ratingsTable = sortBy(this.ratingsTable, [
+      "points",
+      "mwp",
+      "gwp",
+      "omwp",
+    ]).reverse();
 
     return this.ratingsTable;
   }
 
   private getPlayerPoints(playerId: string): number {
     return this.tournamentData.ratings.reduce((acc, matches) => {
-      console.log({ matches });
-
       const match = matches.find((match) =>
         match.playersIds.includes(playerId)
       ) as Match;
@@ -79,8 +78,6 @@ class RatingsController {
       if (isDraw) return acc + 1; // Se for empate, 1 ponto
 
       const indexOfPlayer = match.playersIds.indexOf(playerId);
-
-      console.log({ playerId, indexOfPlayer });
 
       if (indexOfPlayer === 0) {
         return acc + match.playersVirories[0] > match.playersVirories[1]

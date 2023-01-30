@@ -1,11 +1,13 @@
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { shuffle } from "lodash";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+import { DataGridRatingsRowData } from "../../components/DataGridRatings";
 import MatchAccordion, {
   HandleConfirmMatchResultImp,
 } from "../../components/MatchAccordion";
 import TournamentCard from "../../components/TournamentCard";
+import ViewRatingsDialog from "../../components/ViewRatingsDialog";
 import RatingsController from "../../controllers/RatingsController";
 import useTournaments from "../../hooks/useTournaments";
 
@@ -15,6 +17,12 @@ type TournamentViewParams = {
 
 const TournamentView: React.FC = () => {
   const { id } = useParams<TournamentViewParams>();
+
+  const [openViewRatingsDialog, setOpenViewRatingsDialog] = useState(false);
+
+  const [tatingsTableData, setTatingsTableData] = useState<
+    DataGridRatingsRowData[]
+  >([]);
 
   const { findTournament, updateTournament } = useTournaments();
 
@@ -127,7 +135,21 @@ const TournamentView: React.FC = () => {
     if (tournamentData) {
       const ratingsController = new RatingsController(tournamentData);
 
-      console.log(ratingsController.generateRatings());
+      const ratings = ratingsController.generateRatings();
+
+      setTatingsTableData(
+        ratings.map(({ playerId, points, mwp, gwp, omwp }, index) => ({
+          id: playerId,
+          index,
+          player: getPlayerNameById(playerId),
+          points,
+          mwp,
+          gwp,
+          omwp,
+        }))
+      );
+
+      setOpenViewRatingsDialog(true);
     }
   };
 
@@ -185,6 +207,18 @@ const TournamentView: React.FC = () => {
         </Box>
       ))}
       <Typography>{JSON.stringify(tournamentData)}</Typography>
+      {tournament && tournamentData && (
+        <ViewRatingsDialog
+          tatingsTableData={tatingsTableData}
+          open={openViewRatingsDialog}
+          setOpen={setOpenViewRatingsDialog}
+          onClose={() => setOpenViewRatingsDialog(false)}
+          title={tournament.name}
+          subTitle={"Pontuação dos Jogadores"}
+          format={tournament.format}
+          round={tournamentData.ratings.length}
+        />
+      )}
     </>
   );
 };
