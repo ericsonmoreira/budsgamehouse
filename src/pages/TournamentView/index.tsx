@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
-import { shuffle } from "lodash";
+import { groupBy, shuffle } from "lodash";
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
@@ -10,6 +10,7 @@ import MatchAccordion, {
 import TournamentCard from "../../components/TournamentCard";
 import ViewRatingsDialog from "../../components/ViewRatingsDialog";
 import RatingsController from "../../controllers/RatingsController";
+import TournamentController from "../../controllers/TournamentController";
 import useTournaments from "../../hooks/useTournaments";
 
 type TournamentViewParams = {
@@ -37,6 +38,14 @@ const TournamentView: React.FC = () => {
     }
   }, [tournament]);
 
+  const isPossibleGenerateAnotherRound = useMemo(() => {
+    if (tournament && tournamentData) {
+      return tournamentData.ratings.length < tournament.rounds;
+    }
+
+    return false;
+  }, [tournament, tournamentData]);
+
   const getPlayerNameById = useCallback(
     (id: string) => {
       if (tournamentData) {
@@ -52,16 +61,17 @@ const TournamentView: React.FC = () => {
     [tournamentData]
   );
 
-  const handleInitTornament = () => {
-    if (tournament) {
+  const handleInitTornament = useCallback(() => {
+    if (tournament && tournamentData) {
       const newTournamentData = { ...tournamentData, ratings: [] };
+
       updateTournament({
         ...tournament,
         state: "started",
         data: JSON.stringify(newTournamentData),
       });
     }
-  };
+  }, [tournament, tournamentData]);
 
   const handleConfirmMatchResult: HandleConfirmMatchResultImp = ({
     ratingIndex,
@@ -86,38 +96,11 @@ const TournamentView: React.FC = () => {
     }
   };
 
-  const handleInitRound = () => {
+  const handleInitRound = useCallback(() => {
     if (tournamentData && tournament) {
-      const { ratings, players } = tournamentData;
+      const tournamentController = new TournamentController(tournamentData);
 
-      const matches: Match[] = [];
-
-      // Primero Round
-      if (ratings.length === 0) {
-        const playsersShuffle = shuffle(players);
-
-        while (playsersShuffle.length >= 1) {
-          if (playsersShuffle.length === 1) {
-            matches.push({
-              playersIds: [playsersShuffle[0].id, "bay"],
-              // Quando um jogador recebe um bye em uma rodada, ele é considerado como tendo vencido a partida 2-0.
-              playersVirories: [2, 0],
-            });
-
-            playsersShuffle.shift(); // removendo o primeiro elemento do array
-          } else {
-            matches.push({
-              playersIds: [playsersShuffle[0].id, playsersShuffle[1].id],
-              playersVirories: [0, 0],
-            });
-
-            playsersShuffle.shift();
-            playsersShuffle.shift();
-          }
-        }
-      } else {
-        console.log("Mais de uma rodada");
-      }
+      const matches: Match[] = tournamentController.getMatchesOfNewRound();
 
       const newTournamentData = {
         ...tournamentData,
@@ -131,9 +114,9 @@ const TournamentView: React.FC = () => {
 
       toast.success("Nova Rodada");
     }
-  };
+  }, [tournamentData, tournament]);
 
-  const handleRatingsGenerate = () => {
+  const handleRatingsGenerate = useCallback(() => {
     if (tournamentData) {
       const ratingsController = new RatingsController(tournamentData);
 
@@ -154,7 +137,7 @@ const TournamentView: React.FC = () => {
 
       setOpenViewRatingsDialog(true);
     }
-  };
+  }, [tournamentData]);
 
   if (isLoading || !tournament) return <CircularProgress />;
 
@@ -185,9 +168,11 @@ const TournamentView: React.FC = () => {
             }}
           />
           <Button onClick={handleInitTornament}>Iniciar</Button>
-          <Button onClick={handleInitRound}>
-            Iniciar Round {tournamentData.ratings.length + 1}
-          </Button>
+          {isPossibleGenerateAnotherRound && (
+            <Button onClick={handleInitRound}>
+              Iniciar Round {tournamentData.ratings.length + 1}
+            </Button>
+          )}
         </Box>
       )}
       {tournamentData?.ratings.map((rating, ratingIndex) => (
@@ -209,7 +194,6 @@ const TournamentView: React.FC = () => {
           </Box>
         </Box>
       ))}
-      <Typography>{JSON.stringify(tournamentData)}</Typography>
       {tournament && tournamentData && (
         <ViewRatingsDialog
           tatingsTableData={tatingsTableData}

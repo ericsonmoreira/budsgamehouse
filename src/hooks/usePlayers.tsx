@@ -9,12 +9,6 @@ import {
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { firestore } from "../services/firebaseConfig";
 
-export type PlayerData = {
-  id: string;
-  name: string;
-  email: string;
-};
-
 type AddPlayerData = {
   name: string;
   email: string;
@@ -28,9 +22,7 @@ function usePlayers() {
   const { data: players, ...rest } = useQuery("usePlayers", async () => {
     const { docs } = await getDocs(tradingCardsCollectionRef);
 
-    return [
-      ...docs.map((doc) => ({ id: doc.id, ...doc.data() } as PlayerData)),
-    ];
+    return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as Player))];
   });
 
   const { mutate: addPlayer } = useMutation(
@@ -47,7 +39,7 @@ function usePlayers() {
   );
 
   const { mutate: updatePlayer } = useMutation(
-    async ({ id, name, email }: PlayerData) => {
+    async ({ id, name, email }: Player) => {
       const cardDoc = doc(firestore, "players", id);
 
       await updateDoc(cardDoc, { name, email });

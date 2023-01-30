@@ -74,14 +74,14 @@ class RatingsController {
   }
 
   private getPlayerPoints(playerId: string): number {
+    console.log(playerId);
+
+    console.log(this.tournamentData.ratings);
+
     return this.tournamentData.ratings.reduce((acc, matches) => {
       const match = matches.find((match) =>
         match.playersIds.includes(playerId)
       ) as Match;
-
-      const isBay = match.playersIds.includes("bay");
-
-      if (isBay) return acc + 3; // Se for bay, 3 pontos
 
       const isDraw = match.playersVirories[0] === match.playersVirories[1];
 

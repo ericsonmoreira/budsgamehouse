@@ -1,3 +1,9 @@
+declare type Player = {
+  id: string;
+  name: string;
+  email: string;
+};
+
 declare type TournamentFormat = "pioneer" | "selado" | "draft";
 
 declare type TournamentState = "not-started" | "started" | "finished";
