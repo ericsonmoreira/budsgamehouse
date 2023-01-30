@@ -21,7 +21,7 @@ import {
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import usePlayers, { PlayerData } from "../../hooks/usePlayers";
+import usePlayers from "../../hooks/usePlayers";
 import useTournaments from "../../hooks/useTournaments";
 import AvatarPlayer from "../AvatarPlayer";
 import ControlledTextField from "../ControlledTextField";
@@ -73,14 +73,14 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
 
   const { players } = usePlayers();
 
-  const [activePlayer, setActivePlayer] = useState<PlayerData | null>();
+  const [activePlayer, setActivePlayer] = useState<Player | null>();
 
   const [autocompleteInputValue, setAutocompleteInputValue] =
     useState<string>("");
 
-  const [selectedPlayers, setSelectedPlayers] = useState<PlayerData[]>([]);
+  const [selectedPlayers, setSelectedPlayers] = useState<Player[]>([]);
 
-  const selectablePlayers = useMemo<PlayerData[]>(() => {
+  const selectablePlayers = useMemo<Player[]>(() => {
     if (!players) return [];
 
     return players.filter((player) => !selectedPlayers.includes(player));
@@ -209,10 +209,7 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
               <IconButton
                 disabled={!activePlayer}
                 onClick={() => {
-                  setSelectedPlayers((old) => [
-                    ...old,
-                    activePlayer as PlayerData,
-                  ]);
+                  setSelectedPlayers((old) => [...old, activePlayer as Player]);
                   setActivePlayer(null);
                   setAutocompleteInputValue("");
                 }}

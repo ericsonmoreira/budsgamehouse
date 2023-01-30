@@ -1,4 +1,10 @@
-import { Box, Button, CircularProgress, Typography } from "@mui/material";
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
 import { groupBy, shuffle } from "lodash";
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -7,7 +13,7 @@ import { DataGridRatingsRowData } from "../../components/DataGridRatings";
 import MatchAccordion, {
   HandleConfirmMatchResultImp,
 } from "../../components/MatchAccordion";
-import TournamentCard from "../../components/TournamentCard";
+import TournamentInfos from "../../components/TournamentInfos";
 import ViewRatingsDialog from "../../components/ViewRatingsDialog";
 import RatingsController from "../../controllers/RatingsController";
 import TournamentController from "../../controllers/TournamentController";
@@ -37,6 +43,33 @@ const TournamentView: React.FC = () => {
       return null;
     }
   }, [tournament]);
+
+  const isPossibleStartTournament = useMemo(() => {
+    if (tournament) {
+      return tournament.state === "not-started";
+    }
+
+    return false;
+  }, [tournament]);
+
+  const isPossibleCloseTournament = useMemo(() => {
+    if (tournament) {
+      return tournament.state === "started";
+    }
+
+    return false;
+  }, [tournament]);
+
+  const isPossibleEditRound = useCallback(
+    (round: number) => {
+      if (tournament) {
+        return tournament.state === "started";
+      }
+
+      return false;
+    },
+    [tournament]
+  );
 
   const isPossibleGenerateAnotherRound = useMemo(() => {
     if (tournament && tournamentData) {
@@ -123,15 +156,11 @@ const TournamentView: React.FC = () => {
       const ratings = ratingsController.generateRatings();
 
       setTatingsTableData(
-        ratings.map(({ playerId, points, mwp, gwp, omwp, ogwp }, index) => ({
+        ratings.map(({ playerId, ...rest }, index) => ({
           id: playerId,
           index,
           player: getPlayerNameById(playerId),
-          points,
-          mwp,
-          gwp,
-          omwp,
-          ogwp,
+          ...rest,
         }))
       );
 
@@ -139,7 +168,25 @@ const TournamentView: React.FC = () => {
     }
   }, [tournamentData]);
 
-  if (isLoading || !tournament) return <CircularProgress />;
+  const handleCloseTournament = useCallback(() => {
+    if (tournament) {
+      updateTournament({ ...tournament, state: "finished" });
+
+      toast.success("Torneiro Encerrado!");
+    }
+  }, [tournament]);
+
+  if (isLoading)
+    return (
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open
+      >
+        <CircularProgress />
+      </Backdrop>
+    );
+
+  if (!(tournament && tournamentData)) return null;
 
   return (
     <>
@@ -151,31 +198,32 @@ const TournamentView: React.FC = () => {
         }}
       >
         <Typography variant="h4">Torneio</Typography>
-        <Button size="large" onClick={handleRatingsGenerate}>
-          Gerar Ratings
+      </Box>
+      <Box sx={{ margin: 1 }}>
+        <TournamentInfos tournament={tournament} />
+      </Box>
+      <Box sx={{ margin: 1 }}>
+        <Button
+          disabled={!isPossibleStartTournament}
+          onClick={handleInitTornament}
+        >
+          Iniciar
+        </Button>
+        <Button
+          disabled={!isPossibleGenerateAnotherRound}
+          onClick={handleInitRound}
+        >
+          Iniciar Round {tournamentData.ratings.length + 1}
+        </Button>
+        <Button onClick={handleRatingsGenerate}>Gerar Ratings</Button>
+        <Button
+          disabled={!isPossibleCloseTournament}
+          onClick={handleCloseTournament}
+        >
+          Encerrar Torneio
         </Button>
       </Box>
-      {tournament && tournamentData && (
-        <Box sx={{ margin: 1, maxWidth: 275 }}>
-          <TournamentCard
-            data={{
-              id: tournament.id,
-              name: tournament.name,
-              format: tournament.format,
-              rouns: tournament.rounds,
-              state: tournament.state,
-              players: tournamentData.players,
-            }}
-          />
-          <Button onClick={handleInitTornament}>Iniciar</Button>
-          {isPossibleGenerateAnotherRound && (
-            <Button onClick={handleInitRound}>
-              Iniciar Round {tournamentData.ratings.length + 1}
-            </Button>
-          )}
-        </Box>
-      )}
-      {tournamentData?.ratings.map((rating, ratingIndex) => (
+      {tournamentData.ratings.map((rating, ratingIndex) => (
         <Box key={`round-${ratingIndex}`} sx={{ width: 500, margin: 1 }}>
           <Typography variant="h6">Rodada {ratingIndex + 1}</Typography>
           <Box sx={{ marginTop: 1 }}>
@@ -194,19 +242,17 @@ const TournamentView: React.FC = () => {
           </Box>
         </Box>
       ))}
-      {tournament && tournamentData && (
-        <ViewRatingsDialog
-          tatingsTableData={tatingsTableData}
-          open={openViewRatingsDialog}
-          setOpen={setOpenViewRatingsDialog}
-          onClose={() => setOpenViewRatingsDialog(false)}
-          title={tournament.name}
-          subTitle={"Pontuação dos Jogadores"}
-          format={tournament.format}
-          round={tournamentData.ratings.length}
-          roundTotal={tournament.rounds}
-        />
-      )}
+      <ViewRatingsDialog
+        tatingsTableData={tatingsTableData}
+        open={openViewRatingsDialog}
+        setOpen={setOpenViewRatingsDialog}
+        onClose={() => setOpenViewRatingsDialog(false)}
+        title={tournament.name}
+        subTitle={"Pontuação dos Jogadores"}
+        format={tournament.format}
+        round={tournamentData.ratings.length}
+        roundTotal={tournament.rounds}
+      />
     </>
   );
 };
