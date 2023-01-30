@@ -15,18 +15,21 @@ export type DataGridRatingsRowData = {
   mwp: number;
   gwp: number;
   omwp: number;
+  ogwp: number;
 };
 
 type DataGridRatingsProps = {
   rows?: DataGridRatingsRowData[];
   title: string;
   round: number;
+  roundTotal: number;
   format: string;
 };
 
 type CustomToolbarProps = {
   title: string;
   round: number;
+  roundTotal: number;
   format: string;
 };
 
@@ -42,9 +45,10 @@ const columns: GridColDef[] = [
   },
   {
     field: "index",
-    headerName: "",
+    headerName: "#",
     width: 20,
     align: "center",
+    headerAlign: "center",
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
@@ -62,6 +66,8 @@ const columns: GridColDef[] = [
     field: "points",
     headerName: "Pontos",
     width: 100,
+    align: "center",
+    headerAlign: "center",
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
@@ -70,25 +76,61 @@ const columns: GridColDef[] = [
     field: "mwp",
     headerName: "MWP",
     width: 100,
+    align: "right",
+    headerAlign: "right",
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
+    valueFormatter: ({ value }) =>
+      Number(value).toLocaleString("pt-Br", {
+        style: "percent",
+        minimumFractionDigits: 2,
+      }),
   },
   {
     field: "gwp",
     headerName: "GWP",
     width: 100,
+    align: "right",
+    headerAlign: "right",
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
+    valueFormatter: ({ value }) =>
+      Number(value).toLocaleString("pt-Br", {
+        style: "percent",
+        minimumFractionDigits: 2,
+      }),
   },
   {
     field: "omwp",
     headerName: "OMWP",
     width: 100,
+    align: "right",
+    headerAlign: "right",
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
+    valueFormatter: ({ value }) =>
+      Number(value).toLocaleString("pt-Br", {
+        style: "percent",
+        minimumFractionDigits: 2,
+      }),
+  },
+  {
+    field: "ogwp",
+    headerName: "OGWP",
+    width: 100,
+    align: "right",
+    headerAlign: "right",
+    sortable: false,
+    disableReorder: true,
+    disableColumnMenu: true,
+    valueFormatter: ({ value }) =>
+      Number(value).toLocaleString("pt-Br", {
+        style: "percent",
+        minimumFractionDigits: 2,
+      }),
   },
 ];
 
@@ -96,6 +138,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({
   title,
   format,
   round,
+  roundTotal,
 }) => {
   return (
     <GridToolbarContainer sx={{ display: "flex", flexDirection: "column" }}>
@@ -113,7 +156,9 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({
           sx={{ display: "flex", width: 1, justifyContent: "space-between" }}
         >
           <Typography>Formato: {format}</Typography>
-          <Typography>Rodada: {round}</Typography>
+          <Typography>
+            Rodada: {round} de {roundTotal}
+          </Typography>
         </Box>
       </Box>
       <Box sx={{ display: "flex", width: 1 }}>
@@ -129,6 +174,7 @@ const DataGridRatings: React.FC<DataGridRatingsProps> = ({
   title,
   format,
   round,
+  roundTotal,
 }) => {
   return (
     <DataGrid
@@ -141,7 +187,12 @@ const DataGridRatings: React.FC<DataGridRatingsProps> = ({
       }}
       components={{
         Toolbar: () => (
-          <CustomToolbar title={title} format={format} round={round} />
+          <CustomToolbar
+            title={title}
+            format={format}
+            round={round}
+            roundTotal={roundTotal}
+          />
         ),
       }}
       density="compact"

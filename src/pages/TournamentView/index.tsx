@@ -1,6 +1,7 @@
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { shuffle } from "lodash";
 import { useCallback, useMemo, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { DataGridRatingsRowData } from "../../components/DataGridRatings";
 import MatchAccordion, {
@@ -89,17 +90,18 @@ const TournamentView: React.FC = () => {
     if (tournamentData && tournament) {
       const { ratings, players } = tournamentData;
 
+      const matches: Match[] = [];
+
       // Primero Round
       if (ratings.length === 0) {
         const playsersShuffle = shuffle(players);
-
-        const matches: Match[] = [];
 
         while (playsersShuffle.length >= 1) {
           if (playsersShuffle.length === 1) {
             matches.push({
               playersIds: [playsersShuffle[0].id, "bay"],
-              playersVirories: [0, 0],
+              // Quando um jogador recebe um bye em uma rodada, ele é considerado como tendo vencido a partida 2-0.
+              playersVirories: [2, 0],
             });
 
             playsersShuffle.shift(); // removendo o primeiro elemento do array
@@ -113,21 +115,21 @@ const TournamentView: React.FC = () => {
             playsersShuffle.shift();
           }
         }
-
-        const newTournamentData = {
-          ...tournamentData,
-          ratings: [...tournamentData.ratings, matches],
-        };
-
-        updateTournament({
-          ...tournament,
-          data: JSON.stringify(newTournamentData),
-        });
-
-        console.log(JSON.stringify({ matches }, null, 2));
       } else {
         console.log("Mais de uma rodada");
       }
+
+      const newTournamentData = {
+        ...tournamentData,
+        ratings: [...tournamentData.ratings, matches],
+      };
+
+      updateTournament({
+        ...tournament,
+        data: JSON.stringify(newTournamentData),
+      });
+
+      toast.success("Nova Rodada");
     }
   };
 
@@ -138,7 +140,7 @@ const TournamentView: React.FC = () => {
       const ratings = ratingsController.generateRatings();
 
       setTatingsTableData(
-        ratings.map(({ playerId, points, mwp, gwp, omwp }, index) => ({
+        ratings.map(({ playerId, points, mwp, gwp, omwp, ogwp }, index) => ({
           id: playerId,
           index,
           player: getPlayerNameById(playerId),
@@ -146,6 +148,7 @@ const TournamentView: React.FC = () => {
           mwp,
           gwp,
           omwp,
+          ogwp,
         }))
       );
 
@@ -217,6 +220,7 @@ const TournamentView: React.FC = () => {
           subTitle={"Pontuação dos Jogadores"}
           format={tournament.format}
           round={tournamentData.ratings.length}
+          roundTotal={tournament.rounds}
         />
       )}
     </>

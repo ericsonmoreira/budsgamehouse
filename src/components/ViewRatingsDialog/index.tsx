@@ -14,6 +14,7 @@ type ViewRatingsDialogProps = {
   tatingsTableData: DataGridRatingsRowData[];
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   round: number;
+  roundTotal: number;
   format: string;
 };
 
@@ -24,6 +25,7 @@ const ViewRatingsDialog: React.FC<ViewRatingsDialogProps & DialogProps> = ({
   tatingsTableData,
   format,
   round,
+  roundTotal,
   ...rest
 }) => {
   return (
@@ -37,6 +39,7 @@ const ViewRatingsDialog: React.FC<ViewRatingsDialogProps & DialogProps> = ({
             title={title}
             format={format}
             round={round}
+            roundTotal={roundTotal}
           />
         </Box>
       </DialogContent>
