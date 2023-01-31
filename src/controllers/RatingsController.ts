@@ -7,7 +7,7 @@ export type RatingsTableData = {
   gwp: number; // Porcentual de Game-win
   omwp: number; // Porcentual de Opponent's Match-win
   ogwp: number; // Porcentual de Opponent's Game-win
-  vde: number[];
+  vde: number[]; // Vitorias, Derotas e Empates
 };
 
 class RatingsController {

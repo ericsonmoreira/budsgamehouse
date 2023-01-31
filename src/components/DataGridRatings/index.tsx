@@ -6,7 +6,6 @@ import {
   GridToolbarDensitySelector,
   GridToolbarExport,
 } from "@mui/x-data-grid";
-import { join, split } from "lodash";
 
 export type DataGridRatingsRowData = {
   id: string;
