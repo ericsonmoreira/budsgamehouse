@@ -3,15 +3,15 @@ import {
   Box,
   Button,
   CircularProgress,
+  Container,
   Typography,
 } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { DataGridRatingsRowData } from "../../components/DataGridRatings";
-import MatchAccordion, {
-  HandleConfirmMatchResultImp,
-} from "../../components/MatchAccordion";
+import { HandleConfirmMatchResultImp } from "../../components/MatchAccordion";
+import Rating from "../../components/Rating";
 import TournamentInfos from "../../components/TournamentInfos";
 import ViewRatingsDialog from "../../components/ViewRatingsDialog";
 import RatingsController from "../../controllers/RatingsController";
@@ -52,8 +52,10 @@ const TournamentView: React.FC = () => {
   }, [tournament]);
 
   const isPossibleCloseTournament = useMemo(() => {
+    const possibleStates: TournamentState[] = ["not-started", "started"];
+
     if (tournament) {
-      return tournament.state === "started";
+      return possibleStates.includes(tournament.state);
     }
 
     return false;
@@ -61,13 +63,16 @@ const TournamentView: React.FC = () => {
 
   const isPossibleEditRound = useCallback(
     (round: number) => {
-      if (tournament) {
-        return tournament.state === "started";
+      if (tournament && tournamentData) {
+        return (
+          tournament.state === "started" &&
+          round >= tournamentData.ratings.length - 1
+        );
       }
 
       return false;
     },
-    [tournament]
+    [tournament, tournamentData]
   );
 
   const isPossibleGenerateAnotherRound = useMemo(() => {
@@ -196,24 +201,20 @@ const TournamentView: React.FC = () => {
           alignItems: "center",
         }}
       >
-        <Typography variant="h4">Torneio</Typography>
+        <Typography variant="h4">{tournament.name}</Typography>
       </Box>
       <Box sx={{ margin: 1 }}>
         <TournamentInfos tournament={tournament} />
       </Box>
       <Box sx={{ margin: 1 }}>
-        <Button
-          disabled={!isPossibleStartTournament}
-          onClick={handleInitTornament}
-        >
-          Iniciar
-        </Button>
-        <Button
-          disabled={!isPossibleGenerateAnotherRound}
-          onClick={handleInitRound}
-        >
-          Iniciar Round {tournamentData.ratings.length + 1}
-        </Button>
+        {isPossibleStartTournament && (
+          <Button onClick={handleInitTornament}>Iniciar</Button>
+        )}
+        {isPossibleGenerateAnotherRound && (
+          <Button onClick={handleInitRound}>
+            Iniciar Round {tournamentData.ratings.length + 1}
+          </Button>
+        )}
         <Button onClick={handleRatingsGenerate}>Gerar Ratings</Button>
         <Button
           disabled={!isPossibleCloseTournament}
@@ -222,25 +223,20 @@ const TournamentView: React.FC = () => {
           Encerrar Torneio
         </Button>
       </Box>
-      {tournamentData.ratings.map((rating, ratingIndex) => (
-        <Box key={`round-${ratingIndex}`} sx={{ width: 500, margin: 1 }}>
-          <Typography variant="h6">Rodada {ratingIndex + 1}</Typography>
-          <Box sx={{ marginTop: 1 }}>
-            {rating.map((match, matchIndex) => (
-              <MatchAccordion
-                ratingIndex={ratingIndex}
-                matchIndex={matchIndex}
-                tournament={tournament}
-                tournamentData={tournamentData}
-                key={`match-${match.playersIds[0]}-${match.playersIds[1]}`}
-                getPlayerNameById={getPlayerNameById}
-                match={match}
-                handleConfirmMatchResult={handleConfirmMatchResult}
-              />
-            ))}
-          </Box>
-        </Box>
-      ))}
+      <Container maxWidth="md">
+        {tournamentData.ratings.map((rating, ratingIndex) => (
+          <Rating
+            key={`round-${ratingIndex}`}
+            ratingIndex={ratingIndex}
+            rating={rating}
+            tournament={tournament}
+            tournamentData={tournamentData}
+            getPlayerNameById={getPlayerNameById}
+            handleConfirmMatchResult={handleConfirmMatchResult}
+            isPossibleEditRound={isPossibleEditRound}
+          />
+        ))}
+      </Container>
       <ViewRatingsDialog
         tatingsTableData={tatingsTableData}
         open={openViewRatingsDialog}

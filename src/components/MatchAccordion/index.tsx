@@ -25,6 +25,7 @@ type MatchAccordionProps = {
   tournament: Tournament;
   tournamentData: TournamentData;
   handleConfirmMatchResult: HandleConfirmMatchResultImp;
+  isPossibleEditMatch: boolean;
 };
 
 const MatchAccordion: React.FC<MatchAccordionProps> = ({
@@ -34,6 +35,7 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
   tournamentData,
   getPlayerNameById,
   handleConfirmMatchResult,
+  isPossibleEditMatch,
 }) => {
   const [matchResult, setMatchResult] = useState<MatchResult>("draw");
 
@@ -139,6 +141,8 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
         }),
     },
   };
+
+  // if (!isPossibleEditRound) return <Typography>Teste</Typography>;
 
   return (
     <Accordion
