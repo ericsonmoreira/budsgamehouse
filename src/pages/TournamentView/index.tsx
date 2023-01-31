@@ -5,7 +5,6 @@ import {
   CircularProgress,
   Typography,
 } from "@mui/material";
-import { groupBy, shuffle } from "lodash";
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";

@@ -6,6 +6,7 @@ import {
   GridToolbarDensitySelector,
   GridToolbarExport,
 } from "@mui/x-data-grid";
+import { join, split } from "lodash";
 
 export type DataGridRatingsRowData = {
   id: string;
@@ -16,6 +17,7 @@ export type DataGridRatingsRowData = {
   gwp: number;
   omwp: number;
   ogwp: number;
+  vde: number[];
 };
 
 type DataGridRatingsProps = {
@@ -73,11 +75,22 @@ const columns: GridColDef[] = [
     disableColumnMenu: true,
   },
   {
+    field: "vde",
+    headerName: "VDE",
+    width: 100,
+    align: "center",
+    headerAlign: "center",
+    sortable: false,
+    disableReorder: true,
+    disableColumnMenu: true,
+    valueFormatter: ({ value }) => value.join("-"),
+  },
+  {
     field: "mwp",
     headerName: "MWP",
     width: 100,
     align: "right",
-    headerAlign: "right",
+    headerAlign: "center",
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
@@ -92,7 +105,7 @@ const columns: GridColDef[] = [
     headerName: "GWP",
     width: 100,
     align: "right",
-    headerAlign: "right",
+    headerAlign: "center",
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
@@ -107,7 +120,7 @@ const columns: GridColDef[] = [
     headerName: "OMWP",
     width: 100,
     align: "right",
-    headerAlign: "right",
+    headerAlign: "center",
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
@@ -122,7 +135,7 @@ const columns: GridColDef[] = [
     headerName: "OGWP",
     width: 100,
     align: "right",
-    headerAlign: "right",
+    headerAlign: "center",
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,

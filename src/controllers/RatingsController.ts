@@ -7,6 +7,7 @@ export type RatingsTableData = {
   gwp: number; // Porcentual de Game-win
   omwp: number; // Porcentual de Opponent's Match-win
   ogwp: number; // Porcentual de Opponent's Game-win
+  vde: number[];
 };
 
 class RatingsController {
@@ -22,6 +23,7 @@ class RatingsController {
       gwp: 0,
       omwp: 0,
       ogwp: 0,
+      vde: [0, 0, 0],
     }));
   }
 
@@ -31,6 +33,13 @@ class RatingsController {
       ...rest,
       playerId,
       points: this.getPlayerPoints(playerId),
+    }));
+
+    // Gerando as VDE
+    this.ratingsTable = this.ratingsTable.map(({ playerId, ...rest }) => ({
+      ...rest,
+      playerId,
+      vde: this.getPlayerVDE(playerId),
     }));
 
     // Gerando os MWP
@@ -73,32 +82,49 @@ class RatingsController {
     return this.ratingsTable;
   }
 
-  private getPlayerPoints(playerId: string): number {
-    console.log(playerId);
+  // Retorna as Vitórias, Derotas e Empates
+  private getPlayerVDE(playerId: string): number[] {
+    let V = 0;
+    let D = 0;
+    let E = 0;
 
-    console.log(this.tournamentData.ratings);
-
-    return this.tournamentData.ratings.reduce((acc, matches) => {
+    this.tournamentData.ratings.forEach((matches) => {
       const match = matches.find((match) =>
         match.playersIds.includes(playerId)
       ) as Match;
 
-      const isDraw = match.playersVirories[0] === match.playersVirories[1];
+      const playerIndex = match.playersIds.indexOf(playerId);
 
-      if (isDraw) return acc + 1; // Se for empate, 1 ponto
+      const anotherPlayerIndex = playerIndex === 0 ? 1 : 0;
 
-      const indexOfPlayer = match.playersIds.indexOf(playerId);
-
-      if (indexOfPlayer === 0) {
-        return acc + match.playersVirories[0] > match.playersVirories[1]
-          ? 3
-          : 0;
+      if (match.playersIds.includes("bay")) {
+        V++;
       } else {
-        return acc + match.playersVirories[1] > match.playersVirories[0]
-          ? 3
-          : 0;
+        if (
+          match.playersVirories[playerIndex] >
+          match.playersVirories[anotherPlayerIndex]
+        ) {
+          V++;
+        } else if (
+          match.playersVirories[playerIndex] <
+          match.playersVirories[anotherPlayerIndex]
+        ) {
+          D++;
+        } else {
+          E++;
+        }
       }
-    }, 0);
+    });
+
+    return [V, D, E];
+  }
+
+  // Retorna os pontos de um Jogador
+  private getPlayerPoints(playerId: string): number {
+    var playerVDE = this.getPlayerVDE(playerId);
+
+    // Esse multiplicação por 0 é desnecessária mas serve para ilustrar como é feiro o cálculo dos pontos.
+    return playerVDE[0] * 3 + playerVDE[1] * 0 + playerVDE[2] * 1;
   }
 
   // O porcentual de match-win de um jogador são o total de pontos de vitória acumulados divididos pelo total de
