@@ -17,6 +17,7 @@ import ViewRatingsDialog from "../../components/ViewRatingsDialog";
 import RatingsController from "../../controllers/RatingsController";
 import TournamentController from "../../controllers/TournamentController";
 import useTournaments from "../../hooks/useTournaments";
+import sendTelegramMessage from "../../resources/sendTelegramMessage";
 
 type TournamentViewParams = {
   id: string;
@@ -133,7 +134,7 @@ const TournamentView: React.FC = () => {
     }
   };
 
-  const handleInitRound = useCallback(() => {
+  const handleInitRound = useCallback(async () => {
     if (tournamentData && tournament) {
       const tournamentController = new TournamentController(tournamentData);
 
@@ -148,6 +149,8 @@ const TournamentView: React.FC = () => {
         ...tournament,
         data: JSON.stringify(newTournamentData),
       });
+
+      await sendTelegramMessage(JSON.stringify(matches, null, 2));
 
       toast.success("Nova Rodada");
     }
@@ -172,11 +175,15 @@ const TournamentView: React.FC = () => {
     }
   }, [tournamentData]);
 
-  const handleCloseTournament = useCallback(() => {
+  const handleCloseTournament = useCallback(async () => {
     if (tournament) {
+      const newTournament: Tournament = { ...tournament, state: "finished" };
+
       updateTournament({ ...tournament, state: "finished" });
 
       toast.success("Torneiro Encerrado!");
+
+      await sendTelegramMessage(JSON.stringify(newTournament, null, 2));
     }
   }, [tournament]);
 
