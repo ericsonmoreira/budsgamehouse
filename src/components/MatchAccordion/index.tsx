@@ -7,7 +7,7 @@ import {
   ButtonGroup,
   Divider,
 } from "@mui/material";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import getPlayerNameById from "../../utils/getPlayerNameById";
 
@@ -25,7 +25,6 @@ type MatchAccordionProps = {
   tournament: Tournament;
   tournamentData: TournamentData;
   handleConfirmMatchResult: HandleConfirmMatchResultImp;
-  isPossibleEditMatch: boolean;
 };
 
 const MatchAccordion: React.FC<MatchAccordionProps> = ({
@@ -34,7 +33,6 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
   match,
   tournamentData,
   handleConfirmMatchResult,
-  isPossibleEditMatch,
 }) => {
   const [matchResult, setMatchResult] = useState<MatchResult>("draw");
 
@@ -48,15 +46,23 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
 
   const secondPlayerId = match.playersIds[1];
 
-  const firstPlayerName = getPlayerNameById({
-    playerId: firstPlayerId,
-    tournamentData,
-  });
+  const firstPlayerName = useMemo(
+    () =>
+      getPlayerNameById({
+        playerId: firstPlayerId,
+        tournamentData,
+      }),
+    [tournamentData]
+  );
 
-  const secondPlayerName = getPlayerNameById({
-    playerId: secondPlayerId,
-    tournamentData,
-  });
+  const secondPlayerName = useMemo(
+    () =>
+      getPlayerNameById({
+        playerId: secondPlayerId,
+        tournamentData,
+      }),
+    [tournamentData]
+  );
 
   const firstPlayerVirories =
     tournamentData.ratings[ratingIndex][matchIndex].playersVirories[0];
@@ -147,12 +153,10 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
     },
   };
 
-  // if (!isPossibleEditRound) return <Typography>Teste</Typography>;
-
   return (
     <Accordion
       disabled={secondPlayerId === "bay"}
-      key={getPlayerNameById(firstPlayerId) + getPlayerNameById(secondPlayerId)}
+      key={firstPlayerId + secondPlayerId}
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         {accordionSummaryText}
@@ -170,7 +174,7 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
               matchResult === "first-player-win" ? "contained" : "outlined"
             }
           >
-            {getPlayerNameById(firstPlayerId)} WIN
+            {firstPlayerName} WIN
           </Button>
           <Button
             disableElevation
@@ -186,7 +190,7 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
               matchResult === "second-player-win" ? "contained" : "outlined"
             }
           >
-            {getPlayerNameById(secondPlayerId)} WIN
+            {secondPlayerName} WIN
           </Button>
         </ButtonGroup>
         <Divider sx={{ marginY: 1 }} />

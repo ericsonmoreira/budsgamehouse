@@ -7,6 +7,8 @@ const getPlayerNameById = ({
   playerId,
   tournamentData,
 }: GetPlayerNameByIdData): string => {
+  if (!tournamentData) return "";
+
   if (playerId === "bay") return "Bay";
 
   return (

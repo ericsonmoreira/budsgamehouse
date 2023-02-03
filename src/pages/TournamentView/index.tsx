@@ -1,3 +1,7 @@
+import ArticleIcon from "@mui/icons-material/Article";
+import CloseIcon from "@mui/icons-material/Close";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import GroupIcon from "@mui/icons-material/Group";
 import {
   Backdrop,
   Box,
@@ -9,18 +13,13 @@ import {
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
-import tablemark from "tablemark";
-import { DataGridRatingsRowData } from "../../components/datagrids/DataGridRatings";
+import ViewRatingsDialog from "../../components/dialogs/ViewRatingsDialog";
 import { HandleConfirmMatchResultImp } from "../../components/MatchAccordion";
 import Rating from "../../components/Rating";
 import TournamentInfos from "../../components/TournamentInfos";
-import ViewRatingsDialog from "../../components/ViewRatingsDialog";
-import RatingsController from "../../controllers/RatingsController";
 import TournamentController from "../../controllers/TournamentController";
 import useTournaments from "../../hooks/useTournaments";
 import sendTelegramMessage from "../../resources/sendTelegramMessage";
-import generateRatingsMessageTelegram from "../../utils/generateRatingsMessageTelegram";
-import getPlayerNameById from "../../utils/getPlayerNameById";
 
 type TournamentViewParams = {
   id: string;
@@ -30,10 +29,6 @@ const TournamentView: React.FC = () => {
   const { id } = useParams<TournamentViewParams>();
 
   const [openViewRatingsDialog, setOpenViewRatingsDialog] = useState(false);
-
-  const [tatingsTableData, setTatingsTableData] = useState<
-    DataGridRatingsRowData[]
-  >([]);
 
   const { findTournament, updateTournament } = useTournaments();
 
@@ -139,46 +134,20 @@ const TournamentView: React.FC = () => {
       });
 
       toast.success("Nova Rodada");
-
-      // await sendTelegramMessage(JSON.stringify(matches, null, 2));
     }
   }, [tournamentData, tournament]);
 
   const handleRatingsGenerate = useCallback(async () => {
     if (tournamentData) {
-      const ratingsController = new RatingsController(tournamentData);
-
-      const ratings = ratingsController.generateRatings();
-
-      setTatingsTableData(
-        ratings.map(({ playerId, ...rest }, index) => ({
-          id: playerId,
-          index,
-          player: getPlayerNameById({ tournamentData, playerId }),
-          ...rest,
-        }))
-      );
-
       setOpenViewRatingsDialog(true);
-
-      console.log(generateRatingsMessageTelegram(tournamentData));
-
-      // await sendTelegramMessage(
-      //   generateRatingsMessageTelegram(tournamentData),
-      //   "Markdown"
-      // );
     }
   }, [tournamentData]);
 
-  const handleCloseTournament = useCallback(async () => {
+  const handleCloseTournament = useCallback(() => {
     if (tournament) {
-      const newTournament: Tournament = { ...tournament, state: "finished" };
-
       updateTournament({ ...tournament, state: "finished" });
 
       toast.success("Torneiro Encerrado!");
-
-      await sendTelegramMessage(JSON.stringify(newTournament, null, 2));
     }
   }, [tournament]);
 
@@ -208,19 +177,51 @@ const TournamentView: React.FC = () => {
       <Box sx={{ margin: 1 }}>
         <TournamentInfos tournament={tournament} />
       </Box>
-      <Box sx={{ margin: 1 }}>
+      <Box
+        sx={{
+          margin: 1,
+          display: "flex",
+        }}
+      >
         {isPossibleStartTournament && (
-          <Button onClick={handleInitTornament}>Iniciar</Button>
+          <Button
+            onClick={handleInitTornament}
+            disableElevation
+            variant="contained"
+            endIcon={<PlayArrowIcon />}
+            sx={{ marginRight: 1 }}
+          >
+            Iniciar
+          </Button>
         )}
         {isPossibleGenerateAnotherRound && (
-          <Button onClick={handleInitRound}>
+          <Button
+            onClick={handleInitRound}
+            disableElevation
+            variant="contained"
+            endIcon={<ArticleIcon />}
+            sx={{ marginRight: 1 }}
+          >
             Iniciar Round {tournamentData.ratings.length + 1}
           </Button>
         )}
-        <Button onClick={handleRatingsGenerate}>Gerar Ratings</Button>
+        <Button
+          onClick={handleRatingsGenerate}
+          disableElevation
+          variant="contained"
+          endIcon={<GroupIcon />}
+          sx={{ marginRight: 1 }}
+        >
+          Gerar Ratings
+        </Button>
         <Button
           disabled={!isPossibleCloseTournament}
+          disableElevation
+          variant="contained"
+          color="error"
           onClick={handleCloseTournament}
+          endIcon={<CloseIcon />}
+          sx={{ marginRight: 1 }}
         >
           Encerrar Torneio
         </Button>
@@ -239,7 +240,7 @@ const TournamentView: React.FC = () => {
         ))}
       </Container>
       <ViewRatingsDialog
-        tatingsTableData={tatingsTableData}
+        tournamentData={tournamentData}
         open={openViewRatingsDialog}
         setOpen={setOpenViewRatingsDialog}
         onClose={() => setOpenViewRatingsDialog(false)}

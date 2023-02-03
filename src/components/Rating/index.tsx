@@ -1,4 +1,8 @@
-import { Box, Stack, Typography } from "@mui/material";
+import TelegramIcon from "@mui/icons-material/Telegram";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import { toast } from "react-hot-toast";
+import sendTelegramMessage from "../../resources/sendTelegramMessage";
+import generateMathsMessageTelegram from "../../utils/generateMathsMessageTelegram";
 import getPlayerNameById from "../../utils/getPlayerNameById";
 import MatchAccordion, { HandleConfirmMatchResultImp } from "../MatchAccordion";
 
@@ -19,9 +23,34 @@ const Rating: React.FC<RatingProps> = ({
   handleConfirmMatchResult,
   isPossibleEditRound,
 }) => {
+  const handleSendMatchsToTelegramChat = async () => {
+    await sendTelegramMessage(
+      generateMathsMessageTelegram({ matchs: rating, tournamentData })
+    );
+
+    toast.success("Mensagem enviada com sucesso!");
+  };
+
   return (
-    <Box key={`round-${ratingIndex}`}>
-      <Typography variant="h6">Rodada {ratingIndex + 1}</Typography>
+    <Box key={`round-${ratingIndex}`} sx={{ marginY: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography variant="h6">Rodada {ratingIndex + 1}</Typography>
+        {isPossibleEditRound(ratingIndex) && (
+          <Button
+            variant="outlined"
+            endIcon={<TelegramIcon />}
+            onClick={handleSendMatchsToTelegramChat}
+          >
+            Enviar
+          </Button>
+        )}
+      </Box>
       {isPossibleEditRound(ratingIndex) ? (
         <Box sx={{ marginTop: 1 }}>
           {rating.map((match, matchIndex) => (
@@ -33,7 +62,6 @@ const Rating: React.FC<RatingProps> = ({
               tournament={tournament}
               tournamentData={tournamentData}
               handleConfirmMatchResult={handleConfirmMatchResult}
-              isPossibleEditMatch={isPossibleEditRound(ratingIndex)}
             />
           ))}
         </Box>
