@@ -13,9 +13,9 @@ import {
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import useTradingCards from "../../hooks/useTradingCards";
-import useWantedCards from "../../hooks/useWantedCards";
-import ControlledTextField from "../ControlledTextField";
+import useTradingCards from "../../../hooks/useTradingCards";
+import useWantedCards from "../../../hooks/useWantedCards";
+import ControlledTextField from "../../textfields/ControlledTextField";
 import schema from "./schema ";
 
 export type WantedCardUpdateData = {

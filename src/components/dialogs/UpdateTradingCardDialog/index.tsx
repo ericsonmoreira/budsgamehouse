@@ -13,8 +13,8 @@ import {
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import useTradingCards from "../../hooks/useTradingCards";
-import ControlledTextField from "../ControlledTextField";
+import useTradingCards from "../../../hooks/useTradingCards";
+import ControlledTextField from "../../textfields/ControlledTextField";
 import schema from "./schema ";
 
 export type TradingCardUpdateData = {

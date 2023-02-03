@@ -3,10 +3,10 @@ import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 import AddWantCardDialog from "../../components/dialogs/AddWantCardDialog";
 import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
-import DataGridCards from "../../components/DataGridCards";
+import DataGridCards from "../../components/datagrids/DataGridCards";
 import UpdateWantedCardDialog, {
   WantedCardUpdateData,
-} from "../../components/UpdateWantedCardDialog";
+} from "../../components/dialogs/UpdateWantedCardDialog";
 import useWantedCards from "../../hooks/useWantedCards";
 
 const WantedCards: React.FC = () => {

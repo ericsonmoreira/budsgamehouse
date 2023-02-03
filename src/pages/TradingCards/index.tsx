@@ -9,10 +9,10 @@ import {
 import { useState } from "react";
 import AddTradingCardDialog from "../../components/dialogs/AddTradingCardDialog";
 import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
-import DataGridCards from "../../components/DataGridCards";
+import DataGridCards from "../../components/datagrids/DataGridCards";
 import UpdateTradingCardDialog, {
   TradingCardUpdateData,
-} from "../../components/UpdateTradingCardDialog";
+} from "../../components/dialogs/UpdateTradingCardDialog";
 import useTradingCards from "../../hooks/useTradingCards";
 
 const TradingCards: React.FC = () => {

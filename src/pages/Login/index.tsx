@@ -9,8 +9,8 @@ import {
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
-import ControlledPasswordTextField from "../../components/ControlledPasswordTextField";
-import ControlledTextField from "../../components/ControlledTextField";
+import ControlledPasswordTextField from "../../components/textfields/ControlledPasswordTextField";
+import ControlledTextField from "../../components/textfields/ControlledTextField";
 import routesNames from "../../routes/routesNames";
 import { auth } from "../../services/firebaseConfig";
 import verifyFirebaseErroCode from "../../services/verifyFirebaseErroCode";

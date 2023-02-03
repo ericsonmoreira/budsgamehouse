@@ -3,10 +3,10 @@ import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 import AddPlayerDialog from "../../components/dialogs/AddPlayerDialog";
 import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
-import DataGridPlaysers from "../../components/DataGridPlaysers";
+import DataGridPlaysers from "../../components/datagrids/DataGridPlaysers";
 import UpdatePlayerDialog, {
   PlayerUpdateData,
-} from "../../components/UpdatePlayerDialog";
+} from "../../components/dialogs/UpdatePlayerDialog";
 import usePlayers from "../../hooks/usePlayers";
 
 const Players: React.FC = () => {

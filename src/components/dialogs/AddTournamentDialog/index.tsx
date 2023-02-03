@@ -24,7 +24,7 @@ import { toast } from "react-hot-toast";
 import usePlayers from "../../../hooks/usePlayers";
 import useTournaments from "../../../hooks/useTournaments";
 import AvatarPlayer from "../../AvatarPlayer";
-import ControlledTextField from "../../ControlledTextField";
+import ControlledTextField from "../../textfields/ControlledTextField";
 import schema from "./schema ";
 
 type AddTournamentDialogProps = {

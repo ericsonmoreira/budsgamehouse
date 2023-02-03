@@ -2,7 +2,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 import AddTournamentDialog from "../../components/dialogs/AddTournamentDialog";
-import DataGridTournaments from "../../components/DataGridTournaments";
+import DataGridTournaments from "../../components/datagrids/DataGridTournaments";
 import useTournaments from "../../hooks/useTournaments";
 
 const Tournaments: React.FC = () => {

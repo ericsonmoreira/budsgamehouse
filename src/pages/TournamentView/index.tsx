@@ -10,7 +10,7 @@ import { useCallback, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import tablemark from "tablemark";
-import { DataGridRatingsRowData } from "../../components/DataGridRatings";
+import { DataGridRatingsRowData } from "../../components/datagrids/DataGridRatings";
 import { HandleConfirmMatchResultImp } from "../../components/MatchAccordion";
 import Rating from "../../components/Rating";
 import TournamentInfos from "../../components/TournamentInfos";

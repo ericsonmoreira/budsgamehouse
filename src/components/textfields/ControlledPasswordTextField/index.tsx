@@ -5,7 +5,7 @@ import {
   useController,
   UseControllerProps,
 } from "react-hook-form";
-import PasswordTextField from "../PasswordTextField";
+import PasswordTextField from "../../PasswordTextField";
 
 type ControlledPasswordTextFieldProps<
   TextFieldValues extends FieldValues,

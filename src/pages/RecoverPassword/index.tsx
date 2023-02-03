@@ -12,7 +12,7 @@ import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import ControlledTextField from "../../components/ControlledTextField";
+import ControlledTextField from "../../components/textfields/ControlledTextField";
 import routesNames from "../../routes/routesNames";
 import { auth } from "../../services/firebaseConfig";
 import schema from "./schema ";

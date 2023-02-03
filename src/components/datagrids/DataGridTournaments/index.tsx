@@ -1,8 +1,8 @@
 import { Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
-import routesNames from "../../routes/routesNames";
-import theme from "../../theme";
+import routesNames from "../../../routes/routesNames";
+import theme from "../../../theme";
 
 type DataGridTournamentsRowData = {
   id: string;

@@ -6,7 +6,9 @@ import {
   DialogProps,
   DialogTitle,
 } from "@mui/material";
-import DataGridRatings, { DataGridRatingsRowData } from "../DataGridRatings";
+import DataGridRatings, {
+  DataGridRatingsRowData,
+} from "../datagrids/DataGridRatings";
 
 type ViewRatingsDialogProps = {
   title: string;

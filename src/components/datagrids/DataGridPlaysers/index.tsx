@@ -1,48 +1,43 @@
 import EditIcon from "@mui/icons-material/Edit";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import { Box, IconButton, Tooltip } from "@mui/material";
+import { Avatar, Box, IconButton, Tooltip } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
   GridRenderCellParams,
   GridToolbar,
 } from "@mui/x-data-grid";
-import theme from "../../theme";
+import AvatarPlayer from "../../AvatarPlayer";
 
-type DataGridCardsRowData = {
+type DataGridPlaysersRowData = {
   id: string;
-  imgUrl: string;
   name: string;
-  amount: number;
+  email: string;
   actions: {
     handleUpdate(): void;
     handledelete(): void;
   };
 };
 
-type DataGridCardsProps = {
-  rows?: DataGridCardsRowData[];
+type DataGridPlaysersProps = {
+  rows?: DataGridPlaysersRowData[];
   loading?: boolean;
 };
 
 const columns: GridColDef[] = [
   {
-    field: "imgUrl",
-    headerName: "Imagem",
-    width: 100,
+    field: "avatar",
+    headerName: "",
+    width: 30,
+    align: "center",
     disableColumnMenu: true,
     sortable: false,
-    renderCell: ({ value }) => (
-      <Tooltip
-        PopperProps={{ sx: { backgroundColor: "none" } }}
-        title={<img src={value} style={{ height: 300, marginTop: 5 }} />}
-      >
-        <img src={value} style={{ height: "2rem" }} />
-      </Tooltip>
+    renderCell: ({ row }) => (
+      <AvatarPlayer name={row.name} sx={{ width: 24, height: 24 }} />
     ),
   },
   { field: "name", headerName: "Nome", flex: 1 },
-  { field: "amount", headerName: "Quantidade", width: 150, align: "right" },
+  { field: "email", headerName: "Email", flex: 1 },
   {
     field: "actions",
     headerName: "Ações",
@@ -72,8 +67,8 @@ const columns: GridColDef[] = [
   },
 ];
 
-const DataGridCards: React.FC<DataGridCardsProps> = ({
-  rows = [], // default enpty array
+const DataGridPlaysers: React.FC<DataGridPlaysersProps> = ({
+  rows = [],
   loading,
 }) => {
   return (
@@ -90,4 +85,4 @@ const DataGridCards: React.FC<DataGridCardsProps> = ({
   );
 };
 
-export default DataGridCards;
+export default DataGridPlaysers;
