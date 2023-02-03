@@ -19,6 +19,7 @@ import RatingsController from "../../controllers/RatingsController";
 import TournamentController from "../../controllers/TournamentController";
 import useTournaments from "../../hooks/useTournaments";
 import sendTelegramMessage from "../../resources/sendTelegramMessage";
+import generateRatingsMessageTelegram from "../../utils/generateRatingsMessageTelegram";
 import getPlayerNameById from "../../utils/getPlayerNameById";
 
 type TournamentViewParams = {
@@ -139,7 +140,7 @@ const TournamentView: React.FC = () => {
 
       toast.success("Nova Rodada");
 
-      await sendTelegramMessage(JSON.stringify(matches, null, 2));
+      // await sendTelegramMessage(JSON.stringify(matches, null, 2));
     }
   }, [tournamentData, tournament]);
 
@@ -158,36 +159,14 @@ const TournamentView: React.FC = () => {
         }))
       );
 
-      const tableRender = tablemark(
-        ratings.map(
-          ({ playerId, points, vde, mwp, gwp, omwp, ogwp }, index) => ({
-            podiun: index + 1,
-            name: getPlayerNameById({ playerId, tournamentData }),
-            points,
-            vde: vde.join("-"),
-            mwp: Number(mwp).toLocaleString("pt-Br", {
-              style: "percent",
-              minimumFractionDigits: 2,
-            }),
-            gwp: Number(gwp).toLocaleString("pt-Br", {
-              style: "percent",
-              minimumFractionDigits: 2,
-            }),
-            omwp: Number(omwp).toLocaleString("pt-Br", {
-              style: "percent",
-              minimumFractionDigits: 2,
-            }),
-            ogwp: Number(ogwp).toLocaleString("pt-Br", {
-              style: "percent",
-              minimumFractionDigits: 2,
-            }),
-          })
-        )
-      );
+      setOpenViewRatingsDialog(true);
 
-      console.log(tableRender);
+      console.log(generateRatingsMessageTelegram(tournamentData));
 
-      await sendTelegramMessage(tableRender, "Markdown");
+      // await sendTelegramMessage(
+      //   generateRatingsMessageTelegram(tournamentData),
+      //   "Markdown"
+      // );
     }
   }, [tournamentData]);
 
