@@ -21,10 +21,10 @@ import {
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import usePlayers from "../../hooks/usePlayers";
-import useTournaments from "../../hooks/useTournaments";
-import AvatarPlayer from "../AvatarPlayer";
-import ControlledTextField from "../ControlledTextField";
+import usePlayers from "../../../hooks/usePlayers";
+import useTournaments from "../../../hooks/useTournaments";
+import AvatarPlayer from "../../AvatarPlayer";
+import ControlledTextField from "../../ControlledTextField";
 import schema from "./schema ";
 
 type AddTournamentDialogProps = {

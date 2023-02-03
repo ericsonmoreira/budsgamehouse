@@ -16,36 +16,33 @@ import {
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import useAutoCompleteCardNames from "../../hooks/useAutoCompleteCardNames";
-import useCardByName from "../../hooks/useCardByName";
-import useDebounce from "../../hooks/useDebounce";
-import useWantedCards from "../../hooks/useWantedCards";
-import ImgCard from "../ImgCard";
+import useAutoCompleteCardNames from "../../../hooks/useAutoCompleteCardNames";
+import useCardByName from "../../../hooks/useCardByName";
+import useDebounce from "../../../hooks/useDebounce";
+import useTradingCards from "../../../hooks/useTradingCards";
+import ImgCard from "../../ImgCard";
 
-type AddWantCardDialogProps = {
+type AddTradingCardDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-type AddWantCardDialogFormData = {
+type AddTradingCardDialogFormData = {
   searchTerm: string;
 };
 
-const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
-  title,
-  subTitle,
-  setOpen,
-  ...rest
-}) => {
+const AddTradingCardDialog: React.FC<
+  AddTradingCardDialogProps & DialogProps
+> = ({ title, subTitle, setOpen, ...rest }) => {
   const { register, handleSubmit, watch, resetField } =
-    useForm<AddWantCardDialogFormData>();
+    useForm<AddTradingCardDialogFormData>({});
 
   const [cardNameSelected, setCardNameSelected] = useState<string>("");
 
   const [amount, setAmount] = useState("0");
 
-  const { addWantedCard } = useWantedCards();
+  const { addTradingCard } = useTradingCards();
 
   const searchTermWatch = watch("searchTerm");
 
@@ -57,13 +54,10 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
 
   const { card } = useCardByName(cardNameSelected);
 
-  // TODO: acho que nem precisavamos usar o useForm pra salvar esses dados
-  // Mas possivelmente veveremos fazer um tratamento antes de enviar os dados
-  // E possivelmente deve ficar mais fácil com ele usando validação com o yup
   const handleConfirmAction = () => {
     try {
       if (card) {
-        addWantedCard({
+        addTradingCard({
           name: card.name,
           amount: Number(amount),
           imgUrl: card.image_uris?.normal || "",
@@ -144,4 +138,4 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
   );
 };
 
-export default AddWantCardDialog;
+export default AddTradingCardDialog;

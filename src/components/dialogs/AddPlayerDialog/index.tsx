@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import usePlayers from "../../hooks/usePlayers";
-import ControlledTextField from "../ControlledTextField";
+import usePlayers from "../../../hooks/usePlayers";
+import ControlledTextField from "../../ControlledTextField";
 import schema from "./schema ";
 
 type AddPlayerDialogProps = {

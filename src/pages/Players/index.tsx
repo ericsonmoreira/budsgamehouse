@@ -1,8 +1,8 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
-import AddPlayerDialog from "../../components/AddPlayerDialog";
-import ConfirmActionDialog from "../../components/ConfirmActionDialog";
+import AddPlayerDialog from "../../components/dialogs/AddPlayerDialog";
+import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
 import DataGridPlaysers from "../../components/DataGridPlaysers";
 import UpdatePlayerDialog, {
   PlayerUpdateData,

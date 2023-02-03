@@ -7,8 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import AddTradingCardDialog from "../../components/AddTradingCardDialog";
-import ConfirmActionDialog from "../../components/ConfirmActionDialog";
+import AddTradingCardDialog from "../../components/dialogs/AddTradingCardDialog";
+import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
 import DataGridCards from "../../components/DataGridCards";
 import UpdateTradingCardDialog, {
   TradingCardUpdateData,
