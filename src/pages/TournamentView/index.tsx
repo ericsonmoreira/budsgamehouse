@@ -9,6 +9,7 @@ import {
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import tablemark from "tablemark";
 import { DataGridRatingsRowData } from "../../components/DataGridRatings";
 import { HandleConfirmMatchResultImp } from "../../components/MatchAccordion";
 import Rating from "../../components/Rating";
@@ -18,6 +19,7 @@ import RatingsController from "../../controllers/RatingsController";
 import TournamentController from "../../controllers/TournamentController";
 import useTournaments from "../../hooks/useTournaments";
 import sendTelegramMessage from "../../resources/sendTelegramMessage";
+import getPlayerNameById from "../../utils/getPlayerNameById";
 
 type TournamentViewParams = {
   id: string;
@@ -84,21 +86,6 @@ const TournamentView: React.FC = () => {
     return false;
   }, [tournament, tournamentData]);
 
-  const getPlayerNameById = useCallback(
-    (id: string) => {
-      if (tournamentData) {
-        if (id === "bay") return "Bay";
-
-        return (
-          tournamentData.players.find((player) => player.id === id)?.name || ""
-        );
-      } else {
-        return "";
-      }
-    },
-    [tournamentData]
-  );
-
   const handleInitTornament = useCallback(() => {
     if (tournament && tournamentData) {
       const newTournamentData = { ...tournamentData, ratings: [] };
@@ -150,13 +137,13 @@ const TournamentView: React.FC = () => {
         data: JSON.stringify(newTournamentData),
       });
 
-      await sendTelegramMessage(JSON.stringify(matches, null, 2));
-
       toast.success("Nova Rodada");
+
+      await sendTelegramMessage(JSON.stringify(matches, null, 2));
     }
   }, [tournamentData, tournament]);
 
-  const handleRatingsGenerate = useCallback(() => {
+  const handleRatingsGenerate = useCallback(async () => {
     if (tournamentData) {
       const ratingsController = new RatingsController(tournamentData);
 
@@ -166,12 +153,41 @@ const TournamentView: React.FC = () => {
         ratings.map(({ playerId, ...rest }, index) => ({
           id: playerId,
           index,
-          player: getPlayerNameById(playerId),
+          player: getPlayerNameById({ tournamentData, playerId }),
           ...rest,
         }))
       );
 
-      setOpenViewRatingsDialog(true);
+      const tableRender = tablemark(
+        ratings.map(
+          ({ playerId, points, vde, mwp, gwp, omwp, ogwp }, index) => ({
+            podiun: index + 1,
+            name: getPlayerNameById({ playerId, tournamentData }),
+            points,
+            vde: vde.join("-"),
+            mwp: Number(mwp).toLocaleString("pt-Br", {
+              style: "percent",
+              minimumFractionDigits: 2,
+            }),
+            gwp: Number(gwp).toLocaleString("pt-Br", {
+              style: "percent",
+              minimumFractionDigits: 2,
+            }),
+            omwp: Number(omwp).toLocaleString("pt-Br", {
+              style: "percent",
+              minimumFractionDigits: 2,
+            }),
+            ogwp: Number(ogwp).toLocaleString("pt-Br", {
+              style: "percent",
+              minimumFractionDigits: 2,
+            }),
+          })
+        )
+      );
+
+      console.log(tableRender);
+
+      await sendTelegramMessage(tableRender, "Markdown");
     }
   }, [tournamentData]);
 
@@ -238,7 +254,6 @@ const TournamentView: React.FC = () => {
             rating={rating}
             tournament={tournament}
             tournamentData={tournamentData}
-            getPlayerNameById={getPlayerNameById}
             handleConfirmMatchResult={handleConfirmMatchResult}
             isPossibleEditRound={isPossibleEditRound}
           />

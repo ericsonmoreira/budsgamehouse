@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import getPlayerNameById from "../../utils/getPlayerNameById";
 
 export type HandleConfirmMatchResultImp = (data: {
   ratingIndex: number;
@@ -21,7 +22,6 @@ type MatchAccordionProps = {
   ratingIndex: number;
   matchIndex: number;
   match: Match;
-  getPlayerNameById(id: string): string;
   tournament: Tournament;
   tournamentData: TournamentData;
   handleConfirmMatchResult: HandleConfirmMatchResultImp;
@@ -33,7 +33,6 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
   matchIndex,
   match,
   tournamentData,
-  getPlayerNameById,
   handleConfirmMatchResult,
   isPossibleEditMatch,
 }) => {
@@ -49,9 +48,15 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
 
   const secondPlayerId = match.playersIds[1];
 
-  const firstPlayerName = getPlayerNameById(firstPlayerId);
+  const firstPlayerName = getPlayerNameById({
+    playerId: firstPlayerId,
+    tournamentData,
+  });
 
-  const secondPlayerName = getPlayerNameById(secondPlayerId);
+  const secondPlayerName = getPlayerNameById({
+    playerId: secondPlayerId,
+    tournamentData,
+  });
 
   const firstPlayerVirories =
     tournamentData.ratings[ratingIndex][matchIndex].playersVirories[0];

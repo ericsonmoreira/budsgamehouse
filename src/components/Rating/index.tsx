@@ -1,4 +1,5 @@
-import { Box, Typography, Stack } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
+import getPlayerNameById from "../../utils/getPlayerNameById";
 import MatchAccordion, { HandleConfirmMatchResultImp } from "../MatchAccordion";
 
 type RatingProps = {
@@ -6,7 +7,6 @@ type RatingProps = {
   ratingIndex: number;
   tournament: Tournament;
   tournamentData: TournamentData;
-  getPlayerNameById(id: string): string;
   handleConfirmMatchResult: HandleConfirmMatchResultImp;
   isPossibleEditRound(round: number): boolean;
 };
@@ -16,7 +16,6 @@ const Rating: React.FC<RatingProps> = ({
   ratingIndex,
   tournament,
   tournamentData,
-  getPlayerNameById,
   handleConfirmMatchResult,
   isPossibleEditRound,
 }) => {
@@ -33,7 +32,6 @@ const Rating: React.FC<RatingProps> = ({
               match={match}
               tournament={tournament}
               tournamentData={tournamentData}
-              getPlayerNameById={getPlayerNameById}
               handleConfirmMatchResult={handleConfirmMatchResult}
               isPossibleEditMatch={isPossibleEditRound(ratingIndex)}
             />
@@ -45,13 +43,20 @@ const Rating: React.FC<RatingProps> = ({
             <Stack key={match.playersIds.join()}>
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <Typography sx={{ width: 200 }}>
-                  {matchIndex + 1}. {getPlayerNameById(match.playersIds[0])}
+                  {matchIndex + 1}.{" "}
+                  {getPlayerNameById({
+                    playerId: match.playersIds[0],
+                    tournamentData,
+                  })}
                 </Typography>
                 <Typography sx={{ textAlign: "center" }}>
                   {match.playersVirories[0]} X {match.playersVirories[1]}
                 </Typography>
                 <Typography sx={{ width: 200, textAlign: "right" }}>
-                  {getPlayerNameById(match.playersIds[1])}
+                  {getPlayerNameById({
+                    playerId: match.playersIds[1],
+                    tournamentData,
+                  })}
                 </Typography>
               </Box>
             </Stack>
