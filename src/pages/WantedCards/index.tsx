@@ -1,9 +1,9 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
+import DataGridCards from "../../components/datagrids/DataGridCards";
 import AddWantCardDialog from "../../components/dialogs/AddWantCardDialog";
 import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
-import DataGridCards from "../../components/datagrids/DataGridCards";
 import UpdateWantedCardDialog, {
   WantedCardUpdateData,
 } from "../../components/dialogs/UpdateWantedCardDialog";
@@ -32,12 +32,7 @@ const WantedCards: React.FC = () => {
     setUpdateWantedCardDialogOpen(true);
   };
 
-  const {
-    cards: wantedCards,
-    isLoading,
-    deleteWantedCard,
-    updateWantedCard,
-  } = useWantedCards();
+  const { cards: wantedCards, isLoading, deleteWantedCard } = useWantedCards();
 
   const handledelete = (id: string) => {
     setWantedCardToDeleteId(id);

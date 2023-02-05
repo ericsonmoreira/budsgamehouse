@@ -7,7 +7,6 @@ import {
   GridRenderCellParams,
   GridToolbar,
 } from "@mui/x-data-grid";
-import theme from "../../../theme";
 
 type DataGridCardsRowData = {
   id: string;
@@ -34,6 +33,8 @@ const columns: GridColDef[] = [
     sortable: false,
     renderCell: ({ value }) => (
       <Tooltip
+        arrow
+        placement="right"
         PopperProps={{ sx: { backgroundColor: "none" } }}
         title={<img src={value} style={{ height: 300, marginTop: 5 }} />}
       >

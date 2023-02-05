@@ -63,10 +63,15 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
   const handleConfirmAction = () => {
     try {
       if (card) {
+        const imgUrl =
+          (card.card_faces.length === 2
+            ? card.card_faces[0].image_uris?.normal
+            : card.image_uris?.normal) || "";
+
         addWantedCard({
           name: card.name,
           amount: Number(amount),
-          imgUrl: card.image_uris?.normal || "",
+          imgUrl,
         });
 
         toast.success("Card adicionado com sucesso");
