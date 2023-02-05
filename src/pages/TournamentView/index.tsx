@@ -1,7 +1,7 @@
 import ArticleIcon from "@mui/icons-material/Article";
 import CloseIcon from "@mui/icons-material/Close";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import GroupIcon from "@mui/icons-material/Group";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import {
   Backdrop,
   Box,
@@ -19,7 +19,6 @@ import Rating from "../../components/Rating";
 import TournamentInfos from "../../components/TournamentInfos";
 import TournamentController from "../../controllers/TournamentController";
 import useTournaments from "../../hooks/useTournaments";
-import sendTelegramMessage from "../../resources/sendTelegramMessage";
 
 type TournamentViewParams = {
   id: string;
@@ -105,6 +104,7 @@ const TournamentView: React.FC = () => {
 
       newRatings[ratingIndex][matchIndex].playersVirories[0] =
         firstPlayerVictories;
+
       newRatings[ratingIndex][matchIndex].playersVirories[1] =
         seconfPlayerVictories;
 
@@ -133,7 +133,7 @@ const TournamentView: React.FC = () => {
         data: JSON.stringify(newTournamentData),
       });
 
-      toast.success("Nova Rodada");
+      toast.success("Nova rodada iniciada!");
     }
   }, [tournamentData, tournament]);
 
@@ -227,17 +227,19 @@ const TournamentView: React.FC = () => {
         </Button>
       </Box>
       <Container maxWidth="md">
-        {tournamentData.ratings.map((rating, ratingIndex) => (
-          <Rating
-            key={`round-${ratingIndex}`}
-            ratingIndex={ratingIndex}
-            rating={rating}
-            tournament={tournament}
-            tournamentData={tournamentData}
-            handleConfirmMatchResult={handleConfirmMatchResult}
-            isPossibleEditRound={isPossibleEditRound}
-          />
-        ))}
+        {tournamentData.ratings
+          .map((rating, ratingIndex) => (
+            <Rating
+              key={`round-${ratingIndex}`}
+              ratingIndex={ratingIndex}
+              rating={rating}
+              tournament={tournament}
+              tournamentData={tournamentData}
+              handleConfirmMatchResult={handleConfirmMatchResult}
+              isPossibleEditRound={isPossibleEditRound}
+            />
+          ))
+          .reverse()}
       </Container>
       <ViewRatingsDialog
         tournamentData={tournamentData}
