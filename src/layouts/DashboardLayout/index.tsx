@@ -19,7 +19,7 @@ const DashboardLayout: React.FC = () => {
     paddingTop: 64,
     backgroundColor: "#f5f5f5",
     [theme.breakpoints.up("lg")]: {
-      paddingLeft: 280,
+      paddingLeft: 180,
     },
   }));
 

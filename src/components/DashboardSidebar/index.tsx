@@ -91,22 +91,6 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         height: "100%",
       }}
     >
-      <Stack
-        spacing={1}
-        padding={2}
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-      >
-        <img
-          src="/atm-logo.png"
-          alt="Atm Logo"
-          style={{ width: "5rem", height: "5rem" }}
-        />
-        <Typography variant="body2">Associação Tabulerence de Magic</Typography>
-      </Stack>
-
-      <Divider />
       <Box sx={{ flexGrow: 1, py: 2 }}>
         {items.map(({ icon, title, to }) => (
           <NavItem
@@ -140,7 +124,8 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         open
         PaperProps={{
           sx: {
-            width: 280,
+            top: 65,
+            width: 180,
           },
         }}
         variant="permanent"

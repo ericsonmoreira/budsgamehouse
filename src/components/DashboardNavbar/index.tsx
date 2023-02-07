@@ -8,6 +8,7 @@ import {
   IconButton,
   Toolbar,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -28,10 +29,7 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
     <DashboardNavbarRoot
       sx={{
         left: {
-          lg: 280,
-        },
-        width: {
-          lg: "calc(100% - 280px)",
+          lg: 0,
         },
       }}
       {...rest}
@@ -55,11 +53,17 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
         >
           <MenuIcon fontSize="small" />
         </IconButton>
-        <Tooltip title="Buscar">
-          <IconButton>
-            <SearchIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
+        <Box
+          sx={{
+            display: "flex",
+          }}
+        >
+          <img
+            src="/atm-logo.png"
+            alt="Atm Logo"
+            style={{ width: "3rem", height: "3rem" }}
+          />
+        </Box>
         <Box sx={{ flexGrow: 1 }} />
         <Tooltip title="Contacts">
           <IconButton>
