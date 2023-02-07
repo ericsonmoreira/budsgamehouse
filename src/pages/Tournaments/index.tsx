@@ -5,15 +5,41 @@ import AddTournamentDialog from "../../components/dialogs/AddTournamentDialog";
 import DataGridTournaments from "../../components/datagrids/DataGridTournaments";
 import useTournaments from "../../hooks/useTournaments";
 import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
+import UpdateTournamentDialog, {
+  UpdateTournamentDialogFormData,
+} from "../../components/dialogs/UpdateTournamentDialog";
 
 const Tournaments: React.FC = () => {
   const [addTournamentDialogOpen, setAddTournamentDialogOpen] = useState(false);
+
+  const [updateTournamentDialogOpen, setUpdateTournamentDialogOpen] =
+    useState(false);
 
   const [tournamentToDeleteId, setTournamentToDeleteId] = useState("");
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const { tournaments, deleteTournament, isLoading } = useTournaments();
+
+  const [tournamentToUpdate, setTournamentToUpdate] =
+    useState<UpdateTournamentDialogFormData>({
+      id: "",
+      name: "",
+      format: "pioneer",
+      rounds: 0,
+      selectedPlayers: [],
+    });
+
+  const handleUpdate = ({
+    id,
+    name,
+    format,
+    rounds,
+    selectedPlayers,
+  }: UpdateTournamentDialogFormData) => {
+    setTournamentToUpdate({ id, name, format, rounds, selectedPlayers });
+    setUpdateTournamentDialogOpen(true);
+  };
 
   const handledelete = (id: string) => {
     setTournamentToDeleteId(id);
@@ -50,7 +76,14 @@ const Tournaments: React.FC = () => {
             rounds,
             state,
             actions: {
-              handleUpdate: () => console.log("handleUpdate"), // TODO: implementar essa parte
+              handleUpdate: () =>
+                handleUpdate({
+                  id,
+                  format,
+                  name,
+                  rounds,
+                  selectedPlayers: [],
+                }),
               handledelete: () => handledelete(id),
             },
           }))}
@@ -62,6 +95,14 @@ const Tournaments: React.FC = () => {
         open={addTournamentDialogOpen}
         setOpen={setAddTournamentDialogOpen}
         onClose={() => setAddTournamentDialogOpen(false)}
+      />
+      <UpdateTournamentDialog
+        title="Update Torneiro"
+        subTitle="Atualize aqui o Evento"
+        open={updateTournamentDialogOpen}
+        setOpen={setUpdateTournamentDialogOpen}
+        onClose={() => setUpdateTournamentDialogOpen(false)}
+        tournamentToUpdate={tournamentToUpdate}
       />
       <ConfirmActionDialog
         title="Remover Torneiro"
