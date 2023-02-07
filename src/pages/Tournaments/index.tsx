@@ -4,11 +4,21 @@ import { useState } from "react";
 import AddTournamentDialog from "../../components/dialogs/AddTournamentDialog";
 import DataGridTournaments from "../../components/datagrids/DataGridTournaments";
 import useTournaments from "../../hooks/useTournaments";
+import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
 
 const Tournaments: React.FC = () => {
   const [addTournamentDialogOpen, setAddTournamentDialogOpen] = useState(false);
 
-  const { tournaments, isLoading } = useTournaments();
+  const [tournamentToDeleteId, setTournamentToDeleteId] = useState("");
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  const { tournaments, deleteTournament, isLoading } = useTournaments();
+
+  const handledelete = (id: string) => {
+    setTournamentToDeleteId(id);
+    setDeleteDialogOpen(true);
+  };
 
   return (
     <>
@@ -39,6 +49,10 @@ const Tournaments: React.FC = () => {
             name,
             rounds,
             state,
+            actions: {
+              handleUpdate: () => console.log("handleUpdate"), // TODO: implementar essa parte
+              handledelete: () => handledelete(id),
+            },
           }))}
         />
       </Box>
@@ -48,6 +62,15 @@ const Tournaments: React.FC = () => {
         open={addTournamentDialogOpen}
         setOpen={setAddTournamentDialogOpen}
         onClose={() => setAddTournamentDialogOpen(false)}
+      />
+      <ConfirmActionDialog
+        title="Remover Torneiro"
+        subTitle="Deseja realmente remover esse Evento"
+        confirmationMesage="Torneiro removido com sucessor"
+        open={deleteDialogOpen}
+        setOpen={setDeleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        handleConfirmAction={() => deleteTournament(tournamentToDeleteId)}
       />
     </>
   );

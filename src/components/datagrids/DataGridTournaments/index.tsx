@@ -1,5 +1,12 @@
-import { Typography } from "@mui/material";
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import EditIcon from "@mui/icons-material/Edit";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import {
+  DataGrid,
+  GridColDef,
+  GridRenderCellParams,
+  GridToolbar,
+} from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import routesNames from "../../../routes/routesNames";
 import theme from "../../../theme";
@@ -10,6 +17,10 @@ type DataGridTournamentsRowData = {
   format: TournamentFormat;
   rounds: number;
   state: TournamentState;
+  actions: {
+    handleUpdate(): void;
+    handledelete(): void;
+  };
 };
 
 type DataGridTournamentsProps = {
@@ -64,6 +75,41 @@ const columns: GridColDef[] = [
       >
         {stateNameMap[value as TournamentState]}
       </Typography>
+    ),
+  },
+  {
+    field: "actions",
+    headerName: "Ações",
+    width: 150,
+    align: "right",
+    disableColumnMenu: true,
+    sortable: false,
+    renderCell: (
+      params: GridRenderCellParams<{
+        handleUpdate(): void;
+        handledelete(): void;
+      }>
+    ) => (
+      <Box>
+        <Tooltip title="Deletar">
+          <IconButton color="error" onClick={params.value?.handledelete}>
+            <RemoveCircleIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title="Editar">
+          {/* esse span é para não causar warnings quando passamos componentes disable para um Toltip */}
+          <span>
+            <IconButton
+              disabled={(params.row.state as TournamentState) === "finished"}
+              color="info"
+              onClick={params.value?.handleUpdate}
+            >
+              <EditIcon fontSize="small" />
+            </IconButton>
+          </span>
+        </Tooltip>
+      </Box>
     ),
   },
 ];
