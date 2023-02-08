@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import ViewRatingsDialog from "../../components/dialogs/ViewRatingsDialog";
 import { HandleConfirmMatchResultImp } from "../../components/MatchAccordion";
 import Rating from "../../components/Rating";
+import Timer from "../../components/Timer";
 import TournamentInfos from "../../components/TournamentInfos";
 import TournamentController from "../../controllers/TournamentController";
 import useTournaments from "../../hooks/useTournaments";
@@ -173,6 +174,9 @@ const TournamentView: React.FC = () => {
         }}
       >
         <Typography variant="h4">{tournament.name}</Typography>
+        <Box sx={{ marginLeft: 3 }}>
+          <Timer interval={50} />
+        </Box>
       </Box>
       <Box sx={{ margin: 1 }}>
         <TournamentInfos tournament={tournament} />
