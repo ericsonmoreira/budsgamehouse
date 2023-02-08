@@ -4,15 +4,7 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
-import {
-  Box,
-  Button,
-  Divider,
-  Drawer,
-  Stack,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Button, Divider, Drawer, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useSignOut } from "react-firebase-hooks/auth";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -126,6 +118,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
           sx: {
             top: 65,
             width: 180,
+            height: "calc(100% - 65px)",
           },
         }}
         variant="permanent"

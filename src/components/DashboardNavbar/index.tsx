@@ -1,6 +1,5 @@
 import MenuIcon from "@mui/icons-material/Menu";
 import PersonIcon from "@mui/icons-material/Person";
-import SearchIcon from "@mui/icons-material/Search";
 import {
   AppBar,
   AppBarProps,
@@ -8,9 +7,10 @@ import {
   IconButton,
   Toolbar,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useState } from "react";
+import ViewUserDialog from "../dialogs/ViewUserDialog";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -25,6 +25,8 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
   onSidebarOpen,
   ...rest
 }) => {
+  const [viewUserDialogOpen, setViewUserDialogOpen] = useState(false);
+
   return (
     <DashboardNavbarRoot
       sx={{
@@ -65,12 +67,16 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
           />
         </Box>
         <Box sx={{ flexGrow: 1 }} />
-        <Tooltip title="Contacts">
-          <IconButton>
+        <Tooltip title="Usuário">
+          <IconButton onClick={() => setViewUserDialogOpen(true)}>
             <PersonIcon fontSize="small" />
           </IconButton>
         </Tooltip>
       </Toolbar>
+      <ViewUserDialog
+        open={viewUserDialogOpen}
+        onClose={() => setViewUserDialogOpen(false)}
+      />
     </DashboardNavbarRoot>
   );
 };
