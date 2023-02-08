@@ -51,7 +51,9 @@ function useTournaments() {
 
       await queryClient.invalidateQueries("useTournaments");
 
-      return tournamentDoc;
+      const docSnap = await getDoc(tournamentDoc);
+
+      return { id: docSnap.id, ...docSnap.data() } as Tournament;
     }
   );
 

@@ -86,7 +86,7 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
     return players.filter((player) => !selectedPlayers.includes(player));
   }, [selectedPlayers, players]);
 
-  const handleConfirmAction = ({
+  const handleConfirmAction = async ({
     name,
     format,
     rounds,
@@ -116,158 +116,163 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
 
   return (
     <Dialog fullWidth maxWidth="md" {...rest}>
-      <DialogTitle>{title}</DialogTitle>
-      <DialogContent>
-        <DialogContentText>{subTitle}</DialogContentText>
-        <Grid container spacing={2} sx={{ width: "100%", marginTop: 1 }}>
-          <Grid item xs={12}>
-            <Typography variant="body1">Informações do Torneio</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <ControlledTextField
-              name="name"
-              control={control}
-              textFieldProps={{
-                variant: "outlined",
-                size: "small",
-                label: "Nome",
-                fullWidth: true,
-              }}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <ControlledTextField
-              name="format"
-              control={control}
-              textFieldProps={{
-                variant: "outlined",
-                size: "small",
-                label: "Formato",
-                fullWidth: true,
-                select: true,
-                children: formatValues.map(({ value, label }) => (
-                  <MenuItem key={label} value={value}>
-                    {label}
-                  </MenuItem>
-                )),
-              }}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <ControlledTextField
-              name="rounds"
-              control={control}
-              textFieldProps={{
-                type: "number",
-                variant: "outlined",
-                size: "small",
-                label: "Rounds",
-                fullWidth: true,
-                inputProps: {
-                  min: 1,
-                },
-              }}
-            />
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          spacing={2}
-          sx={{ width: "100%", marginTop: 1 }}
-          component="form"
-        >
-          <Grid item xs={12}>
-            <Typography variant="body1">Jogadores</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Autocomplete
-                options={selectablePlayers}
-                value={activePlayer || null}
-                onChange={(_, newValue) => setActivePlayer(newValue)}
-                inputValue={autocompleteInputValue}
-                onInputChange={(_, newValue) =>
-                  setAutocompleteInputValue(newValue)
-                }
-                isOptionEqualToValue={(option, value) => option.id === value.id}
-                getOptionLabel={(option) => option.name}
-                fullWidth
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    ref={null}
-                    size="small"
-                    label="Jogadores"
-                  />
-                )}
-              />
-              <IconButton
-                disabled={!activePlayer}
-                onClick={() => {
-                  setSelectedPlayers((old) => [...old, activePlayer as Player]);
-                  setActivePlayer(null);
-                  setAutocompleteInputValue("");
+      <form onSubmit={handleSubmit(handleConfirmAction)}>
+        <DialogTitle>{title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{subTitle}</DialogContentText>
+          <Grid container spacing={2} sx={{ width: "100%", marginTop: 1 }}>
+            <Grid item xs={12}>
+              <Typography variant="body1">Informações do Torneio</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <ControlledTextField
+                name="name"
+                control={control}
+                textFieldProps={{
+                  variant: "outlined",
+                  size: "small",
+                  label: "Nome",
+                  fullWidth: true,
                 }}
-                sx={{ marginLeft: 1 }}
-                color="secondary"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <ControlledTextField
+                name="format"
+                control={control}
+                textFieldProps={{
+                  variant: "outlined",
+                  size: "small",
+                  label: "Formato",
+                  fullWidth: true,
+                  select: true,
+                  children: formatValues.map(({ value, label }) => (
+                    <MenuItem key={label} value={value}>
+                      {label}
+                    </MenuItem>
+                  )),
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <ControlledTextField
+                name="rounds"
+                control={control}
+                textFieldProps={{
+                  type: "number",
+                  variant: "outlined",
+                  size: "small",
+                  label: "Rounds",
+                  fullWidth: true,
+                  inputProps: {
+                    min: 1,
+                  },
+                }}
+              />
+            </Grid>
+          </Grid>
+          <Grid
+            container
+            spacing={2}
+            sx={{ width: "100%", marginTop: 1 }}
+            component="form"
+          >
+            <Grid item xs={12}>
+              <Typography variant="body1">Jogadores</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
               >
-                <PersonAddIcon />
-              </IconButton>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Typography variant="body1">Jogadores selecionados</Typography>
-              <Typography variant="body1">
-                Total: {selectedPlayers.length}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Box sx={{ display: "inline-block", alignItems: "center" }}>
-              {selectedPlayers.map(({ id, name }) => (
-                <Chip
-                  key={id}
-                  variant="outlined"
-                  label={name}
-                  avatar={<AvatarPlayer name={name} />}
-                  onDelete={() => {
-                    setSelectedPlayers((old) =>
-                      old.filter((player) => player.id !== id)
-                    );
-                  }}
-                  deleteIcon={<PersonRemoveIcon />}
-                  sx={{ marginRight: 1, marginBottom: 1 }}
+                <Autocomplete
+                  options={selectablePlayers}
+                  value={activePlayer || null}
+                  onChange={(_, newValue) => setActivePlayer(newValue)}
+                  inputValue={autocompleteInputValue}
+                  onInputChange={(_, newValue) =>
+                    setAutocompleteInputValue(newValue)
+                  }
+                  isOptionEqualToValue={(option, value) =>
+                    option.id === value.id
+                  }
+                  getOptionLabel={(option) => option.name}
+                  fullWidth
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      ref={null}
+                      size="small"
+                      label="Jogadores"
+                    />
+                  )}
                 />
-              ))}
-            </Box>
+                <IconButton
+                  disabled={!activePlayer}
+                  onClick={() => {
+                    setSelectedPlayers((old) => [
+                      ...old,
+                      activePlayer as Player,
+                    ]);
+                    setActivePlayer(null);
+                    setAutocompleteInputValue("");
+                  }}
+                  sx={{ marginLeft: 1 }}
+                  color="secondary"
+                >
+                  <PersonAddIcon />
+                </IconButton>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="body1">Jogadores selecionados</Typography>
+                <Typography variant="body1">
+                  Total: {selectedPlayers.length}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ display: "inline-block", alignItems: "center" }}>
+                {selectedPlayers.map(({ id, name }) => (
+                  <Chip
+                    key={id}
+                    variant="outlined"
+                    label={name}
+                    avatar={<AvatarPlayer name={name} />}
+                    onDelete={() => {
+                      setSelectedPlayers((old) =>
+                        old.filter((player) => player.id !== id)
+                      );
+                    }}
+                    deleteIcon={<PersonRemoveIcon />}
+                    sx={{ marginRight: 1, marginBottom: 1 }}
+                  />
+                ))}
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          variant="contained"
-          color="error"
-          disableElevation
-          onClick={handleCancelAction}
-        >
-          Cancelar
-        </Button>
-        <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>
-          Add
-        </Button>
-      </DialogActions>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            color="error"
+            disableElevation
+            onClick={handleCancelAction}
+          >
+            Cancelar
+          </Button>
+          <Button type="submit">Confirmar</Button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 };
