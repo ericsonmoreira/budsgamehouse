@@ -55,16 +55,12 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
     email,
     image,
   }: UpdatePlayerDialogFormData) => {
-    console.log({ name, email, image });
-
     if (image) {
       const storageRef = ref(storage, `images/${id}`);
 
       await uploadBytes(storageRef, image[0]);
 
       const urlImage = await getDownloadURL(storageRef);
-
-      console.log({ urlImage });
 
       updatePlayer({ id, name, email, avatarImgUrl: urlImage });
     } else {

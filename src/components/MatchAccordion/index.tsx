@@ -181,40 +181,28 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
       key={firstPlayerId + secondPlayerId}
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        {/* {accordionSummaryText} */}
         {secondPlayerId === "bay" ? (
-          <Box sx={{ display: "flex" }}>
-            <span>
-              <AvatarPlayer player={firstPlayer as Player} />
-              <Typography>{firstPlayerName}</Typography>
-            </span>
-            <Typography>
-              {firstPlayerVirories} X {secondPlayerVirories}
-            </Typography>
-            <span>
-              <Typography>{secondPlayerName}</Typography>
-              <AvatarPlayer player={secondPlayer as Player} />
-            </span>
-          </Box>
-        ) : (
           <Box
             sx={{
               display: "flex",
               width: 1,
-              marginX: 2,
+              marginX: 1,
               alignItems: "center",
               justifyContent: "space-between",
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center", width: 1 }}>
+              <Typography variant="h6" sx={{ marginRight: 1 }}>
+                {matchIndex + 1}.
+              </Typography>
               <AvatarPlayer
                 player={firstPlayer as Player}
-                sx={{ marginRight: 1 }}
+                sx={{ marginRight: 1, width: 32, height: 32 }}
               />
-              <Typography>{firstPlayerName}</Typography>
+              <Typography variant="h6">{firstPlayerName}</Typography>
             </Box>
             <Box sx={{ width: 1, textAlign: "center" }}>
-              <Typography>
+              <Typography variant="h6">
                 {firstPlayerVirories} X {secondPlayerVirories}
               </Typography>
             </Box>
@@ -226,10 +214,46 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
                 justifyContent: "flex-end",
               }}
             >
-              <Typography>{secondPlayerName}</Typography>
+              <Typography variant="h6">{secondPlayerName}</Typography>
+            </Box>
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              width: 1,
+              marginX: 1,
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", width: 1 }}>
+              <Typography variant="h6" sx={{ marginRight: 1 }}>
+                {matchIndex + 1}.
+              </Typography>
+              <AvatarPlayer
+                player={firstPlayer as Player}
+                sx={{ marginRight: 1, width: 32, height: 32 }}
+              />
+              <Typography variant="h6">{firstPlayerName}</Typography>
+            </Box>
+            <Box sx={{ width: 1, textAlign: "center" }}>
+              <Typography variant="h6">
+                {firstPlayerVirories} X {secondPlayerVirories}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                width: 1,
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Typography variant="h6">{secondPlayerName}</Typography>
               <AvatarPlayer
                 player={secondPlayer as Player}
-                sx={{ marginLeft: 1 }}
+                sx={{ marginLeft: 1, width: 32, height: 32 }}
               />
             </Box>
           </Box>

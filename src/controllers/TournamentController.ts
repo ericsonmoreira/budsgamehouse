@@ -56,8 +56,6 @@ class TournamentController {
 
     const playersWithPoints = this.getPlayersWithPoints();
 
-    console.log({ playersWithPoints });
-
     const playersWithPointsGroupByPoints = groupBy(
       playersWithPoints,
       ({ points }) => points
@@ -80,8 +78,6 @@ class TournamentController {
     const ratingsController = new RatingsController(this.tournamentData);
 
     const atualRatings = ratingsController.generateRatings();
-
-    console.log({ atualRatings });
 
     const playersWithPoints = this.tournamentData.players.map((player) => {
       const { points } = atualRatings.find(

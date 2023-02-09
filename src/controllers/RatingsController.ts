@@ -151,27 +151,36 @@ class RatingsController {
     return mwp > 0.33 ? mwp : 0.33;
   }
 
-  // Parecido com porcentual de match-win, o porcentual game-win de um jogador é o total de pontos de jogo ele
+  // Parecido com porcentual de match-win, o porcentual game-win de um jogador é o total de pontos de jogo que ele
   // recebeu divididos pelo total de pontos de jogo possíveis (geralmente 3 vezes o número de jogos jogados).
   // Novamente, se utiliza 0,33 se o porcentual game-win real for menor do que isso.
   private getPlayerGwp(playerId: string): number {
     // quantidade de rodadas que o jogador jogou
     const playerGamesPlayed = this.tournamentData.ratings.reduce(
       (acc, matches) => {
-        const playerMatch = matches.find((match) =>
+        const match = matches.find((match) =>
           match.playersIds.includes(playerId)
         ) as Match;
 
-        return acc + sum(playerMatch.playersVirories);
+        return acc + sum(match.playersVirories); // soma as vitórias dos jogadores para saber quantos jogos teve na match
       },
       0
     );
 
-    const { points } = this.ratingsTable.find(
-      (row) => row.playerId === playerId
-    ) as RatingsTableData;
+    const playerPointsGames = this.tournamentData.ratings.reduce(
+      (acc, matches) => {
+        const match = matches.find((match) =>
+          match.playersIds.includes(playerId)
+        ) as Match;
 
-    const gwp = points / (playerGamesPlayed * 3);
+        const playerMatchIndex = match.playersIds.indexOf(playerId);
+
+        return acc + match.playersVirories[playerMatchIndex] * 3; // quantidade de jogos ganhos multiplicado por 3
+      },
+      0
+    );
+
+    const gwp = playerPointsGames / (playerGamesPlayed * 3);
 
     return gwp > 0.33 ? gwp : 0.33;
   }
