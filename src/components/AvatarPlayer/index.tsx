@@ -1,7 +1,7 @@
 import { Avatar, AvatarProps, Typography } from "@mui/material";
 
 type AvatarPlayerProps = {
-  name: string;
+  player: Player;
 };
 
 // VIDE: https://mui.com/material-ui/react-avatar/#letter-avatars
@@ -34,14 +34,16 @@ function stringAvatar(name: string) {
 }
 
 const AvatarPlayer: React.FC<AvatarPlayerProps & AvatarProps> = ({
-  name,
+  player,
   sx: originalSx,
   ...rest
 }) => {
-  const { sx, children } = stringAvatar(name);
+  const { sx, children } = stringAvatar(player.name);
 
-  return (
-    <Avatar sx={{ ...originalSx, ...sx }} {...rest}>
+  return player.avatarImgUrl ? (
+    <Avatar sx={{ ...originalSx, ...sx }} {...rest} src={player.avatarImgUrl} />
+  ) : (
+    <Avatar sx={{ ...originalSx, ...sx }} {...rest} src={player.avatarImgUrl}>
       <Typography variant="inherit" sx={{ fontSize: 10 }}>
         {children}
       </Typography>

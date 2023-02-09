@@ -3,13 +3,17 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Box,
   Button,
   ButtonGroup,
   Divider,
+  Typography,
 } from "@mui/material";
 import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
+import getPlayerById from "../../utils/getPlayerById";
 import getPlayerNameById from "../../utils/getPlayerNameById";
+import AvatarPlayer from "../AvatarPlayer";
 
 export type HandleConfirmMatchResultImp = (data: {
   ratingIndex: number;
@@ -64,6 +68,24 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
     [tournamentData]
   );
 
+  const firstPlayer = useMemo(
+    () =>
+      getPlayerById({
+        playerId: firstPlayerId,
+        tournamentData,
+      }),
+    [tournamentData]
+  );
+
+  const secondPlayer = useMemo(
+    () =>
+      getPlayerById({
+        playerId: secondPlayerId,
+        tournamentData,
+      }),
+    [tournamentData]
+  );
+
   const firstPlayerVirories =
     tournamentData.ratings[ratingIndex][matchIndex].playersVirories[0];
 
@@ -72,7 +94,7 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
 
   const accordionSummaryText =
     secondPlayerId === "bay"
-      ? `${firstPlayerName} (BAY)`
+      ? `${firstPlayerName} X (BAY)`
       : `${
           matchIndex + 1
         }. ${firstPlayerName} ${firstPlayerVirories} X ${secondPlayerVirories} ${secondPlayerName}`;
@@ -159,7 +181,59 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
       key={firstPlayerId + secondPlayerId}
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        {accordionSummaryText}
+        {/* {accordionSummaryText} */}
+        {secondPlayerId === "bay" ? (
+          <Box sx={{ display: "flex" }}>
+            <span>
+              <AvatarPlayer player={firstPlayer as Player} />
+              <Typography>{firstPlayerName}</Typography>
+            </span>
+            <Typography>
+              {firstPlayerVirories} X {secondPlayerVirories}
+            </Typography>
+            <span>
+              <Typography>{secondPlayerName}</Typography>
+              <AvatarPlayer player={secondPlayer as Player} />
+            </span>
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              width: 1,
+              marginX: 2,
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", width: 1 }}>
+              <AvatarPlayer
+                player={firstPlayer as Player}
+                sx={{ marginRight: 1 }}
+              />
+              <Typography>{firstPlayerName}</Typography>
+            </Box>
+            <Box sx={{ width: 1, textAlign: "center" }}>
+              <Typography>
+                {firstPlayerVirories} X {secondPlayerVirories}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                width: 1,
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Typography>{secondPlayerName}</Typography>
+              <AvatarPlayer
+                player={secondPlayer as Player}
+                sx={{ marginLeft: 1 }}
+              />
+            </Box>
+          </Box>
+        )}
       </AccordionSummary>
       <AccordionDetails sx={{ display: "flex", flexDirection: "column" }}>
         <ButtonGroup

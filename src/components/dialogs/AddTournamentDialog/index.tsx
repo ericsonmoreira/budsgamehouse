@@ -171,12 +171,7 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
               />
             </Grid>
           </Grid>
-          <Grid
-            container
-            spacing={2}
-            sx={{ width: "100%", marginTop: 1 }}
-            component="form"
-          >
+          <Grid container spacing={2} sx={{ width: "100%", marginTop: 1 }}>
             <Grid item xs={12}>
               <Typography variant="body1">Jogadores</Typography>
             </Grid>
@@ -242,12 +237,16 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
             </Grid>
             <Grid item xs={12}>
               <Box sx={{ display: "inline-block", alignItems: "center" }}>
-                {selectedPlayers.map(({ id, name }) => (
+                {selectedPlayers.map(({ id, name, email, avatarImgUrl }) => (
                   <Chip
                     key={id}
                     variant="outlined"
                     label={name}
-                    avatar={<AvatarPlayer name={name} />}
+                    avatar={
+                      <AvatarPlayer
+                        player={{ id, name, email, avatarImgUrl }}
+                      />
+                    }
                     onDelete={() => {
                       setSelectedPlayers((old) =>
                         old.filter((player) => player.id !== id)

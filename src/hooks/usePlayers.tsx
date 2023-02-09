@@ -12,6 +12,7 @@ import { firestore } from "../services/firebaseConfig";
 type AddPlayerData = {
   name: string;
   email: string;
+  avatarImgUrl?: string;
 };
 
 function usePlayers() {
@@ -26,10 +27,11 @@ function usePlayers() {
   });
 
   const { mutate: addPlayer } = useMutation(
-    async ({ name, email }: AddPlayerData) => {
+    async ({ name, email, avatarImgUrl = "" }: AddPlayerData) => {
       const card = await addDoc(tradingCardsCollectionRef, {
         name,
         email,
+        avatarImgUrl,
       });
 
       await queryClient.invalidateQueries("usePlayers");
@@ -39,10 +41,10 @@ function usePlayers() {
   );
 
   const { mutate: updatePlayer } = useMutation(
-    async ({ id, name, email }: Player) => {
+    async ({ id, name, email, avatarImgUrl }: Player) => {
       const cardDoc = doc(firestore, "players", id);
 
-      await updateDoc(cardDoc, { name, email });
+      await updateDoc(cardDoc, { name, email, avatarImgUrl });
 
       await queryClient.invalidateQueries("usePlayers");
     }

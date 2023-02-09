@@ -2,6 +2,7 @@ declare type Player = {
   id: string;
   name: string;
   email: string;
+  avatarImgUrl?: string;
 };
 
 declare type TournamentFormat = "pioneer" | "selado" | "draft";
@@ -18,11 +19,7 @@ declare type Tournament = {
 };
 
 declare type TournamentData = {
-  players: {
-    id: string;
-    name: string;
-    email: string;
-  }[];
+  players: Player[];
   rounds: string;
   name: string;
   format: TournamentFormat;

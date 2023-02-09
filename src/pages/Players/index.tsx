@@ -1,12 +1,10 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
+import DataGridPlaysers from "../../components/datagrids/DataGridPlaysers";
 import AddPlayerDialog from "../../components/dialogs/AddPlayerDialog";
 import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
-import DataGridPlaysers from "../../components/datagrids/DataGridPlaysers";
-import UpdatePlayerDialog, {
-  PlayerUpdateData,
-} from "../../components/dialogs/UpdatePlayerDialog";
+import UpdatePlayerDialog from "../../components/dialogs/UpdatePlayerDialog";
 import usePlayers from "../../hooks/usePlayers";
 
 const Players: React.FC = () => {
@@ -20,14 +18,14 @@ const Players: React.FC = () => {
 
   const [playerToDeleteId, setPlayerToDeleteId] = useState("");
 
-  const [playerToUpdate, setPlayerToUpdate] = useState<PlayerUpdateData>({
+  const [playerToUpdate, setPlayerToUpdate] = useState<Player>({
     id: "",
     name: "",
     email: "",
   });
 
-  const handleUpdate = ({ id, name, email }: PlayerUpdateData) => {
-    setPlayerToUpdate({ id, name, email });
+  const handleUpdate = ({ id, name, email, avatarImgUrl }: Player) => {
+    setPlayerToUpdate({ id, name, email, avatarImgUrl });
     setUpdatePlayerDialogOpen(true);
   };
 
@@ -59,10 +57,11 @@ const Players: React.FC = () => {
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridPlaysers
           loading={isLoading}
-          rows={players?.map(({ id, name, email }) => ({
+          rows={players?.map(({ id, name, email, avatarImgUrl }) => ({
             id,
             name,
             email,
+            avatarImgUrl,
             actions: {
               handleUpdate: () => handleUpdate({ id, name, email }),
               handledelete: () => handledelete(id),

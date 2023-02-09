@@ -65,28 +65,37 @@ const Timer: React.FC<TimerProps> = ({ interval }) => {
       })}
     >
       <Tooltip title="Start">
-        <IconButton
-          onClick={handleStart}
-          disabled={isRunning || isPaused}
-          size="small"
-        >
-          <PlayArrowIcon />
-        </IconButton>
+        <span>
+          <IconButton
+            onClick={handleStart}
+            disabled={isRunning || isPaused}
+            size="small"
+          >
+            <PlayArrowIcon />
+          </IconButton>
+        </span>
       </Tooltip>
       <Tooltip title="Pause">
-        <IconButton size="small" onClick={handlePause} disabled={!isRunning}>
-          <PauseIcon />
-        </IconButton>
+        <span>
+          <IconButton size="small" onClick={handlePause} disabled={!isRunning}>
+            <PauseIcon />
+          </IconButton>
+        </span>
       </Tooltip>
+
       <Tooltip title="Resume">
-        <IconButton size="small" onClick={handleResume} disabled={!isPaused}>
-          <PlayCircleFilledIcon />
-        </IconButton>
+        <span>
+          <IconButton size="small" onClick={handleResume} disabled={!isPaused}>
+            <PlayCircleFilledIcon />
+          </IconButton>
+        </span>
       </Tooltip>
       <Tooltip title="Restart">
-        <IconButton size="small" onClick={handleRestart}>
-          <RestartAltIcon />
-        </IconButton>
+        <span>
+          <IconButton size="small" onClick={handleRestart}>
+            <RestartAltIcon />
+          </IconButton>
+        </span>
       </Tooltip>
       <Box sx={{ marginLeft: 2 }}>
         <Typography variant="h5" color="white">

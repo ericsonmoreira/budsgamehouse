@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import {
   Button,
   Dialog,
@@ -7,31 +8,30 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
+  IconButton,
   Stack,
 } from "@mui/material";
+import { Box } from "@mui/system";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import usePlayers from "../../../hooks/usePlayers";
+import { storage } from "../../../services/firebaseConfig";
 import ControlledTextField from "../../textfields/ControlledTextField";
 import schema from "./schema ";
-
-export type PlayerUpdateData = {
-  id: string;
-  name: string;
-  email: string;
-};
 
 type UpdatePlayerDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  playerToUpdate: PlayerUpdateData;
+  playerToUpdate: Player;
 };
 
 type UpdatePlayerDialogFormData = {
   name: string;
   email: string;
+  image: File[];
 };
 
 const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
@@ -45,13 +45,31 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
 
   const { updatePlayer } = usePlayers();
 
-  const { control, handleSubmit, setValue } =
+  const { control, handleSubmit, setValue, register } =
     useForm<UpdatePlayerDialogFormData>({
       resolver: yupResolver(schema),
     });
 
-  const handleConfirmAction = ({ name, email }: UpdatePlayerDialogFormData) => {
-    updatePlayer({ id, name, email });
+  const handleConfirmAction = async ({
+    name,
+    email,
+    image,
+  }: UpdatePlayerDialogFormData) => {
+    console.log({ name, email, image });
+
+    if (image) {
+      const storageRef = ref(storage, `images/${id}`);
+
+      await uploadBytes(storageRef, image[0]);
+
+      const urlImage = await getDownloadURL(storageRef);
+
+      console.log({ urlImage });
+
+      updatePlayer({ id, name, email, avatarImgUrl: urlImage });
+    } else {
+      updatePlayer({ id, name, email });
+    }
 
     toast.success("Player atualizado com sucesso!");
 
@@ -80,6 +98,17 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
             marginY: 2,
           }}
         >
+          <Box>
+            <IconButton color="primary" component="label">
+              <input
+                {...register("image")}
+                hidden
+                accept="image/*"
+                type="file"
+              />
+              <PhotoCamera />
+            </IconButton>
+          </Box>
           <ControlledTextField
             name="name"
             control={control}

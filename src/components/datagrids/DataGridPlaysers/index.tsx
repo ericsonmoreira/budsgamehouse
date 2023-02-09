@@ -13,6 +13,7 @@ type DataGridPlaysersRowData = {
   id: string;
   name: string;
   email: string;
+  avatarImgUrl?: string;
   actions: {
     handleUpdate(): void;
     handledelete(): void;
@@ -33,7 +34,7 @@ const columns: GridColDef[] = [
     disableColumnMenu: true,
     sortable: false,
     renderCell: ({ row }) => (
-      <AvatarPlayer name={row.name} sx={{ width: 24, height: 24 }} />
+      <AvatarPlayer player={row} sx={{ width: 24, height: 24 }} />
     ),
   },
   { field: "name", headerName: "Nome", flex: 1 },
