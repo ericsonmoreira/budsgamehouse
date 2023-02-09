@@ -246,12 +246,14 @@ const UpdateTournamentDialog: React.FC<
           </Grid>
           <Grid item xs={12}>
             <Box sx={{ display: "inline-block", alignItems: "center" }}>
-              {selectedPlayers.map(({ id, name }) => (
+              {selectedPlayers.map(({ id, name, email, avatarImgUrl }) => (
                 <Chip
                   key={id}
                   variant="outlined"
                   label={name}
-                  avatar={<AvatarPlayer name={name} />}
+                  avatar={
+                    <AvatarPlayer player={{ id, name, email, avatarImgUrl }} />
+                  }
                   onDelete={() => {
                     setSelectedPlayers((old) =>
                       old.filter((player) => player.id !== id)
