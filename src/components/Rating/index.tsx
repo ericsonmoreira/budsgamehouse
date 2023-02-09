@@ -3,8 +3,8 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { toast } from "react-hot-toast";
 import sendTelegramMessage from "../../resources/sendTelegramMessage";
 import generateMathsMessageTelegram from "../../utils/generateMathsMessageTelegram";
-import getPlayerNameById from "../../utils/getPlayerNameById";
 import MatchAccordion, { HandleConfirmMatchResultImp } from "../MatchAccordion";
+import MatchFinished from "../MatchFinished";
 
 type RatingProps = {
   rating: Match[];
@@ -32,7 +32,7 @@ const Rating: React.FC<RatingProps> = ({
   };
 
   return (
-    <Box key={`round-${ratingIndex}`} sx={{ marginY: 2 }}>
+    <Box>
       <Box
         sx={{
           display: "flex",
@@ -52,7 +52,7 @@ const Rating: React.FC<RatingProps> = ({
         )}
       </Box>
       {isPossibleEditRound(ratingIndex) ? (
-        <Box sx={{ marginTop: 1 }}>
+        <Box sx={{ marginY: 1 }}>
           {rating.map((match, matchIndex) => (
             <MatchAccordion
               key={`match-${match.playersIds[0]}-${match.playersIds[1]}`}
@@ -66,28 +66,14 @@ const Rating: React.FC<RatingProps> = ({
           ))}
         </Box>
       ) : (
-        <Stack spacing={0.5}>
+        <Stack spacing={1} sx={{ marginY: 1 }}>
           {rating.map((match, matchIndex) => (
-            <Stack key={match.playersIds.join()}>
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Typography sx={{ width: 200 }}>
-                  {matchIndex + 1}.{" "}
-                  {getPlayerNameById({
-                    playerId: match.playersIds[0],
-                    tournamentData,
-                  })}
-                </Typography>
-                <Typography sx={{ textAlign: "center" }}>
-                  {match.playersVirories[0]} X {match.playersVirories[1]}
-                </Typography>
-                <Typography sx={{ width: 200, textAlign: "right" }}>
-                  {getPlayerNameById({
-                    playerId: match.playersIds[1],
-                    tournamentData,
-                  })}
-                </Typography>
-              </Box>
-            </Stack>
+            <MatchFinished
+              match={match}
+              matchIndex={matchIndex}
+              tournamentData={tournamentData}
+              key={match.playersIds.join()}
+            />
           ))}
         </Stack>
       )}

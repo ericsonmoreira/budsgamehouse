@@ -3,6 +3,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import GroupIcon from "@mui/icons-material/Group";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import {
+  AvatarGroup,
   Backdrop,
   Box,
   Button,
@@ -13,6 +14,7 @@ import {
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import AvatarPlayer from "../../components/AvatarPlayer";
 import ViewRatingsDialog from "../../components/dialogs/ViewRatingsDialog";
 import { HandleConfirmMatchResultImp } from "../../components/MatchAccordion";
 import Rating from "../../components/Rating";
@@ -165,10 +167,11 @@ const TournamentView: React.FC = () => {
   if (!(tournament && tournamentData)) return null;
 
   return (
-    <>
+    <Box>
       <Box
         sx={{
-          margin: 1,
+          padding: 1,
+          width: "100%",
           display: "flex",
           alignItems: "center",
         }}
@@ -176,6 +179,13 @@ const TournamentView: React.FC = () => {
         <Typography variant="h4">{tournament.name}</Typography>
         <Box sx={{ marginLeft: 3 }}>
           <Timer interval={50} />
+        </Box>
+        <Box sx={{ marginLeft: 3 }}>
+          <AvatarGroup max={10}>
+            {tournamentData.players.map((player) => (
+              <AvatarPlayer key={player.id} player={player} />
+            ))}
+          </AvatarGroup>
         </Box>
       </Box>
       <Box sx={{ margin: 1 }}>
@@ -256,7 +266,7 @@ const TournamentView: React.FC = () => {
         round={tournamentData.ratings.length}
         roundTotal={tournament.rounds}
       />
-    </>
+    </Box>
   );
 };
 

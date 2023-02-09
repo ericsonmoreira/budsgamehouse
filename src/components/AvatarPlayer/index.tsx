@@ -1,4 +1,4 @@
-import { Avatar, AvatarProps, Typography } from "@mui/material";
+import { Avatar, AvatarProps, Tooltip, Typography } from "@mui/material";
 
 type AvatarPlayerProps = {
   player: Player;
@@ -40,14 +40,26 @@ const AvatarPlayer: React.FC<AvatarPlayerProps & AvatarProps> = ({
 }) => {
   const { sx, children } = stringAvatar(player.name);
 
-  return player.avatarImgUrl ? (
-    <Avatar sx={{ ...originalSx, ...sx }} {...rest} src={player.avatarImgUrl} />
-  ) : (
-    <Avatar sx={{ ...originalSx, ...sx }} {...rest} src={player.avatarImgUrl}>
-      <Typography variant="inherit" sx={{ fontSize: 10 }}>
-        {children}
-      </Typography>
-    </Avatar>
+  return (
+    <Tooltip title={player.name}>
+      {player.avatarImgUrl ? (
+        <Avatar
+          sx={{ ...originalSx, ...sx }}
+          {...rest}
+          src={player.avatarImgUrl}
+        />
+      ) : (
+        <Avatar
+          sx={{ ...originalSx, ...sx }}
+          {...rest}
+          src={player.avatarImgUrl}
+        >
+          <Typography variant="inherit" sx={{ fontSize: 10 }}>
+            {children}
+          </Typography>
+        </Avatar>
+      )}
+    </Tooltip>
   );
 };
 

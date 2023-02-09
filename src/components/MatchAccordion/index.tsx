@@ -92,13 +92,6 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
   const secondPlayerVirories =
     tournamentData.ratings[ratingIndex][matchIndex].playersVirories[1];
 
-  const accordionSummaryText =
-    secondPlayerId === "bay"
-      ? `${firstPlayerName} X (BAY)`
-      : `${
-          matchIndex + 1
-        }. ${firstPlayerName} ${firstPlayerVirories} X ${secondPlayerVirories} ${secondPlayerName}`;
-
   const handleConfirmMatchResultMap: {
     [T in MatchResult]: {
       [K in MatchDrawResult | MatchVictoryResult]: () => void;
