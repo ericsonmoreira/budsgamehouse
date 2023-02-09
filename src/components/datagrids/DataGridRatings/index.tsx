@@ -59,6 +59,7 @@ const columns: GridColDef[] = [
     field: "player",
     headerName: "Jogador",
     flex: 1,
+    minWidth: 200,
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
@@ -66,7 +67,7 @@ const columns: GridColDef[] = [
   {
     field: "points",
     headerName: "Pontos",
-    width: 100,
+    width: 70,
     align: "center",
     headerAlign: "center",
     sortable: false,
@@ -76,7 +77,7 @@ const columns: GridColDef[] = [
   {
     field: "vde",
     headerName: "VDE",
-    width: 100,
+    width: 70,
     align: "center",
     headerAlign: "center",
     sortable: false,
