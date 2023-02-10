@@ -79,7 +79,6 @@ const MatchAccordionSummary: React.FC<MatchAccordionSummaryProps> = ({
           sx={{
             display: "flex",
             width: 1,
-            marginX: 1,
             alignItems: "center",
             justifyContent: "space-between",
           }}

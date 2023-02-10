@@ -78,7 +78,10 @@ const TournamentView: React.FC = () => {
 
   const isPossibleGenerateAnotherRound = useMemo(() => {
     if (tournament && tournamentData) {
-      return tournamentData.ratings.length < tournament.rounds;
+      return (
+        tournamentData.ratings.length < tournament.rounds &&
+        tournament.state === "started"
+      );
     }
 
     return false;
