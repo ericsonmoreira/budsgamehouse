@@ -1,8 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import {
-  Autocomplete,
   Box,
   Button,
   Chip,
@@ -13,16 +11,14 @@ import {
   DialogProps,
   DialogTitle,
   Grid,
-  IconButton,
   MenuItem,
-  TextField,
   Typography,
 } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import usePlayers from "../../../hooks/usePlayers";
 import useTournaments from "../../../hooks/useTournaments";
+import AutocompletePlayers from "../../AutocompletePlayers";
 import AvatarPlayer from "../../AvatarPlayer";
 import ControlledTextField from "../../textfields/ControlledTextField";
 import schema from "./schema ";
@@ -71,20 +67,7 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
 
   const { addTournament } = useTournaments();
 
-  const { players } = usePlayers();
-
-  const [activePlayer, setActivePlayer] = useState<Player | null>();
-
-  const [autocompleteInputValue, setAutocompleteInputValue] =
-    useState<string>("");
-
   const [selectedPlayers, setSelectedPlayers] = useState<Player[]>([]);
-
-  const selectablePlayers = useMemo<Player[]>(() => {
-    if (!players) return [];
-
-    return players.filter((player) => !selectedPlayers.includes(player));
-  }, [selectedPlayers, players]);
 
   const handleConfirmAction = async ({
     name,
@@ -176,50 +159,10 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
               <Typography variant="body1">Jogadores</Typography>
             </Grid>
             <Grid item xs={12}>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <Autocomplete
-                  options={selectablePlayers}
-                  value={activePlayer || null}
-                  onChange={(_, newValue) => setActivePlayer(newValue)}
-                  inputValue={autocompleteInputValue}
-                  onInputChange={(_, newValue) =>
-                    setAutocompleteInputValue(newValue)
-                  }
-                  isOptionEqualToValue={(option, value) =>
-                    option.id === value.id
-                  }
-                  getOptionLabel={(option) => option.name}
-                  fullWidth
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      ref={null}
-                      size="small"
-                      label="Jogadores"
-                    />
-                  )}
-                />
-                <IconButton
-                  disabled={!activePlayer}
-                  onClick={() => {
-                    setSelectedPlayers((old) => [
-                      ...old,
-                      activePlayer as Player,
-                    ]);
-                    setActivePlayer(null);
-                    setAutocompleteInputValue("");
-                  }}
-                  sx={{ marginLeft: 1 }}
-                  color="secondary"
-                >
-                  <PersonAddIcon />
-                </IconButton>
-              </Box>
+              <AutocompletePlayers
+                selectedPlayers={selectedPlayers}
+                setSelectedPlayers={setSelectedPlayers}
+              />
             </Grid>
             <Grid item xs={12}>
               <Box
