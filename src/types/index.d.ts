@@ -20,7 +20,7 @@ declare type Tournament = {
 
 declare type TournamentData = {
   players: Player[];
-  rounds: string;
+  rounds: number;
   name: string;
   format: TournamentFormat;
   ratings: Match[][];

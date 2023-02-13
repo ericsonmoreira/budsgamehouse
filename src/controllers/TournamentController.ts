@@ -1,4 +1,4 @@
-import { groupBy, orderBy, shuffle } from "lodash";
+import { groupBy, shuffle } from "lodash";
 import RatingsController, { RatingsTableData } from "./RatingsController";
 
 type PlayerWithPoints = Player & {
@@ -91,24 +91,21 @@ class TournamentController {
   }
 
   // verifica se dois jodadores já se enfrentaram antes
-  private playersHaveFacedEachOther(
+  public playersHaveFacedEachOther(
     firtPlayerId: string,
     secondPlayerId: string
   ): boolean {
-    for (
-      let index = this.tournamentData.ratings.length - 1; // começa no penultimo
-      index >= 0;
-      index--
-    ) {
-      this.tournamentData.ratings[index].forEach((match) => {
+    for (let x = this.tournamentData.ratings.length - 1; x >= 0; x--) {
+      for (let y = 0; y < this.tournamentData.ratings[x].length; y++) {
         if (
-          match.playersIds.includes(firtPlayerId) &&
-          match.playersIds.includes(secondPlayerId)
+          this.tournamentData.ratings[x][y].playersIds.includes(firtPlayerId) &&
+          this.tournamentData.ratings[x][y].playersIds.includes(secondPlayerId)
         ) {
           return true;
         }
-      });
+      }
     }
+
     return false;
   }
 }
