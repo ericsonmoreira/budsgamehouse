@@ -57,9 +57,6 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
 
   const { card } = useCardByName(cardNameSelected);
 
-  // TODO: acho que nem precisavamos usar o useForm pra salvar esses dados
-  // Mas possivelmente veveremos fazer um tratamento antes de enviar os dados
-  // E possivelmente deve ficar mais fácil com ele usando validação com o yup
   const handleConfirmAction = () => {
     try {
       if (card) {
@@ -97,25 +94,39 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{subTitle}</DialogContentText>
-        <TextField
-          variant="standard"
-          fullWidth
-          sx={{ marginY: 1 }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                {isLoading && <CircularProgress size={16} />}
-              </InputAdornment>
-            ),
-          }}
-          {...register("searchTerm")}
-        />
-        <Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <TextField
+            sx={{ marginRight: 1 }}
+            variant="outlined"
+            size="small"
+            fullWidth
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  {isLoading && <CircularProgress size={16} />}
+                </InputAdornment>
+              ),
+            }}
+            {...register("searchTerm")}
+          />
+          <TextField
+            type="number"
+            size="small"
+            label="Quantidade"
+            variant="outlined"
+            value={amount}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setAmount(e.target.value)
+            }
+            inputProps={{ min: 1 }}
+          />
+        </Box>
+        <Box sx={{ margin: 1 }}>
           {cardNames?.map((name) => (
             <Chip
               sx={{ marginLeft: 0.5, marginBottom: 0.5 }}
@@ -127,17 +138,15 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
             />
           ))}
         </Box>
-        <ImgCard card={card} isLoading={isLoading} />
-        <TextField
-          type="number"
-          label="Quantidade"
-          variant="outlined"
-          value={amount}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setAmount(e.target.value)
-          }
-          inputProps={{ min: 1 }}
-        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <ImgCard card={card} isLoading={isLoading} />
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancelAction}>Cancelar</Button>
