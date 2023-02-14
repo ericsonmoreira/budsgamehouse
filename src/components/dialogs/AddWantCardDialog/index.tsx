@@ -43,7 +43,7 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
 
   const [cardNameSelected, setCardNameSelected] = useState<string>("");
 
-  const [amount, setAmount] = useState("0");
+  const [amount, setAmount] = useState("1");
 
   const { addWantedCard } = useWantedCards();
 

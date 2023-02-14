@@ -40,7 +40,7 @@ const AddTradingCardDialog: React.FC<
 
   const [cardNameSelected, setCardNameSelected] = useState<string>("");
 
-  const [amount, setAmount] = useState("0");
+  const [amount, setAmount] = useState("1");
 
   const { addTradingCard } = useTradingCards();
 
@@ -91,25 +91,39 @@ const AddTradingCardDialog: React.FC<
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{subTitle}</DialogContentText>
-        <TextField
-          variant="standard"
-          fullWidth
-          sx={{ marginY: 1 }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                {isLoading && <CircularProgress size={16} />}
-              </InputAdornment>
-            ),
-          }}
-          {...register("searchTerm")}
-        />
-        <Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <TextField
+            sx={{ marginRight: 1 }}
+            variant="outlined"
+            fullWidth
+            size="small"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  {isLoading && <CircularProgress size={16} />}
+                </InputAdornment>
+              ),
+            }}
+            {...register("searchTerm")}
+          />
+          <TextField
+            type="number"
+            size="small"
+            label="Quantidade"
+            variant="outlined"
+            value={amount}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setAmount(e.target.value)
+            }
+            inputProps={{ min: 1 }}
+          />
+        </Box>
+        <Box sx={{ margin: 1 }}>
           {cardNames?.map((name) => (
             <Chip
               sx={{ marginLeft: 0.5, marginBottom: 0.5 }}
@@ -121,17 +135,15 @@ const AddTradingCardDialog: React.FC<
             />
           ))}
         </Box>
-        <ImgCard card={card} isLoading={isLoading} />
-        <TextField
-          type="number"
-          label="Quantidade"
-          variant="outlined"
-          value={amount}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setAmount(e.target.value)
-          }
-          inputProps={{ min: 1 }}
-        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <ImgCard card={card} isLoading={isLoading} />
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancelAction}>Cancelar</Button>
