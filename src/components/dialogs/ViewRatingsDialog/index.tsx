@@ -9,7 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import { toBlob } from "html-to-image";
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import RatingsController from "../../../controllers/RatingsController";
 import sendTelegramImg from "../../../resources/sendTelegramImg";
 import getPlayerNameById from "../../../utils/getPlayerNameById";
@@ -39,6 +40,8 @@ const ViewRatingsDialog: React.FC<ViewRatingsDialogProps & DialogProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const ratingsTableData = useMemo<DataGridRatingsRowData[]>(() => {
     const ratingsController = new RatingsController(tournamentData);
 
@@ -54,11 +57,21 @@ const ViewRatingsDialog: React.FC<ViewRatingsDialogProps & DialogProps> = ({
 
   const handleSendRatingsToTelegramChat = useCallback(async () => {
     if (ref.current) {
-      const blob = await toBlob(ref.current, { cacheBust: true });
+      try {
+        setIsLoading(true);
 
-      sendTelegramImg(blob as Blob);
+        const blob = await toBlob(ref.current, { cacheBust: true });
+
+        await sendTelegramImg(blob as Blob);
+
+        toast.success("Mensagem enviada com sucesso!");
+      } catch (error) {
+        toast.error("Algo inesperado aconteceu!");
+      } finally {
+        setIsLoading(false);
+      }
     }
-  }, [tournamentData, ref]);
+  }, [tournamentData, ref.current]);
 
   return (
     <Dialog fullWidth maxWidth="md" {...rest}>
@@ -76,6 +89,7 @@ const ViewRatingsDialog: React.FC<ViewRatingsDialogProps & DialogProps> = ({
           <Box>
             <Button
               variant="outlined"
+              disabled={isLoading}
               endIcon={<TelegramIcon />}
               onClick={handleSendRatingsToTelegramChat}
             >

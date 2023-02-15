@@ -1,8 +1,9 @@
 import TelegramIcon from "@mui/icons-material/Telegram";
 import { Box, Button, Stack, Typography } from "@mui/material";
+import { toBlob } from "html-to-image";
+import { useCallback, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import sendTelegramMessage from "../../resources/sendTelegramMessage";
-import generateMathsMessageTelegram from "../../utils/generateMathsMessageTelegram";
+import sendTelegramImg from "../../resources/sendTelegramImg";
 import MatchAccordion, { HandleConfirmMatchResultImp } from "../MatchAccordion";
 import MatchFinished from "../MatchFinished";
 
@@ -23,16 +24,30 @@ const Rating: React.FC<RatingProps> = ({
   handleConfirmMatchResult,
   isPossibleEditRound,
 }) => {
-  const handleSendMatchsToTelegramChat = async () => {
-    await sendTelegramMessage(
-      generateMathsMessageTelegram({ matchs: rating, tournamentData })
-    );
+  const ref = useRef<HTMLDivElement>(null);
 
-    toast.success("Mensagem enviada com sucesso!");
-  };
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSendMatchsToTelegramChat = useCallback(async () => {
+    if (ref.current) {
+      try {
+        setIsLoading(true);
+
+        const blob = await toBlob(ref.current, { cacheBust: true });
+
+        await sendTelegramImg(blob as Blob);
+
+        toast.success("Mensagem enviada com sucesso!");
+      } catch (error) {
+        toast.error("Algo inesperado aconteceu!");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  }, [ref.current]);
 
   return (
-    <Box>
+    <Box ref={ref}>
       <Box
         sx={{
           display: "flex",
@@ -43,6 +58,7 @@ const Rating: React.FC<RatingProps> = ({
         <Typography variant="h6">Rodada {ratingIndex + 1}</Typography>
         {isPossibleEditRound(ratingIndex) && (
           <Button
+            disabled={isLoading}
             variant="outlined"
             endIcon={<TelegramIcon />}
             onClick={handleSendMatchsToTelegramChat}
