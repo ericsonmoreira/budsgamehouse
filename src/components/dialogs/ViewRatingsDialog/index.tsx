@@ -8,11 +8,10 @@ import {
   DialogTitle,
   Typography,
 } from "@mui/material";
-import { useCallback, useMemo } from "react";
-import { toast } from "react-hot-toast";
+import { toBlob } from "html-to-image";
+import { useCallback, useMemo, useRef } from "react";
 import RatingsController from "../../../controllers/RatingsController";
-import sendTelegramMessage from "../../../resources/sendTelegramMessage";
-import generateRatingsMessageTelegram from "../../../utils/generateRatingsMessageTelegram";
+import sendTelegramImg from "../../../resources/sendTelegramImg";
 import getPlayerNameById from "../../../utils/getPlayerNameById";
 import DataGridRatings, {
   DataGridRatingsRowData,
@@ -38,6 +37,8 @@ const ViewRatingsDialog: React.FC<ViewRatingsDialogProps & DialogProps> = ({
   roundTotal,
   ...rest
 }) => {
+  const ref = useRef<HTMLDivElement>(null);
+
   const ratingsTableData = useMemo<DataGridRatingsRowData[]>(() => {
     const ratingsController = new RatingsController(tournamentData);
 
@@ -52,10 +53,12 @@ const ViewRatingsDialog: React.FC<ViewRatingsDialogProps & DialogProps> = ({
   }, [tournamentData]);
 
   const handleSendRatingsToTelegramChat = useCallback(async () => {
-    await sendTelegramMessage(generateRatingsMessageTelegram(tournamentData));
+    if (ref.current) {
+      const blob = await toBlob(ref.current, { cacheBust: true });
 
-    toast.success("Mensagem enviada com sucesso!");
-  }, [tournamentData]);
+      sendTelegramImg(blob as Blob);
+    }
+  }, [tournamentData, ref]);
 
   return (
     <Dialog fullWidth maxWidth="md" {...rest}>
@@ -64,20 +67,23 @@ const ViewRatingsDialog: React.FC<ViewRatingsDialogProps & DialogProps> = ({
         <Box
           sx={{
             display: "flex",
+            marginBottom: 1,
             alignItems: "center",
             justifyContent: "space-between",
           }}
         >
           <Typography>{subTitle}</Typography>
-          <Button
-            variant="outlined"
-            endIcon={<TelegramIcon />}
-            onClick={handleSendRatingsToTelegramChat}
-          >
-            Enviar Ratings
-          </Button>
+          <Box>
+            <Button
+              variant="outlined"
+              endIcon={<TelegramIcon />}
+              onClick={handleSendRatingsToTelegramChat}
+            >
+              Enviar Ratings
+            </Button>
+          </Box>
         </Box>
-        <Box sx={{ height: "60vh", marginTop: 1 }}>
+        <Box sx={{ height: "60vh" }} ref={ref}>
           <DataGridRatings
             rows={ratingsTableData}
             title={title}
