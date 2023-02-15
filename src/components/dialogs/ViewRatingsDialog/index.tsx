@@ -12,7 +12,7 @@ import { toBlob } from "html-to-image";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import RatingsController from "../../../controllers/RatingsController";
-import sendTelegramImg from "../../../resources/sendTelegramImg";
+import sendPhotoTelegram from "../../../resources/sendPhotoTelegram";
 import getPlayerNameById from "../../../utils/getPlayerNameById";
 import DataGridRatings, {
   DataGridRatingsRowData,
@@ -55,14 +55,14 @@ const ViewRatingsDialog: React.FC<ViewRatingsDialogProps & DialogProps> = ({
     }));
   }, [tournamentData]);
 
-  const handleSendRatingsToTelegramChat = useCallback(async () => {
+  const handleSendPhotoTelegram = useCallback(async () => {
     if (ref.current) {
       try {
         setIsLoading(true);
 
         const blob = await toBlob(ref.current, { cacheBust: true });
 
-        await sendTelegramImg(blob as Blob);
+        await sendPhotoTelegram(blob as Blob);
 
         toast.success("Mensagem enviada com sucesso!");
       } catch (error) {
@@ -91,7 +91,7 @@ const ViewRatingsDialog: React.FC<ViewRatingsDialogProps & DialogProps> = ({
               variant="outlined"
               disabled={isLoading}
               endIcon={<TelegramIcon />}
-              onClick={handleSendRatingsToTelegramChat}
+              onClick={handleSendPhotoTelegram}
             >
               Enviar Ratings
             </Button>

@@ -3,7 +3,7 @@ import telegramApi from "../api/telegramApi";
 const telegramBotToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
 const telegramChatIdToNotify = import.meta.env.VITE_TELEGRAM_CHAT_ID_TO_NOTIFY;
 
-const sendTelegramImg = (blob: Blob) => {
+const sendPhotoTelegram = (blob: Blob) => {
   const formData = new FormData();
 
   formData.append("photo", blob, "photo");
@@ -17,4 +17,4 @@ const sendTelegramImg = (blob: Blob) => {
   });
 };
 
-export default sendTelegramImg;
+export default sendPhotoTelegram;

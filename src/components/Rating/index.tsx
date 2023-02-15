@@ -3,7 +3,7 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { toBlob } from "html-to-image";
 import { useCallback, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import sendTelegramImg from "../../resources/sendTelegramImg";
+import sendPhotoTelegram from "../../resources/sendPhotoTelegram";
 import MatchAccordion, { HandleConfirmMatchResultImp } from "../MatchAccordion";
 import MatchFinished from "../MatchFinished";
 
@@ -28,14 +28,14 @@ const Rating: React.FC<RatingProps> = ({
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSendMatchsToTelegramChat = useCallback(async () => {
+  const handleSendPhotoTelegram = useCallback(async () => {
     if (ref.current) {
       try {
         setIsLoading(true);
 
         const blob = await toBlob(ref.current, { cacheBust: true });
 
-        await sendTelegramImg(blob as Blob);
+        await sendPhotoTelegram(blob as Blob);
 
         toast.success("Mensagem enviada com sucesso!");
       } catch (error) {
@@ -61,7 +61,7 @@ const Rating: React.FC<RatingProps> = ({
             disabled={isLoading}
             variant="outlined"
             endIcon={<TelegramIcon />}
-            onClick={handleSendMatchsToTelegramChat}
+            onClick={handleSendPhotoTelegram}
           >
             Enviar
           </Button>
