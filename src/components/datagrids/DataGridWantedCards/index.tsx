@@ -1,12 +1,11 @@
-import EditIcon from "@mui/icons-material/Edit";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import { Box, IconButton, Tooltip, Chip } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
   GridRenderCellParams,
   GridToolbar,
 } from "@mui/x-data-grid";
+import ActionsCell from "./ActionsCell";
+import ImageCell from "./ImageCell";
 import PriorityCell from "./PriorityCell";
 
 type DataGridWantedCardsRowData = {
@@ -26,17 +25,6 @@ type DataGridWantedCardsProps = {
   loading?: boolean;
 };
 
-const getPriorityMapLabel = (value: WantedCardPriority) => {
-  const priorityMapLabel: Record<WantedCardPriority | "default", string> = {
-    high: "Alto",
-    medium: "Médio",
-    low: "Baixo",
-    default: "indefinido",
-  };
-
-  return priorityMapLabel[value] || priorityMapLabel["default"];
-};
-
 const columns: GridColDef[] = [
   {
     field: "imgUrl",
@@ -44,21 +32,13 @@ const columns: GridColDef[] = [
     width: 100,
     disableColumnMenu: true,
     sortable: false,
-    renderCell: ({ value }) => (
-      <Tooltip
-        arrow
-        placement="right"
-        PopperProps={{ sx: { backgroundColor: "none" } }}
-        title={<img src={value} style={{ height: 300, marginTop: 5 }} />}
-      >
-        <img src={value} style={{ height: "2rem" }} />
-      </Tooltip>
-    ),
+    renderCell: ({ value }) => <ImageCell value={value} />,
   },
   { field: "name", headerName: "Nome", flex: 1 },
   {
     field: "priority",
     headerName: "Prioridade",
+    headerAlign: "center",
     width: 150,
     align: "center",
     renderCell: ({ value }) => <PriorityCell value={value} />,
@@ -83,18 +63,10 @@ const columns: GridColDef[] = [
         handledelete(): void;
       }>
     ) => (
-      <Box>
-        <Tooltip title="Deletar">
-          <IconButton color="error" onClick={params.value?.handledelete}>
-            <RemoveCircleIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Editar">
-          <IconButton color="info" onClick={params.value?.handleUpdate}>
-            <EditIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-      </Box>
+      <ActionsCell
+        handleUpdate={params.value?.handleUpdate}
+        handledelete={params.value?.handledelete}
+      />
     ),
   },
 ];

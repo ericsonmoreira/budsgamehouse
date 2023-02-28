@@ -1,6 +1,5 @@
 import SearchIcon from "@mui/icons-material/Search";
 import {
-  Box,
   Button,
   Chip,
   CircularProgress,
@@ -10,7 +9,9 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
+  Grid,
   InputAdornment,
+  MenuItem,
   TextField,
 } from "@mui/material";
 import { useState } from "react";
@@ -32,6 +33,12 @@ type AddWantCardDialogFormData = {
   searchTerm: string;
 };
 
+const priorityMapValues: { value: WantedCardPriority; label: string }[] = [
+  { value: "high", label: "Alto" },
+  { value: "medium", label: "Médio" },
+  { value: "low", label: "Baixo" },
+];
+
 const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
   title,
   subTitle,
@@ -44,6 +51,8 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
   const [cardNameSelected, setCardNameSelected] = useState<string>("");
 
   const [amount, setAmount] = useState("1");
+
+  const [priority, setPriority] = useState<WantedCardPriority>("medium");
 
   const { addWantedCard } = useWantedCards();
 
@@ -69,6 +78,7 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
           name: card.name,
           amount: Number(amount),
           imgUrl,
+          priority,
         });
 
         toast.success("Card adicionado com sucesso");
@@ -79,6 +89,7 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
       resetField("searchTerm");
       setCardNameSelected("");
       setAmount("1");
+      setPriority("medium");
       setOpen(false);
     }
   };
@@ -94,59 +105,84 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{subTitle}</DialogContentText>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <TextField
-            sx={{ marginRight: 1 }}
-            variant="outlined"
-            size="small"
-            fullWidth
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  {isLoading && <CircularProgress size={16} />}
-                </InputAdornment>
-              ),
-            }}
-            {...register("searchTerm")}
-          />
-          <TextField
-            type="number"
-            size="small"
-            label="Quantidade"
-            variant="outlined"
-            value={amount}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setAmount(e.target.value)
-            }
-            inputProps={{ min: 1 }}
-          />
-        </Box>
-        <Box sx={{ margin: 1 }}>
-          {cardNames?.map((name) => (
-            <Chip
-              sx={{ marginLeft: 0.5, marginBottom: 0.5 }}
-              key={name}
-              label={name}
-              onClick={() => {
-                setCardNameSelected(name);
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              size="small"
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {isLoading && <CircularProgress size={16} />}
+                  </InputAdornment>
+                ),
               }}
+              {...register("searchTerm")}
             />
-          ))}
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <ImgCard card={card} isLoading={isLoading} />
-        </Box>
+          </Grid>
+          <Grid item xs={8}>
+            <TextField
+              fullWidth
+              select
+              size="small"
+              label="Prioridade"
+              variant="outlined"
+              value={priority}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPriority(e.target.value as WantedCardPriority)
+              }
+            >
+              {priorityMapValues.map(({ value, label }) => (
+                <MenuItem key={value} value={value}>
+                  {label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          <Grid item xs={4}>
+            <TextField
+              fullWidth
+              type="number"
+              size="small"
+              label="Quantidade"
+              variant="outlined"
+              value={amount}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setAmount(e.target.value)
+              }
+              inputProps={{ min: 1 }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            {cardNames?.map((name) => (
+              <Chip
+                sx={{ marginLeft: 0.5, marginBottom: 0.5 }}
+                key={name}
+                label={name}
+                onClick={() => {
+                  setCardNameSelected(name);
+                }}
+              />
+            ))}
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            <ImgCard card={card} isLoading={isLoading} />
+          </Grid>
+        </Grid>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancelAction}>Cancelar</Button>
