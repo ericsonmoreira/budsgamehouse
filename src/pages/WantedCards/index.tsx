@@ -1,7 +1,7 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
-import DataGridCards from "../../components/datagrids/DataGridCards";
+import DataGridWantedCards from "../../components/datagrids/DataGridWantedCards";
 import AddWantCardDialog from "../../components/dialogs/AddWantCardDialog";
 import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
 import UpdateWantedCardDialog, {
@@ -25,10 +25,17 @@ const WantedCards: React.FC = () => {
       name: "",
       amount: "",
       imgUrl: "",
+      priority: "medium",
     });
 
-  const handleUpdate = ({ id, name, amount, imgUrl }: WantedCardUpdateData) => {
-    setWantedCardToUpdate({ id, name, amount, imgUrl });
+  const handleUpdate = ({
+    id,
+    name,
+    amount,
+    imgUrl,
+    priority,
+  }: WantedCardUpdateData) => {
+    setWantedCardToUpdate({ id, name, amount, imgUrl, priority });
     setUpdateWantedCardDialogOpen(true);
   };
 
@@ -62,18 +69,25 @@ const WantedCards: React.FC = () => {
         </Tooltip>
       </Box>
       <Box sx={{ margin: 1, height: 1 }}>
-        <DataGridCards
+        <DataGridWantedCards
           loading={isLoading}
-          rows={wantedCards?.map(({ id, name, amount, imgUrl }) => ({
+          rows={wantedCards?.map(({ id, name, amount, imgUrl, priority }) => ({
             id,
             imgUrl,
             name,
             amount,
             actions: {
               handleUpdate: () =>
-                handleUpdate({ id, name, amount: String(amount), imgUrl }),
+                handleUpdate({
+                  id,
+                  name,
+                  amount: String(amount),
+                  imgUrl,
+                  priority,
+                }),
               handledelete: () => handledelete(id),
             },
+            priority,
           }))}
         />
       </Box>

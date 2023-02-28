@@ -9,13 +9,6 @@ import {
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { firestore } from "../services/firebaseConfig";
 
-type UseWantedCardsData = {
-  id: string;
-  imgUrl: string;
-  name: string;
-  amount: number;
-};
-
 type AddWantedCardData = {
   imgUrl: string;
   name: string;
@@ -31,9 +24,7 @@ function useWantedCards() {
     const { docs } = await getDocs(wantedCardsCollectionRef);
 
     return [
-      ...docs.map(
-        (doc) => ({ id: doc.id, ...doc.data() } as UseWantedCardsData)
-      ),
+      ...docs.map((doc) => ({ id: doc.id, ...doc.data() } as WantedCard)),
     ];
   });
 
@@ -52,10 +43,10 @@ function useWantedCards() {
   );
 
   const { mutate: updateWantedCard } = useMutation(
-    async ({ id, name, amount, imgUrl }: UseWantedCardsData) => {
+    async ({ id, name, amount, imgUrl, priority }: WantedCard) => {
       const cardDoc = doc(firestore, "wanted-cards", id);
 
-      await updateDoc(cardDoc, { name, amount, imgUrl });
+      await updateDoc(cardDoc, { name, amount, imgUrl, priority });
 
       await queryClient.invalidateQueries("useWantedCards");
     }

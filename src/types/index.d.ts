@@ -31,6 +31,16 @@ declare type Match = {
   playersVirories: number[];
 };
 
+declare type WantedCard = {
+  id: string;
+  imgUrl: string;
+  name: string;
+  amount: number;
+  priority: WantedCardPriority;
+};
+
+declare type WantedCardPriority = "high" | "medium" | "low";
+
 declare type MatchResult = "first-player-win" | "second-player-win" | "draw";
 
 declare type MatchVictoryResult = "one-zero" | "two-zero" | "two-one";

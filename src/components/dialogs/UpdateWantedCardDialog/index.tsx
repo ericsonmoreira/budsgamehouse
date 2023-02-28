@@ -9,20 +9,27 @@ import {
   DialogProps,
   DialogTitle,
   Stack,
+  MenuItem,
 } from "@mui/material";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import useTradingCards from "../../../hooks/useTradingCards";
 import useWantedCards from "../../../hooks/useWantedCards";
 import ControlledTextField from "../../textfields/ControlledTextField";
 import schema from "./schema ";
+
+const priorityMapValues: { value: WantedCardPriority; label: string }[] = [
+  { value: "high", label: "Alto" },
+  { value: "medium", label: "Médio" },
+  { value: "low", label: "Baixo" },
+];
 
 export type WantedCardUpdateData = {
   id: string;
   name: string;
   imgUrl: string;
   amount: string;
+  priority: WantedCardPriority;
 };
 
 type UpdateWantedCardDialogProps = {
@@ -36,12 +43,13 @@ type UpdateWantedCardDialogFormData = {
   name: string;
   imgUrl: string;
   amount: string;
+  priority: WantedCardPriority;
 };
 
 const UpdateWantedCardDialog: React.FC<
   UpdateWantedCardDialogProps & DialogProps
 > = ({ title, subTitle, setOpen, tradingCardToUpdate, ...rest }) => {
-  const { id, name, imgUrl, amount } = tradingCardToUpdate;
+  const { id, name, imgUrl, amount, priority } = tradingCardToUpdate;
 
   const { updateWantedCard } = useWantedCards();
 
@@ -54,8 +62,9 @@ const UpdateWantedCardDialog: React.FC<
     name,
     amount,
     imgUrl,
+    priority,
   }: UpdateWantedCardDialogFormData) => {
-    updateWantedCard({ id, name, amount: Number(amount), imgUrl });
+    updateWantedCard({ id, name, amount: Number(amount), imgUrl, priority });
 
     toast.success("Card Atualizado com sucesso!");
 
@@ -70,6 +79,7 @@ const UpdateWantedCardDialog: React.FC<
     setValue("name", name);
     setValue("amount", amount);
     setValue("imgUrl", imgUrl);
+    setValue("priority", priority);
   }, [tradingCardToUpdate]);
 
   return (
@@ -111,6 +121,21 @@ const UpdateWantedCardDialog: React.FC<
                 label: "Quantidade",
                 type: "number",
                 InputProps: { inputProps: { min: 1 } },
+              }}
+            />
+            <ControlledTextField
+              name="priority"
+              control={control}
+              textFieldProps={{
+                select: true,
+                children: priorityMapValues.map(({ value, label }) => (
+                  <MenuItem key={value} value={value}>
+                    {label}
+                  </MenuItem>
+                )),
+                variant: "outlined",
+                size: "small",
+                label: "Prioridade",
               }}
             />
           </Stack>
