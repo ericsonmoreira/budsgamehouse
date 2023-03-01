@@ -1,12 +1,26 @@
 import {
   DataGrid,
   GridColDef,
+  GridComparatorFn,
   GridRenderCellParams,
   GridToolbar,
 } from "@mui/x-data-grid";
-import ActionsCell from "./ActionsCell";
-import ImageCell from "./ImageCell";
-import PriorityCell from "./PriorityCell";
+import ActionsCell from "../../cells/ActionsCell";
+import ImageCell from "../../cells/ImageCell";
+import PriorityCell from "../../cells/PriorityCell";
+
+const priorityGridComparatorFn: GridComparatorFn<WantedCardPriority> = (
+  a,
+  b
+): number => {
+  const priorityValues: Record<WantedCardPriority, number> = {
+    high: 3,
+    medium: 2,
+    low: 1,
+  };
+
+  return priorityValues[a] - priorityValues[b];
+};
 
 type DataGridWantedCardsRowData = {
   id: string;
@@ -42,6 +56,7 @@ const columns: GridColDef[] = [
     width: 150,
     align: "center",
     renderCell: ({ value }) => <PriorityCell value={value} />,
+    sortComparator: priorityGridComparatorFn,
   },
   {
     field: "amount",
@@ -80,6 +95,11 @@ const DataGridWantedCards: React.FC<DataGridWantedCardsProps> = ({
       rows={rows}
       density="compact"
       columns={columns}
+      initialState={{
+        sorting: {
+          sortModel: [{ field: "priority", sort: "desc" }], // Na versão gratúita não temos seleçao multipla. Só é possível classificar um campo por vez.
+        },
+      }}
       disableColumnMenu={false}
       components={{ Toolbar: GridToolbar }}
       disableSelectionOnClick

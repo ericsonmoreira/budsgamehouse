@@ -1,15 +1,9 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import {
-  Box,
-  CircularProgress,
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
+import DataGridTradingCards from "../../components/datagrids/DataGridTradingCards";
 import AddTradingCardDialog from "../../components/dialogs/AddTradingCardDialog";
 import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
-import DataGridTradingCards from "../../components/datagrids/DataGridTradingCards";
 import UpdateTradingCardDialog, {
   TradingCardUpdateData,
 } from "../../components/dialogs/UpdateTradingCardDialog";
@@ -85,7 +79,7 @@ const TradingCards: React.FC = () => {
             amount,
             actions: {
               handleUpdate: () =>
-                handleUpdate({ id, name, amount: String(amount), imgUrl }), // TODO: ajustart pra abrir um Dialog para editar
+                handleUpdate({ id, name, amount: String(amount), imgUrl }),
               handledelete: () => handledelete(id),
             },
           }))}

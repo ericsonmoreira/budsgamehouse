@@ -7,6 +7,8 @@ import {
   GridRenderCellParams,
   GridToolbar,
 } from "@mui/x-data-grid";
+import ActionsCell from "../../cells/ActionsCell";
+import ImageCell from "../../cells/ImageCell";
 
 type DataGridTradingCardsRowData = {
   id: string;
@@ -31,16 +33,7 @@ const columns: GridColDef[] = [
     width: 100,
     disableColumnMenu: true,
     sortable: false,
-    renderCell: ({ value }) => (
-      <Tooltip
-        arrow
-        placement="right"
-        PopperProps={{ sx: { backgroundColor: "none" } }}
-        title={<img src={value} style={{ height: 300, marginTop: 5 }} />}
-      >
-        <img src={value} style={{ height: "2rem" }} />
-      </Tooltip>
-    ),
+    renderCell: ({ value }) => <ImageCell value={value} />,
   },
   { field: "name", headerName: "Nome", flex: 1 },
   { field: "amount", headerName: "Quantidade", width: 150, align: "right" },
@@ -57,18 +50,10 @@ const columns: GridColDef[] = [
         handledelete(): void;
       }>
     ) => (
-      <Box>
-        <Tooltip title="Deletar">
-          <IconButton color="error" onClick={params.value?.handledelete}>
-            <RemoveCircleIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Editar">
-          <IconButton color="info" onClick={params.value?.handleUpdate}>
-            <EditIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-      </Box>
+      <ActionsCell
+        handleUpdate={params.value?.handleUpdate}
+        handledelete={params.value?.handledelete}
+      />
     ),
   },
 ];
