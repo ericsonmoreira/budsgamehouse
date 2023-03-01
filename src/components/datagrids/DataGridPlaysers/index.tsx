@@ -1,6 +1,3 @@
-import EditIcon from "@mui/icons-material/Edit";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import { Box, IconButton, Tooltip } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
@@ -8,6 +5,7 @@ import {
   GridToolbar,
 } from "@mui/x-data-grid";
 import AvatarPlayer from "../../AvatarPlayer";
+import ActionsCell from "../../cells/ActionsCell";
 
 type DataGridPlaysersRowData = {
   id: string;
@@ -52,18 +50,10 @@ const columns: GridColDef[] = [
         handledelete(): void;
       }>
     ) => (
-      <Box>
-        <Tooltip title="Deletar">
-          <IconButton color="error" onClick={params.value?.handledelete}>
-            <RemoveCircleIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Editar">
-          <IconButton color="info" onClick={params.value?.handleUpdate}>
-            <EditIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-      </Box>
+      <ActionsCell
+        handleUpdate={params.value?.handleUpdate}
+        handledelete={params.value?.handledelete}
+      />
     ),
   },
 ];
