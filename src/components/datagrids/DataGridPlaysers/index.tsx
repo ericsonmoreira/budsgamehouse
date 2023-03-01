@@ -75,6 +75,9 @@ const DataGridPlaysers: React.FC<DataGridPlaysersProps> = ({
   return (
     <DataGrid
       rows={rows}
+      initialState={{
+        sorting: { sortModel: [{ field: "name", sort: "asc" }] },
+      }}
       density="compact"
       columns={columns}
       disableColumnMenu={false}

@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import AddTradingCardDialog from "../../components/dialogs/AddTradingCardDialog";
 import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
-import DataGridCards from "../../components/datagrids/DataGridCards";
+import DataGridTradingCards from "../../components/datagrids/DataGridTradingCards";
 import UpdateTradingCardDialog, {
   TradingCardUpdateData,
 } from "../../components/dialogs/UpdateTradingCardDialog";
@@ -76,7 +76,7 @@ const TradingCards: React.FC = () => {
         </Tooltip>
       </Box>
       <Box sx={{ margin: 1, height: 1 }}>
-        <DataGridCards
+        <DataGridTradingCards
           loading={isLoading}
           rows={tradingCards?.map(({ id, name, amount, imgUrl }) => ({
             id,

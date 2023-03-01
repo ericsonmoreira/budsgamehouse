@@ -8,7 +8,7 @@ import {
   GridToolbar,
 } from "@mui/x-data-grid";
 
-type DataGridCardsRowData = {
+type DataGridTradingCardsRowData = {
   id: string;
   imgUrl: string;
   name: string;
@@ -19,8 +19,8 @@ type DataGridCardsRowData = {
   };
 };
 
-type DataGridCardsProps = {
-  rows?: DataGridCardsRowData[];
+type DataGridTradingCardsProps = {
+  rows?: DataGridTradingCardsRowData[];
   loading?: boolean;
 };
 
@@ -73,7 +73,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-const DataGridCards: React.FC<DataGridCardsProps> = ({
+const DataGridTradingCards: React.FC<DataGridTradingCardsProps> = ({
   rows = [], // default enpty array
   loading,
 }) => {
@@ -81,6 +81,9 @@ const DataGridCards: React.FC<DataGridCardsProps> = ({
     <DataGrid
       rows={rows}
       density="compact"
+      initialState={{
+        sorting: { sortModel: [{ field: "name", sort: "asc" }] },
+      }}
       columns={columns}
       disableColumnMenu={false}
       components={{ Toolbar: GridToolbar }}
@@ -91,4 +94,4 @@ const DataGridCards: React.FC<DataGridCardsProps> = ({
   );
 };
 
-export default DataGridCards;
+export default DataGridTradingCards;
