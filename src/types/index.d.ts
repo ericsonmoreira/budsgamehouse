@@ -1,13 +1,19 @@
+declare type TournamentFormat = "pioneer" | "selado" | "draft";
+
+declare type TournamentState = "not-started" | "started" | "finished";
+
+declare type Associate = {
+  id: string;
+  name: string;
+  phone: string;
+};
+
 declare type Player = {
   id: string;
   name: string;
   email: string;
   avatarImgUrl?: string;
 };
-
-declare type TournamentFormat = "pioneer" | "selado" | "draft";
-
-declare type TournamentState = "not-started" | "started" | "finished";
 
 declare type Tournament = {
   id: string;

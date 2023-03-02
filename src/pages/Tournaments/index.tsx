@@ -1,13 +1,13 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
-import AddTournamentDialog from "../../components/dialogs/AddTournamentDialog";
 import DataGridTournaments from "../../components/datagrids/DataGridTournaments";
-import useTournaments from "../../hooks/useTournaments";
+import AddTournamentDialog from "../../components/dialogs/AddTournamentDialog";
 import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
 import UpdateTournamentDialog, {
   UpdateTournamentDialogFormData,
 } from "../../components/dialogs/UpdateTournamentDialog";
+import useTournaments from "../../hooks/useTournaments";
 
 const Tournaments: React.FC = () => {
   const [addTournamentDialogOpen, setAddTournamentDialogOpen] = useState(false);
