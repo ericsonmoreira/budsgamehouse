@@ -1,6 +1,8 @@
 import AddCardIcon from "@mui/icons-material/AddCard";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CachedIcon from "@mui/icons-material/Cached";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import HandshakeIcon from "@mui/icons-material/Handshake";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
@@ -48,6 +50,16 @@ const items: AppDrawerItemData[] = [
     icon: EmojiEventsIcon,
     to: routesNames.TOURNAMENTS,
     title: "Torneiros",
+  },
+  {
+    icon: HandshakeIcon,
+    to: routesNames.ASSOCIATES,
+    title: "Assciados",
+  },
+  {
+    icon: AttachMoneyIcon,
+    to: routesNames.NEGOTIATIONS,
+    title: "Negociações",
   },
 ];
 
