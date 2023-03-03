@@ -2,10 +2,20 @@ declare type TournamentFormat = "pioneer" | "selado" | "draft";
 
 declare type TournamentState = "not-started" | "started" | "finished";
 
+declare type NegotiationStatus = "created" | "created" | "received";
+
 declare type Associate = {
   id: string;
   name: string;
   phone: string;
+};
+
+declare type Negotiation = {
+  id: string;
+  description: string;
+  status: NegotiationStatus;
+  price: number;
+  associateId: string;
 };
 
 declare type Player = {
