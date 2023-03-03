@@ -12,6 +12,7 @@ import useTradingCards from "../../hooks/useTradingCards";
 import useWantedCards from "../../hooks/useWantedCards";
 import routesNames from "../../routes/routesNames";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import useAssociates from "../../hooks/useAssociates";
 
 const Home: React.FC = () => {
   const { players, isLoading: isLoadingPlayers } = usePlayers();
@@ -23,6 +24,8 @@ const Home: React.FC = () => {
     useWantedCards();
 
   const { tournaments, isLoading: isLoadingTournaments } = useTournaments();
+
+  const { associates, isLoading: isLoadingAssociates } = useAssociates();
 
   const items = useMemo<HomeCardProps[]>(
     () => [
@@ -61,10 +64,10 @@ const Home: React.FC = () => {
       {
         title: "Associados",
         subheader: "Colegas de trocas de cartas",
-        amount: 0, // TODO: implementar modelo no firebase
+        amount: associates?.length,
         icon: HandshakeIcon,
         to: routesNames.ASSOCIATES,
-        isLoading: false,
+        isLoading: isLoadingAssociates,
       },
       {
         title: "Negociações",
