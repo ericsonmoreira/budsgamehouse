@@ -1,4 +1,5 @@
 import AddCardIcon from "@mui/icons-material/AddCard";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CachedIcon from "@mui/icons-material/Cached";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import HandshakeIcon from "@mui/icons-material/Handshake";
@@ -6,13 +7,13 @@ import PersonIcon from "@mui/icons-material/Person";
 import { Box, Grid } from "@mui/material";
 import { useMemo } from "react";
 import HomeCard, { HomeCardProps } from "../../components/HomeCard";
+import useAssociates from "../../hooks/useAssociates";
+import useNegotiations from "../../hooks/useNegotiations";
 import usePlayers from "../../hooks/usePlayers";
 import useTournaments from "../../hooks/useTournaments";
 import useTradingCards from "../../hooks/useTradingCards";
 import useWantedCards from "../../hooks/useWantedCards";
 import routesNames from "../../routes/routesNames";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import useAssociates from "../../hooks/useAssociates";
 
 const Home: React.FC = () => {
   const { players, isLoading: isLoadingPlayers } = usePlayers();
@@ -26,6 +27,8 @@ const Home: React.FC = () => {
   const { tournaments, isLoading: isLoadingTournaments } = useTournaments();
 
   const { associates, isLoading: isLoadingAssociates } = useAssociates();
+
+  const { negotiations, isLoading: isLoadingNegotiations } = useNegotiations();
 
   const items = useMemo<HomeCardProps[]>(
     () => [
@@ -72,13 +75,13 @@ const Home: React.FC = () => {
       {
         title: "Negociações",
         subheader: "Vendas e compras de cartas",
-        amount: 0, // TODO: implementar modelo no firebase
+        amount: negotiations?.length,
         icon: AttachMoneyIcon,
         to: routesNames.NEGOTIATIONS,
-        isLoading: false,
+        isLoading: isLoadingNegotiations,
       },
     ],
-    [players, wantedCards, tradingCards, tournaments]
+    [players, wantedCards, tradingCards, tournaments, associates, negotiations]
   );
 
   return (

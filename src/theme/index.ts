@@ -5,12 +5,16 @@ import { ptBR } from "@mui/x-data-grid";
 const theme = createTheme(
   {
     palette: {
+      mode: "dark",
       primary: {
-        main: purple[500],
+        main: purple[400],
       },
       secondary: {
-        main: green[500],
+        main: green[400],
       },
+    },
+    typography: {
+      fontSize: 12,
     },
   },
   ptBR

@@ -36,7 +36,7 @@ const HomeCard: React.FC<HomeCardProps> = ({
   const navigate = useNavigate();
 
   return (
-    <Card elevation={0}>
+    <Card elevation={1}>
       <CardHeader title={title} subheader={subheader} />
       <CardContent>
         <Box

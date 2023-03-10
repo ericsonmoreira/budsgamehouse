@@ -54,7 +54,7 @@ const Login: React.FC = () => {
         flexDirection: "column",
         p: 2,
         width: "100%",
-        background: "rgba(255, 255, 255, 0.75)",
+        background: "rgba(0, 0, 0, 0.25)",
         backdropFilter: "blur(5px)",
       }}
     >
