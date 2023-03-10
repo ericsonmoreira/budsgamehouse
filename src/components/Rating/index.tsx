@@ -55,7 +55,9 @@ const Rating: React.FC<RatingProps> = ({
           justifyContent: "space-between",
         }}
       >
-        <Typography variant="h6">Rodada {ratingIndex + 1}</Typography>
+        <Typography variant="h6" color="textPrimary">
+          Rodada {ratingIndex + 1}
+        </Typography>
         {isPossibleEditRound(ratingIndex) && (
           <Button
             disabled={isLoading}

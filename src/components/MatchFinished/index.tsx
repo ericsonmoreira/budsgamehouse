@@ -19,7 +19,7 @@ const MatchFinished: React.FC<MatchFinishedProps> = ({
     <Stack>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box sx={{ display: "flex", width: 1, alignItems: "center" }}>
-          <Typography variant="h6" sx={{ marginRight: 1 }}>
+          <Typography variant="h6" color="textPrimary" sx={{ marginRight: 1 }}>
             {matchIndex + 1}.
           </Typography>
           <AvatarPlayer
@@ -31,7 +31,7 @@ const MatchFinished: React.FC<MatchFinishedProps> = ({
             }
             sx={{ marginRight: 1, width: 32, height: 32 }}
           />
-          <Typography variant="h6">
+          <Typography variant="h6" color="textPrimary">
             {getPlayerNameById({
               playerId: match.playersIds[0],
               tournamentData,
@@ -39,7 +39,7 @@ const MatchFinished: React.FC<MatchFinishedProps> = ({
           </Typography>
         </Box>
         <Box sx={{ width: 1, textAlign: "center" }}>
-          <Typography variant="h6">
+          <Typography variant="h6" color="textPrimary">
             {match.playersVirories[0]} X {match.playersVirories[1]}
           </Typography>
         </Box>
@@ -51,7 +51,7 @@ const MatchFinished: React.FC<MatchFinishedProps> = ({
             justifyContent: "flex-end",
           }}
         >
-          <Typography variant="h6">
+          <Typography variant="h6" color="textPrimary">
             {getPlayerNameById({
               playerId: match.playersIds[1],
               tournamentData,

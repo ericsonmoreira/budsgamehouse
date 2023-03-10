@@ -56,7 +56,7 @@ const WantedCards: React.FC = () => {
           justifyContent: "space-between",
         }}
       >
-        <Typography variant="h4">
+        <Typography variant="h4" color="textPrimary">
           Want List - Lista de cartas para aquisição
         </Typography>
         <Tooltip title="Add">

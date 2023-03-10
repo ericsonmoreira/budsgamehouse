@@ -1,17 +1,10 @@
 import { createTheme } from "@mui/material/styles";
-import { green, purple } from "@mui/material/colors";
 import { ptBR } from "@mui/x-data-grid";
 
-const theme = createTheme(
+const lightTheme = createTheme(
   {
     palette: {
-      mode: "dark",
-      primary: {
-        main: purple[400],
-      },
-      secondary: {
-        main: green[400],
-      },
+      mode: "light",
     },
     typography: {
       fontSize: 12,
@@ -20,4 +13,16 @@ const theme = createTheme(
   ptBR
 );
 
-export default theme;
+const darkTheme = createTheme(
+  {
+    palette: {
+      mode: "dark",
+    },
+    typography: {
+      fontSize: 12,
+    },
+  },
+  ptBR
+);
+
+export { lightTheme, darkTheme };

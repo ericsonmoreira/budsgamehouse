@@ -5,6 +5,7 @@ import DataGridNegotiations from "../../components/datagrids/DataGridNegotiation
 import AddNegotiationDialog from "../../components/dialogs/AddNegotiationDialog";
 import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
 import UpdateNegotiationDialog from "../../components/dialogs/UpdateNegotiationDialog";
+
 import useNegotiations from "../../hooks/useNegotiations";
 
 const Negotiations: React.FC = () => {
@@ -55,7 +56,9 @@ const Negotiations: React.FC = () => {
           justifyContent: "space-between",
         }}
       >
-        <Typography variant="h4">Negociações</Typography>
+        <Typography variant="h4" color="textPrimary">
+          Negociações
+        </Typography>
         <Tooltip title="Add">
           <IconButton
             color="secondary"

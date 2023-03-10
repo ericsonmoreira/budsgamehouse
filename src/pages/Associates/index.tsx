@@ -44,7 +44,9 @@ const Associates: React.FC = () => {
           justifyContent: "space-between",
         }}
       >
-        <Typography variant="h4">Associados</Typography>
+        <Typography variant="h4" color="textPrimary">
+          Associados
+        </Typography>
         <Tooltip title="Add">
           <IconButton
             color="secondary"

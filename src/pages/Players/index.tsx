@@ -44,7 +44,9 @@ const Players: React.FC = () => {
           justifyContent: "space-between",
         }}
       >
-        <Typography variant="h4">Payers</Typography>
+        <Typography variant="h4" color="textPrimary">
+          Payers
+        </Typography>
         <Tooltip title="Add">
           <IconButton
             color="secondary"

@@ -1,9 +1,11 @@
 import { Box, Container, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { Outlet } from "react-router-dom";
-import theme from "../../theme";
 import BackGroundLoginPageImg from "../../assets/bgLogin.png";
 
 const BasicLayout: React.FC = () => {
+  const theme = useTheme();
+
   const upLg = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (

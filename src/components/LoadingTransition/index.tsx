@@ -9,6 +9,7 @@ const LoadingTransition: React.FC = () => {
         width: "100vw",
         alignItems: "center",
         justifyContent: "center",
+        backgroundColor: (theme) => theme.palette.background.default,
       }}
     >
       <CircularProgress />

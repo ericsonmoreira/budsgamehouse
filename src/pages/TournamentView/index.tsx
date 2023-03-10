@@ -160,7 +160,10 @@ const TournamentView: React.FC = () => {
   if (isLoading)
     return (
       <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{
+          color: (theme) => theme.palette.common.white,
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
         open
       >
         <CircularProgress />
@@ -179,7 +182,9 @@ const TournamentView: React.FC = () => {
           alignItems: "center",
         }}
       >
-        <Typography variant="h4">{tournament.name}</Typography>
+        <Typography variant="h4" color="textPrimary">
+          {tournament.name}
+        </Typography>
         <Box sx={{ marginLeft: 3 }}>
           <Timer interval={50} />
         </Box>

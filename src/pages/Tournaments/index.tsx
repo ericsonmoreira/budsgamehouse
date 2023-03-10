@@ -56,7 +56,9 @@ const Tournaments: React.FC = () => {
           justifyContent: "space-between",
         }}
       >
-        <Typography variant="h4">Torneiros</Typography>
+        <Typography variant="h4" color="textPrimary">
+          Torneiros
+        </Typography>
         <Tooltip title="Add">
           <IconButton
             color="secondary"
