@@ -1,6 +1,5 @@
-import { useTheme } from '@mui/material/styles';
 import { Box, useMediaQuery } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import DashboardNavbar from '../../components/DashboardNavbar';
