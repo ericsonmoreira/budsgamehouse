@@ -5,13 +5,13 @@ import {
   doc,
   getDocs,
   updateDoc,
-} from "firebase/firestore";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { firestore } from "../services/firebaseConfig";
+} from 'firebase/firestore';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { firestore } from '../services/firebaseConfig';
 
-const path = "negotiations";
+const path = 'negotiations';
 
-const queryKey = "useNegotiations";
+const queryKey = 'useNegotiations';
 
 function useNegotiations() {
   const queryClient = useQueryClient();
@@ -32,7 +32,7 @@ function useNegotiations() {
       status,
       price,
       associateId,
-    }: Omit<Negotiation, "id">) => {
+    }: Omit<Negotiation, 'id'>) => {
       const newNegotiation = await addDoc(negotiationsCollectionRef, {
         description,
         status,

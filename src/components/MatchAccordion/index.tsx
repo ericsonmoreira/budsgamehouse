@@ -4,12 +4,12 @@ import {
   Button,
   ButtonGroup,
   Divider,
-} from "@mui/material";
-import { useMemo, useState } from "react";
-import { toast } from "react-hot-toast";
-import getPlayerNameById from "../../utils/getPlayerNameById";
-import MatchAccordionSummary from "../MatchAccordionSummary";
-import handleConfirmMatchResultMap from "./handleConfirmMatchResultMap";
+} from '@mui/material';
+import { useMemo, useState } from 'react';
+import { toast } from 'react-hot-toast';
+import getPlayerNameById from '../../utils/getPlayerNameById';
+import MatchAccordionSummary from '../MatchAccordionSummary';
+import handleConfirmMatchResultMap from './handleConfirmMatchResultMap';
 
 export type HandleConfirmMatchResultImp = (data: {
   ratingIndex: number;
@@ -34,13 +34,13 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
   tournamentData,
   handleConfirmMatchResult,
 }) => {
-  const [matchResult, setMatchResult] = useState<MatchResult>("draw");
+  const [matchResult, setMatchResult] = useState<MatchResult>('draw');
 
   const [matchVictoryResult, setMatchVictoryResult] =
-    useState<MatchVictoryResult>("two-zero");
+    useState<MatchVictoryResult>('two-zero');
 
   const [matchDrawResult, setMatchDrawResult] =
-    useState<MatchDrawResult>("one-one");
+    useState<MatchDrawResult>('one-one');
 
   const firstPlayerId = match.playersIds[0];
 
@@ -71,18 +71,18 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
       handleConfirmMatchResult,
     });
 
-    if (matchResult === "draw") {
+    if (matchResult === 'draw') {
       actionFromMap[matchResult][matchDrawResult]();
     } else {
       actionFromMap[matchResult][matchVictoryResult]();
     }
 
-    toast.success("Partida atualizada com sucesso");
+    toast.success('Partida atualizada com sucesso');
   };
 
   return (
     <Accordion
-      disabled={secondPlayerId === "bay"}
+      disabled={secondPlayerId === 'bay'}
       key={firstPlayerId + secondPlayerId}
     >
       <MatchAccordionSummary
@@ -91,7 +91,7 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
         ratingIndex={ratingIndex}
         tournamentData={tournamentData}
       />
-      <AccordionDetails sx={{ display: "flex", flexDirection: "column" }}>
+      <AccordionDetails sx={{ display: 'flex', flexDirection: 'column' }}>
         <ButtonGroup
           fullWidth
           orientation="vertical"
@@ -99,56 +99,56 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
         >
           <Button
             disableElevation
-            onClick={() => setMatchResult("first-player-win")}
+            onClick={() => setMatchResult('first-player-win')}
             variant={
-              matchResult === "first-player-win" ? "contained" : "outlined"
+              matchResult === 'first-player-win' ? 'contained' : 'outlined'
             }
           >
             {firstPlayerName} WIN
           </Button>
           <Button
             disableElevation
-            onClick={() => setMatchResult("draw")}
-            variant={matchResult === "draw" ? "contained" : "outlined"}
+            onClick={() => setMatchResult('draw')}
+            variant={matchResult === 'draw' ? 'contained' : 'outlined'}
           >
             Empate
           </Button>
           <Button
             disableElevation
-            onClick={() => setMatchResult("second-player-win")}
+            onClick={() => setMatchResult('second-player-win')}
             variant={
-              matchResult === "second-player-win" ? "contained" : "outlined"
+              matchResult === 'second-player-win' ? 'contained' : 'outlined'
             }
           >
             {secondPlayerName} WIN
           </Button>
         </ButtonGroup>
         <Divider sx={{ marginY: 1 }} />
-        {matchResult.includes("win") ? (
+        {matchResult.includes('win') ? (
           <ButtonGroup fullWidth orientation="horizontal">
             <Button
               disableElevation
-              onClick={() => setMatchVictoryResult("one-zero")}
+              onClick={() => setMatchVictoryResult('one-zero')}
               variant={
-                matchVictoryResult === "one-zero" ? "contained" : "outlined"
+                matchVictoryResult === 'one-zero' ? 'contained' : 'outlined'
               }
             >
               1 - 0
             </Button>
             <Button
               disableElevation
-              onClick={() => setMatchVictoryResult("two-zero")}
+              onClick={() => setMatchVictoryResult('two-zero')}
               variant={
-                matchVictoryResult === "two-zero" ? "contained" : "outlined"
+                matchVictoryResult === 'two-zero' ? 'contained' : 'outlined'
               }
             >
               2 - 0
             </Button>
             <Button
               disableElevation
-              onClick={() => setMatchVictoryResult("two-one")}
+              onClick={() => setMatchVictoryResult('two-one')}
               variant={
-                matchVictoryResult === "two-one" ? "contained" : "outlined"
+                matchVictoryResult === 'two-one' ? 'contained' : 'outlined'
               }
             >
               2 - 1
@@ -158,17 +158,17 @@ const MatchAccordion: React.FC<MatchAccordionProps> = ({
           <ButtonGroup fullWidth orientation="horizontal">
             <Button
               disableElevation
-              onClick={() => setMatchDrawResult("zero-zero")}
+              onClick={() => setMatchDrawResult('zero-zero')}
               variant={
-                matchDrawResult === "zero-zero" ? "contained" : "outlined"
+                matchDrawResult === 'zero-zero' ? 'contained' : 'outlined'
               }
             >
               0 - 0
             </Button>
             <Button
               disableElevation
-              onClick={() => setMatchDrawResult("one-one")}
-              variant={matchDrawResult === "one-one" ? "contained" : "outlined"}
+              onClick={() => setMatchDrawResult('one-one')}
+              variant={matchDrawResult === 'one-one' ? 'contained' : 'outlined'}
             >
               1 - 1
             </Button>

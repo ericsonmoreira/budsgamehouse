@@ -1,4 +1,4 @@
-import SearchIcon from "@mui/icons-material/Search";
+import SearchIcon from '@mui/icons-material/Search';
 import {
   Button,
   Chip,
@@ -13,15 +13,15 @@ import {
   InputAdornment,
   MenuItem,
   TextField,
-} from "@mui/material";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import useAutoCompleteCardNames from "../../../hooks/useAutoCompleteCardNames";
-import useCardByName from "../../../hooks/useCardByName";
-import useDebounce from "../../../hooks/useDebounce";
-import useWantedCards from "../../../hooks/useWantedCards";
-import ImgCard from "../../ImgCard";
+} from '@mui/material';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import useAutoCompleteCardNames from '../../../hooks/useAutoCompleteCardNames';
+import useCardByName from '../../../hooks/useCardByName';
+import useDebounce from '../../../hooks/useDebounce';
+import useWantedCards from '../../../hooks/useWantedCards';
+import ImgCard from '../../ImgCard';
 
 type AddWantCardDialogProps = {
   title: string;
@@ -34,9 +34,9 @@ type AddWantCardDialogFormData = {
 };
 
 const priorityMapValues: { value: WantedCardPriority; label: string }[] = [
-  { value: "high", label: "Alto" },
-  { value: "medium", label: "Médio" },
-  { value: "low", label: "Baixo" },
+  { value: 'high', label: 'Alto' },
+  { value: 'medium', label: 'Médio' },
+  { value: 'low', label: 'Baixo' },
 ];
 
 const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
@@ -48,15 +48,15 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
   const { register, handleSubmit, watch, resetField } =
     useForm<AddWantCardDialogFormData>();
 
-  const [cardNameSelected, setCardNameSelected] = useState<string>("");
+  const [cardNameSelected, setCardNameSelected] = useState<string>('');
 
-  const [amount, setAmount] = useState("1");
+  const [amount, setAmount] = useState('1');
 
-  const [priority, setPriority] = useState<WantedCardPriority>("medium");
+  const [priority, setPriority] = useState<WantedCardPriority>('medium');
 
   const { addWantedCard } = useWantedCards();
 
-  const searchTermWatch = watch("searchTerm");
+  const searchTermWatch = watch('searchTerm');
 
   const searchTermWatchDebounce = useDebounce(searchTermWatch, 500);
 
@@ -72,7 +72,7 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
         const imgUrl =
           (card.card_faces.length === 2
             ? card.card_faces[0].image_uris?.normal
-            : card.image_uris?.normal) || "";
+            : card.image_uris?.normal) || '';
 
         addWantedCard({
           name: card.name,
@@ -81,22 +81,22 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
           priority,
         });
 
-        toast.success("Card adicionado com sucesso");
+        toast.success('Card adicionado com sucesso');
       }
     } catch (error) {
       console.log(error);
     } finally {
-      resetField("searchTerm");
-      setCardNameSelected("");
-      setAmount("1");
-      setPriority("medium");
+      resetField('searchTerm');
+      setCardNameSelected('');
+      setAmount('1');
+      setPriority('medium');
       setOpen(false);
     }
   };
 
   const handleCancelAction = () => {
-    resetField("searchTerm");
-    setCardNameSelected("");
+    resetField('searchTerm');
+    setCardNameSelected('');
     setOpen(false);
   };
 
@@ -123,7 +123,7 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
                   </InputAdornment>
                 ),
               }}
-              {...register("searchTerm")}
+              {...register('searchTerm')}
             />
           </Grid>
           <Grid item xs={8}>
@@ -175,9 +175,9 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
             item
             xs={12}
             sx={{
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "column",
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'column',
             }}
           >
             <ImgCard card={card} isLoading={isLoading} />

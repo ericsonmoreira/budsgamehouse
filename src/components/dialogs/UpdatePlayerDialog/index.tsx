@@ -1,5 +1,5 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import { yupResolver } from '@hookform/resolvers/yup';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import {
   Button,
   Dialog,
@@ -10,16 +10,16 @@ import {
   DialogTitle,
   IconButton,
   Stack,
-} from "@mui/material";
-import { Box } from "@mui/system";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import usePlayers from "../../../hooks/usePlayers";
-import { storage } from "../../../services/firebaseConfig";
-import ControlledTextField from "../../textfields/ControlledTextField";
-import schema from "./schema ";
+} from '@mui/material';
+import { Box } from '@mui/system';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import usePlayers from '../../../hooks/usePlayers';
+import { storage } from '../../../services/firebaseConfig';
+import ControlledTextField from '../../textfields/ControlledTextField';
+import schema from './schema ';
 
 type UpdatePlayerDialogProps = {
   title: string;
@@ -67,7 +67,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
       updatePlayer({ id, name, email });
     }
 
-    toast.success("Player atualizado com sucesso!");
+    toast.success('Player atualizado com sucesso!');
 
     setOpen(false);
   };
@@ -77,8 +77,8 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
   };
 
   useEffect(() => {
-    setValue("name", name);
-    setValue("email", email);
+    setValue('name', name);
+    setValue('email', email);
   }, [playerToUpdate]);
 
   return (
@@ -89,7 +89,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
         <Stack
           spacing={2}
           sx={{
-            display: "flex",
+            display: 'flex',
             flex: 1,
             marginY: 2,
           }}
@@ -97,7 +97,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
           <Box>
             <IconButton color="primary" component="label">
               <input
-                {...register("image")}
+                {...register('image')}
                 hidden
                 accept="image/*"
                 type="file"
@@ -109,18 +109,18 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
             name="name"
             control={control}
             textFieldProps={{
-              variant: "outlined",
-              size: "small",
-              label: "Nome",
+              variant: 'outlined',
+              size: 'small',
+              label: 'Nome',
             }}
           />
           <ControlledTextField
             name="email"
             control={control}
             textFieldProps={{
-              variant: "outlined",
-              size: "small",
-              label: "Email",
+              variant: 'outlined',
+              size: 'small',
+              label: 'Email',
             }}
           />
         </Stack>

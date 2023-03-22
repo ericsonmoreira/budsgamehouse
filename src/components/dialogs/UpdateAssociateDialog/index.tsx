@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Button,
   Dialog,
@@ -8,14 +8,14 @@ import {
   DialogProps,
   DialogTitle,
   Grid,
-} from "@mui/material";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import useAssociates from "../../../hooks/useAssociates";
-import ControlledPhoneTextField from "../../textfields/ControlledPhoneTextField";
-import ControlledTextField from "../../textfields/ControlledTextField";
-import schema from "./schema ";
+} from '@mui/material';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import useAssociates from '../../../hooks/useAssociates';
+import ControlledPhoneTextField from '../../textfields/ControlledPhoneTextField';
+import ControlledTextField from '../../textfields/ControlledTextField';
+import schema from './schema ';
 
 type UpdateAssociateDialogProps = {
   title: string;
@@ -29,20 +29,20 @@ const UpdateAssociateDialog: React.FC<
 > = ({ title, subTitle, setOpen, associateToUpdate, ...rest }) => {
   const { id, name, phone } = associateToUpdate;
 
-  const { control, handleSubmit, setValue } = useForm<Omit<Associate, "id">>({
+  const { control, handleSubmit, setValue } = useForm<Omit<Associate, 'id'>>({
     resolver: yupResolver(schema),
   });
 
   const { updateAssociate } = useAssociates();
 
-  const handleConfirmAction = ({ name, phone }: Omit<Associate, "id">) => {
+  const handleConfirmAction = ({ name, phone }: Omit<Associate, 'id'>) => {
     updateAssociate({
       id,
       name,
       phone,
     });
 
-    toast.success("Torneiro adicionado com sucesso");
+    toast.success('Torneiro adicionado com sucesso');
 
     setOpen(false);
   };
@@ -52,8 +52,8 @@ const UpdateAssociateDialog: React.FC<
   };
 
   useEffect(() => {
-    setValue("name", name);
-    setValue("phone", phone);
+    setValue('name', name);
+    setValue('phone', phone);
   }, [associateToUpdate]);
 
   return (
@@ -61,15 +61,15 @@ const UpdateAssociateDialog: React.FC<
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{subTitle}</DialogContentText>
-        <Grid container spacing={2} sx={{ width: "100%", marginTop: 1 }}>
+        <Grid container spacing={2} sx={{ width: '100%', marginTop: 1 }}>
           <Grid item xs={12}>
             <ControlledTextField
               name="name"
               control={control}
               textFieldProps={{
-                variant: "outlined",
-                size: "small",
-                label: "Nome",
+                variant: 'outlined',
+                size: 'small',
+                label: 'Nome',
                 fullWidth: true,
               }}
             />
@@ -79,9 +79,9 @@ const UpdateAssociateDialog: React.FC<
               name="phone"
               control={control}
               textFieldProps={{
-                variant: "outlined",
-                size: "small",
-                label: "Telefone",
+                variant: 'outlined',
+                size: 'small',
+                label: 'Telefone',
                 fullWidth: true,
               }}
             />

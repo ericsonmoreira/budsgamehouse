@@ -1,11 +1,11 @@
-import TelegramIcon from "@mui/icons-material/Telegram";
-import { Box, Button, Stack, Typography } from "@mui/material";
-import { toBlob } from "html-to-image";
-import { useCallback, useRef, useState } from "react";
-import { toast } from "react-hot-toast";
-import sendPhotoTelegram from "../../resources/sendPhotoTelegram";
-import MatchAccordion, { HandleConfirmMatchResultImp } from "../MatchAccordion";
-import MatchFinished from "../MatchFinished";
+import TelegramIcon from '@mui/icons-material/Telegram';
+import { Box, Button, Stack, Typography } from '@mui/material';
+import { toBlob } from 'html-to-image';
+import { useCallback, useRef, useState } from 'react';
+import { toast } from 'react-hot-toast';
+import sendPhotoTelegram from '../../resources/sendPhotoTelegram';
+import MatchAccordion, { HandleConfirmMatchResultImp } from '../MatchAccordion';
+import MatchFinished from '../MatchFinished';
 
 type RatingProps = {
   rating: Match[];
@@ -37,9 +37,9 @@ const Rating: React.FC<RatingProps> = ({
 
         await sendPhotoTelegram(blob as Blob);
 
-        toast.success("Mensagem enviada com sucesso!");
+        toast.success('Mensagem enviada com sucesso!');
       } catch (error) {
-        toast.error("Algo inesperado aconteceu!");
+        toast.error('Algo inesperado aconteceu!');
       } finally {
         setIsLoading(false);
       }
@@ -50,9 +50,9 @@ const Rating: React.FC<RatingProps> = ({
     <Box ref={ref}>
       <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
         <Typography variant="h6" color="textPrimary">

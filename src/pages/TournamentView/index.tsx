@@ -1,7 +1,7 @@
-import ArticleIcon from "@mui/icons-material/Article";
-import CloseIcon from "@mui/icons-material/Close";
-import GroupIcon from "@mui/icons-material/Group";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import ArticleIcon from '@mui/icons-material/Article';
+import CloseIcon from '@mui/icons-material/Close';
+import GroupIcon from '@mui/icons-material/Group';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import {
   AvatarGroup,
   Backdrop,
@@ -10,18 +10,18 @@ import {
   CircularProgress,
   Container,
   Typography,
-} from "@mui/material";
-import { useCallback, useMemo, useState } from "react";
-import { toast } from "react-hot-toast";
-import { useParams } from "react-router-dom";
-import AvatarPlayer from "../../components/AvatarPlayer";
-import ViewRatingsDialog from "../../components/dialogs/ViewRatingsDialog";
-import { HandleConfirmMatchResultImp } from "../../components/MatchAccordion";
-import Rating from "../../components/Rating";
-import Timer from "../../components/Timer";
-import TournamentInfos from "../../components/TournamentInfos";
-import TournamentController from "../../controllers/TournamentController";
-import useTournaments from "../../hooks/useTournaments";
+} from '@mui/material';
+import { useCallback, useMemo, useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { useParams } from 'react-router-dom';
+import AvatarPlayer from '../../components/AvatarPlayer';
+import ViewRatingsDialog from '../../components/dialogs/ViewRatingsDialog';
+import { HandleConfirmMatchResultImp } from '../../components/MatchAccordion';
+import Rating from '../../components/Rating';
+import Timer from '../../components/Timer';
+import TournamentInfos from '../../components/TournamentInfos';
+import TournamentController from '../../controllers/TournamentController';
+import useTournaments from '../../hooks/useTournaments';
 
 type TournamentViewParams = {
   id: string;
@@ -46,14 +46,14 @@ const TournamentView: React.FC = () => {
 
   const isPossibleStartTournament = useMemo(() => {
     if (tournament) {
-      return tournament.state === "not-started";
+      return tournament.state === 'not-started';
     }
 
     return false;
   }, [tournament]);
 
   const isPossibleCloseTournament = useMemo(() => {
-    const possibleStates: TournamentState[] = ["not-started", "started"];
+    const possibleStates: TournamentState[] = ['not-started', 'started'];
 
     if (tournament) {
       return possibleStates.includes(tournament.state);
@@ -66,7 +66,7 @@ const TournamentView: React.FC = () => {
     (round: number) => {
       if (tournament && tournamentData) {
         return (
-          tournament.state === "started" &&
+          tournament.state === 'started' &&
           round >= tournamentData.ratings.length - 1
         );
       }
@@ -80,7 +80,7 @@ const TournamentView: React.FC = () => {
     if (tournament && tournamentData) {
       return (
         tournamentData.ratings.length < tournament.rounds &&
-        tournament.state === "started"
+        tournament.state === 'started'
       );
     }
 
@@ -93,7 +93,7 @@ const TournamentView: React.FC = () => {
 
       updateTournament({
         ...tournament,
-        state: "started",
+        state: 'started',
         data: JSON.stringify(newTournamentData),
       });
     }
@@ -139,7 +139,7 @@ const TournamentView: React.FC = () => {
         data: JSON.stringify(newTournamentData),
       });
 
-      toast.success("Nova rodada iniciada!");
+      toast.success('Nova rodada iniciada!');
     }
   }, [tournamentData, tournament]);
 
@@ -151,9 +151,9 @@ const TournamentView: React.FC = () => {
 
   const handleCloseTournament = useCallback(() => {
     if (tournament) {
-      updateTournament({ ...tournament, state: "finished" });
+      updateTournament({ ...tournament, state: 'finished' });
 
-      toast.success("Torneiro Encerrado!");
+      toast.success('Torneiro Encerrado!');
     }
   }, [tournament]);
 
@@ -177,9 +177,9 @@ const TournamentView: React.FC = () => {
       <Box
         sx={{
           padding: 1,
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
         }}
       >
         <Typography variant="h4" color="textPrimary">
@@ -202,7 +202,7 @@ const TournamentView: React.FC = () => {
       <Box
         sx={{
           margin: 1,
-          display: "flex",
+          display: 'flex',
         }}
       >
         {isPossibleStartTournament && (
@@ -269,7 +269,7 @@ const TournamentView: React.FC = () => {
         setOpen={setOpenViewRatingsDialog}
         onClose={() => setOpenViewRatingsDialog(false)}
         title={tournament.name}
-        subTitle={"Pontuação dos Jogadores"}
+        subTitle={'Pontuação dos Jogadores'}
         format={tournament.format}
         round={tournamentData.ratings.length}
         roundTotal={tournament.rounds}

@@ -6,8 +6,8 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
-} from "@mui/material";
-import { toast } from "react-hot-toast";
+} from '@mui/material';
+import { toast } from 'react-hot-toast';
 
 type ConfirmActionDialogProps = {
   title: string;

@@ -3,8 +3,8 @@ import {
   GridColDef,
   GridRenderCellParams,
   GridToolbar,
-} from "@mui/x-data-grid";
-import ActionsCell from "../../cells/ActionsCell";
+} from '@mui/x-data-grid';
+import ActionsCell from '../../cells/ActionsCell';
 
 type DataGridAssociatesRowData = {
   id: string;
@@ -23,22 +23,22 @@ type DataGridAssociatesProps = {
 
 const columns: GridColDef[] = [
   {
-    field: "id",
-    headerName: "id",
+    field: 'id',
+    headerName: 'id',
     width: 0,
     hide: true,
   },
   {
-    field: "name",
-    headerName: "Nome",
+    field: 'name',
+    headerName: 'Nome',
     flex: 1,
   },
-  { field: "phone", headerName: "Telefone", flex: 1 },
+  { field: 'phone', headerName: 'Telefone', flex: 1 },
   {
-    field: "actions",
-    headerName: "Ações",
+    field: 'actions',
+    headerName: 'Ações',
     width: 150,
-    align: "right",
+    align: 'right',
     disableColumnMenu: true,
     sortable: false,
     renderCell: (
@@ -63,7 +63,7 @@ const DataGridAssociates: React.FC<DataGridAssociatesProps> = ({
     <DataGrid
       rows={rows}
       initialState={{
-        sorting: { sortModel: [{ field: "name", sort: "asc" }] },
+        sorting: { sortModel: [{ field: 'name', sort: 'asc' }] },
       }}
       density="compact"
       columns={columns}
@@ -77,3 +77,4 @@ const DataGridAssociates: React.FC<DataGridAssociatesProps> = ({
 };
 
 export default DataGridAssociates;
+

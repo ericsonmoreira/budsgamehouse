@@ -1,4 +1,4 @@
-import SearchIcon from "@mui/icons-material/Search";
+import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
   Button,
@@ -12,15 +12,15 @@ import {
   DialogTitle,
   InputAdornment,
   TextField,
-} from "@mui/material";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import useAutoCompleteCardNames from "../../../hooks/useAutoCompleteCardNames";
-import useCardByName from "../../../hooks/useCardByName";
-import useDebounce from "../../../hooks/useDebounce";
-import useTradingCards from "../../../hooks/useTradingCards";
-import ImgCard from "../../ImgCard";
+} from '@mui/material';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import useAutoCompleteCardNames from '../../../hooks/useAutoCompleteCardNames';
+import useCardByName from '../../../hooks/useCardByName';
+import useDebounce from '../../../hooks/useDebounce';
+import useTradingCards from '../../../hooks/useTradingCards';
+import ImgCard from '../../ImgCard';
 
 type AddTradingCardDialogProps = {
   title: string;
@@ -38,13 +38,13 @@ const AddTradingCardDialog: React.FC<
   const { register, handleSubmit, watch, resetField } =
     useForm<AddTradingCardDialogFormData>({});
 
-  const [cardNameSelected, setCardNameSelected] = useState<string>("");
+  const [cardNameSelected, setCardNameSelected] = useState<string>('');
 
-  const [amount, setAmount] = useState("1");
+  const [amount, setAmount] = useState('1');
 
   const { addTradingCard } = useTradingCards();
 
-  const searchTermWatch = watch("searchTerm");
+  const searchTermWatch = watch('searchTerm');
 
   const searchTermWatchDebounce = useDebounce(searchTermWatch, 500);
 
@@ -60,7 +60,7 @@ const AddTradingCardDialog: React.FC<
         const imgUrl =
           (card.card_faces.length === 2
             ? card.card_faces[0].image_uris?.normal
-            : card.image_uris?.normal) || "";
+            : card.image_uris?.normal) || '';
 
         addTradingCard({
           name: card.name,
@@ -68,21 +68,21 @@ const AddTradingCardDialog: React.FC<
           imgUrl,
         });
 
-        toast.success("Card adicionado com sucesso");
+        toast.success('Card adicionado com sucesso');
       }
     } catch (error) {
       console.log(error);
     } finally {
-      resetField("searchTerm");
-      setCardNameSelected("");
-      setAmount("1");
+      resetField('searchTerm');
+      setCardNameSelected('');
+      setAmount('1');
       setOpen(false);
     }
   };
 
   const handleCancelAction = () => {
-    resetField("searchTerm");
-    setCardNameSelected("");
+    resetField('searchTerm');
+    setCardNameSelected('');
     setOpen(false);
   };
 
@@ -91,7 +91,7 @@ const AddTradingCardDialog: React.FC<
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{subTitle}</DialogContentText>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <TextField
             sx={{ marginRight: 1 }}
             variant="outlined"
@@ -109,7 +109,7 @@ const AddTradingCardDialog: React.FC<
                 </InputAdornment>
               ),
             }}
-            {...register("searchTerm")}
+            {...register('searchTerm')}
           />
           <TextField
             type="number"
@@ -137,9 +137,9 @@ const AddTradingCardDialog: React.FC<
         </Box>
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
           }}
         >
           <ImgCard card={card} isLoading={isLoading} />

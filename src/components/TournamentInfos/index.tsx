@@ -1,13 +1,13 @@
-import { Chip, Box } from "@mui/material";
+import { Chip, Box } from '@mui/material';
 
 export type TournamentInfosProps = {
   tournament: Tournament;
 };
 
 const stateNameMap: { [T in TournamentState]: string } = {
-  "not-started": "Não iniciado",
-  started: "Iniciado",
-  finished: "Finalizado",
+  'not-started': 'Não iniciado',
+  started: 'Iniciado',
+  finished: 'Finalizado',
 };
 
 const TournamentInfos: React.FC<TournamentInfosProps> = ({ tournament }) => {

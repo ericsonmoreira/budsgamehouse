@@ -1,13 +1,13 @@
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
-import { useState } from "react";
-import DataGridTradingCards from "../../components/datagrids/DataGridTradingCards";
-import AddTradingCardDialog from "../../components/dialogs/AddTradingCardDialog";
-import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { useState } from 'react';
+import DataGridTradingCards from '../../components/datagrids/DataGridTradingCards';
+import AddTradingCardDialog from '../../components/dialogs/AddTradingCardDialog';
+import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
 import UpdateTradingCardDialog, {
   TradingCardUpdateData,
-} from "../../components/dialogs/UpdateTradingCardDialog";
-import useTradingCards from "../../hooks/useTradingCards";
+} from '../../components/dialogs/UpdateTradingCardDialog';
+import useTradingCards from '../../hooks/useTradingCards';
 
 const TradingCards: React.FC = () => {
   const [addTradingCardDialogOpen, setAddTradingCardDialogOpen] =
@@ -18,14 +18,14 @@ const TradingCards: React.FC = () => {
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  const [tradingCardToDeleteId, setTradingCardToDeleteId] = useState("");
+  const [tradingCardToDeleteId, setTradingCardToDeleteId] = useState('');
 
   const [tradingCardToUpdate, setTradingCardToUpdate] =
     useState<TradingCardUpdateData>({
-      id: "",
-      name: "",
-      amount: "",
-      imgUrl: "",
+      id: '',
+      name: '',
+      amount: '',
+      imgUrl: '',
     });
 
   const handleUpdate = ({
@@ -54,9 +54,9 @@ const TradingCards: React.FC = () => {
       <Box
         sx={{
           margin: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
         <Typography variant="h4">Cartas de Troca</Typography>

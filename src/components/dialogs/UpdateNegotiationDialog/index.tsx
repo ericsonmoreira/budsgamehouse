@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Button,
   Dialog,
@@ -9,13 +9,13 @@ import {
   DialogTitle,
   Grid,
   MenuItem,
-} from "@mui/material";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import useNegotiations from "../../../hooks/useNegotiations";
-import ControlledTextField from "../../textfields/ControlledTextField";
-import schema from "./schema ";
+} from '@mui/material';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import useNegotiations from '../../../hooks/useNegotiations';
+import ControlledTextField from '../../textfields/ControlledTextField';
+import schema from './schema ';
 
 type UpdateNegotiationDialogProps = {
   title: string;
@@ -25,9 +25,9 @@ type UpdateNegotiationDialogProps = {
 };
 
 const negotiationStatusValues: { value: NegotiationStatus; label: string }[] = [
-  { value: "created", label: "Criado" },
-  { value: "sent", label: "Enviado" },
-  { value: "received", label: "Recebido" },
+  { value: 'created', label: 'Criado' },
+  { value: 'sent', label: 'Enviado' },
+  { value: 'received', label: 'Recebido' },
 ];
 
 const UpdateNegotiationDialog: React.FC<
@@ -35,7 +35,7 @@ const UpdateNegotiationDialog: React.FC<
 > = ({ title, subTitle, setOpen, negotiationToUpdate, ...rest }) => {
   const { id, associateId, description, price, status } = negotiationToUpdate;
 
-  const { control, handleSubmit, setValue } = useForm<Omit<Negotiation, "id">>({
+  const { control, handleSubmit, setValue } = useForm<Omit<Negotiation, 'id'>>({
     resolver: yupResolver(schema),
   });
 
@@ -46,7 +46,7 @@ const UpdateNegotiationDialog: React.FC<
     description,
     price,
     associateId,
-  }: Omit<Negotiation, "id">) => {
+  }: Omit<Negotiation, 'id'>) => {
     updateNegotiation({
       id,
       status,
@@ -55,7 +55,7 @@ const UpdateNegotiationDialog: React.FC<
       associateId,
     });
 
-    toast.success("Torneiro adicionado com sucesso");
+    toast.success('Torneiro adicionado com sucesso');
 
     setOpen(false);
   };
@@ -65,10 +65,10 @@ const UpdateNegotiationDialog: React.FC<
   };
 
   useEffect(() => {
-    setValue("description", description);
-    setValue("associateId", associateId);
-    setValue("price", price);
-    setValue("status", status);
+    setValue('description', description);
+    setValue('associateId', associateId);
+    setValue('price', price);
+    setValue('status', status);
   }, [negotiationToUpdate]);
 
   return (
@@ -76,16 +76,16 @@ const UpdateNegotiationDialog: React.FC<
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{subTitle}</DialogContentText>
-        <Grid container spacing={2} sx={{ width: "100%", marginTop: 1 }}>
+        <Grid container spacing={2} sx={{ width: '100%', marginTop: 1 }}>
           <Grid item xs={12}>
             <ControlledTextField
               name="description"
               control={control}
               textFieldProps={{
                 fullWidth: true,
-                variant: "outlined",
-                size: "small",
-                label: "Descrição",
+                variant: 'outlined',
+                size: 'small',
+                label: 'Descrição',
                 multiline: true,
                 rows: 3,
               }}
@@ -96,9 +96,9 @@ const UpdateNegotiationDialog: React.FC<
               name="price"
               control={control}
               textFieldProps={{
-                variant: "outlined",
-                size: "small",
-                label: "",
+                variant: 'outlined',
+                size: 'small',
+                label: '',
                 fullWidth: true,
               }}
             />
@@ -110,9 +110,9 @@ const UpdateNegotiationDialog: React.FC<
               textFieldProps={{
                 select: true,
                 fullWidth: true,
-                variant: "outlined",
-                size: "small",
-                label: "Telefone",
+                variant: 'outlined',
+                size: 'small',
+                label: 'Telefone',
                 children: negotiationStatusValues.map(({ value, label }) => (
                   <MenuItem key={label} value={value}>
                     {label}

@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
   Button,
@@ -10,18 +10,18 @@ import {
   DialogTitle,
   Stack,
   MenuItem,
-} from "@mui/material";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import useWantedCards from "../../../hooks/useWantedCards";
-import ControlledTextField from "../../textfields/ControlledTextField";
-import schema from "./schema ";
+} from '@mui/material';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import useWantedCards from '../../../hooks/useWantedCards';
+import ControlledTextField from '../../textfields/ControlledTextField';
+import schema from './schema ';
 
 const priorityMapValues: { value: WantedCardPriority; label: string }[] = [
-  { value: "high", label: "Alto" },
-  { value: "medium", label: "Médio" },
-  { value: "low", label: "Baixo" },
+  { value: 'high', label: 'Alto' },
+  { value: 'medium', label: 'Médio' },
+  { value: 'low', label: 'Baixo' },
 ];
 
 export type WantedCardUpdateData = {
@@ -66,7 +66,7 @@ const UpdateWantedCardDialog: React.FC<
   }: UpdateWantedCardDialogFormData) => {
     updateWantedCard({ id, name, amount: Number(amount), imgUrl, priority });
 
-    toast.success("Card Atualizado com sucesso!");
+    toast.success('Card Atualizado com sucesso!');
 
     setOpen(false);
   };
@@ -76,10 +76,10 @@ const UpdateWantedCardDialog: React.FC<
   };
 
   useEffect(() => {
-    setValue("name", name);
-    setValue("amount", amount);
-    setValue("imgUrl", imgUrl);
-    setValue("priority", priority);
+    setValue('name', name);
+    setValue('amount', amount);
+    setValue('imgUrl', imgUrl);
+    setValue('priority', priority);
   }, [tradingCardToUpdate]);
 
   return (
@@ -89,7 +89,7 @@ const UpdateWantedCardDialog: React.FC<
         <DialogContentText>{subTitle}</DialogContentText>
         <Box
           sx={{
-            display: "flex",
+            display: 'flex',
             marginTop: 2,
           }}
         >
@@ -97,7 +97,7 @@ const UpdateWantedCardDialog: React.FC<
           <Stack
             spacing={2}
             sx={{
-              display: "flex",
+              display: 'flex',
               flex: 1,
               marginLeft: 2,
             }}
@@ -106,9 +106,9 @@ const UpdateWantedCardDialog: React.FC<
               name="name"
               control={control}
               textFieldProps={{
-                variant: "outlined",
-                size: "small",
-                label: "Nome",
+                variant: 'outlined',
+                size: 'small',
+                label: 'Nome',
                 disabled: true,
               }}
             />
@@ -116,10 +116,10 @@ const UpdateWantedCardDialog: React.FC<
               name="amount"
               control={control}
               textFieldProps={{
-                variant: "outlined",
-                size: "small",
-                label: "Quantidade",
-                type: "number",
+                variant: 'outlined',
+                size: 'small',
+                label: 'Quantidade',
+                type: 'number',
                 InputProps: { inputProps: { min: 1 } },
               }}
             />
@@ -133,9 +133,9 @@ const UpdateWantedCardDialog: React.FC<
                     {label}
                   </MenuItem>
                 )),
-                variant: "outlined",
-                size: "small",
-                label: "Prioridade",
+                variant: 'outlined',
+                size: 'small',
+                label: 'Prioridade',
               }}
             />
           </Stack>

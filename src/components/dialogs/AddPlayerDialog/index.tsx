@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Button,
   Dialog,
@@ -8,12 +8,12 @@ import {
   DialogProps,
   DialogTitle,
   Stack,
-} from "@mui/material";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import usePlayers from "../../../hooks/usePlayers";
-import ControlledTextField from "../../textfields/ControlledTextField";
-import schema from "./schema ";
+} from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import usePlayers from '../../../hooks/usePlayers';
+import ControlledTextField from '../../textfields/ControlledTextField';
+import schema from './schema ';
 
 type AddPlayerDialogProps = {
   title: string;
@@ -35,8 +35,8 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
   const { control, handleSubmit } = useForm<AddPlayerDialogFormData>({
     resolver: yupResolver(schema),
     defaultValues: {
-      name: "",
-      email: "",
+      name: '',
+      email: '',
     },
   });
 
@@ -45,7 +45,7 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
   const handleConfirmAction = ({ name, email }: AddPlayerDialogFormData) => {
     addPlayer({ name, email });
 
-    toast.success("Player adicionado com sucesso!");
+    toast.success('Player adicionado com sucesso!');
 
     setOpen(false);
   };
@@ -62,7 +62,7 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
         <Stack
           spacing={2}
           sx={{
-            display: "flex",
+            display: 'flex',
             flex: 1,
             marginTop: 1,
           }}
@@ -71,18 +71,18 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
             name="name"
             control={control}
             textFieldProps={{
-              variant: "outlined",
-              size: "small",
-              label: "Nome",
+              variant: 'outlined',
+              size: 'small',
+              label: 'Nome',
             }}
           />
           <ControlledTextField
             name="email"
             control={control}
             textFieldProps={{
-              variant: "outlined",
-              size: "small",
-              label: "Email",
+              variant: 'outlined',
+              size: 'small',
+              label: 'Email',
             }}
           />
         </Stack>

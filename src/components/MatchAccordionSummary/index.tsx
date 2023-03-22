@@ -1,9 +1,9 @@
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { AccordionSummary, Box, Typography } from "@mui/material";
-import React, { useMemo } from "react";
-import getPlayerById from "../../utils/getPlayerById";
-import getPlayerNameById from "../../utils/getPlayerNameById";
-import AvatarPlayer from "../AvatarPlayer";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { AccordionSummary, Box, Typography } from '@mui/material';
+import React, { useMemo } from 'react';
+import getPlayerById from '../../utils/getPlayerById';
+import getPlayerNameById from '../../utils/getPlayerNameById';
+import AvatarPlayer from '../AvatarPlayer';
 
 type MatchAccordionSummaryProps = {
   matchIndex: number;
@@ -68,22 +68,22 @@ const MatchAccordionSummary: React.FC<MatchAccordionSummaryProps> = ({
     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
       <Box
         sx={{
-          display: "flex",
+          display: 'flex',
           width: 1,
           marginX: 1,
-          alignItems: "center",
-          justifyContent: "space-between",
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
         <Box
           sx={{
-            display: "flex",
+            display: 'flex',
             width: 1,
-            alignItems: "center",
-            justifyContent: "space-between",
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", width: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', width: 1 }}>
             <Typography variant="h6" sx={{ marginRight: 1 }}>
               {matchIndex + 1}.
             </Typography>
@@ -93,17 +93,17 @@ const MatchAccordionSummary: React.FC<MatchAccordionSummaryProps> = ({
             />
             <Typography variant="h6">{firstPlayerName}</Typography>
           </Box>
-          <Box sx={{ width: 1, textAlign: "center" }}>
+          <Box sx={{ width: 1, textAlign: 'center' }}>
             <Typography variant="h6">
               {firstPlayerVirories} X {secondPlayerVirories}
             </Typography>
           </Box>
           <Box
             sx={{
-              display: "flex",
+              display: 'flex',
               width: 1,
-              alignItems: "center",
-              justifyContent: "flex-end",
+              alignItems: 'center',
+              justifyContent: 'flex-end',
             }}
           >
             <Typography variant="h6">{secondPlayerName}</Typography>

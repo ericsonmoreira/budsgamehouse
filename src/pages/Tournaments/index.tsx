@@ -1,13 +1,13 @@
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
-import { useState } from "react";
-import DataGridTournaments from "../../components/datagrids/DataGridTournaments";
-import AddTournamentDialog from "../../components/dialogs/AddTournamentDialog";
-import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { useState } from 'react';
+import DataGridTournaments from '../../components/datagrids/DataGridTournaments';
+import AddTournamentDialog from '../../components/dialogs/AddTournamentDialog';
+import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
 import UpdateTournamentDialog, {
   UpdateTournamentDialogFormData,
-} from "../../components/dialogs/UpdateTournamentDialog";
-import useTournaments from "../../hooks/useTournaments";
+} from '../../components/dialogs/UpdateTournamentDialog';
+import useTournaments from '../../hooks/useTournaments';
 
 const Tournaments: React.FC = () => {
   const [addTournamentDialogOpen, setAddTournamentDialogOpen] = useState(false);
@@ -15,7 +15,7 @@ const Tournaments: React.FC = () => {
   const [updateTournamentDialogOpen, setUpdateTournamentDialogOpen] =
     useState(false);
 
-  const [tournamentToDeleteId, setTournamentToDeleteId] = useState("");
+  const [tournamentToDeleteId, setTournamentToDeleteId] = useState('');
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -23,9 +23,9 @@ const Tournaments: React.FC = () => {
 
   const [tournamentToUpdate, setTournamentToUpdate] =
     useState<UpdateTournamentDialogFormData>({
-      id: "",
-      name: "",
-      format: "pioneer",
+      id: '',
+      name: '',
+      format: 'pioneer',
       rounds: 0,
       selectedPlayers: [],
     });
@@ -51,9 +51,9 @@ const Tournaments: React.FC = () => {
       <Box
         sx={{
           margin: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
         <Typography variant="h4" color="textPrimary">

@@ -1,4 +1,4 @@
-import TelegramIcon from "@mui/icons-material/Telegram";
+import TelegramIcon from '@mui/icons-material/Telegram';
 import {
   Box,
   Button,
@@ -7,16 +7,16 @@ import {
   DialogProps,
   DialogTitle,
   Typography,
-} from "@mui/material";
-import { toBlob } from "html-to-image";
-import { useCallback, useMemo, useRef, useState } from "react";
-import { toast } from "react-hot-toast";
-import RatingsController from "../../../controllers/RatingsController";
-import sendPhotoTelegram from "../../../resources/sendPhotoTelegram";
-import getPlayerNameById from "../../../utils/getPlayerNameById";
+} from '@mui/material';
+import { toBlob } from 'html-to-image';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { toast } from 'react-hot-toast';
+import RatingsController from '../../../controllers/RatingsController';
+import sendPhotoTelegram from '../../../resources/sendPhotoTelegram';
+import getPlayerNameById from '../../../utils/getPlayerNameById';
 import DataGridRatings, {
   DataGridRatingsRowData,
-} from "../../datagrids/DataGridRatings";
+} from '../../datagrids/DataGridRatings';
 
 type ViewRatingsDialogProps = {
   title: string;
@@ -64,9 +64,9 @@ const ViewRatingsDialog: React.FC<ViewRatingsDialogProps & DialogProps> = ({
 
         await sendPhotoTelegram(blob as Blob);
 
-        toast.success("Mensagem enviada com sucesso!");
+        toast.success('Mensagem enviada com sucesso!');
       } catch (error) {
-        toast.error("Algo inesperado aconteceu!");
+        toast.error('Algo inesperado aconteceu!');
       } finally {
         setIsLoading(false);
       }
@@ -79,10 +79,10 @@ const ViewRatingsDialog: React.FC<ViewRatingsDialogProps & DialogProps> = ({
       <DialogContent>
         <Box
           sx={{
-            display: "flex",
+            display: 'flex',
             marginBottom: 1,
-            alignItems: "center",
-            justifyContent: "space-between",
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
         >
           <Typography>{subTitle}</Typography>
@@ -97,7 +97,7 @@ const ViewRatingsDialog: React.FC<ViewRatingsDialogProps & DialogProps> = ({
             </Button>
           </Box>
         </Box>
-        <Box sx={{ height: "60vh" }} ref={ref}>
+        <Box sx={{ height: '60vh' }} ref={ref}>
           <DataGridRatings
             rows={ratingsTableData}
             title={title}

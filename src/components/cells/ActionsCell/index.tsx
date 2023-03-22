@@ -1,6 +1,6 @@
-import { Box, IconButton, Tooltip } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { Box, IconButton, Tooltip } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 type ActionsCellProps = {
   handleUpdate?: () => void;
@@ -28,3 +28,4 @@ const ActionsCell: React.FC<ActionsCellProps> = ({
 };
 
 export default ActionsCell;
+

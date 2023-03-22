@@ -1,12 +1,12 @@
-import PauseIcon from "@mui/icons-material/Pause";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
-import React, { useState } from "react";
-import { useTimer } from "react-timer-hook";
-import useSound from "use-sound";
-import AlertMP3 from "../../assets/alert.mp3";
+import PauseIcon from '@mui/icons-material/Pause';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { useTimer } from 'react-timer-hook';
+import useSound from 'use-sound';
+import AlertMP3 from '../../assets/alert.mp3';
 
 type TimerProps = {
   interval: number;
@@ -56,8 +56,8 @@ const Timer: React.FC<TimerProps> = ({ interval }) => {
   return (
     <Box
       sx={({ palette }) => ({
-        display: "flex",
-        alignItems: "center",
+        display: 'flex',
+        alignItems: 'center',
         backgroundColor: palette.secondary.main,
         borderRadius: 50,
         paddingX: 2,
@@ -99,11 +99,11 @@ const Timer: React.FC<TimerProps> = ({ interval }) => {
       </Tooltip>
       <Box sx={{ marginLeft: 2 }}>
         <Typography variant="h5" color="white">
-          {minutes.toLocaleString("pt-Br", {
+          {minutes.toLocaleString('pt-Br', {
             minimumIntegerDigits: 2,
           })}
           :
-          {seconds.toLocaleString("pt-Br", {
+          {seconds.toLocaleString('pt-Br', {
             minimumIntegerDigits: 2,
           })}
         </Typography>

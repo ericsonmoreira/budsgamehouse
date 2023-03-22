@@ -1,18 +1,18 @@
-import AddCardIcon from "@mui/icons-material/AddCard";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import CachedIcon from "@mui/icons-material/Cached";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
-import HandshakeIcon from "@mui/icons-material/Handshake";
-import HomeIcon from "@mui/icons-material/Home";
-import LogoutIcon from "@mui/icons-material/Logout";
-import PersonIcon from "@mui/icons-material/Person";
-import { Box, Button, Divider, Drawer, useMediaQuery } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import { useSignOut } from "react-firebase-hooks/auth";
-import { useLocation, useNavigate } from "react-router-dom";
-import routesNames from "../../routes/routesNames";
-import { auth } from "../../services/firebaseConfig";
-import NavItem from "../NavItem";
+import AddCardIcon from '@mui/icons-material/AddCard';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import CachedIcon from '@mui/icons-material/Cached';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import HandshakeIcon from '@mui/icons-material/Handshake';
+import HomeIcon from '@mui/icons-material/Home';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
+import { Box, Button, Divider, Drawer, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { useSignOut } from 'react-firebase-hooks/auth';
+import { useLocation, useNavigate } from 'react-router-dom';
+import routesNames from '../../routes/routesNames';
+import { auth } from '../../services/firebaseConfig';
+import NavItem from '../NavItem';
 
 type AppDrawerItemData = {
   to: string;
@@ -29,37 +29,37 @@ const items: AppDrawerItemData[] = [
   {
     icon: HomeIcon,
     to: routesNames.HOME,
-    title: "Home",
+    title: 'Home',
   },
   {
     icon: CachedIcon,
     to: routesNames.TRANDING_CARDS,
-    title: "Cartas de Troca",
+    title: 'Cartas de Troca',
   },
   {
     icon: AddCardIcon,
     to: routesNames.WANTED_CARDS,
-    title: "Want List",
+    title: 'Want List',
   },
   {
     icon: PersonIcon,
     to: routesNames.PLAYERS,
-    title: "Players",
+    title: 'Players',
   },
   {
     icon: EmojiEventsIcon,
     to: routesNames.TOURNAMENTS,
-    title: "Torneiros",
+    title: 'Torneiros',
   },
   {
     icon: HandshakeIcon,
     to: routesNames.ASSOCIATES,
-    title: "Assciados",
+    title: 'Assciados',
   },
   {
     icon: AttachMoneyIcon,
     to: routesNames.NEGOTIATIONS,
-    title: "Negociações",
+    title: 'Negociações',
   },
 ];
 
@@ -75,7 +75,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
   const theme = useTheme();
 
-  const upLg = useMediaQuery(theme.breakpoints.up("lg"));
+  const upLg = useMediaQuery(theme.breakpoints.up('lg'));
 
   const isNavItemActive = (to: string): boolean =>
     to === routesNames.HOME
@@ -84,15 +84,15 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
   const handleSignOut = async () => {
     await signOut();
-    navigate("/login");
+    navigate('/login');
   };
 
   const content = (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
       }}
     >
       <Box sx={{ flexGrow: 1, py: 2 }}>
@@ -130,7 +130,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
           sx: {
             top: 65,
             width: 180,
-            height: "calc(100% - 65px)",
+            height: 'calc(100% - 65px)',
           },
         }}
         variant="permanent"
@@ -154,3 +154,4 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 };
 
 export default DashboardSidebar;
+

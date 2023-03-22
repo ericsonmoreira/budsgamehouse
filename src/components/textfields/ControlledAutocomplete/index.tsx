@@ -1,10 +1,10 @@
-import { TextField, TextFieldProps } from "@mui/material";
+import { TextField, TextFieldProps } from '@mui/material';
 import {
   FieldPath,
   FieldValues,
   useController,
   UseControllerProps,
-} from "react-hook-form";
+} from 'react-hook-form';
 
 type ControlledAutocompleteProps<
   TextFieldValues extends FieldValues,
@@ -18,8 +18,8 @@ const ControlledAutocomplete = <
   TextFieldValues extends FieldValues,
   TextFieldName extends FieldPath<TextFieldValues>
 >(
-  props: ControlledAutocompleteProps<TextFieldValues, TextFieldName>
-) => {
+    props: ControlledAutocompleteProps<TextFieldValues, TextFieldName>
+  ) => {
   const { control, name, textFieldProps } = props;
 
   const {

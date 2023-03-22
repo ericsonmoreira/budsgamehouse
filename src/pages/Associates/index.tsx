@@ -1,11 +1,11 @@
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
-import { useState } from "react";
-import DataGridAssociates from "../../components/datagrids/DataGridAssociates";
-import AddAssociateDialog from "../../components/dialogs/AddAssociateDialog";
-import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
-import UpdateAssociateDialog from "../../components/dialogs/UpdateAssociateDialog";
-import useAssociates from "../../hooks/useAssociates";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { useState } from 'react';
+import DataGridAssociates from '../../components/datagrids/DataGridAssociates';
+import AddAssociateDialog from '../../components/dialogs/AddAssociateDialog';
+import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
+import UpdateAssociateDialog from '../../components/dialogs/UpdateAssociateDialog';
+import useAssociates from '../../hooks/useAssociates';
 
 const Associates: React.FC = () => {
   const [addAssociateDialogOpen, setAddAssociateDialogOpen] = useState(false);
@@ -16,7 +16,7 @@ const Associates: React.FC = () => {
   const [deleteAssociateDialogOpen, setDeleteAssociateDialogOpen] =
     useState(false);
 
-  const [associateToDeleteId, setAssociateToDeleteId] = useState("");
+  const [associateToDeleteId, setAssociateToDeleteId] = useState('');
 
   const { associates, isLoading, deleteAssociate } = useAssociates();
 
@@ -39,9 +39,9 @@ const Associates: React.FC = () => {
       <Box
         sx={{
           margin: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
         <Typography variant="h4" color="textPrimary">

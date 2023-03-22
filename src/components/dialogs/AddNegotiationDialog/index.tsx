@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Button,
   Dialog,
@@ -9,13 +9,13 @@ import {
   DialogTitle,
   MenuItem,
   Stack,
-} from "@mui/material";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import useAssociates from "../../../hooks/useAssociates";
-import useNegotiations from "../../../hooks/useNegotiations";
-import ControlledTextField from "../../textfields/ControlledTextField";
-import schema from "./schema ";
+} from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import useAssociates from '../../../hooks/useAssociates';
+import useNegotiations from '../../../hooks/useNegotiations';
+import ControlledTextField from '../../textfields/ControlledTextField';
+import schema from './schema ';
 
 type AddNegotiationDialogProps = {
   title: string;
@@ -24,21 +24,21 @@ type AddNegotiationDialogProps = {
 };
 
 const negotiationStatusValues: { value: NegotiationStatus; label: string }[] = [
-  { value: "created", label: "Criado" },
-  { value: "sent", label: "Enviado" },
-  { value: "received", label: "Recebido" },
+  { value: 'created', label: 'Criado' },
+  { value: 'sent', label: 'Enviado' },
+  { value: 'received', label: 'Recebido' },
 ];
 
 const AddNegotiationDialog: React.FC<
   AddNegotiationDialogProps & DialogProps
 > = ({ title, subTitle, setOpen, ...rest }) => {
-  const { control, handleSubmit } = useForm<Omit<Negotiation, "id">>({
+  const { control, handleSubmit } = useForm<Omit<Negotiation, 'id'>>({
     resolver: yupResolver(schema),
     defaultValues: {
-      associateId: "",
-      description: "",
+      associateId: '',
+      description: '',
       price: 0,
-      status: "created",
+      status: 'created',
     },
   });
 
@@ -51,10 +51,10 @@ const AddNegotiationDialog: React.FC<
     description,
     price,
     status,
-  }: Omit<Negotiation, "id">) => {
+  }: Omit<Negotiation, 'id'>) => {
     addNegotiation({ associateId, description, price, status });
 
-    toast.success("Associado adicionado com sucesso!");
+    toast.success('Associado adicionado com sucesso!');
 
     setOpen(false);
   };
@@ -71,7 +71,7 @@ const AddNegotiationDialog: React.FC<
         <Stack
           spacing={2}
           sx={{
-            display: "flex",
+            display: 'flex',
             flex: 1,
             marginTop: 1,
           }}
@@ -80,9 +80,9 @@ const AddNegotiationDialog: React.FC<
             name="description"
             control={control}
             textFieldProps={{
-              variant: "outlined",
-              size: "small",
-              label: "Descrição",
+              variant: 'outlined',
+              size: 'small',
+              label: 'Descrição',
               multiline: true,
               rows: 3,
             }}
@@ -92,9 +92,9 @@ const AddNegotiationDialog: React.FC<
             control={control}
             textFieldProps={{
               select: true,
-              variant: "outlined",
-              size: "small",
-              label: "Telefone",
+              variant: 'outlined',
+              size: 'small',
+              label: 'Telefone',
               children: negotiationStatusValues.map(({ value, label }) => (
                 <MenuItem key={label} value={value}>
                   {label}
@@ -107,9 +107,9 @@ const AddNegotiationDialog: React.FC<
             control={control}
             textFieldProps={{
               select: true,
-              variant: "outlined",
-              size: "small",
-              label: "Asssociado",
+              variant: 'outlined',
+              size: 'small',
+              label: 'Asssociado',
               children: associates?.map(({ id, name }) => (
                 <MenuItem key={id} value={name}>
                   {name}
@@ -121,9 +121,9 @@ const AddNegotiationDialog: React.FC<
             name="price"
             control={control}
             textFieldProps={{
-              variant: "outlined",
-              size: "small",
-              label: "Preço",
+              variant: 'outlined',
+              size: 'small',
+              label: 'Preço',
             }}
           />
         </Stack>

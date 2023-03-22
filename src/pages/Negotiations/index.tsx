@@ -1,12 +1,12 @@
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
-import { useState } from "react";
-import DataGridNegotiations from "../../components/datagrids/DataGridNegotiations";
-import AddNegotiationDialog from "../../components/dialogs/AddNegotiationDialog";
-import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
-import UpdateNegotiationDialog from "../../components/dialogs/UpdateNegotiationDialog";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { useState } from 'react';
+import DataGridNegotiations from '../../components/datagrids/DataGridNegotiations';
+import AddNegotiationDialog from '../../components/dialogs/AddNegotiationDialog';
+import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
+import UpdateNegotiationDialog from '../../components/dialogs/UpdateNegotiationDialog';
 
-import useNegotiations from "../../hooks/useNegotiations";
+import useNegotiations from '../../hooks/useNegotiations';
 
 const Negotiations: React.FC = () => {
   const [addNegotiationDialogOpen, setAddNegotiationDialogOpen] =
@@ -20,14 +20,14 @@ const Negotiations: React.FC = () => {
 
   const { negotiations, isLoading, deleteNegotiation } = useNegotiations();
 
-  const [negotiationToDeleteId, setNegotiationToDeleteId] = useState("");
+  const [negotiationToDeleteId, setNegotiationToDeleteId] = useState('');
 
   const [negotiationToUpdate, setnegotiationToUpdate] = useState<Negotiation>({
-    id: "",
-    associateId: "",
-    description: "",
+    id: '',
+    associateId: '',
+    description: '',
     price: 0,
-    status: "created",
+    status: 'created',
   });
 
   const handleUpdate = ({
@@ -51,9 +51,9 @@ const Negotiations: React.FC = () => {
       <Box
         sx={{
           margin: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
         <Typography variant="h4" color="textPrimary">

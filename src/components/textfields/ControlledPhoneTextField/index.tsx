@@ -1,11 +1,11 @@
-import { TextField, TextFieldProps } from "@mui/material";
+import { TextField, TextFieldProps } from '@mui/material';
 import {
   FieldPath,
   FieldValues,
   useController,
   UseControllerProps,
-} from "react-hook-form";
-import { PatternFormat } from "react-number-format";
+} from 'react-hook-form';
+import { PatternFormat } from 'react-number-format';
 
 type ControlledPhoneTextFieldProps<
   TextFieldValues extends FieldValues,
@@ -18,8 +18,8 @@ const ControlledPhoneTextField = <
   TextFieldValues extends FieldValues,
   TextFieldName extends FieldPath<TextFieldValues>
 >(
-  props: ControlledPhoneTextFieldProps<TextFieldValues, TextFieldName>
-) => {
+    props: ControlledPhoneTextFieldProps<TextFieldValues, TextFieldName>
+  ) => {
   const { control, name, textFieldProps } = props;
 
   const {
@@ -34,9 +34,10 @@ const ControlledPhoneTextField = <
       error={!!error}
       helperText={error?.message}
       InputProps={{
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         inputComponent: PatternFormat as any,
         inputProps: {
-          format: "(##) #####-####",
+          format: '(##) #####-####',
         },
       }}
     />

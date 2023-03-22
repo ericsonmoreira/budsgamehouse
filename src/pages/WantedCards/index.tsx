@@ -1,13 +1,13 @@
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
-import { useState } from "react";
-import DataGridWantedCards from "../../components/datagrids/DataGridWantedCards";
-import AddWantCardDialog from "../../components/dialogs/AddWantCardDialog";
-import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { useState } from 'react';
+import DataGridWantedCards from '../../components/datagrids/DataGridWantedCards';
+import AddWantCardDialog from '../../components/dialogs/AddWantCardDialog';
+import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
 import UpdateWantedCardDialog, {
   WantedCardUpdateData,
-} from "../../components/dialogs/UpdateWantedCardDialog";
-import useWantedCards from "../../hooks/useWantedCards";
+} from '../../components/dialogs/UpdateWantedCardDialog';
+import useWantedCards from '../../hooks/useWantedCards';
 
 const WantedCards: React.FC = () => {
   const [addWantCardDialogOpen, setAddWantCardDialogOpen] = useState(false);
@@ -17,15 +17,15 @@ const WantedCards: React.FC = () => {
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  const [wantedCardToDeleteId, setWantedCardToDeleteId] = useState("");
+  const [wantedCardToDeleteId, setWantedCardToDeleteId] = useState('');
 
   const [wantedCardToUpdate, setWantedCardToUpdate] =
     useState<WantedCardUpdateData>({
-      id: "",
-      name: "",
-      amount: "",
-      imgUrl: "",
-      priority: "medium",
+      id: '',
+      name: '',
+      amount: '',
+      imgUrl: '',
+      priority: 'medium',
     });
 
   const handleUpdate = ({
@@ -51,9 +51,9 @@ const WantedCards: React.FC = () => {
       <Box
         sx={{
           margin: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
         <Typography variant="h4" color="textPrimary">

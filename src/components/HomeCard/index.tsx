@@ -1,4 +1,4 @@
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {
   Box,
   Button,
@@ -10,9 +10,9 @@ import {
   SvgIcon,
   useTheme,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export type HomeCardProps = {
   title: string;
@@ -41,10 +41,10 @@ const HomeCard: React.FC<HomeCardProps> = ({
       <CardContent>
         <Box
           sx={{
-            display: "flex",
-            width: "100%",
-            alignItems: "center",
-            justifyContent: "space-between",
+            display: 'flex',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             fontSize: 50,
           }}
         >
@@ -59,7 +59,7 @@ const HomeCard: React.FC<HomeCardProps> = ({
         sx={{
           borderTop: 1,
           borderTopColor: theme.palette.divider,
-          justifyContent: "end",
+          justifyContent: 'end',
         }}
       >
         <Button

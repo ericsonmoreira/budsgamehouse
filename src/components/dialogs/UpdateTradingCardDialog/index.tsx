@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
   Button,
@@ -9,13 +9,13 @@ import {
   DialogProps,
   DialogTitle,
   Stack,
-} from "@mui/material";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import useTradingCards from "../../../hooks/useTradingCards";
-import ControlledTextField from "../../textfields/ControlledTextField";
-import schema from "./schema ";
+} from '@mui/material';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import useTradingCards from '../../../hooks/useTradingCards';
+import ControlledTextField from '../../textfields/ControlledTextField';
+import schema from './schema ';
 
 export type TradingCardUpdateData = {
   id: string;
@@ -56,7 +56,7 @@ const UpdateTradingCardDialog: React.FC<
   }: UpdateTradingCardDialogFormData) => {
     updateTradingCard({ id, name, amount: Number(amount), imgUrl });
 
-    toast.success("Card Atualizado com sucesso!");
+    toast.success('Card Atualizado com sucesso!');
 
     setOpen(false);
   };
@@ -66,9 +66,9 @@ const UpdateTradingCardDialog: React.FC<
   };
 
   useEffect(() => {
-    setValue("name", name);
-    setValue("amount", amount);
-    setValue("imgUrl", imgUrl);
+    setValue('name', name);
+    setValue('amount', amount);
+    setValue('imgUrl', imgUrl);
   }, [tradingCardToUpdate]);
 
   return (
@@ -78,7 +78,7 @@ const UpdateTradingCardDialog: React.FC<
         <DialogContentText>{subTitle}</DialogContentText>
         <Box
           sx={{
-            display: "flex",
+            display: 'flex',
             marginTop: 2,
           }}
         >
@@ -86,7 +86,7 @@ const UpdateTradingCardDialog: React.FC<
           <Stack
             spacing={2}
             sx={{
-              display: "flex",
+              display: 'flex',
               flex: 1,
               marginLeft: 2,
             }}
@@ -95,9 +95,9 @@ const UpdateTradingCardDialog: React.FC<
               name="name"
               control={control}
               textFieldProps={{
-                variant: "outlined",
-                size: "small",
-                label: "Nome",
+                variant: 'outlined',
+                size: 'small',
+                label: 'Nome',
                 disabled: true,
               }}
             />
@@ -105,10 +105,10 @@ const UpdateTradingCardDialog: React.FC<
               name="amount"
               control={control}
               textFieldProps={{
-                variant: "outlined",
-                size: "small",
-                label: "Quantidade",
-                type: "number",
+                variant: 'outlined',
+                size: 'small',
+                label: 'Quantidade',
+                type: 'number',
                 InputProps: { inputProps: { min: 1 } },
               }}
             />

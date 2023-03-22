@@ -1,8 +1,8 @@
-import { Stack, Box, Typography } from "@mui/material";
-import React from "react";
-import getPlayerById from "../../utils/getPlayerById";
-import getPlayerNameById from "../../utils/getPlayerNameById";
-import AvatarPlayer from "../AvatarPlayer";
+import { Stack, Box, Typography } from '@mui/material';
+import React from 'react';
+import getPlayerById from '../../utils/getPlayerById';
+import getPlayerNameById from '../../utils/getPlayerNameById';
+import AvatarPlayer from '../AvatarPlayer';
 
 type MatchFinishedProps = {
   match: Match;
@@ -17,8 +17,8 @@ const MatchFinished: React.FC<MatchFinishedProps> = ({
 }) => {
   return (
     <Stack>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Box sx={{ display: "flex", width: 1, alignItems: "center" }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', width: 1, alignItems: 'center' }}>
           <Typography variant="h6" color="textPrimary" sx={{ marginRight: 1 }}>
             {matchIndex + 1}.
           </Typography>
@@ -38,17 +38,17 @@ const MatchFinished: React.FC<MatchFinishedProps> = ({
             })}
           </Typography>
         </Box>
-        <Box sx={{ width: 1, textAlign: "center" }}>
+        <Box sx={{ width: 1, textAlign: 'center' }}>
           <Typography variant="h6" color="textPrimary">
             {match.playersVirories[0]} X {match.playersVirories[1]}
           </Typography>
         </Box>
         <Box
           sx={{
-            display: "flex",
+            display: 'flex',
             width: 1,
-            alignItems: "center",
-            justifyContent: "flex-end",
+            alignItems: 'center',
+            justifyContent: 'flex-end',
           }}
         >
           <Typography variant="h6" color="textPrimary">

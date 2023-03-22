@@ -1,12 +1,11 @@
-import { TextField, TextFieldProps } from "@mui/material";
+import { TextField, TextFieldProps } from '@mui/material';
 import {
-  Controller,
   FieldPath,
   FieldValues,
   useController,
   UseControllerProps,
-} from "react-hook-form";
-import { NumericFormat } from "react-number-format";
+} from 'react-hook-form';
+import { NumericFormat } from 'react-number-format';
 
 type ControlledCurrencyTextFieldProps<
   TextFieldValues extends FieldValues,
@@ -19,8 +18,8 @@ const ControlledCurrencyTextField = <
   TextFieldValues extends FieldValues,
   TextFieldName extends FieldPath<TextFieldValues>
 >(
-  props: ControlledCurrencyTextFieldProps<TextFieldValues, TextFieldName>
-) => {
+    props: ControlledCurrencyTextFieldProps<TextFieldValues, TextFieldName>
+  ) => {
   const { control, name, textFieldProps } = props;
 
   const {
@@ -35,11 +34,12 @@ const ControlledCurrencyTextField = <
       error={!!error}
       helperText={error?.message}
       InputProps={{
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         inputComponent: NumericFormat as any,
         inputProps: {
           allowLeadingZeros: true,
           fixedDecimalScale: true,
-          thousandSeparator: ",",
+          thousandSeparator: ',',
           decimalScale: 2,
         },
       }}

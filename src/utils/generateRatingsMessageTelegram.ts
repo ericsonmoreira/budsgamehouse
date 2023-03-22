@@ -1,16 +1,16 @@
-import RatingsController from "../controllers/RatingsController";
-import getPlayerNameById from "./getPlayerNameById";
+import RatingsController from '../controllers/RatingsController';
+import getPlayerNameById from './getPlayerNameById';
 
 const formatNumberToPercentage = (n: string | number) =>
-  Number(n).toLocaleString("en-US", {
-    style: "percent",
+  Number(n).toLocaleString('en-US', {
+    style: 'percent',
     minimumFractionDigits: 2,
   });
 
 const generateRatingsMessageTelegram = (
   tournamentData: TournamentData
 ): string => {
-  let message = "";
+  let message = '';
 
   const ratingsController = new RatingsController(tournamentData);
 
@@ -22,7 +22,7 @@ const generateRatingsMessageTelegram = (
     ratings.length
   } de ${rounds}\n`;
 
-  message += `# · Jogador · Pts · VDE · MWP · GWP · OMWP · OGWP\n`;
+  message += '# · Jogador · Pts · VDE · MWP · GWP · OMWP · OGWP\n';
 
   ratingsController
     .generateRatings()
@@ -30,7 +30,7 @@ const generateRatingsMessageTelegram = (
       podiun: index + 1,
       name: getPlayerNameById({ playerId, tournamentData }),
       points,
-      vde: vde.join("-"),
+      vde: vde.join('-'),
       mwp: formatNumberToPercentage(mwp),
       gwp: formatNumberToPercentage(gwp),
       omwp: formatNumberToPercentage(omwp),

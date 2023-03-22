@@ -1,5 +1,5 @@
-import { Box, BoxProps, Typography } from "@mui/material";
-import AvatarPlayer from "../AvatarPlayer";
+import { Box, Typography } from '@mui/material';
+import AvatarPlayer from '../AvatarPlayer';
 
 type AutocompletePlayersOptionProps = {
   player: Player;

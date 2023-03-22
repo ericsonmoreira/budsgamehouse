@@ -1,8 +1,8 @@
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { Autocomplete, Box, IconButton, TextField } from "@mui/material";
-import { useMemo, useState } from "react";
-import usePlayers from "../../hooks/usePlayers";
-import AutocompletePlayersOption from "../AutocompletePlayersOption";
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import { Autocomplete, Box, IconButton, TextField } from '@mui/material';
+import { useMemo, useState } from 'react';
+import usePlayers from '../../hooks/usePlayers';
+import AutocompletePlayersOption from '../AutocompletePlayersOption';
 
 type AutocompletePlayersProps = {
   selectedPlayers: Player[];
@@ -14,7 +14,7 @@ const AutocompletePlayers: React.FC<AutocompletePlayersProps> = ({
   setSelectedPlayers,
 }) => {
   const [autocompleteInputValue, setAutocompleteInputValue] =
-    useState<string>("");
+    useState<string>('');
 
   const [activePlayer, setActivePlayer] = useState<Player | null>();
 
@@ -29,8 +29,8 @@ const AutocompletePlayers: React.FC<AutocompletePlayersProps> = ({
   return (
     <Box
       sx={{
-        display: "flex",
-        alignItems: "center",
+        display: 'flex',
+        alignItems: 'center',
       }}
     >
       <Autocomplete
@@ -54,7 +54,7 @@ const AutocompletePlayers: React.FC<AutocompletePlayersProps> = ({
         onClick={() => {
           setSelectedPlayers((old) => [...old, activePlayer as Player]);
           setActivePlayer(null);
-          setAutocompleteInputValue("");
+          setAutocompleteInputValue('');
         }}
         sx={{ marginLeft: 1 }}
         color="secondary"

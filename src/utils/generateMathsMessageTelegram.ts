@@ -1,4 +1,4 @@
-import getPlayerNameById from "./getPlayerNameById";
+import getPlayerNameById from './getPlayerNameById';
 
 type GenerateMathsMessageTelegramData = {
   matchs: Match[];
@@ -9,7 +9,7 @@ const generateMathsMessageTelegram = ({
   matchs,
   tournamentData,
 }: GenerateMathsMessageTelegramData): string => {
-  let message = "";
+  let message = '';
 
   const { name, format, ratings, rounds } = tournamentData;
 

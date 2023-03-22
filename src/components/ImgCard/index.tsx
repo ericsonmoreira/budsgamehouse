@@ -1,8 +1,8 @@
-import { Box, Skeleton } from "@mui/material";
-import React, { ImgHTMLAttributes, useState } from "react";
-import ReactCardFlip from "react-card-flip";
-import { Card } from "scryfall-sdk";
-import NoCardImg from "../../assets/nocard.jpg";
+import { Box, Skeleton } from '@mui/material';
+import React, { ImgHTMLAttributes, useState } from 'react';
+import ReactCardFlip from 'react-card-flip';
+import { Card } from 'scryfall-sdk';
+import NoCardImg from '../../assets/nocard.jpg';
 
 type ImgCardProps = {
   card?: Card | null;
@@ -22,7 +22,7 @@ const ImgCard: React.FC<ImgCardProps & ImgHTMLAttributes<HTMLImageElement>> = (
 
   if (card.card_faces?.length > 1) {
     return (
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: 'flex' }}>
         <ReactCardFlip
           isFlipped={isFlipped}
           flipDirection="horizontal"

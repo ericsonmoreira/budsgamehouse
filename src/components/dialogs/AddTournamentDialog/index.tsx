@@ -1,5 +1,5 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import { yupResolver } from '@hookform/resolvers/yup';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import {
   Box,
   Button,
@@ -13,15 +13,15 @@ import {
   Grid,
   MenuItem,
   Typography,
-} from "@mui/material";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import useTournaments from "../../../hooks/useTournaments";
-import AutocompletePlayers from "../../AutocompletePlayers";
-import AvatarPlayer from "../../AvatarPlayer";
-import ControlledTextField from "../../textfields/ControlledTextField";
-import schema from "./schema ";
+} from '@mui/material';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import useTournaments from '../../../hooks/useTournaments';
+import AutocompletePlayers from '../../AutocompletePlayers';
+import AvatarPlayer from '../../AvatarPlayer';
+import ControlledTextField from '../../textfields/ControlledTextField';
+import schema from './schema ';
 
 type AddTournamentDialogProps = {
   title: string;
@@ -37,16 +37,16 @@ type AddTournamentDialogFormData = {
 
 const formatValues = [
   {
-    value: "pioneer",
-    label: "Pioneer",
+    value: 'pioneer',
+    label: 'Pioneer',
   },
   {
-    value: "selado",
-    label: "Selado",
+    value: 'selado',
+    label: 'Selado',
   },
   {
-    value: "draft",
-    label: "Draft",
+    value: 'draft',
+    label: 'Draft',
   },
 ];
 
@@ -61,7 +61,7 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
     defaultValues: {
       format: formatValues[0].value as TournamentFormat,
       rounds: 1,
-      name: "",
+      name: '',
     },
   });
 
@@ -85,10 +85,10 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
       }),
       format,
       rounds: Number(rounds),
-      state: "not-started",
+      state: 'not-started',
     });
 
-    toast.success("Torneiro adicionado com sucesso");
+    toast.success('Torneiro adicionado com sucesso');
 
     setOpen(false);
   };
@@ -103,7 +103,7 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{subTitle}</DialogContentText>
-          <Grid container spacing={2} sx={{ width: "100%", marginTop: 1 }}>
+          <Grid container spacing={2} sx={{ width: '100%', marginTop: 1 }}>
             <Grid item xs={12}>
               <Typography variant="body1">Informações do Torneio</Typography>
             </Grid>
@@ -112,9 +112,9 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
                 name="name"
                 control={control}
                 textFieldProps={{
-                  variant: "outlined",
-                  size: "small",
-                  label: "Nome",
+                  variant: 'outlined',
+                  size: 'small',
+                  label: 'Nome',
                   fullWidth: true,
                 }}
               />
@@ -124,9 +124,9 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
                 name="format"
                 control={control}
                 textFieldProps={{
-                  variant: "outlined",
-                  size: "small",
-                  label: "Formato",
+                  variant: 'outlined',
+                  size: 'small',
+                  label: 'Formato',
                   fullWidth: true,
                   select: true,
                   children: formatValues.map(({ value, label }) => (
@@ -142,10 +142,10 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
                 name="rounds"
                 control={control}
                 textFieldProps={{
-                  type: "number",
-                  variant: "outlined",
-                  size: "small",
-                  label: "Rounds",
+                  type: 'number',
+                  variant: 'outlined',
+                  size: 'small',
+                  label: 'Rounds',
                   fullWidth: true,
                   inputProps: {
                     min: 1,
@@ -154,7 +154,7 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2} sx={{ width: "100%", marginTop: 1 }}>
+          <Grid container spacing={2} sx={{ width: '100%', marginTop: 1 }}>
             <Grid item xs={12}>
               <Typography variant="body1">Jogadores</Typography>
             </Grid>
@@ -167,9 +167,9 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
             <Grid item xs={12}>
               <Box
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
               >
                 <Typography variant="body1">Jogadores selecionados</Typography>
@@ -179,7 +179,7 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
               </Box>
             </Grid>
             <Grid item xs={12}>
-              <Box sx={{ display: "inline-block", alignItems: "center" }}>
+              <Box sx={{ display: 'inline-block', alignItems: 'center' }}>
                 {selectedPlayers.map(({ id, name, email, avatarImgUrl }) => (
                   <Chip
                     key={id}

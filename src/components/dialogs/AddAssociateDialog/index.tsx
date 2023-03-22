@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Button,
   Dialog,
@@ -8,13 +8,13 @@ import {
   DialogProps,
   DialogTitle,
   Stack,
-} from "@mui/material";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import useAssociates from "../../../hooks/useAssociates";
-import ControlledPhoneTextField from "../../textfields/ControlledPhoneTextField";
-import ControlledTextField from "../../textfields/ControlledTextField";
-import schema from "./schema ";
+} from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import useAssociates from '../../../hooks/useAssociates';
+import ControlledPhoneTextField from '../../textfields/ControlledPhoneTextField';
+import ControlledTextField from '../../textfields/ControlledTextField';
+import schema from './schema ';
 
 type AddAssociateDialogProps = {
   title: string;
@@ -28,20 +28,20 @@ const AddAssociateDialog: React.FC<AddAssociateDialogProps & DialogProps> = ({
   setOpen,
   ...rest
 }) => {
-  const { control, handleSubmit } = useForm<Omit<Associate, "id">>({
+  const { control, handleSubmit } = useForm<Omit<Associate, 'id'>>({
     resolver: yupResolver(schema),
     defaultValues: {
-      name: "",
-      phone: "",
+      name: '',
+      phone: '',
     },
   });
 
   const { addAssociate } = useAssociates();
 
-  const handleConfirmAction = ({ name, phone }: Omit<Associate, "id">) => {
+  const handleConfirmAction = ({ name, phone }: Omit<Associate, 'id'>) => {
     addAssociate({ name, phone });
 
-    toast.success("Associado adicionado com sucesso!");
+    toast.success('Associado adicionado com sucesso!');
 
     setOpen(false);
   };
@@ -58,7 +58,7 @@ const AddAssociateDialog: React.FC<AddAssociateDialogProps & DialogProps> = ({
         <Stack
           spacing={2}
           sx={{
-            display: "flex",
+            display: 'flex',
             flex: 1,
             marginTop: 1,
           }}
@@ -67,18 +67,18 @@ const AddAssociateDialog: React.FC<AddAssociateDialogProps & DialogProps> = ({
             name="name"
             control={control}
             textFieldProps={{
-              variant: "outlined",
-              size: "small",
-              label: "Nome",
+              variant: 'outlined',
+              size: 'small',
+              label: 'Nome',
             }}
           />
           <ControlledPhoneTextField
             name="phone"
             control={control}
             textFieldProps={{
-              variant: "outlined",
-              size: "small",
-              label: "Telefone",
+              variant: 'outlined',
+              size: 'small',
+              label: 'Telefone',
             }}
           />
         </Stack>
@@ -94,3 +94,4 @@ const AddAssociateDialog: React.FC<AddAssociateDialogProps & DialogProps> = ({
 };
 
 export default AddAssociateDialog;
+

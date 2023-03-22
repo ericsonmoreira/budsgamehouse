@@ -1,5 +1,5 @@
-import MenuIcon from "@mui/icons-material/Menu";
-import PersonIcon from "@mui/icons-material/Person";
+import MenuIcon from '@mui/icons-material/Menu';
+import PersonIcon from '@mui/icons-material/Person';
 import {
   AppBar,
   AppBarProps,
@@ -7,10 +7,10 @@ import {
   IconButton,
   Toolbar,
   Tooltip,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { useState } from "react";
-import ViewUserDialog from "../dialogs/ViewUserDialog";
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useState } from 'react';
+import ViewUserDialog from '../dialogs/ViewUserDialog';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -48,8 +48,8 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
           onClick={onSidebarOpen}
           sx={{
             display: {
-              xs: "inline-flex",
-              lg: "none",
+              xs: 'inline-flex',
+              lg: 'none',
             },
           }}
         >
@@ -57,13 +57,13 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
         </IconButton>
         <Box
           sx={{
-            display: "flex",
+            display: 'flex',
           }}
         >
           <img
             src="/atm-logo.png"
             alt="Atm Logo"
-            style={{ width: "3rem", height: "3rem" }}
+            style={{ width: '3rem', height: '3rem' }}
           />
         </Box>
         <Box sx={{ flexGrow: 1 }} />
@@ -82,3 +82,4 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
 };
 
 export default DashboardNavbar;
+

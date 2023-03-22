@@ -1,5 +1,5 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { yupResolver } from '@hookform/resolvers/yup';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
   Box,
   Button,
@@ -7,17 +7,17 @@ import {
   Paper,
   Stack,
   Typography,
-} from "@mui/material";
-import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import ControlledTextField from "../../components/textfields/ControlledTextField";
-import routesNames from "../../routes/routesNames";
-import { auth } from "../../services/firebaseConfig";
-import schema from "./schema ";
-import verifyFirebaseErroCode from "../../services/verifyFirebaseErroCode";
-import { AuthError } from "firebase/auth";
+} from '@mui/material';
+import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import ControlledTextField from '../../components/textfields/ControlledTextField';
+import routesNames from '../../routes/routesNames';
+import { auth } from '../../services/firebaseConfig';
+import schema from './schema ';
+import verifyFirebaseErroCode from '../../services/verifyFirebaseErroCode';
+import { AuthError } from 'firebase/auth';
 
 type RecoverPasswordData = {
   email: string;
@@ -37,28 +37,28 @@ const RecoverPassword: React.FC = () => {
     try {
       const success = await sendPasswordResetEmail(email);
 
-      if (success) toast.success("Email enviado com sucessor");
+      if (success) toast.success('Email enviado com sucessor');
     } catch (e) {
-      console.log("erro");
+      console.log('erro');
     }
   };
   return (
     <Paper
       elevation={0}
       sx={{
-        display: "flex",
-        flexDirection: "column",
+        display: 'flex',
+        flexDirection: 'column',
         p: 2,
-        width: "100%",
-        background: "rgba(255, 255, 255, 0.75)",
-        backdropFilter: "blur(5px)",
+        width: '100%',
+        background: 'rgba(255, 255, 255, 0.75)',
+        backdropFilter: 'blur(5px)',
       }}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack
           spacing={2}
           sx={{
-            display: "flex",
+            display: 'flex',
             flex: 1,
           }}
         >
@@ -67,9 +67,9 @@ const RecoverPassword: React.FC = () => {
             name="email"
             control={control}
             textFieldProps={{
-              variant: "outlined",
-              size: "small",
-              label: "Email",
+              variant: 'outlined',
+              size: 'small',
+              label: 'Email',
             }}
           />
           {error && (
@@ -79,9 +79,9 @@ const RecoverPassword: React.FC = () => {
           )}
           <Box
             sx={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "space-between",
+              display: 'flex',
+              width: '100%',
+              justifyContent: 'space-between',
             }}
           >
             <Button

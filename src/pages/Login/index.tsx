@@ -1,20 +1,20 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Button,
   CircularProgress,
   Paper,
   Stack,
   Typography,
-} from "@mui/material";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Navigate, useNavigate } from "react-router-dom";
-import ControlledPasswordTextField from "../../components/textfields/ControlledPasswordTextField";
-import ControlledTextField from "../../components/textfields/ControlledTextField";
-import routesNames from "../../routes/routesNames";
-import { auth } from "../../services/firebaseConfig";
-import verifyFirebaseErroCode from "../../services/verifyFirebaseErroCode";
-import schema from "./schema ";
+} from '@mui/material';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { Navigate, useNavigate } from 'react-router-dom';
+import ControlledPasswordTextField from '../../components/textfields/ControlledPasswordTextField';
+import ControlledTextField from '../../components/textfields/ControlledTextField';
+import routesNames from '../../routes/routesNames';
+import { auth } from '../../services/firebaseConfig';
+import verifyFirebaseErroCode from '../../services/verifyFirebaseErroCode';
+import schema from './schema ';
 
 type LoginFormData = {
   email: string;
@@ -38,7 +38,7 @@ const Login: React.FC = () => {
     try {
       await signInWithEmailAndPassword(email, password);
     } catch (e) {
-      console.log("erro");
+      console.log('erro');
     }
   };
 
@@ -50,19 +50,19 @@ const Login: React.FC = () => {
     <Paper
       elevation={0}
       sx={{
-        display: "flex",
-        flexDirection: "column",
+        display: 'flex',
+        flexDirection: 'column',
         p: 2,
-        width: "100%",
-        background: "rgba(0, 0, 0, 0.25)",
-        backdropFilter: "blur(5px)",
+        width: '100%',
+        background: 'rgba(0, 0, 0, 0.25)',
+        backdropFilter: 'blur(5px)',
       }}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack
           spacing={2}
           sx={{
-            display: "flex",
+            display: 'flex',
             flex: 1,
           }}
         >
@@ -71,18 +71,18 @@ const Login: React.FC = () => {
             name="email"
             control={control}
             textFieldProps={{
-              variant: "outlined",
-              size: "small",
-              label: "Email",
+              variant: 'outlined',
+              size: 'small',
+              label: 'Email',
             }}
           />
           <ControlledPasswordTextField
             name="password"
             control={control}
             textFieldProps={{
-              variant: "outlined",
-              size: "small",
-              label: "Password",
+              variant: 'outlined',
+              size: 'small',
+              label: 'Password',
             }}
           />
           {signError && (

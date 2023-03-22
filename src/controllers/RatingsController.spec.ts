@@ -1,4 +1,4 @@
-import { test, expect } from "vitest";
+import { expect, test } from "vitest";
 import TournamentController from "./TournamentController";
 
 const tournamentMock: TournamentData = {
@@ -93,3 +93,4 @@ test("Não pode ter partidas repetidas", () => {
     expect(playersHaveFacedEachOther).toBeTruthy();
   });
 });
+

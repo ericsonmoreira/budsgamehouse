@@ -1,8 +1,8 @@
-declare type TournamentFormat = "pioneer" | "selado" | "draft";
+declare type TournamentFormat = 'pioneer' | 'selado' | 'draft';
 
-declare type TournamentState = "not-started" | "started" | "finished";
+declare type TournamentState = 'not-started' | 'started' | 'finished';
 
-declare type NegotiationStatus = "created" | "sent" | "received";
+declare type NegotiationStatus = 'created' | 'sent' | 'received';
 
 declare type Associate = {
   id: string;
@@ -55,10 +55,10 @@ declare type WantedCard = {
   priority: WantedCardPriority;
 };
 
-declare type WantedCardPriority = "high" | "medium" | "low";
+declare type WantedCardPriority = 'high' | 'medium' | 'low';
 
-declare type MatchResult = "first-player-win" | "second-player-win" | "draw";
+declare type MatchResult = 'first-player-win' | 'second-player-win' | 'draw';
 
-declare type MatchVictoryResult = "one-zero" | "two-zero" | "two-one";
+declare type MatchVictoryResult = 'one-zero' | 'two-zero' | 'two-one';
 
-declare type MatchDrawResult = "one-one" | "zero-zero";
+declare type MatchDrawResult = 'one-one' | 'zero-zero';

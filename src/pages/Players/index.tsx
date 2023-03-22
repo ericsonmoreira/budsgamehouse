@@ -1,11 +1,11 @@
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
-import { useState } from "react";
-import DataGridPlaysers from "../../components/datagrids/DataGridPlaysers";
-import AddPlayerDialog from "../../components/dialogs/AddPlayerDialog";
-import ConfirmActionDialog from "../../components/dialogs/ConfirmActionDialog";
-import UpdatePlayerDialog from "../../components/dialogs/UpdatePlayerDialog";
-import usePlayers from "../../hooks/usePlayers";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { useState } from 'react';
+import DataGridPlaysers from '../../components/datagrids/DataGridPlaysers';
+import AddPlayerDialog from '../../components/dialogs/AddPlayerDialog';
+import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
+import UpdatePlayerDialog from '../../components/dialogs/UpdatePlayerDialog';
+import usePlayers from '../../hooks/usePlayers';
 
 const Players: React.FC = () => {
   const [addPlayerDialogOpen, setAddPlayerDialogOpen] = useState(false);
@@ -16,12 +16,12 @@ const Players: React.FC = () => {
 
   const { players, deletePlayer, isLoading } = usePlayers();
 
-  const [playerToDeleteId, setPlayerToDeleteId] = useState("");
+  const [playerToDeleteId, setPlayerToDeleteId] = useState('');
 
   const [playerToUpdate, setPlayerToUpdate] = useState<Player>({
-    id: "",
-    name: "",
-    email: "",
+    id: '',
+    name: '',
+    email: '',
   });
 
   const handleUpdate = ({ id, name, email, avatarImgUrl }: Player) => {
@@ -39,9 +39,9 @@ const Players: React.FC = () => {
       <Box
         sx={{
           margin: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
         <Typography variant="h4" color="textPrimary">

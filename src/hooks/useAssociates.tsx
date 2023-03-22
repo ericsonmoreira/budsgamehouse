@@ -5,13 +5,13 @@ import {
   doc,
   getDocs,
   updateDoc,
-} from "firebase/firestore";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { firestore } from "../services/firebaseConfig";
+} from 'firebase/firestore';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { firestore } from '../services/firebaseConfig';
 
-const path = "associates";
+const path = 'associates';
 
-const queryKey = "useAssociates";
+const queryKey = 'useAssociates';
 
 function useAssociates() {
   const queryClient = useQueryClient();
@@ -25,7 +25,7 @@ function useAssociates() {
   });
 
   const { mutate: addAssociate } = useMutation(
-    async ({ name, phone }: Omit<Associate, "id">) => {
+    async ({ name, phone }: Omit<Associate, 'id'>) => {
       const card = await addDoc(associatesCollectionRef, {
         name,
         phone,

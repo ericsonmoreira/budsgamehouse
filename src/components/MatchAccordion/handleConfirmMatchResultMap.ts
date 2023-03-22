@@ -1,4 +1,4 @@
-import { HandleConfirmMatchResultImp } from ".";
+import { HandleConfirmMatchResultImp } from '.';
 
 type HandleConfirmMatchResultMapProps = {
   matchIndex: number;
@@ -15,68 +15,68 @@ const handleConfirmMatchResultMap = ({
     [K in MatchDrawResult | MatchVictoryResult]: () => void;
   };
 } => ({
-  "first-player-win": {
-    "two-zero": () =>
+  'first-player-win': {
+    'two-zero': () =>
       handleConfirmMatchResult({
         ratingIndex,
         matchIndex,
         firstPlayerVictories: 2,
         seconfPlayerVictories: 0,
       }),
-    "one-zero": () =>
+    'one-zero': () =>
       handleConfirmMatchResult({
         ratingIndex,
         matchIndex,
         firstPlayerVictories: 1,
         seconfPlayerVictories: 0,
       }),
-    "two-one": () =>
+    'two-one': () =>
       handleConfirmMatchResult({
         ratingIndex,
         matchIndex,
         firstPlayerVictories: 2,
         seconfPlayerVictories: 1,
       }),
-    "one-one": () => {},
-    "zero-zero": () => {},
+    'one-one': () => {},
+    'zero-zero': () => {},
   },
-  "second-player-win": {
-    "two-zero": () =>
+  'second-player-win': {
+    'two-zero': () =>
       handleConfirmMatchResult({
         ratingIndex,
         matchIndex,
         firstPlayerVictories: 0,
         seconfPlayerVictories: 2,
       }),
-    "one-zero": () =>
+    'one-zero': () =>
       handleConfirmMatchResult({
         ratingIndex,
         matchIndex,
         firstPlayerVictories: 0,
         seconfPlayerVictories: 1,
       }),
-    "two-one": () =>
+    'two-one': () =>
       handleConfirmMatchResult({
         ratingIndex,
         matchIndex,
         firstPlayerVictories: 1,
         seconfPlayerVictories: 2,
       }),
-    "one-one": () => {},
-    "zero-zero": () => {},
+    'one-one': () => {},
+    'zero-zero': () => {},
   },
   draw: {
-    "two-zero": () => {},
-    "one-zero": () => {},
-    "two-one": () => {},
-    "one-one": () =>
+    'two-zero': () => {},
+    'one-zero': () => {},
+    'two-one': () => {},
+    'one-one': () =>
       handleConfirmMatchResult({
         ratingIndex,
         matchIndex,
         firstPlayerVictories: 1,
         seconfPlayerVictories: 1,
       }),
-    "zero-zero": () =>
+    'zero-zero': () =>
       handleConfirmMatchResult({
         ratingIndex,
         matchIndex,

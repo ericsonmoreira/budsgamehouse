@@ -3,8 +3,8 @@ import {
   GridColDef,
   GridRenderCellParams,
   GridToolbar,
-} from "@mui/x-data-grid";
-import ActionsCell from "../../cells/ActionsCell";
+} from '@mui/x-data-grid';
+import ActionsCell from '../../cells/ActionsCell';
 
 type DataGridNegotiationsRowData = {
   id: string;
@@ -23,14 +23,14 @@ type DataGridNegotiationsProps = {
 };
 
 const columns: GridColDef[] = [
-  { field: "status", headerName: "Status", flex: 1 },
-  { field: "price", headerName: "Preço", flex: 1 },
-  { field: "associate", headerName: "Associado", flex: 1 },
+  { field: 'status', headerName: 'Status', flex: 1 },
+  { field: 'price', headerName: 'Preço', flex: 1 },
+  { field: 'associate', headerName: 'Associado', flex: 1 },
   {
-    field: "actions",
-    headerName: "Ações",
+    field: 'actions',
+    headerName: 'Ações',
     width: 150,
-    align: "right",
+    align: 'right',
     disableColumnMenu: true,
     sortable: false,
     renderCell: (
@@ -66,3 +66,4 @@ const DataGridNegotiations: React.FC<DataGridNegotiationsProps> = ({
 };
 
 export default DataGridNegotiations;
+

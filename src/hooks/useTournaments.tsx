@@ -6,9 +6,9 @@ import {
   getDoc,
   getDocs,
   updateDoc,
-} from "firebase/firestore";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { firestore } from "../services/firebaseConfig";
+} from 'firebase/firestore';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { firestore } from '../services/firebaseConfig';
 
 type AddTournamentsData = {
   name: string;
@@ -21,10 +21,10 @@ type AddTournamentsData = {
 function useTournaments() {
   const queryClient = useQueryClient();
 
-  const tradingCardsCollectionRef = collection(firestore, "tournaments");
+  const tradingCardsCollectionRef = collection(firestore, 'tournaments');
 
   const { data: tournaments, ...rest } = useQuery(
-    "useTournaments",
+    'useTournaments',
     async () => {
       const { docs } = await getDocs(tradingCardsCollectionRef);
 
@@ -35,10 +35,10 @@ function useTournaments() {
   );
 
   const findTournament = (id: string | undefined) =>
-    useQuery(["useTournaments", id], async () => {
+    useQuery(['useTournaments', id], async () => {
       if (!id) return null;
 
-      const tournamentDoc = doc(firestore, "tournaments", id);
+      const tournamentDoc = doc(firestore, 'tournaments', id);
 
       const docSnap = await getDoc(tournamentDoc);
 
@@ -49,7 +49,7 @@ function useTournaments() {
     async (tournament: AddTournamentsData) => {
       const tournamentDoc = await addDoc(tradingCardsCollectionRef, tournament);
 
-      await queryClient.invalidateQueries("useTournaments");
+      await queryClient.invalidateQueries('useTournaments');
 
       const docSnap = await getDoc(tournamentDoc);
 
@@ -59,20 +59,20 @@ function useTournaments() {
 
   const { mutate: updateTournament } = useMutation(
     async (tournament: Tournament) => {
-      const tournamentDoc = doc(firestore, "tournaments", tournament.id);
+      const tournamentDoc = doc(firestore, 'tournaments', tournament.id);
 
       await updateDoc(tournamentDoc, tournament);
 
-      await queryClient.invalidateQueries("useTournaments");
+      await queryClient.invalidateQueries('useTournaments');
     }
   );
 
   const { mutate: deleteTournament } = useMutation(async (id: string) => {
-    const tournamentDoc = doc(firestore, "tournaments", id);
+    const tournamentDoc = doc(firestore, 'tournaments', id);
 
     await deleteDoc(tournamentDoc);
 
-    await queryClient.invalidateQueries("useTournaments");
+    await queryClient.invalidateQueries('useTournaments');
   });
 
   return {

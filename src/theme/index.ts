@@ -1,10 +1,10 @@
-import { createTheme } from "@mui/material/styles";
-import { ptBR } from "@mui/x-data-grid";
+import { createTheme } from '@mui/material/styles';
+import { ptBR } from '@mui/x-data-grid';
 
 const lightTheme = createTheme(
   {
     palette: {
-      mode: "light",
+      mode: 'light',
     },
     typography: {
       fontSize: 12,
@@ -16,7 +16,7 @@ const lightTheme = createTheme(
 const darkTheme = createTheme(
   {
     palette: {
-      mode: "dark",
+      mode: 'dark',
     },
     typography: {
       fontSize: 12,
