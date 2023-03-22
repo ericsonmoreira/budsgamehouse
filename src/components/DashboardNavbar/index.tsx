@@ -1,3 +1,5 @@
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
 import {
@@ -10,6 +12,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
+import { useLocalStorage } from 'usehooks-ts';
 import ViewUserDialog from '../dialogs/ViewUserDialog';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
@@ -26,6 +29,12 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
   ...rest
 }) => {
   const [viewUserDialogOpen, setViewUserDialogOpen] = useState(false);
+
+  const [isDarkTheme, setIsDarkTheme] = useLocalStorage('darkTheme', true);
+
+  const handleToggleTheme = () => {
+    setIsDarkTheme((old) => !old);
+  };
 
   return (
     <DashboardNavbarRoot
@@ -67,6 +76,15 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
           />
         </Box>
         <Box sx={{ flexGrow: 1 }} />
+        <Tooltip title="Tema da interface">
+          <IconButton onClick={handleToggleTheme}>
+            {isDarkTheme ? (
+              <DarkModeOutlinedIcon fontSize="small" />
+            ) : (
+              <LightModeOutlinedIcon fontSize="small" />
+            )}
+          </IconButton>
+        </Tooltip>
         <Tooltip title="Usuário">
           <IconButton onClick={() => setViewUserDialogOpen(true)}>
             <PersonIcon fontSize="small" />
@@ -82,4 +100,3 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
 };
 
 export default DashboardNavbar;
-

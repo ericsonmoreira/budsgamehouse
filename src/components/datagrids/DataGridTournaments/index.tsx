@@ -1,15 +1,15 @@
-import EditIcon from "@mui/icons-material/Edit";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import EditIcon from '@mui/icons-material/Edit';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import {
   DataGrid,
   GridColDef,
   GridRenderCellParams,
   GridToolbar,
-} from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
-import routesNames from "../../../routes/routesNames";
+} from '@mui/x-data-grid';
+import { Link } from 'react-router-dom';
+import routesNames from '../../../routes/routesNames';
 
 type DataGridTournamentsRowData = {
   id: string;
@@ -35,47 +35,44 @@ const DataGridTournaments: React.FC<DataGridTournamentsProps> = ({
   const theme = useTheme();
 
   const stateColorMap: { [T in TournamentState]: string } = {
-    "not-started": theme.palette.warning.main,
+    'not-started': theme.palette.warning.main,
     started: theme.palette.primary.main,
     finished: theme.palette.error.main,
   };
 
   const stateNameMap: { [T in TournamentState]: string } = {
-    "not-started": "Não iniciado",
-    started: "Iniciado",
-    finished: "Finalizado",
+    'not-started': 'Não iniciado',
+    started: 'Iniciado',
+    finished: 'Finalizado',
   };
 
   const columns: GridColDef[] = [
     {
-      field: "id",
-      headerName: "id",
+      field: 'id',
+      headerName: 'id',
       width: 0,
       hide: true,
     },
     {
-      field: "name",
-      headerName: "Nome",
+      field: 'name',
+      headerName: 'Nome',
       flex: 1,
       renderCell: ({ value, row }) => (
-        <Link
-          to={routesNames.TOURNAMENT_VIEW.replace(":id", row.id)}
-          style={{ color: theme.palette.common.white }}
-        >
+        <Link to={routesNames.TOURNAMENT_VIEW.replace(':id', row.id)}>
           {value}
         </Link>
       ),
     },
     {
-      field: "format",
-      headerName: "Formato",
+      field: 'format',
+      headerName: 'Formato',
       flex: 1,
       valueFormatter: ({ value }) => String(value).toUpperCase(),
     },
-    { field: "rounds", headerName: "Rounds", flex: 1 },
+    { field: 'rounds', headerName: 'Rounds', flex: 1 },
     {
-      field: "state",
-      headerName: "Estado",
+      field: 'state',
+      headerName: 'Estado',
       flex: 1,
       renderCell: ({ value }) => (
         <Typography
@@ -87,10 +84,10 @@ const DataGridTournaments: React.FC<DataGridTournamentsProps> = ({
       ),
     },
     {
-      field: "actions",
-      headerName: "Ações",
+      field: 'actions',
+      headerName: 'Ações',
       width: 150,
-      align: "right",
+      align: 'right',
       disableColumnMenu: true,
       sortable: false,
       renderCell: (
@@ -109,7 +106,7 @@ const DataGridTournaments: React.FC<DataGridTournamentsProps> = ({
           <Tooltip title="Editar">
             <span>
               <IconButton
-                disabled={(params.row.state as TournamentState) === "finished"}
+                disabled={(params.row.state as TournamentState) === 'finished'}
                 color="info"
                 onClick={params.value?.handleUpdate}
               >

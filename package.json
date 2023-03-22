@@ -37,6 +37,7 @@
     "scryfall-sdk": "^3.2.1",
     "tablemark": "^3.0.0",
     "use-sound": "^4.0.1",
+    "usehooks-ts": "^2.9.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {
