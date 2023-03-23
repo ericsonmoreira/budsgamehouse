@@ -1,11 +1,11 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
   GridToolbarContainer,
   GridToolbarDensitySelector,
   GridToolbarExport,
-} from "@mui/x-data-grid";
+} from '@mui/x-data-grid';
 
 export type DataGridRatingsRowData = {
   id: string;
@@ -36,8 +36,8 @@ type CustomToolbarProps = {
 
 const columns: GridColDef[] = [
   {
-    field: "id",
-    headerName: "",
+    field: 'id',
+    headerName: '',
     width: 0,
     hide: true,
     sortable: false,
@@ -45,19 +45,19 @@ const columns: GridColDef[] = [
     disableColumnMenu: true,
   },
   {
-    field: "index",
-    headerName: "#",
+    field: 'index',
+    headerName: '#',
     width: 20,
-    align: "center",
-    headerAlign: "center",
+    align: 'center',
+    headerAlign: 'center',
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
     valueFormatter: ({ value }) => `${value + 1}.`,
   },
   {
-    field: "player",
-    headerName: "Jogador",
+    field: 'player',
+    headerName: 'Jogador',
     flex: 1,
     minWidth: 200,
     sortable: false,
@@ -65,83 +65,83 @@ const columns: GridColDef[] = [
     disableColumnMenu: true,
   },
   {
-    field: "points",
-    headerName: "Pontos",
+    field: 'points',
+    headerName: 'Pontos',
     width: 70,
-    align: "center",
-    headerAlign: "center",
+    align: 'center',
+    headerAlign: 'center',
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
   },
   {
-    field: "vde",
-    headerName: "VDE",
+    field: 'vde',
+    headerName: 'VDE',
     width: 70,
-    align: "center",
-    headerAlign: "center",
+    align: 'center',
+    headerAlign: 'center',
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
-    valueFormatter: ({ value }) => value.join("-"),
+    valueFormatter: ({ value }) => value.join('-'),
   },
   {
-    field: "mwp",
-    headerName: "MWP",
+    field: 'mwp',
+    headerName: 'MWP',
     width: 100,
-    align: "right",
-    headerAlign: "center",
+    align: 'right',
+    headerAlign: 'center',
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
     valueFormatter: ({ value }) =>
-      Number(value).toLocaleString("pt-Br", {
-        style: "percent",
+      Number(value).toLocaleString('pt-Br', {
+        style: 'percent',
         minimumFractionDigits: 2,
       }),
   },
   {
-    field: "gwp",
-    headerName: "GWP",
+    field: 'gwp',
+    headerName: 'GWP',
     width: 100,
-    align: "right",
-    headerAlign: "center",
+    align: 'right',
+    headerAlign: 'center',
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
     valueFormatter: ({ value }) =>
-      Number(value).toLocaleString("pt-Br", {
-        style: "percent",
+      Number(value).toLocaleString('pt-Br', {
+        style: 'percent',
         minimumFractionDigits: 2,
       }),
   },
   {
-    field: "omwp",
-    headerName: "OMWP",
+    field: 'omwp',
+    headerName: 'OMWP',
     width: 100,
-    align: "right",
-    headerAlign: "center",
+    align: 'right',
+    headerAlign: 'center',
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
     valueFormatter: ({ value }) =>
-      Number(value).toLocaleString("pt-Br", {
-        style: "percent",
+      Number(value).toLocaleString('pt-Br', {
+        style: 'percent',
         minimumFractionDigits: 2,
       }),
   },
   {
-    field: "ogwp",
-    headerName: "OGWP",
+    field: 'ogwp',
+    headerName: 'OGWP',
     width: 100,
-    align: "right",
-    headerAlign: "center",
+    align: 'right',
+    headerAlign: 'center',
     sortable: false,
     disableReorder: true,
     disableColumnMenu: true,
     valueFormatter: ({ value }) =>
-      Number(value).toLocaleString("pt-Br", {
-        style: "percent",
+      Number(value).toLocaleString('pt-Br', {
+        style: 'percent',
         minimumFractionDigits: 2,
       }),
   },
@@ -154,11 +154,11 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({
   roundTotal,
 }) => {
   return (
-    <GridToolbarContainer sx={{ display: "flex", flexDirection: "column" }}>
+    <GridToolbarContainer sx={{ display: 'flex', flexDirection: 'column' }}>
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
+          display: 'flex',
+          flexDirection: 'column',
           width: 1,
           paddingX: 1,
           paddingTop: 1,
@@ -166,7 +166,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({
       >
         <Typography>Evento: {title}</Typography>
         <Box
-          sx={{ display: "flex", width: 1, justifyContent: "space-between" }}
+          sx={{ display: 'flex', width: 1, justifyContent: 'space-between' }}
         >
           <Typography>Formato: {format}</Typography>
           <Typography>
@@ -174,7 +174,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({
           </Typography>
         </Box>
       </Box>
-      <Box sx={{ display: "flex", width: 1 }}>
+      <Box sx={{ display: 'flex', width: 1 }}>
         <GridToolbarDensitySelector />
         <GridToolbarExport />
       </Box>

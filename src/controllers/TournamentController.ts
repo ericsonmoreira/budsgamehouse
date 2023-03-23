@@ -1,5 +1,5 @@
-import { groupBy, shuffle } from "lodash";
-import RatingsController, { RatingsTableData } from "./RatingsController";
+import { groupBy, shuffle } from 'lodash';
+import RatingsController, { RatingsTableData } from './RatingsController';
 
 type PlayerWithPoints = Player & {
   points: number;
@@ -20,7 +20,7 @@ class TournamentController {
     while (players.length >= 1) {
       if (players.length === 1) {
         matches.push({
-          playersIds: [players[0].id, "bay"],
+          playersIds: [players[0].id, 'bay'],
           // Quando um jogador recebe um bye em uma rodada, ele é considerado como tendo vencido a partida 2-0.
           playersVirories: [2, 0],
         });

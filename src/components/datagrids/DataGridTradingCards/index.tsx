@@ -1,14 +1,11 @@
-import EditIcon from "@mui/icons-material/Edit";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import { Box, IconButton, Tooltip } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
   GridRenderCellParams,
   GridToolbar,
-} from "@mui/x-data-grid";
-import ActionsCell from "../../cells/ActionsCell";
-import ImageCell from "../../cells/ImageCell";
+} from '@mui/x-data-grid';
+import ActionsCell from '../../cells/ActionsCell';
+import ImageCell from '../../cells/ImageCell';
 
 type DataGridTradingCardsRowData = {
   id: string;
@@ -28,20 +25,20 @@ type DataGridTradingCardsProps = {
 
 const columns: GridColDef[] = [
   {
-    field: "imgUrl",
-    headerName: "Imagem",
+    field: 'imgUrl',
+    headerName: 'Imagem',
     width: 100,
     disableColumnMenu: true,
     sortable: false,
     renderCell: ({ value }) => <ImageCell value={value} />,
   },
-  { field: "name", headerName: "Nome", flex: 1 },
-  { field: "amount", headerName: "Quantidade", width: 150, align: "right" },
+  { field: 'name', headerName: 'Nome', flex: 1 },
+  { field: 'amount', headerName: 'Quantidade', width: 150, align: 'right' },
   {
-    field: "actions",
-    headerName: "Ações",
+    field: 'actions',
+    headerName: 'Ações',
     width: 150,
-    align: "right",
+    align: 'right',
     disableColumnMenu: true,
     sortable: false,
     renderCell: (
@@ -67,7 +64,7 @@ const DataGridTradingCards: React.FC<DataGridTradingCardsProps> = ({
       rows={rows}
       density="compact"
       initialState={{
-        sorting: { sortModel: [{ field: "name", sort: "asc" }] },
+        sorting: { sortModel: [{ field: 'name', sort: 'asc' }] },
       }}
       columns={columns}
       disableColumnMenu={false}

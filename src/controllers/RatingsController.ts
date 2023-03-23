@@ -1,4 +1,4 @@
-import { mean, sortBy, sum } from "lodash";
+import { mean, sortBy, sum } from 'lodash';
 
 export type RatingsTableData = {
   playerId: string;
@@ -72,11 +72,11 @@ class RatingsController {
 
     // Ordenando
     this.ratingsTable = sortBy(this.ratingsTable, [
-      "points",
-      "mwp",
-      "gwp",
-      "omwp",
-      "ogwp",
+      'points',
+      'mwp',
+      'gwp',
+      'omwp',
+      'ogwp',
     ]).reverse();
 
     return this.ratingsTable;
@@ -97,7 +97,7 @@ class RatingsController {
 
       const anotherPlayerIndex = playerIndex === 0 ? 1 : 0;
 
-      if (match.playersIds.includes("bay")) {
+      if (match.playersIds.includes('bay')) {
         V++;
       } else {
         if (
@@ -121,7 +121,7 @@ class RatingsController {
 
   // Retorna os pontos de um Jogador
   private getPlayerPoints(playerId: string): number {
-    var playerVDE = this.getPlayerVDE(playerId);
+    const playerVDE = this.getPlayerVDE(playerId);
 
     // Esse multiplicação por 0 é desnecessária mas serve para ilustrar como é feiro o cálculo dos pontos.
     return playerVDE[0] * 3 + playerVDE[1] * 0 + playerVDE[2] * 1;
@@ -233,7 +233,7 @@ class RatingsController {
 
     // Somente é válidas as partidas que não sejam com o bay
     const playerValidMatches = playerMatches.filter(
-      (match) => !match.playersIds.includes("bay")
+      (match) => !match.playersIds.includes('bay')
     );
 
     return playerValidMatches;

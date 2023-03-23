@@ -3,9 +3,9 @@ import {
   GridColDef,
   GridRenderCellParams,
   GridToolbar,
-} from "@mui/x-data-grid";
-import AvatarPlayer from "../../AvatarPlayer";
-import ActionsCell from "../../cells/ActionsCell";
+} from '@mui/x-data-grid';
+import AvatarPlayer from '../../AvatarPlayer';
+import ActionsCell from '../../cells/ActionsCell';
 
 type DataGridPlaysersRowData = {
   id: string;
@@ -25,23 +25,23 @@ type DataGridPlaysersProps = {
 
 const columns: GridColDef[] = [
   {
-    field: "avatar",
-    headerName: "",
+    field: 'avatar',
+    headerName: '',
     width: 30,
-    align: "center",
+    align: 'center',
     disableColumnMenu: true,
     sortable: false,
     renderCell: ({ row }) => (
       <AvatarPlayer player={row} sx={{ width: 24, height: 24 }} />
     ),
   },
-  { field: "name", headerName: "Nome", flex: 1 },
-  { field: "email", headerName: "Email", flex: 1 },
+  { field: 'name', headerName: 'Nome', flex: 1 },
+  { field: 'email', headerName: 'Email', flex: 1 },
   {
-    field: "actions",
-    headerName: "Ações",
+    field: 'actions',
+    headerName: 'Ações',
     width: 150,
-    align: "right",
+    align: 'right',
     disableColumnMenu: true,
     sortable: false,
     renderCell: (
@@ -66,7 +66,7 @@ const DataGridPlaysers: React.FC<DataGridPlaysersProps> = ({
     <DataGrid
       rows={rows}
       initialState={{
-        sorting: { sortModel: [{ field: "name", sort: "asc" }] },
+        sorting: { sortModel: [{ field: 'name', sort: 'asc' }] },
       }}
       density="compact"
       columns={columns}

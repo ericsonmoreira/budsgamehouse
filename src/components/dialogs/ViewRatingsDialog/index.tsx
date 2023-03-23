@@ -22,7 +22,6 @@ type ViewRatingsDialogProps = {
   title: string;
   subTitle: string;
   tournamentData: TournamentData;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   round: number;
   roundTotal: number;
   format: string;
@@ -31,7 +30,6 @@ type ViewRatingsDialogProps = {
 const ViewRatingsDialog: React.FC<ViewRatingsDialogProps & DialogProps> = ({
   title,
   subTitle,
-  setOpen,
   tournamentData,
   format,
   round,

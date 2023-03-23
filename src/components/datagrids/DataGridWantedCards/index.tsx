@@ -4,10 +4,10 @@ import {
   GridComparatorFn,
   GridRenderCellParams,
   GridToolbar,
-} from "@mui/x-data-grid";
-import ActionsCell from "../../cells/ActionsCell";
-import ImageCell from "../../cells/ImageCell";
-import PriorityCell from "../../cells/PriorityCell";
+} from '@mui/x-data-grid';
+import ActionsCell from '../../cells/ActionsCell';
+import ImageCell from '../../cells/ImageCell';
+import PriorityCell from '../../cells/PriorityCell';
 
 const priorityGridComparatorFn: GridComparatorFn<WantedCardPriority> = (
   a,
@@ -41,35 +41,35 @@ type DataGridWantedCardsProps = {
 
 const columns: GridColDef[] = [
   {
-    field: "imgUrl",
-    headerName: "Imagem",
+    field: 'imgUrl',
+    headerName: 'Imagem',
     width: 100,
     disableColumnMenu: true,
     sortable: false,
     renderCell: ({ value }) => <ImageCell value={value} />,
   },
-  { field: "name", headerName: "Nome", flex: 1 },
+  { field: 'name', headerName: 'Nome', flex: 1 },
   {
-    field: "priority",
-    headerName: "Prioridade",
-    headerAlign: "center",
+    field: 'priority',
+    headerName: 'Prioridade',
+    headerAlign: 'center',
     width: 150,
-    align: "center",
+    align: 'center',
     renderCell: ({ value }) => <PriorityCell value={value} />,
     sortComparator: priorityGridComparatorFn,
   },
   {
-    field: "amount",
-    headerName: "Quantidade",
+    field: 'amount',
+    headerName: 'Quantidade',
     width: 150,
-    align: "right",
-    headerAlign: "center",
+    align: 'right',
+    headerAlign: 'center',
   },
   {
-    field: "actions",
-    headerName: "Ações",
+    field: 'actions',
+    headerName: 'Ações',
     width: 150,
-    align: "right",
+    align: 'right',
     disableColumnMenu: true,
     sortable: false,
     renderCell: (
@@ -97,7 +97,7 @@ const DataGridWantedCards: React.FC<DataGridWantedCardsProps> = ({
       columns={columns}
       initialState={{
         sorting: {
-          sortModel: [{ field: "priority", sort: "desc" }], // Na versão gratúita não temos seleçao multipla. Só é possível classificar um campo por vez.
+          sortModel: [{ field: 'priority', sort: 'desc' }], // Na versão gratúita não temos seleçao multipla. Só é possível classificar um campo por vez.
         },
       }}
       disableColumnMenu={false}

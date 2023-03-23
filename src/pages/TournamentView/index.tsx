@@ -266,7 +266,6 @@ const TournamentView: React.FC = () => {
       <ViewRatingsDialog
         tournamentData={tournamentData}
         open={openViewRatingsDialog}
-        setOpen={setOpenViewRatingsDialog}
         onClose={() => setOpenViewRatingsDialog(false)}
         title={tournament.name}
         subTitle={'Pontuação dos Jogadores'}
