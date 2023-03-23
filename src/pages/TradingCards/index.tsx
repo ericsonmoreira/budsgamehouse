@@ -59,7 +59,9 @@ const TradingCards: React.FC = () => {
           justifyContent: 'space-between',
         }}
       >
-        <Typography variant="h4">Cartas de Troca</Typography>
+        <Typography variant="h4" color="textPrimary">
+          Cartas de Troca
+        </Typography>
         <Tooltip title="Add">
           <IconButton
             color="secondary"
