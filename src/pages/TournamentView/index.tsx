@@ -1,6 +1,8 @@
 import ArticleIcon from '@mui/icons-material/Article';
 import CloseIcon from '@mui/icons-material/Close';
 import GroupIcon from '@mui/icons-material/Group';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import {
   AvatarGroup,
@@ -194,6 +196,23 @@ const TournamentView: React.FC = () => {
               <AvatarPlayer key={player.id} player={player} />
             ))}
           </AvatarGroup>
+        </Box>
+        <Box sx={{ marginLeft: 1 }}>
+          <Button
+            disabled // TODO: colocar aqui a lógica
+            variant="contained"
+            sx={{ marginRight: 1 }}
+            endIcon={<PersonAddIcon />}
+          >
+            Add player
+          </Button>
+          <Button
+            disabled // TODO: colocar aqui a lógica
+            variant="contained"
+            endIcon={<PersonRemoveIcon />}
+          >
+            Drop player
+          </Button>
         </Box>
       </Box>
       <Box sx={{ margin: 1 }}>
