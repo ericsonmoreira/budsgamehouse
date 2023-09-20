@@ -4,6 +4,7 @@ const routesNames = {
   TRANDING_CARDS: '/trading-cards',
   WANTED_CARDS: '/wanted-cards',
   PLAYERS: '/players',
+  PRODUCTS: '/products',
   TOURNAMENTS: '/tournaments',
   TOURNAMENT_VIEW: '/tournaments/:id',
   LOGIN: '/login',
