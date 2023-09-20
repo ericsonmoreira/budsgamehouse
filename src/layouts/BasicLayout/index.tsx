@@ -1,7 +1,7 @@
 import { Box, Container, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Outlet } from 'react-router-dom';
-import BackGroundLoginPageImg from '../../assets/bgLogin.png';
+import BackGroundLoginPageImg from '../../assets/bgLogin02.jpg';
 
 const BasicLayout: React.FC = () => {
   const theme = useTheme();
