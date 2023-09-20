@@ -2,8 +2,11 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CachedIcon from '@mui/icons-material/Cached';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import HomeIcon from '@mui/icons-material/Home';
+import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import { Box, Button, Divider, Drawer, useMediaQuery } from '@mui/material';
@@ -54,12 +57,27 @@ const items: AppDrawerItemData[] = [
   {
     icon: HandshakeIcon,
     to: routesNames.ASSOCIATES,
-    title: 'Assciados',
+    title: 'Associados',
   },
   {
     icon: AttachMoneyIcon,
     to: routesNames.NEGOTIATIONS,
     title: 'Negociações',
+  },
+  {
+    icon: LocalGroceryStoreIcon,
+    to: routesNames.PRODUCTS,
+    title: 'Produtos',
+  },
+  {
+    icon: AutoStoriesIcon,
+    to: routesNames.FIADOS,
+    title: 'Fiados',
+  },
+  {
+    icon: PriceCheckIcon,
+    to: routesNames.BALANCES,
+    title: 'Saldos',
   },
 ];
 
@@ -154,4 +172,3 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 };
 
 export default DashboardSidebar;
-
