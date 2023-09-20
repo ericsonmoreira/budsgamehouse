@@ -70,7 +70,7 @@ const items: AppDrawerItemData[] = [
   },
   {
     icon: AutoStoriesIcon,
-    to: routesNames.PRODUCTS,
+    to: routesNames.FIADOS,
     title: 'Fiados',
   },
 ];

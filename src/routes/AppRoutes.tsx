@@ -14,6 +14,7 @@ import WantedCards from '../pages/WantedCards';
 import PrivateRoutes from './PrivateRoutes';
 import routesNames from './routesNames';
 import Products from '../pages/Products';
+import Fiados from '../pages/Fiados';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -30,6 +31,7 @@ const AppRoutes: React.FC = () => {
             <Route path={routesNames.WANTED_CARDS} element={<WantedCards />} />
             <Route path={routesNames.PLAYERS} element={<Players />} />
             <Route path={routesNames.PRODUCTS} element={<Products />} />
+            <Route path={routesNames.FIADOS} element={<Fiados />} />
             <Route path={routesNames.TOURNAMENTS} element={<Tournaments />} />
             <Route path={routesNames.NEGOTIATIONS} element={<Negotiations />} />
             <Route
