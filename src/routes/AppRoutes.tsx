@@ -2,19 +2,20 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import BasicLayout from '../layouts/BasicLayout';
 import DashboardLayout from '../layouts/DashboardLayout';
 import Associates from '../pages/Associates';
+import Balances from '../pages/Balances';
+import Fiados from '../pages/Fiados';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Negotiations from '../pages/Negotiations';
 import Players from '../pages/Players';
+import Products from '../pages/Products';
 import RecoverPassword from '../pages/RecoverPassword';
-import Tournaments from '../pages/Tournaments';
 import TournamentView from '../pages/TournamentView';
+import Tournaments from '../pages/Tournaments';
 import TradingCards from '../pages/TradingCards';
 import WantedCards from '../pages/WantedCards';
 import PrivateRoutes from './PrivateRoutes';
 import routesNames from './routesNames';
-import Products from '../pages/Products';
-import Fiados from '../pages/Fiados';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ const AppRoutes: React.FC = () => {
           <Route element={<DashboardLayout />}>
             <Route path={routesNames.HOME} element={<Home />} />
             <Route path={routesNames.ASSOCIATES} element={<Associates />} />
+            <Route path={routesNames.BALANCES} element={<Balances />} />
             <Route
               path={routesNames.TRANDING_CARDS}
               element={<TradingCards />}

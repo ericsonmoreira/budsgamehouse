@@ -3,6 +3,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CachedIcon from '@mui/icons-material/Cached';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import HomeIcon from '@mui/icons-material/Home';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
@@ -72,6 +73,11 @@ const items: AppDrawerItemData[] = [
     icon: AutoStoriesIcon,
     to: routesNames.FIADOS,
     title: 'Fiados',
+  },
+  {
+    icon: PriceCheckIcon,
+    to: routesNames.BALANCES,
+    title: 'Saldos',
   },
 ];
 
