@@ -6,8 +6,8 @@ import {
   getDocs,
   updateDoc,
 } from 'firebase/firestore';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { firestore } from '../services/firebaseConfig';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 type AddPlayerData = {
   name: string;
@@ -20,7 +20,7 @@ function usePlayers() {
 
   const tradingCardsCollectionRef = collection(firestore, 'players');
 
-  const { data: players, ...rest } = useQuery('usePlayers', async () => {
+  const { data: players, ...rest } = useQuery(['usePlayers'], async () => {
     const { docs } = await getDocs(tradingCardsCollectionRef);
 
     return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as Player))];
@@ -34,7 +34,7 @@ function usePlayers() {
         avatarImgUrl,
       });
 
-      await queryClient.invalidateQueries('usePlayers');
+      await queryClient.invalidateQueries(['usePlayers']);
 
       return card;
     }
@@ -46,7 +46,7 @@ function usePlayers() {
 
       await updateDoc(cardDoc, { name, email, avatarImgUrl });
 
-      await queryClient.invalidateQueries('usePlayers');
+      await queryClient.invalidateQueries(['usePlayers']);
     }
   );
 
@@ -55,7 +55,7 @@ function usePlayers() {
 
     await deleteDoc(cardDoc);
 
-    await queryClient.invalidateQueries('usePlayers');
+    await queryClient.invalidateQueries(['usePlayers']);
   });
 
   return {

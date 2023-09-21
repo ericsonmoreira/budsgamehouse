@@ -1,3 +1,4 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   addDoc,
   collection,
@@ -6,7 +7,6 @@ import {
   getDocs,
   updateDoc,
 } from 'firebase/firestore';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { firestore } from '../services/firebaseConfig';
 
 const path = 'negotiations';
@@ -18,7 +18,7 @@ function useNegotiations() {
 
   const negotiationsCollectionRef = collection(firestore, path);
 
-  const { data: negotiations, ...rest } = useQuery(queryKey, async () => {
+  const { data: negotiations, ...rest } = useQuery([queryKey], async () => {
     const { docs } = await getDocs(negotiationsCollectionRef);
 
     return [
@@ -40,7 +40,7 @@ function useNegotiations() {
         associateId,
       });
 
-      await queryClient.invalidateQueries(queryKey);
+      await queryClient.invalidateQueries([queryKey]);
 
       return newNegotiation;
     }
@@ -58,7 +58,7 @@ function useNegotiations() {
         status,
       });
 
-      await queryClient.invalidateQueries(queryKey);
+      await queryClient.invalidateQueries([queryKey]);
     }
   );
 
@@ -67,7 +67,7 @@ function useNegotiations() {
 
     await deleteDoc(negotiationDoc);
 
-    await queryClient.invalidateQueries(queryKey);
+    await queryClient.invalidateQueries([queryKey]);
   });
 
   return {

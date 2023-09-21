@@ -6,8 +6,8 @@ import {
   getDocs,
   updateDoc,
 } from 'firebase/firestore';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { firestore } from '../services/firebaseConfig';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const path = 'associates';
 
@@ -18,7 +18,7 @@ function useAssociates() {
 
   const associatesCollectionRef = collection(firestore, path);
 
-  const { data: associates, ...rest } = useQuery(queryKey, async () => {
+  const { data: associates, ...rest } = useQuery([queryKey], async () => {
     const { docs } = await getDocs(associatesCollectionRef);
 
     return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as Associate))];
@@ -31,7 +31,7 @@ function useAssociates() {
         phone,
       });
 
-      await queryClient.invalidateQueries(queryKey);
+      await queryClient.invalidateQueries([queryKey]);
 
       return card;
     }
@@ -43,7 +43,7 @@ function useAssociates() {
 
       await updateDoc(associateDoc, { name, phone });
 
-      await queryClient.invalidateQueries(queryKey);
+      await queryClient.invalidateQueries([queryKey]);
     }
   );
 
@@ -52,7 +52,7 @@ function useAssociates() {
 
     await deleteDoc(associateDoc);
 
-    await queryClient.invalidateQueries(queryKey);
+    await queryClient.invalidateQueries([queryKey]);
   });
 
   return {

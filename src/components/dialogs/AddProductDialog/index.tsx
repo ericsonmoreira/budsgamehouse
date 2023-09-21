@@ -1,5 +1,7 @@
 import {
+  Backdrop,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -10,8 +12,13 @@ import {
   MenuItem,
   TextField,
 } from '@mui/material';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import addProduct from '../../../resources/products/addProduct';
+import uploadImageInStorage from '../../../resources/uploadImageInStorage';
+import ImageDropZone from '../../ImageDropZone';
 
 type AddProductDialogProps = {
   title: string;
@@ -35,20 +42,39 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({
 }) => {
   const { register, handleSubmit, reset } = useForm<AddProductDialogFormData>();
 
-  const handleConfirmAction = (data: AddProductDialogFormData) => {
-    console.log(data);
+  const [file, setFile] = useState<File | null>();
 
-    try {
-      toast.success('Produto adicionado com sucesso');
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setOpen(false);
-    }
+  const queryClient = useQueryClient();
+
+  const { mutate: addProductMutate, isLoading: addProductMutateIsloading } =
+    useMutation({
+      mutationFn: async ({ name, price, category }: Omit<Product, 'id'>) => {
+        let imgUrl;
+
+        if (file) {
+          imgUrl = await uploadImageInStorage(file);
+        }
+
+        const card = await addProduct({ name, price, category, imgUrl });
+
+        await queryClient.invalidateQueries(['useProducts']);
+
+        return card;
+      },
+      onSuccess: () => {
+        handleClose();
+
+        toast.success('Produto adicionado com sucesso');
+      },
+    });
+
+  const handleConfirmAction = (data: AddProductDialogFormData) => {
+    addProductMutate(data);
   };
 
-  const handleCancelAction = () => {
+  const handleClose = () => {
     reset();
+
     setOpen(false);
   };
 
@@ -58,6 +84,9 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
         <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <ImageDropZone file={file} setFile={setFile} />
+          </Grid>
           <Grid item xs={12}>
             <TextField
               {...register('name')}
@@ -98,12 +127,18 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button color="secondary" onClick={handleCancelAction}>
+        <Button color="secondary" onClick={handleClose}>
           Cancelar
         </Button>
         <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>
           Confirmar
         </Button>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={addProductMutateIsloading}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </DialogActions>
     </Dialog>
   );

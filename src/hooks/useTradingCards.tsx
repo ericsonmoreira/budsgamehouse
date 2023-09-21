@@ -1,3 +1,4 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   addDoc,
   collection,
@@ -6,7 +7,6 @@ import {
   getDocs,
   updateDoc,
 } from 'firebase/firestore';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { firestore } from '../services/firebaseConfig';
 
 type TradingCardsData = {
@@ -27,7 +27,7 @@ function useTradingCards() {
 
   const tradingCardsCollectionRef = collection(firestore, 'trading-cards');
 
-  const { data: cards, ...rest } = useQuery('useTradingCards', async () => {
+  const { data: cards, ...rest } = useQuery(['useTradingCards'], async () => {
     const { docs } = await getDocs(tradingCardsCollectionRef);
 
     return [
@@ -43,7 +43,7 @@ function useTradingCards() {
         imgUrl,
       });
 
-      await queryClient.invalidateQueries('useTradingCards');
+      await queryClient.invalidateQueries(['useTradingCards']);
 
       return card;
     }
@@ -55,7 +55,7 @@ function useTradingCards() {
 
       await updateDoc(cardDoc, { name, amount, imgUrl });
 
-      await queryClient.invalidateQueries('useTradingCards');
+      await queryClient.invalidateQueries(['useTradingCards']);
     }
   );
 
@@ -64,7 +64,7 @@ function useTradingCards() {
 
     await deleteDoc(cardDoc);
 
-    await queryClient.invalidateQueries('useTradingCards');
+    await queryClient.invalidateQueries(['useTradingCards']);
   });
 
   return {
