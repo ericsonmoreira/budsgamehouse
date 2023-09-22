@@ -1,3 +1,4 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Backdrop,
   Button,
@@ -10,7 +11,6 @@ import {
   DialogTitle,
   Grid,
   MenuItem,
-  TextField,
 } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -19,6 +19,8 @@ import { toast } from 'react-hot-toast';
 import addProduct from '../../../resources/products/addProduct';
 import uploadImageInStorage from '../../../resources/uploadImageInStorage';
 import ImageDropZone from '../../ImageDropZone';
+import ControlledTextField from '../../textfields/ControlledTextField';
+import schema from './schema';
 
 type AddProductDialogProps = {
   title: string;
@@ -34,40 +36,41 @@ type AddProductDialogFormData = {
 
 const categories = ['Alimentício', 'Bebida Alcoólica', 'Bebida não Alcoólica'];
 
-const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({
-  title,
-  subTitle,
-  setOpen,
-  ...rest
-}) => {
-  const { register, handleSubmit, reset } = useForm<AddProductDialogFormData>();
+const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title, subTitle, setOpen, ...rest }) => {
+  const { handleSubmit, reset, control } = useForm<AddProductDialogFormData>({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      name: '',
+      category: categories[0],
+      price: 0,
+    },
+  });
 
   const [file, setFile] = useState<File | null>();
 
   const queryClient = useQueryClient();
 
-  const { mutate: addProductMutate, isLoading: addProductMutateIsloading } =
-    useMutation({
-      mutationFn: async ({ name, price, category }: Omit<Product, 'id'>) => {
-        if (file) {
-          const imgUrl = await uploadImageInStorage(file);
+  const { mutate: addProductMutate, isLoading: addProductMutateIsloading } = useMutation({
+    mutationFn: async ({ name, price, category }: Omit<Product, 'id'>) => {
+      if (file) {
+        const imgUrl = await uploadImageInStorage(file);
 
-          await addProduct({ name, price, category, imgUrl });
-        } else {
-          await addProduct({ name, price, category, imgUrl: '' });
-        }
+        await addProduct({ name, price, category, imgUrl });
+      } else {
+        await addProduct({ name, price, category, imgUrl: '' });
+      }
 
-        await queryClient.invalidateQueries(['useProducts']);
-      },
-      onSuccess: () => {
-        handleClose();
+      await queryClient.invalidateQueries(['useProducts']);
+    },
+    onSuccess: () => {
+      handleClose();
 
-        toast.success('Produto adicionado com sucesso');
-      },
-      onError: (error: Error, variables, context) => {
-        toast.error(error.message);
-      },
-    });
+      toast.success('Produto adicionado com sucesso');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
 
   const handleConfirmAction = (data: AddProductDialogFormData) => {
     addProductMutate(data);
@@ -95,41 +98,47 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({
             <ImageDropZone file={file} setFile={setFile} />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              {...register('name')}
-              label="Nome do Produto"
-              variant="outlined"
-              size="small"
-              fullWidth
+            <ControlledTextField
+              name="name"
+              control={control}
+              textFieldProps={{
+                variant: 'outlined',
+                size: 'small',
+                label: 'Nome do Produto',
+                fullWidth: true,
+              }}
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              {...register('category')}
-              select
-              label="Nome do Produto"
-              variant="outlined"
-              size="small"
-              defaultValue={categories[0]}
-              fullWidth
+            <ControlledTextField
+              name="category"
+              control={control}
+              textFieldProps={{
+                variant: 'outlined',
+                size: 'small',
+                label: 'Categoria',
+                fullWidth: true,
+                select: true,
+              }}
             >
               {categories.map((option) => (
                 <MenuItem key={option} value={option}>
                   {option}
                 </MenuItem>
               ))}
-            </TextField>
+            </ControlledTextField>
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              {...register('price')}
-              fullWidth
-              type="number"
-              size="small"
-              label="Preço"
-              defaultValue={0}
-              variant="outlined"
-              inputProps={{ min: 0 }}
+            <ControlledTextField
+              name="price"
+              control={control}
+              textFieldProps={{
+                variant: 'outlined',
+                size: 'small',
+                label: 'Preço',
+                fullWidth: true,
+                type: 'number',
+              }}
             />
           </Grid>
         </Grid>
@@ -142,10 +151,7 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({
           Confirmar
         </Button>
       </DialogActions>
-      <Backdrop
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={addProductMutateIsloading}
-      >
+      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={addProductMutateIsloading}>
         <CircularProgress color="primary" />
       </Backdrop>
     </Dialog>

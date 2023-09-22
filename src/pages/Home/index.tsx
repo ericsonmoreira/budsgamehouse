@@ -1,16 +1,12 @@
 import AddCardIcon from '@mui/icons-material/AddCard';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CachedIcon from '@mui/icons-material/Cached';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import HandshakeIcon from '@mui/icons-material/Handshake';
+import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import PersonIcon from '@mui/icons-material/Person';
 import { Box, Grid } from '@mui/material';
 import { useMemo } from 'react';
 import HomeCard, { HomeCardProps } from '../../components/HomeCard';
-import useAssociates from '../../hooks/useAssociates';
-import useNegotiations from '../../hooks/useNegotiations';
+import useProducts from '../../hooks/products/useProducts';
 import usePlayers from '../../hooks/usePlayers';
-import useTournaments from '../../hooks/useTournaments';
 import useTradingCards from '../../hooks/useTradingCards';
 import useWantedCards from '../../hooks/useWantedCards';
 import routesNames from '../../routes/routesNames';
@@ -18,17 +14,11 @@ import routesNames from '../../routes/routesNames';
 const Home: React.FC = () => {
   const { players, isLoading: isLoadingPlayers } = usePlayers();
 
-  const { cards: tradingCards, isLoading: isLoadingTradingCards } =
-    useTradingCards();
+  const { cards: tradingCards, isLoading: isLoadingTradingCards } = useTradingCards();
 
-  const { cards: wantedCards, isLoading: isLoadingWantedCards } =
-    useWantedCards();
+  const { cards: wantedCards, isLoading: isLoadingWantedCards } = useWantedCards();
 
-  const { tournaments, isLoading: isLoadingTournaments } = useTournaments();
-
-  const { associates, isLoading: isLoadingAssociates } = useAssociates();
-
-  const { negotiations, isLoading: isLoadingNegotiations } = useNegotiations();
+  const { data: products, isLoading: isLoadingProducts } = useProducts();
 
   const items = useMemo<HomeCardProps[]>(
     () => [
@@ -39,14 +29,6 @@ const Home: React.FC = () => {
         icon: PersonIcon,
         to: routesNames.PLAYERS,
         isLoading: isLoadingPlayers,
-      },
-      {
-        title: 'Torneios',
-        subheader: 'Campeonatos realizados',
-        amount: tournaments?.length,
-        icon: EmojiEventsIcon,
-        to: routesNames.TOURNAMENTS,
-        isLoading: isLoadingTournaments,
       },
       {
         title: 'Troca',
@@ -65,23 +47,15 @@ const Home: React.FC = () => {
         isLoading: isLoadingWantedCards,
       },
       {
-        title: 'Associados',
-        subheader: 'Colegas de trocas de cartas',
-        amount: associates?.length,
-        icon: HandshakeIcon,
-        to: routesNames.ASSOCIATES,
-        isLoading: isLoadingAssociates,
-      },
-      {
-        title: 'Negociações',
-        subheader: 'Vendas e compras de cartas',
-        amount: negotiations?.length,
-        icon: AttachMoneyIcon,
-        to: routesNames.NEGOTIATIONS,
-        isLoading: isLoadingNegotiations,
+        title: 'Produtos',
+        subheader: 'Produtos cadastrados',
+        amount: products?.length,
+        icon: LocalGroceryStoreIcon,
+        to: routesNames.PRODUCTS,
+        isLoading: isLoadingProducts,
       },
     ],
-    [players, wantedCards, tradingCards, tournaments, associates, negotiations]
+    [players, wantedCards, tradingCards]
   );
 
   return (

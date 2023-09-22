@@ -2,14 +2,7 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
-import {
-  AppBar,
-  AppBarProps,
-  Box,
-  IconButton,
-  Toolbar,
-  Tooltip,
-} from '@mui/material';
+import { AppBar, AppBarProps, Box, IconButton, Toolbar, Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
@@ -24,10 +17,7 @@ type DashboardNavbarProps = {
   onSidebarOpen(): void;
 };
 
-const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
-  onSidebarOpen,
-  ...rest
-}) => {
+const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSidebarOpen, ...rest }) => {
   const [viewUserDialogOpen, setViewUserDialogOpen] = useState(false);
 
   const [isDarkTheme, setIsDarkTheme] = useLocalStorage('darkTheme', true);
@@ -60,7 +50,9 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
               xs: 'inline-flex',
               lg: 'none',
             },
+            marginRight: 2,
           }}
+          edge="start"
         >
           <MenuIcon fontSize="small" />
         </IconButton>
@@ -69,32 +61,23 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
             display: 'flex',
           }}
         >
-          <img
-            src="/atm-logo.png"
-            alt="Atm Logo"
-            style={{ width: '3rem', height: '3rem' }}
-          />
+          <img src="/atm-logo.png" alt="Atm Logo" style={{ width: '3rem', height: '3rem' }} />
         </Box>
         <Box sx={{ flexGrow: 1 }} />
-        <Tooltip title="Tema da interface">
-          <IconButton onClick={handleToggleTheme}>
-            {isDarkTheme ? (
-              <DarkModeOutlinedIcon fontSize="small" />
-            ) : (
-              <LightModeOutlinedIcon fontSize="small" />
-            )}
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Usuário">
-          <IconButton onClick={() => setViewUserDialogOpen(true)}>
-            <PersonIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
+        <Box>
+          <Tooltip title="Tema da interface">
+            <IconButton onClick={handleToggleTheme}>
+              {isDarkTheme ? <DarkModeOutlinedIcon fontSize="small" /> : <LightModeOutlinedIcon fontSize="small" />}
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Usuário">
+            <IconButton onClick={() => setViewUserDialogOpen(true)}>
+              <PersonIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </Toolbar>
-      <ViewUserDialog
-        open={viewUserDialogOpen}
-        onClose={() => setViewUserDialogOpen(false)}
-      />
+      <ViewUserDialog open={viewUserDialogOpen} onClose={() => setViewUserDialogOpen(false)} />
     </DashboardNavbarRoot>
   );
 };

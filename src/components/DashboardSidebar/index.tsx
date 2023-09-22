@@ -1,14 +1,10 @@
 import AddCardIcon from '@mui/icons-material/AddCard';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CachedIcon from '@mui/icons-material/Cached';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import PriceCheckIcon from '@mui/icons-material/PriceCheck';
-import HandshakeIcon from '@mui/icons-material/Handshake';
 import HomeIcon from '@mui/icons-material/Home';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
+import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import { Box, Button, Divider, Drawer, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useSignOut } from 'react-firebase-hooks/auth';
@@ -50,29 +46,9 @@ const items: AppDrawerItemData[] = [
     title: 'Players',
   },
   {
-    icon: EmojiEventsIcon,
-    to: routesNames.TOURNAMENTS,
-    title: 'Torneiros',
-  },
-  {
-    icon: HandshakeIcon,
-    to: routesNames.ASSOCIATES,
-    title: 'Associados',
-  },
-  {
-    icon: AttachMoneyIcon,
-    to: routesNames.NEGOTIATIONS,
-    title: 'Negociações',
-  },
-  {
     icon: LocalGroceryStoreIcon,
     to: routesNames.PRODUCTS,
     title: 'Produtos',
-  },
-  {
-    icon: AutoStoriesIcon,
-    to: routesNames.FIADOS,
-    title: 'Fiados',
   },
   {
     icon: PriceCheckIcon,
@@ -81,10 +57,7 @@ const items: AppDrawerItemData[] = [
   },
 ];
 
-const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
-  open,
-  onClose,
-}) => {
+const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ open, onClose }) => {
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -96,13 +69,12 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   const upLg = useMediaQuery(theme.breakpoints.up('lg'));
 
   const isNavItemActive = (to: string): boolean =>
-    to === routesNames.HOME
-      ? to === location.pathname
-      : location.pathname.includes(to);
+    to === routesNames.HOME ? to === location.pathname : location.pathname.includes(to);
 
   const handleSignOut = async () => {
     await signOut();
-    navigate('/login');
+
+    navigate(routesNames.LOGIN);
   };
 
   const content = (
@@ -115,24 +87,12 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
     >
       <Box sx={{ flexGrow: 1, py: 2 }}>
         {items.map(({ icon, title, to }) => (
-          <NavItem
-            key={title}
-            icon={icon}
-            to={to}
-            title={title}
-            active={isNavItemActive(to)}
-          />
+          <NavItem key={title} icon={icon} to={to} title={title} active={isNavItemActive(to)} />
         ))}
       </Box>
       <Divider />
       <Box padding={1}>
-        <Button
-          fullWidth
-          color="error"
-          variant="outlined"
-          endIcon={<LogoutIcon />}
-          onClick={handleSignOut}
-        >
+        <Button fullWidth color="error" variant="outlined" endIcon={<LogoutIcon />} onClick={handleSignOut}>
           Logout
         </Button>
       </Box>
