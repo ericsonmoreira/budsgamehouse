@@ -49,22 +49,23 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({
   const { mutate: addProductMutate, isLoading: addProductMutateIsloading } =
     useMutation({
       mutationFn: async ({ name, price, category }: Omit<Product, 'id'>) => {
-        let imgUrl;
-
         if (file) {
-          imgUrl = await uploadImageInStorage(file);
+          const imgUrl = await uploadImageInStorage(file);
+
+          await addProduct({ name, price, category, imgUrl });
+        } else {
+          await addProduct({ name, price, category, imgUrl: '' });
         }
 
-        const card = await addProduct({ name, price, category, imgUrl });
-
         await queryClient.invalidateQueries(['useProducts']);
-
-        return card;
       },
       onSuccess: () => {
         handleClose();
 
         toast.success('Produto adicionado com sucesso');
+      },
+      onError: (error: Error, variables, context) => {
+        toast.error(error.message);
       },
     });
 
@@ -73,7 +74,13 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({
   };
 
   const handleClose = () => {
-    reset();
+    reset({
+      name: '',
+      category: '',
+      price: 0,
+    });
+
+    setFile(null);
 
     setOpen(false);
   };
@@ -120,6 +127,7 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({
               type="number"
               size="small"
               label="Preço"
+              defaultValue={0}
               variant="outlined"
               inputProps={{ min: 0 }}
             />
@@ -133,13 +141,13 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({
         <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>
           Confirmar
         </Button>
-        <Backdrop
-          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={addProductMutateIsloading}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
       </DialogActions>
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={addProductMutateIsloading}
+      >
+        <CircularProgress color="primary" />
+      </Backdrop>
     </Dialog>
   );
 };

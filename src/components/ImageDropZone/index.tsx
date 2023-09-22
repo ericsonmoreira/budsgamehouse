@@ -20,7 +20,7 @@ const ImageDropZone: React.FC<ImageDropZoneProps> = ({ file, setFile }) => {
     onDrop,
     multiple: false,
     accept: {
-      'application/img': ['.png', '.jpg'],
+      'application/img': ['.png', '.jpg', '.webp'],
     },
   });
 
