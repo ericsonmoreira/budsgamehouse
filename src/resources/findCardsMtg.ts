@@ -1,5 +1,5 @@
-import mtgApi from '../api/mtgApi';
 import { AxiosResponse } from 'axios';
+import mtgApi from '../api/mtgApi';
 
 export type FindCardsMtgProps = {
   name: string;
@@ -45,9 +45,7 @@ export interface Card {
   id: string;
 }
 
-const findCardsMtg = ({
-  name,
-}: FindCardsMtgProps): Promise<AxiosResponse<Card[]>> =>
+const findCardsMtg = ({ name }: FindCardsMtgProps): Promise<AxiosResponse<Card[]>> =>
   mtgApi.get('/cards', { params: { name } });
 
 export default findCardsMtg;

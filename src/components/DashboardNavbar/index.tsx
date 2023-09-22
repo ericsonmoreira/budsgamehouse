@@ -6,7 +6,7 @@ import { AppBar, AppBarProps, Box, IconButton, Toolbar, Tooltip } from '@mui/mat
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
-import ViewUserDialog from '../dialogs/ViewUserDialog';
+import ViewUserDialog from '../dialogs/users/ViewUserDialog';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,

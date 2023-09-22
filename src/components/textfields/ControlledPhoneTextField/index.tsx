@@ -1,10 +1,5 @@
 import { TextField, TextFieldProps } from '@mui/material';
-import {
-  FieldPath,
-  FieldValues,
-  useController,
-  UseControllerProps,
-} from 'react-hook-form';
+import { FieldPath, FieldValues, UseControllerProps, useController } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
 
 type ControlledPhoneTextFieldProps<
@@ -18,8 +13,8 @@ const ControlledPhoneTextField = <
   TextFieldValues extends FieldValues,
   TextFieldName extends FieldPath<TextFieldValues>
 >(
-    props: ControlledPhoneTextFieldProps<TextFieldValues, TextFieldName>
-  ) => {
+  props: ControlledPhoneTextFieldProps<TextFieldValues, TextFieldName>
+) => {
   const { control, name, textFieldProps } = props;
 
   const {

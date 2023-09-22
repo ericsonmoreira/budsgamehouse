@@ -1,12 +1,6 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogContentText,
-  DialogProps,
-  DialogTitle,
-} from '@mui/material';
+import { Dialog, DialogContent, DialogContentText, DialogProps, DialogTitle } from '@mui/material';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../../../services/firebaseConfig';
+import { auth } from '../../../../services/firebaseConfig';
 
 const ViewUserDialog: React.FC<DialogProps> = ({ ...rest }) => {
   const [user] = useAuthState(auth);
