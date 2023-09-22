@@ -1,11 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Button,
-  CircularProgress,
-  Paper,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Button, CircularProgress, Paper, Stack, Typography } from '@mui/material';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -24,17 +18,13 @@ type LoginFormData = {
 const Login: React.FC = () => {
   const navigate = useNavigate();
 
-  const [signInWithEmailAndPassword, user, loading, signError] =
-    useSignInWithEmailAndPassword(auth);
+  const [signInWithEmailAndPassword, user, loading, signError] = useSignInWithEmailAndPassword(auth);
 
   const { control, handleSubmit } = useForm<LoginFormData>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<LoginFormData> = async ({
-    email,
-    password,
-  }) => {
+  const onSubmit: SubmitHandler<LoginFormData> = async ({ email, password }) => {
     try {
       await signInWithEmailAndPassword(email, password);
     } catch (e) {
@@ -95,22 +85,11 @@ const Login: React.FC = () => {
             type="submit"
             variant="contained"
             disabled={loading}
-            endIcon={
-              loading && (
-                <CircularProgress
-                  size={12}
-                  color="info"
-                  sx={{ marginLeft: 2 }}
-                />
-              )
-            }
+            endIcon={loading && <CircularProgress size={12} color="info" sx={{ marginLeft: 2 }} />}
           >
             Login
           </Button>
-          <Button
-            variant="text"
-            onClick={() => navigate(routesNames.RECOVER_PASSWORD)}
-          >
+          <Button variant="text" onClick={() => navigate(routesNames.RECOVER_PASSWORD)}>
             Redefinir senha
           </Button>
         </Stack>

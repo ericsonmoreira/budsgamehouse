@@ -2,21 +2,17 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import DataGridNegotiations from '../../components/datagrids/DataGridNegotiations';
-import AddNegotiationDialog from '../../components/dialogs/AddNegotiationDialog';
+import AddNegotiationDialog from '../../components/dialogs/negotiations/AddNegotiationDialog';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
-import UpdateNegotiationDialog from '../../components/dialogs/UpdateNegotiationDialog';
-
+import UpdateNegotiationDialog from '../../components/dialogs/negotiations/UpdateNegotiationDialog';
 import useNegotiations from '../../hooks/useNegotiations';
 
 const Negotiations: React.FC = () => {
-  const [addNegotiationDialogOpen, setAddNegotiationDialogOpen] =
-    useState(false);
+  const [addNegotiationDialogOpen, setAddNegotiationDialogOpen] = useState(false);
 
-  const [updateNegotiationDialogOpen, setUpdateNegotiationDialogOpen] =
-    useState(false);
+  const [updateNegotiationDialogOpen, setUpdateNegotiationDialogOpen] = useState(false);
 
-  const [deleteNegotiationDialogOpen, setDeleteNegotiationDialogOpen] =
-    useState(false);
+  const [deleteNegotiationDialogOpen, setDeleteNegotiationDialogOpen] = useState(false);
 
   const { negotiations, isLoading, deleteNegotiation } = useNegotiations();
 
@@ -30,13 +26,7 @@ const Negotiations: React.FC = () => {
     status: 'created',
   });
 
-  const handleUpdate = ({
-    id,
-    associateId,
-    description,
-    price,
-    status,
-  }: Negotiation) => {
+  const handleUpdate = ({ id, associateId, description, price, status }: Negotiation) => {
     setnegotiationToUpdate({ id, associateId, description, price, status });
     setUpdateNegotiationDialogOpen(true);
   };
@@ -60,10 +50,7 @@ const Negotiations: React.FC = () => {
           Negociações
         </Typography>
         <Tooltip title="Add">
-          <IconButton
-            color="secondary"
-            onClick={() => setAddNegotiationDialogOpen(true)}
-          >
+          <IconButton color="secondary" onClick={() => setAddNegotiationDialogOpen(true)}>
             <AddCircleIcon fontSize="large" />
           </IconButton>
         </Tooltip>
@@ -71,19 +58,16 @@ const Negotiations: React.FC = () => {
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridNegotiations
           loading={isLoading}
-          rows={negotiations?.map(
-            ({ id, status, price, associateId, description }) => ({
-              id,
-              status,
-              price,
-              associate: associateId,
-              actions: {
-                handleUpdate: () =>
-                  handleUpdate({ id, associateId, description, price, status }),
-                handledelete: () => handledelete(id),
-              },
-            })
-          )}
+          rows={negotiations?.map(({ id, status, price, associateId, description }) => ({
+            id,
+            status,
+            price,
+            associate: associateId,
+            actions: {
+              handleUpdate: () => handleUpdate({ id, associateId, description, price, status }),
+              handledelete: () => handledelete(id),
+            },
+          }))}
         />
       </Box>
       <AddNegotiationDialog

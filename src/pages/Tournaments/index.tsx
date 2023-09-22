@@ -2,18 +2,17 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import DataGridTournaments from '../../components/datagrids/DataGridTournaments';
-import AddTournamentDialog from '../../components/dialogs/AddTournamentDialog';
+import AddTournamentDialog from '../../components/dialogs/tournaments/AddTournamentDialog';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
 import UpdateTournamentDialog, {
   UpdateTournamentDialogFormData,
-} from '../../components/dialogs/UpdateTournamentDialog';
+} from '../../components/dialogs/tournaments/UpdateTournamentDialog';
 import useTournaments from '../../hooks/useTournaments';
 
 const Tournaments: React.FC = () => {
   const [addTournamentDialogOpen, setAddTournamentDialogOpen] = useState(false);
 
-  const [updateTournamentDialogOpen, setUpdateTournamentDialogOpen] =
-    useState(false);
+  const [updateTournamentDialogOpen, setUpdateTournamentDialogOpen] = useState(false);
 
   const [tournamentToDeleteId, setTournamentToDeleteId] = useState('');
 
@@ -21,22 +20,15 @@ const Tournaments: React.FC = () => {
 
   const { tournaments, deleteTournament, isLoading } = useTournaments();
 
-  const [tournamentToUpdate, setTournamentToUpdate] =
-    useState<UpdateTournamentDialogFormData>({
-      id: '',
-      name: '',
-      format: 'pioneer',
-      rounds: 0,
-      selectedPlayers: [],
-    });
+  const [tournamentToUpdate, setTournamentToUpdate] = useState<UpdateTournamentDialogFormData>({
+    id: '',
+    name: '',
+    format: 'pioneer',
+    rounds: 0,
+    selectedPlayers: [],
+  });
 
-  const handleUpdate = ({
-    id,
-    name,
-    format,
-    rounds,
-    selectedPlayers,
-  }: UpdateTournamentDialogFormData) => {
+  const handleUpdate = ({ id, name, format, rounds, selectedPlayers }: UpdateTournamentDialogFormData) => {
     setTournamentToUpdate({ id, name, format, rounds, selectedPlayers });
     setUpdateTournamentDialogOpen(true);
   };
@@ -60,10 +52,7 @@ const Tournaments: React.FC = () => {
           Torneiros
         </Typography>
         <Tooltip title="Add">
-          <IconButton
-            color="secondary"
-            onClick={() => setAddTournamentDialogOpen(true)}
-          >
+          <IconButton color="secondary" onClick={() => setAddTournamentDialogOpen(true)}>
             <AddCircleIcon fontSize="large" />
           </IconButton>
         </Tooltip>

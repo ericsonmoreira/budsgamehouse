@@ -2,9 +2,9 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import DataGridPlaysers from '../../components/datagrids/DataGridPlaysers';
-import AddPlayerDialog from '../../components/dialogs/AddPlayerDialog';
+import AddPlayerDialog from '../../components/dialogs/players/AddPlayerDialog';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
-import UpdatePlayerDialog from '../../components/dialogs/UpdatePlayerDialog';
+import UpdatePlayerDialog from '../../components/dialogs/players/UpdatePlayerDialog';
 import usePlayers from '../../hooks/usePlayers';
 
 const Players: React.FC = () => {
@@ -48,10 +48,7 @@ const Players: React.FC = () => {
           Payers
         </Typography>
         <Tooltip title="Add">
-          <IconButton
-            color="secondary"
-            onClick={() => setAddPlayerDialogOpen(true)}
-          >
+          <IconButton color="secondary" onClick={() => setAddPlayerDialogOpen(true)}>
             <AddCircleIcon fontSize="large" />
           </IconButton>
         </Tooltip>

@@ -25,4 +25,4 @@ const darkTheme = createTheme(
   ptBR
 );
 
-export { lightTheme, darkTheme };
+export { darkTheme, lightTheme };

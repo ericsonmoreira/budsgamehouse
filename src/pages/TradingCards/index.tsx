@@ -2,47 +2,35 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import DataGridTradingCards from '../../components/datagrids/DataGridTradingCards';
-import AddTradingCardDialog from '../../components/dialogs/AddTradingCardDialog';
+import AddTradingCardDialog from '../../components/dialogs/tradingCards/AddTradingCardDialog';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
 import UpdateTradingCardDialog, {
   TradingCardUpdateData,
-} from '../../components/dialogs/UpdateTradingCardDialog';
+} from '../../components/dialogs/tradingCards/UpdateTradingCardDialog';
 import useTradingCards from '../../hooks/useTradingCards';
 
 const TradingCards: React.FC = () => {
-  const [addTradingCardDialogOpen, setAddTradingCardDialogOpen] =
-    useState(false);
+  const [addTradingCardDialogOpen, setAddTradingCardDialogOpen] = useState(false);
 
-  const [updateTradingCardDialogOpen, setUpdateTradingCardDialogOpen] =
-    useState(false);
+  const [updateTradingCardDialogOpen, setUpdateTradingCardDialogOpen] = useState(false);
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const [tradingCardToDeleteId, setTradingCardToDeleteId] = useState('');
 
-  const [tradingCardToUpdate, setTradingCardToUpdate] =
-    useState<TradingCardUpdateData>({
-      id: '',
-      name: '',
-      amount: '',
-      imgUrl: '',
-    });
+  const [tradingCardToUpdate, setTradingCardToUpdate] = useState<TradingCardUpdateData>({
+    id: '',
+    name: '',
+    amount: '',
+    imgUrl: '',
+  });
 
-  const handleUpdate = ({
-    id,
-    name,
-    amount,
-    imgUrl,
-  }: TradingCardUpdateData) => {
+  const handleUpdate = ({ id, name, amount, imgUrl }: TradingCardUpdateData) => {
     setTradingCardToUpdate({ id, name, amount, imgUrl });
     setUpdateTradingCardDialogOpen(true);
   };
 
-  const {
-    cards: tradingCards,
-    isLoading,
-    deleteTradingCard,
-  } = useTradingCards();
+  const { cards: tradingCards, isLoading, deleteTradingCard } = useTradingCards();
 
   const handledelete = (id: string) => {
     setTradingCardToDeleteId(id);
@@ -63,10 +51,7 @@ const TradingCards: React.FC = () => {
           Cartas de Troca
         </Typography>
         <Tooltip title="Add">
-          <IconButton
-            color="secondary"
-            onClick={() => setAddTradingCardDialogOpen(true)}
-          >
+          <IconButton color="secondary" onClick={() => setAddTradingCardDialogOpen(true)}>
             <AddCircleIcon fontSize="large" />
           </IconButton>
         </Tooltip>
@@ -80,8 +65,7 @@ const TradingCards: React.FC = () => {
             name,
             amount,
             actions: {
-              handleUpdate: () =>
-                handleUpdate({ id, name, amount: String(amount), imgUrl }),
+              handleUpdate: () => handleUpdate({ id, name, amount: String(amount), imgUrl }),
               handledelete: () => handledelete(id),
             },
           }))}

@@ -2,39 +2,31 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import DataGridWantedCards from '../../components/datagrids/DataGridWantedCards';
-import AddWantCardDialog from '../../components/dialogs/AddWantCardDialog';
+import AddWantCardDialog from '../../components/dialogs/wantCards/AddWantCardDialog';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
 import UpdateWantedCardDialog, {
   WantedCardUpdateData,
-} from '../../components/dialogs/UpdateWantedCardDialog';
+} from '../../components/dialogs/wantCards/UpdateWantedCardDialog';
 import useWantedCards from '../../hooks/useWantedCards';
 
 const WantedCards: React.FC = () => {
   const [addWantCardDialogOpen, setAddWantCardDialogOpen] = useState(false);
 
-  const [updateWantedCardDialogOpen, setUpdateWantedCardDialogOpen] =
-    useState(false);
+  const [updateWantedCardDialogOpen, setUpdateWantedCardDialogOpen] = useState(false);
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const [wantedCardToDeleteId, setWantedCardToDeleteId] = useState('');
 
-  const [wantedCardToUpdate, setWantedCardToUpdate] =
-    useState<WantedCardUpdateData>({
-      id: '',
-      name: '',
-      amount: '',
-      imgUrl: '',
-      priority: 'medium',
-    });
+  const [wantedCardToUpdate, setWantedCardToUpdate] = useState<WantedCardUpdateData>({
+    id: '',
+    name: '',
+    amount: '',
+    imgUrl: '',
+    priority: 'medium',
+  });
 
-  const handleUpdate = ({
-    id,
-    name,
-    amount,
-    imgUrl,
-    priority,
-  }: WantedCardUpdateData) => {
+  const handleUpdate = ({ id, name, amount, imgUrl, priority }: WantedCardUpdateData) => {
     setWantedCardToUpdate({ id, name, amount, imgUrl, priority });
     setUpdateWantedCardDialogOpen(true);
   };
@@ -60,10 +52,7 @@ const WantedCards: React.FC = () => {
           Want List - Lista de cartas para aquisição
         </Typography>
         <Tooltip title="Add">
-          <IconButton
-            color="secondary"
-            onClick={() => setAddWantCardDialogOpen(true)}
-          >
+          <IconButton color="secondary" onClick={() => setAddWantCardDialogOpen(true)}>
             <AddCircleIcon fontSize="large" />
           </IconButton>
         </Tooltip>

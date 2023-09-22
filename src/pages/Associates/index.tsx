@@ -2,27 +2,23 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import DataGridAssociates from '../../components/datagrids/DataGridAssociates';
-import AddAssociateDialog from '../../components/dialogs/AddAssociateDialog';
+import AddAssociateDialog from '../../components/dialogs/associates/AddAssociateDialog';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
-import UpdateAssociateDialog from '../../components/dialogs/UpdateAssociateDialog';
+import UpdateAssociateDialog from '../../components/dialogs/associates/UpdateAssociateDialog';
 import useAssociates from '../../hooks/useAssociates';
 
 const Associates: React.FC = () => {
   const [addAssociateDialogOpen, setAddAssociateDialogOpen] = useState(false);
 
-  const [updataAssociateDialogOpen, setUpdataAssociateDialogOpen] =
-    useState(false);
+  const [updataAssociateDialogOpen, setUpdataAssociateDialogOpen] = useState(false);
 
-  const [deleteAssociateDialogOpen, setDeleteAssociateDialogOpen] =
-    useState(false);
+  const [deleteAssociateDialogOpen, setDeleteAssociateDialogOpen] = useState(false);
 
   const [associateToDeleteId, setAssociateToDeleteId] = useState('');
 
   const { associates, isLoading, deleteAssociate } = useAssociates();
 
-  const [associateToUpdate, setAssociateToUpdate] = useState<Associate>(
-    {} as Associate
-  );
+  const [associateToUpdate, setAssociateToUpdate] = useState<Associate>({} as Associate);
 
   const handleUpdate = ({ id, name, phone }: Associate) => {
     setAssociateToUpdate({ id, name, phone });
@@ -48,10 +44,7 @@ const Associates: React.FC = () => {
           Associados
         </Typography>
         <Tooltip title="Add">
-          <IconButton
-            color="secondary"
-            onClick={() => setAddAssociateDialogOpen(true)}
-          >
+          <IconButton color="secondary" onClick={() => setAddAssociateDialogOpen(true)}>
             <AddCircleIcon fontSize="large" />
           </IconButton>
         </Tooltip>

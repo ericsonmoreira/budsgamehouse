@@ -9,6 +9,7 @@ type ImageDropZoneProps = {
   setFile: React.Dispatch<React.SetStateAction<File | null | undefined>>;
 };
 
+// TODO: usar esse imgUrl para exibir a imagem se ela já existir
 const ImageDropZone: React.FC<ImageDropZoneProps> = ({ file, setFile }) => {
   const { palette } = useTheme();
 
@@ -30,9 +31,7 @@ const ImageDropZone: React.FC<ImageDropZoneProps> = ({ file, setFile }) => {
       sx={{
         borderRadius: 2,
         borderStyle: 'solid',
-        borderColor: isDragActive
-          ? palette.secondary.main
-          : palette.primary.main,
+        borderColor: isDragActive ? palette.secondary.main : palette.primary.main,
         width: '100%',
         overflow: 'hidden',
       }}
@@ -56,11 +55,7 @@ const ImageDropZone: React.FC<ImageDropZoneProps> = ({ file, setFile }) => {
               }}
               src={URL.createObjectURL(file)}
             />
-            <Button
-              color="primary"
-              startIcon={<DeleteIcon />}
-              onClick={() => setFile(null)}
-            >
+            <Button color="primary" startIcon={<DeleteIcon />} onClick={() => setFile(null)}>
               Remover Arquivo
             </Button>
           </Stack>
@@ -70,8 +65,7 @@ const ImageDropZone: React.FC<ImageDropZoneProps> = ({ file, setFile }) => {
           <input {...getInputProps()} />
           <CloudUploadIcon fontSize="large" />
           <Typography variant="body1" style={{ textAlign: 'center' }}>
-            Arraste e solte algum arquivo aqui ou clique para selecionar um
-            arquivo...
+            Arraste e solte algum arquivo aqui ou clique para selecionar um arquivo...
           </Typography>
         </Stack>
       )}

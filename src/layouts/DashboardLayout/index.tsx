@@ -1,16 +1,12 @@
-import { Box, useMediaQuery } from '@mui/material';
-import { styled, useTheme } from '@mui/material/styles';
+import { Box } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import DashboardNavbar from '../../components/DashboardNavbar';
 import DashboardSidebar from '../../components/DashboardSidebar';
 
 const DashboardLayout: React.FC = () => {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
-
-  const theme = useTheme();
-
-  const upLg = useMediaQuery(theme.breakpoints.up('lg'));
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const DashboardLayoutRoot = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -38,10 +34,7 @@ const DashboardLayout: React.FC = () => {
         <Outlet />
       </Box>
       <DashboardNavbar onSidebarOpen={() => setSidebarOpen(true)} />
-      <DashboardSidebar
-        onClose={() => setSidebarOpen(false)}
-        open={isSidebarOpen || upLg}
-      />
+      <DashboardSidebar onClose={() => setSidebarOpen(false)} open={isSidebarOpen} />
     </DashboardLayoutRoot>
   );
 };

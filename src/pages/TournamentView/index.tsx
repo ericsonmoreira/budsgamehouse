@@ -4,24 +4,16 @@ import GroupIcon from '@mui/icons-material/Group';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import {
-  AvatarGroup,
-  Backdrop,
-  Box,
-  Button,
-  CircularProgress,
-  Container,
-  Typography,
-} from '@mui/material';
+import { AvatarGroup, Backdrop, Box, Button, CircularProgress, Container, Typography } from '@mui/material';
 import { useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import AvatarPlayer from '../../components/AvatarPlayer';
-import ViewRatingsDialog from '../../components/dialogs/ViewRatingsDialog';
 import { HandleConfirmMatchResultImp } from '../../components/MatchAccordion';
 import Rating from '../../components/Rating';
 import Timer from '../../components/Timer';
 import TournamentInfos from '../../components/TournamentInfos';
+import ViewRatingsDialog from '../../components/dialogs/ViewRatingsDialog';
 import TournamentController from '../../controllers/TournamentController';
 import useTournaments from '../../hooks/useTournaments';
 
@@ -67,10 +59,7 @@ const TournamentView: React.FC = () => {
   const isPossibleEditRound = useCallback(
     (round: number) => {
       if (tournament && tournamentData) {
-        return (
-          tournament.state === 'started' &&
-          round >= tournamentData.ratings.length - 1
-        );
+        return tournament.state === 'started' && round >= tournamentData.ratings.length - 1;
       }
 
       return false;
@@ -80,10 +69,7 @@ const TournamentView: React.FC = () => {
 
   const isPossibleGenerateAnotherRound = useMemo(() => {
     if (tournament && tournamentData) {
-      return (
-        tournamentData.ratings.length < tournament.rounds &&
-        tournament.state === 'started'
-      );
+      return tournamentData.ratings.length < tournament.rounds && tournament.state === 'started';
     }
 
     return false;
@@ -110,11 +96,9 @@ const TournamentView: React.FC = () => {
     if (tournament && tournamentData) {
       const newRatings = tournamentData.ratings;
 
-      newRatings[ratingIndex][matchIndex].playersVirories[0] =
-        firstPlayerVictories;
+      newRatings[ratingIndex][matchIndex].playersVirories[0] = firstPlayerVictories;
 
-      newRatings[ratingIndex][matchIndex].playersVirories[1] =
-        seconfPlayerVictories;
+      newRatings[ratingIndex][matchIndex].playersVirories[1] = seconfPlayerVictories;
 
       const newTournamentData = { ...tournamentData, ratings: newRatings };
 
