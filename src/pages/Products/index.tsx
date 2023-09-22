@@ -18,6 +18,7 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import DataGridProducts from '../../components/datagrids/DataGridProducts';
 import AddProductDialog from '../../components/dialogs/products/AddProductDialog';
+import UpdateProductDialog from '../../components/dialogs/products/UpdateProductDialog';
 import useProducts from '../../hooks/products/useProducts';
 import deleteProduct from '../../resources/products/deleteProduct';
 
@@ -31,6 +32,16 @@ const Products: React.FC = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const [productToDeleteId, setProductToDeleteId] = useState('');
+
+  const [productToUpdate, setProductToUpdate] = useState<Product>({} as Product);
+
+  const [updateProductDialogOpen, setUpdatePproductDialogOpen] = useState(false);
+
+  const handleUpdate = (product: Product) => {
+    setProductToUpdate(product);
+
+    setUpdatePproductDialogOpen(true);
+  };
 
   const { mutate: deleteProductMutate, isLoading: deleteProductMutateIsloading } = useMutation({
     mutationFn: async () => {
@@ -76,7 +87,7 @@ const Products: React.FC = () => {
             ...product,
             actions: {
               handledelete: () => handledelete(product.id),
-              handleUpdate: () => {},
+              handleUpdate: () => handleUpdate(product),
             },
           }))}
         />
@@ -87,6 +98,14 @@ const Products: React.FC = () => {
         open={addProductDialogOpen}
         setOpen={setAddProductDialogOpen}
         onClose={() => setAddProductDialogOpen(false)}
+      />
+      <UpdateProductDialog
+        productToUpdate={productToUpdate}
+        title="Atualizar Produto"
+        subTitle="Atualiza um Produto"
+        open={updateProductDialogOpen}
+        setOpen={setUpdatePproductDialogOpen}
+        onClose={() => setUpdatePproductDialogOpen(false)}
       />
       <Dialog fullWidth maxWidth="md" open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
         <DialogTitle>Remover Produto</DialogTitle>

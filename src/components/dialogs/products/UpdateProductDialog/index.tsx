@@ -13,50 +13,54 @@ import {
   MenuItem,
 } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import addProduct from '../../../../resources/products/addProduct';
+import toast from 'react-hot-toast';
+import updateProduct from '../../../../resources/products/updateProduct';
 import uploadImageInStorage from '../../../../resources/uploadImageInStorage';
 import { PRODUCT_CATEGORIES } from '../../../../utils/constants';
 import ImageDropZone from '../../../ImageDropZone';
 import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema from './schema';
+import schema from './schema ';
 
-type AddProductDialogProps = {
+type UpdateProductDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  productToUpdate: Product;
 };
 
-type AddProductDialogFormData = {
+type UpdateProductDialogFormData = {
   name: string;
   price: number;
   category: string;
 };
 
-const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title, subTitle, setOpen, ...rest }) => {
-  const { handleSubmit, reset, control } = useForm<AddProductDialogFormData>({
+const UpdateProductDialog: React.FC<UpdateProductDialogProps & DialogProps> = ({
+  title,
+  subTitle,
+  setOpen,
+  productToUpdate,
+  ...rest
+}) => {
+  const { id, name, category, price, imgUrl } = productToUpdate;
+
+  const queryClient = useQueryClient();
+
+  const { control, handleSubmit, reset } = useForm<UpdateProductDialogFormData>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      name: '',
-      category: PRODUCT_CATEGORIES[0],
-      price: 0,
-    },
   });
 
   const [file, setFile] = useState<File | null>();
 
-  const queryClient = useQueryClient();
-
-  const { mutate: addProductMutate, isLoading: addProductMutateIsloading } = useMutation({
-    mutationFn: async ({ name, price, category }: Omit<Product, 'id'>) => {
+  const { mutate: updateProductMutate, isLoading: updateProductMutateIsloading } = useMutation({
+    mutationFn: async ({ name, price, category, imgUrl }: Omit<Product, 'id'>) => {
       if (file) {
-        const imgUrl = await uploadImageInStorage(file);
+        const newImgUrl = await uploadImageInStorage(file);
 
-        await addProduct({ name, price, category, imgUrl });
+        await updateProduct({ id, name, price, category, imgUrl: newImgUrl });
       } else {
-        await addProduct({ name, price, category, imgUrl: '' });
+        await updateProduct({ id, name, price, category, imgUrl });
       }
 
       await queryClient.invalidateQueries(['useProducts']);
@@ -64,15 +68,15 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title
     onSuccess: () => {
       handleClose();
 
-      toast.success('Produto adicionado com sucesso');
+      toast.success('Produto atualizado com sucesso');
     },
     onError: (error: Error) => {
       toast.error(error.message);
     },
   });
 
-  const handleConfirmAction = (data: AddProductDialogFormData) => {
-    addProductMutate(data);
+  const handleConfirmAction = (data: UpdateProductDialogFormData) => {
+    updateProductMutate({ ...data, imgUrl });
   };
 
   const handleClose = () => {
@@ -86,6 +90,18 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title
 
     setOpen(false);
   };
+
+  const handleCancelAction = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    reset({
+      name,
+      category,
+      price,
+    });
+  }, [productToUpdate]);
 
   return (
     <Dialog fullWidth maxWidth="md" {...rest}>
@@ -143,18 +159,18 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button color="secondary" onClick={handleClose}>
+        <Button color="secondary" onClick={handleCancelAction}>
           Cancelar
         </Button>
         <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>
           Confirmar
         </Button>
       </DialogActions>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={addProductMutateIsloading}>
+      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={updateProductMutateIsloading}>
         <CircularProgress color="primary" />
       </Backdrop>
     </Dialog>
   );
 };
 
-export default AddProductDialog;
+export default UpdateProductDialog;
