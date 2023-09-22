@@ -19,8 +19,8 @@ import toast from 'react-hot-toast';
 import DataGridProducts from '../../components/datagrids/DataGridProducts';
 import AddProductDialog from '../../components/dialogs/products/AddProductDialog';
 import UpdateProductDialog from '../../components/dialogs/products/UpdateProductDialog';
-import useProducts from '../../hooks/products/useProducts';
 import deleteProduct from '../../resources/products/deleteProduct';
+import useProducts from '../../hooks/useProducts';
 
 const Products: React.FC = () => {
   const [addProductDialogOpen, setAddProductDialogOpen] = useState(false);
