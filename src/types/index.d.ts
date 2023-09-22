@@ -63,6 +63,12 @@ declare type Product = {
   imgUrl?: string;
 };
 
+declare type Fiado = {
+  id: string;
+  playerId: string;
+  value: number;
+};
+
 declare type WantedCardPriority = 'high' | 'medium' | 'low';
 
 declare type MatchResult = 'first-player-win' | 'second-player-win' | 'draw';

@@ -3,6 +3,7 @@ import CachedIcon from '@mui/icons-material/Cached';
 import HomeIcon from '@mui/icons-material/Home';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import LogoutIcon from '@mui/icons-material/Logout';
+import PaidIcon from '@mui/icons-material/Paid';
 import PersonIcon from '@mui/icons-material/Person';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import { Box, Button, Divider, Drawer, useMediaQuery } from '@mui/material';
@@ -55,6 +56,11 @@ const items: AppDrawerItemData[] = [
     to: routesNames.BALANCES,
     title: 'Saldos',
   },
+  {
+    icon: PaidIcon,
+    to: routesNames.FIADOS,
+    title: 'Fiados',
+  },
 ];
 
 const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ open, onClose }) => {
@@ -87,7 +93,14 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ open, onClose }) =>
     >
       <Box sx={{ flexGrow: 1, py: 2 }}>
         {items.map(({ icon, title, to }) => (
-          <NavItem key={title} icon={icon} to={to} title={title} active={isNavItemActive(to)} />
+          <NavItem
+            key={title}
+            icon={icon}
+            to={to}
+            title={title}
+            active={isNavItemActive(to)}
+            onClick={() => onClose()}
+          />
         ))}
       </Box>
       <Divider />

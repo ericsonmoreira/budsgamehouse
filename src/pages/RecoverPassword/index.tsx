@@ -9,8 +9,8 @@ import ControlledTextField from '../../components/textfields/ControlledTextField
 import routesNames from '../../routes/routesNames';
 import { auth } from '../../services/firebaseConfig';
 import schema from './schema ';
-import verifyFirebaseErroCode from '../../services/verifyFirebaseErroCode.1';
 import { AuthError } from 'firebase/auth';
+import verifyFirebaseErroCode from '../../services/verifyFirebaseErroCode';
 
 type RecoverPasswordData = {
   email: string;
