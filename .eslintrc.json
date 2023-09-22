@@ -13,7 +13,7 @@
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
     "indent": "off",
-    "linebreak-style": ["error", "unix"],
+    "linebreak-style": "off",
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
     "react/prop-types": "off",

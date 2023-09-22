@@ -35,10 +35,7 @@ const BasicLayout: React.FC = () => {
             justifyContent: 'center',
           }}
         >
-          <img
-            src="/atm-logo.png"
-            style={{ maxWidth: '100%', width: 'auto' }}
-          />
+          <img src="/atm-logo.png" style={{ maxWidth: '100%', width: 'auto' }} />
         </Box>
         <Box
           sx={{
