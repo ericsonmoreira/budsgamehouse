@@ -2,8 +2,8 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import DataGridWantedCards from '../../components/datagrids/DataGridWantedCards';
-import AddWantCardDialog from '../../components/dialogs/wantCards/AddWantCardDialog';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
+import AddWantCardDialog from '../../components/dialogs/wantCards/AddWantCardDialog';
 import UpdateWantedCardDialog, {
   WantedCardUpdateData,
 } from '../../components/dialogs/wantCards/UpdateWantedCardDialog';

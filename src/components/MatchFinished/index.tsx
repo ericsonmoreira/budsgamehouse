@@ -1,4 +1,4 @@
-import { Stack, Box, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 import getPlayerById from '../../utils/getPlayerById';
 import getPlayerNameById from '../../utils/getPlayerNameById';
@@ -10,11 +10,7 @@ type MatchFinishedProps = {
   tournamentData: TournamentData;
 };
 
-const MatchFinished: React.FC<MatchFinishedProps> = ({
-  match,
-  matchIndex,
-  tournamentData,
-}) => {
+const MatchFinished: React.FC<MatchFinishedProps> = ({ match, matchIndex, tournamentData }) => {
   return (
     <Stack>
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>

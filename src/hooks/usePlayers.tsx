@@ -1,11 +1,4 @@
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  updateDoc,
-} from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { firestore } from '../services/firebaseConfig';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -26,29 +19,25 @@ function usePlayers() {
     return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as Player))];
   });
 
-  const { mutate: addPlayer } = useMutation(
-    async ({ name, email, avatarImgUrl = '' }: AddPlayerData) => {
-      const card = await addDoc(tradingCardsCollectionRef, {
-        name,
-        email,
-        avatarImgUrl,
-      });
+  const { mutate: addPlayer } = useMutation(async ({ name, email, avatarImgUrl = '' }: AddPlayerData) => {
+    const card = await addDoc(tradingCardsCollectionRef, {
+      name,
+      email,
+      avatarImgUrl,
+    });
 
-      await queryClient.invalidateQueries(['usePlayers']);
+    await queryClient.invalidateQueries(['usePlayers']);
 
-      return card;
-    }
-  );
+    return card;
+  });
 
-  const { mutate: updatePlayer } = useMutation(
-    async ({ id, name, email, avatarImgUrl }: Player) => {
-      const cardDoc = doc(firestore, 'players', id);
+  const { mutate: updatePlayer } = useMutation(async ({ id, name, email, avatarImgUrl }: Player) => {
+    const cardDoc = doc(firestore, 'players', id);
 
-      await updateDoc(cardDoc, { name, email, avatarImgUrl });
+    await updateDoc(cardDoc, { name, email, avatarImgUrl });
 
-      await queryClient.invalidateQueries(['usePlayers']);
-    }
-  );
+    await queryClient.invalidateQueries(['usePlayers']);
+  });
 
   const { mutate: deletePlayer } = useMutation(async (id: string) => {
     const cardDoc = doc(firestore, 'players', id);

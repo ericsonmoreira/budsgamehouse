@@ -1,12 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  updateDoc,
-} from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { firestore } from '../services/firebaseConfig';
 
 function useWantedCards() {
@@ -17,30 +10,24 @@ function useWantedCards() {
   const { data: cards, ...rest } = useQuery(['useWantedCards'], async () => {
     const { docs } = await getDocs(wantedCardsCollectionRef);
 
-    return [
-      ...docs.map((doc) => ({ id: doc.id, ...doc.data() } as WantedCard)),
-    ];
+    return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as WantedCard))];
   });
 
-  const { mutate: addWantedCard } = useMutation(
-    async (newWantedCard: Omit<WantedCard, 'id'>) => {
-      const card = await addDoc(wantedCardsCollectionRef, newWantedCard);
+  const { mutate: addWantedCard } = useMutation(async (newWantedCard: Omit<WantedCard, 'id'>) => {
+    const card = await addDoc(wantedCardsCollectionRef, newWantedCard);
 
-      await queryClient.invalidateQueries(['useWantedCards']);
+    await queryClient.invalidateQueries(['useWantedCards']);
 
-      return card;
-    }
-  );
+    return card;
+  });
 
-  const { mutate: updateWantedCard } = useMutation(
-    async ({ id, name, amount, imgUrl, priority }: WantedCard) => {
-      const cardDoc = doc(firestore, 'wanted-cards', id);
+  const { mutate: updateWantedCard } = useMutation(async ({ id, name, amount, imgUrl, priority }: WantedCard) => {
+    const cardDoc = doc(firestore, 'wanted-cards', id);
 
-      await updateDoc(cardDoc, { name, amount, imgUrl, priority });
+    await updateDoc(cardDoc, { name, amount, imgUrl, priority });
 
-      await queryClient.invalidateQueries(['useWantedCards']);
-    }
-  );
+    await queryClient.invalidateQueries(['useWantedCards']);
+  });
 
   const { mutate: deleteWantedCard } = useMutation(async (id: string) => {
     const cardDoc = doc(firestore, 'wanted-cards', id);

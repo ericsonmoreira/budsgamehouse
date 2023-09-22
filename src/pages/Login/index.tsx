@@ -7,8 +7,8 @@ import ControlledPasswordTextField from '../../components/textfields/ControlledP
 import ControlledTextField from '../../components/textfields/ControlledTextField';
 import routesNames from '../../routes/routesNames';
 import { auth } from '../../services/firebaseConfig';
-import verifyFirebaseErroCode from '../../services/verifyFirebaseErroCode';
 import schema from './schema ';
+import verifyFirebaseErroCode from '../../services/verifyFirebaseErroCode';
 
 type LoginFormData = {
   email: string;

@@ -15,10 +15,7 @@ const PasswordTextField: React.FC<TextFieldProps> = (props) => {
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton
-              disableRipple
-              onClick={() => setIsPasswordVisible((old) => !old)}
-            >
+            <IconButton disableRipple onClick={() => setIsPasswordVisible((old) => !old)}>
               {isPasswordVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
             </IconButton>
           </InputAdornment>

@@ -9,9 +9,7 @@ type ImgCardProps = {
   isLoading: boolean;
 };
 
-const ImgCard: React.FC<ImgCardProps & ImgHTMLAttributes<HTMLImageElement>> = (
-  props
-) => {
+const ImgCard: React.FC<ImgCardProps & ImgHTMLAttributes<HTMLImageElement>> = (props) => {
   const { card, isLoading, ...rest } = props;
 
   const [isFlipped, setIsFlipped] = useState(false);
@@ -23,11 +21,7 @@ const ImgCard: React.FC<ImgCardProps & ImgHTMLAttributes<HTMLImageElement>> = (
   if (card.card_faces?.length > 1) {
     return (
       <Box sx={{ display: 'flex' }}>
-        <ReactCardFlip
-          isFlipped={isFlipped}
-          flipDirection="horizontal"
-          infinite
-        >
+        <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal" infinite>
           <img
             src={card.card_faces[0].image_uris?.normal || NoCardImg}
             {...rest}
@@ -45,9 +39,7 @@ const ImgCard: React.FC<ImgCardProps & ImgHTMLAttributes<HTMLImageElement>> = (
     );
   }
 
-  return (
-    <img src={card.image_uris?.normal || NoCardImg} {...rest} width={100} />
-  );
+  return <img src={card.image_uris?.normal || NoCardImg} {...rest} width={100} />;
 };
 
 export default ImgCard;

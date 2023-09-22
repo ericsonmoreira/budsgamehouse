@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const getCurrentTheme = () =>
-  window.matchMedia('(prefers-color-scheme: dark)').matches;
+const getCurrentTheme = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 const useThemeDetector = (): 'dark' | 'light' => {
   const [isDarkTheme, setIsDarkTheme] = useState(getCurrentTheme());

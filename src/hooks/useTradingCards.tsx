@@ -1,12 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  updateDoc,
-} from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { firestore } from '../services/firebaseConfig';
 
 type TradingCardsData = {
@@ -30,34 +23,28 @@ function useTradingCards() {
   const { data: cards, ...rest } = useQuery(['useTradingCards'], async () => {
     const { docs } = await getDocs(tradingCardsCollectionRef);
 
-    return [
-      ...docs.map((doc) => ({ id: doc.id, ...doc.data() } as TradingCardsData)),
-    ];
+    return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as TradingCardsData))];
   });
 
-  const { mutate: addTradingCard } = useMutation(
-    async ({ name, amount, imgUrl }: AddTradingCardsData) => {
-      const card = await addDoc(tradingCardsCollectionRef, {
-        name,
-        amount,
-        imgUrl,
-      });
+  const { mutate: addTradingCard } = useMutation(async ({ name, amount, imgUrl }: AddTradingCardsData) => {
+    const card = await addDoc(tradingCardsCollectionRef, {
+      name,
+      amount,
+      imgUrl,
+    });
 
-      await queryClient.invalidateQueries(['useTradingCards']);
+    await queryClient.invalidateQueries(['useTradingCards']);
 
-      return card;
-    }
-  );
+    return card;
+  });
 
-  const { mutate: updateTradingCard } = useMutation(
-    async ({ id, name, amount, imgUrl }: TradingCardsData) => {
-      const cardDoc = doc(firestore, 'trading-cards', id);
+  const { mutate: updateTradingCard } = useMutation(async ({ id, name, amount, imgUrl }: TradingCardsData) => {
+    const cardDoc = doc(firestore, 'trading-cards', id);
 
-      await updateDoc(cardDoc, { name, amount, imgUrl });
+    await updateDoc(cardDoc, { name, amount, imgUrl });
 
-      await queryClient.invalidateQueries(['useTradingCards']);
-    }
-  );
+    await queryClient.invalidateQueries(['useTradingCards']);
+  });
 
   const { mutate: deleteTradingCard } = useMutation(async (id: string) => {
     const cardDoc = doc(firestore, 'trading-cards', id);
