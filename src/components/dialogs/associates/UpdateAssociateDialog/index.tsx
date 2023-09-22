@@ -12,9 +12,9 @@ import {
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import useAssociates from '../../../hooks/useAssociates';
-import ControlledPhoneTextField from '../../textfields/ControlledPhoneTextField';
-import ControlledTextField from '../../textfields/ControlledTextField';
+import useAssociates from '../../../../hooks/useAssociates';
+import ControlledPhoneTextField from '../../../textfields/ControlledPhoneTextField';
+import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema ';
 
 type UpdateAssociateDialogProps = {
@@ -24,9 +24,13 @@ type UpdateAssociateDialogProps = {
   associateToUpdate: Associate;
 };
 
-const UpdateAssociateDialog: React.FC<
-  UpdateAssociateDialogProps & DialogProps
-> = ({ title, subTitle, setOpen, associateToUpdate, ...rest }) => {
+const UpdateAssociateDialog: React.FC<UpdateAssociateDialogProps & DialogProps> = ({
+  title,
+  subTitle,
+  setOpen,
+  associateToUpdate,
+  ...rest
+}) => {
   const { id, name, phone } = associateToUpdate;
 
   const { control, handleSubmit, setValue } = useForm<Omit<Associate, 'id'>>({
@@ -89,12 +93,7 @@ const UpdateAssociateDialog: React.FC<
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button
-          variant="contained"
-          color="error"
-          disableElevation
-          onClick={handleCancelAction}
-        >
+        <Button variant="contained" color="error" disableElevation onClick={handleCancelAction}>
           Cancelar
         </Button>
         <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>

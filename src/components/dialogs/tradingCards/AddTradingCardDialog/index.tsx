@@ -16,11 +16,11 @@ import {
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import useAutoCompleteCardNames from '../../../hooks/useAutoCompleteCardNames';
-import useCardByName from '../../../hooks/useCardByName';
-import useDebounce from '../../../hooks/useDebounce';
-import useTradingCards from '../../../hooks/useTradingCards';
-import ImgCard from '../../ImgCard';
+import useAutoCompleteCardNames from '../../../../hooks/useAutoCompleteCardNames';
+import useCardByName from '../../../../hooks/useCardByName';
+import useDebounce from '../../../../hooks/useDebounce';
+import useTradingCards from '../../../../hooks/useTradingCards';
+import ImgCard from '../../../ImgCard';
 
 type AddTradingCardDialogProps = {
   title: string;
@@ -32,11 +32,13 @@ type AddTradingCardDialogFormData = {
   searchTerm: string;
 };
 
-const AddTradingCardDialog: React.FC<
-  AddTradingCardDialogProps & DialogProps
-> = ({ title, subTitle, setOpen, ...rest }) => {
-  const { register, handleSubmit, watch, resetField } =
-    useForm<AddTradingCardDialogFormData>({});
+const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = ({
+  title,
+  subTitle,
+  setOpen,
+  ...rest
+}) => {
+  const { register, handleSubmit, watch, resetField } = useForm<AddTradingCardDialogFormData>({});
 
   const [cardNameSelected, setCardNameSelected] = useState<string>('');
 
@@ -48,9 +50,7 @@ const AddTradingCardDialog: React.FC<
 
   const searchTermWatchDebounce = useDebounce(searchTermWatch, 500);
 
-  const { cardNames, isLoading } = useAutoCompleteCardNames(
-    searchTermWatchDebounce
-  );
+  const { cardNames, isLoading } = useAutoCompleteCardNames(searchTermWatchDebounce);
 
   const { card } = useCardByName(cardNameSelected);
 
@@ -58,9 +58,7 @@ const AddTradingCardDialog: React.FC<
     try {
       if (card) {
         const imgUrl =
-          (card.card_faces.length === 2
-            ? card.card_faces[0].image_uris?.normal
-            : card.image_uris?.normal) || '';
+          (card.card_faces.length === 2 ? card.card_faces[0].image_uris?.normal : card.image_uris?.normal) || '';
 
         addTradingCard({
           name: card.name,
@@ -104,9 +102,7 @@ const AddTradingCardDialog: React.FC<
                 </InputAdornment>
               ),
               endAdornment: (
-                <InputAdornment position="end">
-                  {isLoading && <CircularProgress size={16} />}
-                </InputAdornment>
+                <InputAdornment position="end">{isLoading && <CircularProgress size={16} />}</InputAdornment>
               ),
             }}
             {...register('searchTerm')}
@@ -117,9 +113,7 @@ const AddTradingCardDialog: React.FC<
             label="Quantidade"
             variant="outlined"
             value={amount}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setAmount(e.target.value)
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(e.target.value)}
             inputProps={{ min: 1 }}
           />
         </Box>

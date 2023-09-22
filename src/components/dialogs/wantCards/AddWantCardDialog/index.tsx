@@ -17,11 +17,11 @@ import {
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import useAutoCompleteCardNames from '../../../hooks/useAutoCompleteCardNames';
-import useCardByName from '../../../hooks/useCardByName';
-import useDebounce from '../../../hooks/useDebounce';
-import useWantedCards from '../../../hooks/useWantedCards';
-import ImgCard from '../../ImgCard';
+import useAutoCompleteCardNames from '../../../../hooks/useAutoCompleteCardNames';
+import useCardByName from '../../../../hooks/useCardByName';
+import useDebounce from '../../../../hooks/useDebounce';
+import useWantedCards from '../../../../hooks/useWantedCards';
+import ImgCard from '../../../ImgCard';
 
 type AddWantCardDialogProps = {
   title: string;
@@ -39,14 +39,8 @@ const priorityMapValues: { value: WantedCardPriority; label: string }[] = [
   { value: 'low', label: 'Baixo' },
 ];
 
-const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
-  title,
-  subTitle,
-  setOpen,
-  ...rest
-}) => {
-  const { register, handleSubmit, watch, resetField } =
-    useForm<AddWantCardDialogFormData>();
+const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({ title, subTitle, setOpen, ...rest }) => {
+  const { register, handleSubmit, watch, resetField } = useForm<AddWantCardDialogFormData>();
 
   const [cardNameSelected, setCardNameSelected] = useState<string>('');
 
@@ -60,9 +54,7 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
 
   const searchTermWatchDebounce = useDebounce(searchTermWatch, 500);
 
-  const { cardNames, isLoading } = useAutoCompleteCardNames(
-    searchTermWatchDebounce
-  );
+  const { cardNames, isLoading } = useAutoCompleteCardNames(searchTermWatchDebounce);
 
   const { card } = useCardByName(cardNameSelected);
 
@@ -70,9 +62,7 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
     try {
       if (card) {
         const imgUrl =
-          (card.card_faces.length === 2
-            ? card.card_faces[0].image_uris?.normal
-            : card.image_uris?.normal) || '';
+          (card.card_faces.length === 2 ? card.card_faces[0].image_uris?.normal : card.image_uris?.normal) || '';
 
         addWantedCard({
           name: card.name,
@@ -118,9 +108,7 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
                   </InputAdornment>
                 ),
                 endAdornment: (
-                  <InputAdornment position="end">
-                    {isLoading && <CircularProgress size={16} />}
-                  </InputAdornment>
+                  <InputAdornment position="end">{isLoading && <CircularProgress size={16} />}</InputAdornment>
                 ),
               }}
               {...register('searchTerm')}
@@ -134,9 +122,7 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
               label="Prioridade"
               variant="outlined"
               value={priority}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setPriority(e.target.value as WantedCardPriority)
-              }
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPriority(e.target.value as WantedCardPriority)}
             >
               {priorityMapValues.map(({ value, label }) => (
                 <MenuItem key={value} value={value}>
@@ -153,9 +139,7 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
               label="Quantidade"
               variant="outlined"
               value={amount}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setAmount(e.target.value)
-              }
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(e.target.value)}
               inputProps={{ min: 1 }}
             />
           </Grid>

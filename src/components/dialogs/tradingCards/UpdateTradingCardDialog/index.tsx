@@ -8,63 +8,52 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
-  MenuItem,
   Stack,
 } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import useWantedCards from '../../../hooks/useWantedCards';
-import ControlledTextField from '../../textfields/ControlledTextField';
+import useTradingCards from '../../../../hooks/useTradingCards';
+import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema ';
 
-const priorityMapValues: { value: WantedCardPriority; label: string }[] = [
-  { value: 'high', label: 'Alto' },
-  { value: 'medium', label: 'Médio' },
-  { value: 'low', label: 'Baixo' },
-];
-
-export type WantedCardUpdateData = {
+export type TradingCardUpdateData = {
   id: string;
   name: string;
   imgUrl: string;
   amount: string;
-  priority: WantedCardPriority;
 };
 
-type UpdateWantedCardDialogProps = {
+type UpdateTradingCardDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  tradingCardToUpdate: WantedCardUpdateData;
+  tradingCardToUpdate: TradingCardUpdateData;
 };
 
-type UpdateWantedCardDialogFormData = {
+type UpdateTradingCardDialogFormData = {
   name: string;
   imgUrl: string;
   amount: string;
-  priority: WantedCardPriority;
 };
 
-const UpdateWantedCardDialog: React.FC<
-  UpdateWantedCardDialogProps & DialogProps
-> = ({ title, subTitle, setOpen, tradingCardToUpdate, ...rest }) => {
-  const { id, name, imgUrl, amount, priority } = tradingCardToUpdate;
+const UpdateTradingCardDialog: React.FC<UpdateTradingCardDialogProps & DialogProps> = ({
+  title,
+  subTitle,
+  setOpen,
+  tradingCardToUpdate,
+  ...rest
+}) => {
+  const { id, name, imgUrl, amount } = tradingCardToUpdate;
 
-  const { updateWantedCard } = useWantedCards();
+  const { updateTradingCard } = useTradingCards();
 
-  const { control, handleSubmit, setValue } =
-    useForm<UpdateWantedCardDialogFormData>({
-      resolver: yupResolver(schema),
-    });
+  const { control, handleSubmit, setValue } = useForm<UpdateTradingCardDialogFormData>({
+    resolver: yupResolver(schema),
+  });
 
-  const handleConfirmAction = ({
-    name,
-    amount,
-    imgUrl,
-    priority,
-  }: UpdateWantedCardDialogFormData) => {
-    updateWantedCard({ id, name, amount: Number(amount), imgUrl, priority });
+  const handleConfirmAction = ({ name, amount, imgUrl }: UpdateTradingCardDialogFormData) => {
+    updateTradingCard({ id, name, amount: Number(amount), imgUrl });
 
     toast.success('Card Atualizado com sucesso!');
 
@@ -79,7 +68,6 @@ const UpdateWantedCardDialog: React.FC<
     setValue('name', name);
     setValue('amount', amount);
     setValue('imgUrl', imgUrl);
-    setValue('priority', priority);
   }, [tradingCardToUpdate]);
 
   return (
@@ -123,31 +111,11 @@ const UpdateWantedCardDialog: React.FC<
                 InputProps: { inputProps: { min: 1 } },
               }}
             />
-            <ControlledTextField
-              name="priority"
-              control={control}
-              textFieldProps={{
-                select: true,
-                children: priorityMapValues.map(({ value, label }) => (
-                  <MenuItem key={value} value={value}>
-                    {label}
-                  </MenuItem>
-                )),
-                variant: 'outlined',
-                size: 'small',
-                label: 'Prioridade',
-              }}
-            />
           </Stack>
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button
-          variant="contained"
-          color="error"
-          disableElevation
-          onClick={handleCancelAction}
-        >
+        <Button variant="contained" color="error" disableElevation onClick={handleCancelAction}>
           Cancelar
         </Button>
         <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>
@@ -158,4 +126,4 @@ const UpdateWantedCardDialog: React.FC<
   );
 };
 
-export default UpdateWantedCardDialog;
+export default UpdateTradingCardDialog;

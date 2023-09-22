@@ -17,10 +17,10 @@ import {
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import useTournaments from '../../../hooks/useTournaments';
-import AutocompletePlayers from '../../AutocompletePlayers';
-import AvatarPlayer from '../../AvatarPlayer';
-import ControlledTextField from '../../textfields/ControlledTextField';
+import useTournaments from '../../../../hooks/useTournaments';
+import AutocompletePlayers from '../../../AutocompletePlayers';
+import AvatarPlayer from '../../../AvatarPlayer';
+import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema ';
 
 type UpdateTournamentDialogProps = {
@@ -53,15 +53,18 @@ const formatValues = [
   },
 ];
 
-const UpdateTournamentDialog: React.FC<
-  UpdateTournamentDialogProps & DialogProps
-> = ({ title, subTitle, setOpen, tournamentToUpdate, ...rest }) => {
+const UpdateTournamentDialog: React.FC<UpdateTournamentDialogProps & DialogProps> = ({
+  title,
+  subTitle,
+  setOpen,
+  tournamentToUpdate,
+  ...rest
+}) => {
   const { id, format, name, rounds } = tournamentToUpdate;
 
-  const { control, handleSubmit, setValue } =
-    useForm<UpdateTournamentDialogFormData>({
-      resolver: yupResolver(schema),
-    });
+  const { control, handleSubmit, setValue } = useForm<UpdateTournamentDialogFormData>({
+    resolver: yupResolver(schema),
+  });
 
   const { addTournament, findTournament } = useTournaments();
 
@@ -69,11 +72,7 @@ const UpdateTournamentDialog: React.FC<
 
   const [selectedPlayers, setSelectedPlayers] = useState<Player[]>([]);
 
-  const handleConfirmAction = ({
-    name,
-    format,
-    rounds,
-  }: UpdateTournamentDialogFormData) => {
+  const handleConfirmAction = ({ name, format, rounds }: UpdateTournamentDialogFormData) => {
     addTournament({
       name,
       data: JSON.stringify({
@@ -163,20 +162,12 @@ const UpdateTournamentDialog: React.FC<
             />
           </Grid>
         </Grid>
-        <Grid
-          container
-          spacing={2}
-          sx={{ width: '100%', marginTop: 1 }}
-          component="form"
-        >
+        <Grid container spacing={2} sx={{ width: '100%', marginTop: 1 }} component="form">
           <Grid item xs={12}>
             <Typography variant="body1">Jogadores</Typography>
           </Grid>
           <Grid item xs={12}>
-            <AutocompletePlayers
-              selectedPlayers={selectedPlayers}
-              setSelectedPlayers={setSelectedPlayers}
-            />
+            <AutocompletePlayers selectedPlayers={selectedPlayers} setSelectedPlayers={setSelectedPlayers} />
           </Grid>
           <Grid item xs={12}>
             <Box
@@ -187,9 +178,7 @@ const UpdateTournamentDialog: React.FC<
               }}
             >
               <Typography variant="body1">Jogadores selecionados</Typography>
-              <Typography variant="body1">
-                Total: {selectedPlayers.length}
-              </Typography>
+              <Typography variant="body1">Total: {selectedPlayers.length}</Typography>
             </Box>
           </Grid>
           <Grid item xs={12}>
@@ -199,13 +188,9 @@ const UpdateTournamentDialog: React.FC<
                   key={id}
                   variant="outlined"
                   label={name}
-                  avatar={
-                    <AvatarPlayer player={{ id, name, email, avatarImgUrl }} />
-                  }
+                  avatar={<AvatarPlayer player={{ id, name, email, avatarImgUrl }} />}
                   onDelete={() => {
-                    setSelectedPlayers((old) =>
-                      old.filter((player) => player.id !== id)
-                    );
+                    setSelectedPlayers((old) => old.filter((player) => player.id !== id));
                   }}
                   deleteIcon={<PersonRemoveIcon />}
                   sx={{ marginRight: 1, marginBottom: 1 }}
@@ -216,12 +201,7 @@ const UpdateTournamentDialog: React.FC<
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button
-          variant="contained"
-          color="error"
-          disableElevation
-          onClick={handleCancelAction}
-        >
+        <Button variant="contained" color="error" disableElevation onClick={handleCancelAction}>
           Cancelar
         </Button>
         <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>

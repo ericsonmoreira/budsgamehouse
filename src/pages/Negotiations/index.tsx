@@ -2,9 +2,9 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import DataGridNegotiations from '../../components/datagrids/DataGridNegotiations';
-import AddNegotiationDialog from '../../components/dialogs/AddNegotiationDialog';
+import AddNegotiationDialog from '../../components/dialogs/negotiations/AddNegotiationDialog';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
-import UpdateNegotiationDialog from '../../components/dialogs/UpdateNegotiationDialog';
+import UpdateNegotiationDialog from '../../components/dialogs/negotiations/UpdateNegotiationDialog';
 import useNegotiations from '../../hooks/useNegotiations';
 
 const Negotiations: React.FC = () => {

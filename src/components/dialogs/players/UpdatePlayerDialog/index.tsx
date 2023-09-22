@@ -16,9 +16,9 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import usePlayers from '../../../hooks/usePlayers';
-import { storage } from '../../../services/firebaseConfig';
-import ControlledTextField from '../../textfields/ControlledTextField';
+import usePlayers from '../../../../hooks/usePlayers';
+import { storage } from '../../../../services/firebaseConfig';
+import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema ';
 
 type UpdatePlayerDialogProps = {
@@ -45,16 +45,11 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
 
   const { updatePlayer } = usePlayers();
 
-  const { control, handleSubmit, setValue, register } =
-    useForm<UpdatePlayerDialogFormData>({
-      resolver: yupResolver(schema),
-    });
+  const { control, handleSubmit, setValue, register } = useForm<UpdatePlayerDialogFormData>({
+    resolver: yupResolver(schema),
+  });
 
-  const handleConfirmAction = async ({
-    name,
-    email,
-    image,
-  }: UpdatePlayerDialogFormData) => {
+  const handleConfirmAction = async ({ name, email, image }: UpdatePlayerDialogFormData) => {
     if (image) {
       const storageRef = ref(storage, `images/${id}`);
 
@@ -96,12 +91,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
         >
           <Box>
             <IconButton color="primary" component="label">
-              <input
-                {...register('image')}
-                hidden
-                accept="image/*"
-                type="file"
-              />
+              <input {...register('image')} hidden accept="image/*" type="file" />
               <PhotoCamera />
             </IconButton>
           </Box>
@@ -126,12 +116,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button
-          variant="contained"
-          color="error"
-          disableElevation
-          onClick={handleCancelAction}
-        >
+        <Button variant="contained" color="error" disableElevation onClick={handleCancelAction}>
           Cancelar
         </Button>
         <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>

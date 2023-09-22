@@ -17,10 +17,10 @@ import {
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import useTournaments from '../../../hooks/useTournaments';
-import AutocompletePlayers from '../../AutocompletePlayers';
-import AvatarPlayer from '../../AvatarPlayer';
-import ControlledTextField from '../../textfields/ControlledTextField';
+import useTournaments from '../../../../hooks/useTournaments';
+import AutocompletePlayers from '../../../AutocompletePlayers';
+import AvatarPlayer from '../../../AvatarPlayer';
+import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema ';
 
 type AddTournamentDialogProps = {
@@ -69,11 +69,7 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
 
   const [selectedPlayers, setSelectedPlayers] = useState<Player[]>([]);
 
-  const handleConfirmAction = async ({
-    name,
-    format,
-    rounds,
-  }: AddTournamentDialogFormData) => {
+  const handleConfirmAction = async ({ name, format, rounds }: AddTournamentDialogFormData) => {
     addTournament({
       name,
       data: JSON.stringify({
@@ -159,10 +155,7 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
               <Typography variant="body1">Jogadores</Typography>
             </Grid>
             <Grid item xs={12}>
-              <AutocompletePlayers
-                selectedPlayers={selectedPlayers}
-                setSelectedPlayers={setSelectedPlayers}
-              />
+              <AutocompletePlayers selectedPlayers={selectedPlayers} setSelectedPlayers={setSelectedPlayers} />
             </Grid>
             <Grid item xs={12}>
               <Box
@@ -173,9 +166,7 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
                 }}
               >
                 <Typography variant="body1">Jogadores selecionados</Typography>
-                <Typography variant="body1">
-                  Total: {selectedPlayers.length}
-                </Typography>
+                <Typography variant="body1">Total: {selectedPlayers.length}</Typography>
               </Box>
             </Grid>
             <Grid item xs={12}>
@@ -185,15 +176,9 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
                     key={id}
                     variant="outlined"
                     label={name}
-                    avatar={
-                      <AvatarPlayer
-                        player={{ id, name, email, avatarImgUrl }}
-                      />
-                    }
+                    avatar={<AvatarPlayer player={{ id, name, email, avatarImgUrl }} />}
                     onDelete={() => {
-                      setSelectedPlayers((old) =>
-                        old.filter((player) => player.id !== id)
-                      );
+                      setSelectedPlayers((old) => old.filter((player) => player.id !== id));
                     }}
                     deleteIcon={<PersonRemoveIcon />}
                     sx={{ marginRight: 1, marginBottom: 1 }}
@@ -204,12 +189,7 @@ const AddTournamentDialog: React.FC<AddTournamentDialogProps & DialogProps> = ({
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button
-            variant="contained"
-            color="error"
-            disableElevation
-            onClick={handleCancelAction}
-          >
+          <Button variant="contained" color="error" disableElevation onClick={handleCancelAction}>
             Cancelar
           </Button>
           <Button type="submit">Confirmar</Button>

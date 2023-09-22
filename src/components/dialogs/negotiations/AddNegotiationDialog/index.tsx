@@ -12,9 +12,9 @@ import {
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import useAssociates from '../../../hooks/useAssociates';
-import useNegotiations from '../../../hooks/useNegotiations';
-import ControlledTextField from '../../textfields/ControlledTextField';
+import useAssociates from '../../../../hooks/useAssociates';
+import useNegotiations from '../../../../hooks/useNegotiations';
+import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema ';
 
 type AddNegotiationDialogProps = {
@@ -29,9 +29,12 @@ const negotiationStatusValues: { value: NegotiationStatus; label: string }[] = [
   { value: 'received', label: 'Recebido' },
 ];
 
-const AddNegotiationDialog: React.FC<
-  AddNegotiationDialogProps & DialogProps
-> = ({ title, subTitle, setOpen, ...rest }) => {
+const AddNegotiationDialog: React.FC<AddNegotiationDialogProps & DialogProps> = ({
+  title,
+  subTitle,
+  setOpen,
+  ...rest
+}) => {
   const { control, handleSubmit } = useForm<Omit<Negotiation, 'id'>>({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -46,12 +49,7 @@ const AddNegotiationDialog: React.FC<
 
   const { associates } = useAssociates();
 
-  const handleConfirmAction = ({
-    associateId,
-    description,
-    price,
-    status,
-  }: Omit<Negotiation, 'id'>) => {
+  const handleConfirmAction = ({ associateId, description, price, status }: Omit<Negotiation, 'id'>) => {
     addNegotiation({ associateId, description, price, status });
 
     toast.success('Associado adicionado com sucesso!');

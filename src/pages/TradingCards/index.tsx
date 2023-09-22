@@ -2,9 +2,11 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import DataGridTradingCards from '../../components/datagrids/DataGridTradingCards';
-import AddTradingCardDialog from '../../components/dialogs/AddTradingCardDialog';
+import AddTradingCardDialog from '../../components/dialogs/tradingCards/AddTradingCardDialog';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
-import UpdateTradingCardDialog, { TradingCardUpdateData } from '../../components/dialogs/UpdateTradingCardDialog';
+import UpdateTradingCardDialog, {
+  TradingCardUpdateData,
+} from '../../components/dialogs/tradingCards/UpdateTradingCardDialog';
 import useTradingCards from '../../hooks/useTradingCards';
 
 const TradingCards: React.FC = () => {

@@ -13,8 +13,8 @@ import {
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import useNegotiations from '../../../hooks/useNegotiations';
-import ControlledTextField from '../../textfields/ControlledTextField';
+import useNegotiations from '../../../../hooks/useNegotiations';
+import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema ';
 
 type UpdateNegotiationDialogProps = {
@@ -30,9 +30,13 @@ const negotiationStatusValues: { value: NegotiationStatus; label: string }[] = [
   { value: 'received', label: 'Recebido' },
 ];
 
-const UpdateNegotiationDialog: React.FC<
-  UpdateNegotiationDialogProps & DialogProps
-> = ({ title, subTitle, setOpen, negotiationToUpdate, ...rest }) => {
+const UpdateNegotiationDialog: React.FC<UpdateNegotiationDialogProps & DialogProps> = ({
+  title,
+  subTitle,
+  setOpen,
+  negotiationToUpdate,
+  ...rest
+}) => {
   const { id, associateId, description, price, status } = negotiationToUpdate;
 
   const { control, handleSubmit, setValue } = useForm<Omit<Negotiation, 'id'>>({
@@ -41,12 +45,7 @@ const UpdateNegotiationDialog: React.FC<
 
   const { updateNegotiation } = useNegotiations();
 
-  const handleConfirmAction = ({
-    status,
-    description,
-    price,
-    associateId,
-  }: Omit<Negotiation, 'id'>) => {
+  const handleConfirmAction = ({ status, description, price, associateId }: Omit<Negotiation, 'id'>) => {
     updateNegotiation({
       id,
       status,
@@ -124,12 +123,7 @@ const UpdateNegotiationDialog: React.FC<
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button
-          variant="contained"
-          color="error"
-          disableElevation
-          onClick={handleCancelAction}
-        >
+        <Button variant="contained" color="error" disableElevation onClick={handleCancelAction}>
           Cancelar
         </Button>
         <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>

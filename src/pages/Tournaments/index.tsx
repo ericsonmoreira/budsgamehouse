@@ -2,11 +2,11 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import DataGridTournaments from '../../components/datagrids/DataGridTournaments';
-import AddTournamentDialog from '../../components/dialogs/AddTournamentDialog';
+import AddTournamentDialog from '../../components/dialogs/tournaments/AddTournamentDialog';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
 import UpdateTournamentDialog, {
   UpdateTournamentDialogFormData,
-} from '../../components/dialogs/UpdateTournamentDialog';
+} from '../../components/dialogs/tournaments/UpdateTournamentDialog';
 import useTournaments from '../../hooks/useTournaments';
 
 const Tournaments: React.FC = () => {

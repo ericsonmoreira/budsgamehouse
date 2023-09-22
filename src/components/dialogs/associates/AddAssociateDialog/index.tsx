@@ -11,41 +11,32 @@ import {
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import usePlayers from '../../../hooks/usePlayers';
-import ControlledTextField from '../../textfields/ControlledTextField';
+import useAssociates from '../../../../hooks/useAssociates';
+import ControlledPhoneTextField from '../../../textfields/ControlledPhoneTextField';
+import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema ';
 
-type AddPlayerDialogProps = {
+type AddAssociateDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-type AddPlayerDialogFormData = {
-  name: string;
-  email: string;
-};
-
-const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
-  title,
-  subTitle,
-  setOpen,
-  ...rest
-}) => {
-  const { control, handleSubmit } = useForm<AddPlayerDialogFormData>({
+const AddAssociateDialog: React.FC<AddAssociateDialogProps & DialogProps> = ({ title, subTitle, setOpen, ...rest }) => {
+  const { control, handleSubmit } = useForm<Omit<Associate, 'id'>>({
     resolver: yupResolver(schema),
     defaultValues: {
       name: '',
-      email: '',
+      phone: '',
     },
   });
 
-  const { addPlayer } = usePlayers();
+  const { addAssociate } = useAssociates();
 
-  const handleConfirmAction = ({ name, email }: AddPlayerDialogFormData) => {
-    addPlayer({ name, email });
+  const handleConfirmAction = ({ name, phone }: Omit<Associate, 'id'>) => {
+    addAssociate({ name, phone });
 
-    toast.success('Player adicionado com sucesso!');
+    toast.success('Associado adicionado com sucesso!');
 
     setOpen(false);
   };
@@ -76,13 +67,13 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
               label: 'Nome',
             }}
           />
-          <ControlledTextField
-            name="email"
+          <ControlledPhoneTextField
+            name="phone"
             control={control}
             textFieldProps={{
               variant: 'outlined',
               size: 'small',
-              label: 'Email',
+              label: 'Telefone',
             }}
           />
         </Stack>
@@ -97,4 +88,4 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
   );
 };
 
-export default AddPlayerDialog;
+export default AddAssociateDialog;

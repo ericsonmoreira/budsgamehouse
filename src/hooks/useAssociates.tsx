@@ -1,11 +1,4 @@
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  updateDoc,
-} from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { firestore } from '../services/firebaseConfig';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -24,28 +17,24 @@ function useAssociates() {
     return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as Associate))];
   });
 
-  const { mutate: addAssociate } = useMutation(
-    async ({ name, phone }: Omit<Associate, 'id'>) => {
-      const card = await addDoc(associatesCollectionRef, {
-        name,
-        phone,
-      });
+  const { mutate: addAssociate } = useMutation(async ({ name, phone }: Omit<Associate, 'id'>) => {
+    const card = await addDoc(associatesCollectionRef, {
+      name,
+      phone,
+    });
 
-      await queryClient.invalidateQueries([queryKey]);
+    await queryClient.invalidateQueries([queryKey]);
 
-      return card;
-    }
-  );
+    return card;
+  });
 
-  const { mutate: updateAssociate } = useMutation(
-    async ({ id, name, phone }: Associate) => {
-      const associateDoc = doc(firestore, path, id);
+  const { mutate: updateAssociate } = useMutation(async ({ id, name, phone }: Associate) => {
+    const associateDoc = doc(firestore, path, id);
 
-      await updateDoc(associateDoc, { name, phone });
+    await updateDoc(associateDoc, { name, phone });
 
-      await queryClient.invalidateQueries([queryKey]);
-    }
-  );
+    await queryClient.invalidateQueries([queryKey]);
+  });
 
   const { mutate: deleteAssociate } = useMutation(async (id: string) => {
     const associateDoc = doc(firestore, path, id);

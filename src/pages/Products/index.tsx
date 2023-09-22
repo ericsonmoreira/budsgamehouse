@@ -17,7 +17,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import DataGridProducts from '../../components/datagrids/DataGridProducts';
-import AddProductDialog from '../../components/dialogs/AddProductDialog';
+import AddProductDialog from '../../components/dialogs/products/AddProductDialog';
 import useProducts from '../../hooks/products/useProducts';
 import deleteProduct from '../../resources/products/deleteProduct';
 

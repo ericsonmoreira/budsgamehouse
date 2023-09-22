@@ -16,10 +16,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import addProduct from '../../../resources/products/addProduct';
-import uploadImageInStorage from '../../../resources/uploadImageInStorage';
-import ImageDropZone from '../../ImageDropZone';
-import ControlledTextField from '../../textfields/ControlledTextField';
+import addProduct from '../../../../resources/products/addProduct';
+import uploadImageInStorage from '../../../../resources/uploadImageInStorage';
+import ImageDropZone from '../../../ImageDropZone';
+import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema';
 
 type AddProductDialogProps = {
