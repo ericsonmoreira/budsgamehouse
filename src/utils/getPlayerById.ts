@@ -3,10 +3,7 @@ type GetPlayerByIdData = {
   tournamentData: TournamentData;
 };
 
-const getPlayerById = ({
-  playerId,
-  tournamentData,
-}: GetPlayerByIdData): Player | undefined => {
+const getPlayerById = ({ playerId, tournamentData }: GetPlayerByIdData): Player | undefined => {
   if (!tournamentData) return undefined;
 
   if (playerId === 'bay')

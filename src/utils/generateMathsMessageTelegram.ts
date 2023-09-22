@@ -5,19 +5,14 @@ type GenerateMathsMessageTelegramData = {
   tournamentData: TournamentData;
 };
 
-const generateMathsMessageTelegram = ({
-  matchs,
-  tournamentData,
-}: GenerateMathsMessageTelegramData): string => {
+const generateMathsMessageTelegram = ({ matchs, tournamentData }: GenerateMathsMessageTelegramData): string => {
   let message = '';
 
   const { name, format, ratings, rounds } = tournamentData;
 
   message += `Evento: ${name}\n`;
 
-  message += `Formato: ${format.toUpperCase()}\tRodada: ${
-    ratings.length
-  } de ${rounds}\n`;
+  message += `Formato: ${format.toUpperCase()}\tRodada: ${ratings.length} de ${rounds}\n`;
 
   matchs.forEach(({ playersIds }, index) => {
     const firstPlayerName = getPlayerNameById({

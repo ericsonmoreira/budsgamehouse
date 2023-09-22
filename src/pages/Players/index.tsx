@@ -48,10 +48,7 @@ const Players: React.FC = () => {
           Payers
         </Typography>
         <Tooltip title="Add">
-          <IconButton
-            color="secondary"
-            onClick={() => setAddPlayerDialogOpen(true)}
-          >
+          <IconButton color="secondary" onClick={() => setAddPlayerDialogOpen(true)}>
             <AddCircleIcon fontSize="large" />
           </IconButton>
         </Tooltip>

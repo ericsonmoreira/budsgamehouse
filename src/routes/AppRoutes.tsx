@@ -26,28 +26,19 @@ const AppRoutes: React.FC = () => {
             <Route path={routesNames.HOME} element={<Home />} />
             <Route path={routesNames.ASSOCIATES} element={<Associates />} />
             <Route path={routesNames.BALANCES} element={<Balances />} />
-            <Route
-              path={routesNames.TRANDING_CARDS}
-              element={<TradingCards />}
-            />
+            <Route path={routesNames.TRANDING_CARDS} element={<TradingCards />} />
             <Route path={routesNames.WANTED_CARDS} element={<WantedCards />} />
             <Route path={routesNames.PLAYERS} element={<Players />} />
             <Route path={routesNames.PRODUCTS} element={<Products />} />
             <Route path={routesNames.FIADOS} element={<Fiados />} />
             <Route path={routesNames.TOURNAMENTS} element={<Tournaments />} />
             <Route path={routesNames.NEGOTIATIONS} element={<Negotiations />} />
-            <Route
-              path={routesNames.TOURNAMENT_VIEW}
-              element={<TournamentView />}
-            />
+            <Route path={routesNames.TOURNAMENT_VIEW} element={<TournamentView />} />
           </Route>
         </Route>
         <Route element={<BasicLayout />}>
           <Route path={routesNames.LOGIN} element={<Login />} />
-          <Route
-            path={routesNames.RECOVER_PASSWORD}
-            element={<RecoverPassword />}
-          />
+          <Route path={routesNames.RECOVER_PASSWORD} element={<RecoverPassword />} />
         </Route>
       </Routes>
     </BrowserRouter>

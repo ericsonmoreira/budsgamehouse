@@ -7,9 +7,7 @@ const formatNumberToPercentage = (n: string | number) =>
     minimumFractionDigits: 2,
   });
 
-const generateRatingsMessageTelegram = (
-  tournamentData: TournamentData
-): string => {
+const generateRatingsMessageTelegram = (tournamentData: TournamentData): string => {
   let message = '';
 
   const ratingsController = new RatingsController(tournamentData);
@@ -18,9 +16,7 @@ const generateRatingsMessageTelegram = (
 
   message += `Evento: ${name}\n`;
 
-  message += `Formato: ${format.toUpperCase()}\tRodada: ${
-    ratings.length
-  } de ${rounds}\n`;
+  message += `Formato: ${format.toUpperCase()}\tRodada: ${ratings.length} de ${rounds}\n`;
 
   message += '# · Jogador · Pts · VDE · MWP · GWP · OMWP · OGWP\n';
 

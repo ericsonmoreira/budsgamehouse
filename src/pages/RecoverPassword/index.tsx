@@ -1,13 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Paper,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Button, CircularProgress, Paper, Stack, Typography } from '@mui/material';
 import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
@@ -30,8 +23,7 @@ const RecoverPassword: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  const [sendPasswordResetEmail, sending, error] =
-    useSendPasswordResetEmail(auth);
+  const [sendPasswordResetEmail, sending, error] = useSendPasswordResetEmail(auth);
 
   const onSubmit: SubmitHandler<RecoverPasswordData> = async ({ email }) => {
     try {
@@ -99,15 +91,7 @@ const RecoverPassword: React.FC = () => {
               type="submit"
               variant="contained"
               disabled={sending || !!error} // necessário travar o botão quando acontece um errro
-              endIcon={
-                sending && (
-                  <CircularProgress
-                    size={12}
-                    color="info"
-                    sx={{ marginLeft: 2 }}
-                  />
-                )
-              }
+              endIcon={sending && <CircularProgress size={12} color="info" sx={{ marginLeft: 2 }} />}
             >
               Enviar Email
             </Button>
