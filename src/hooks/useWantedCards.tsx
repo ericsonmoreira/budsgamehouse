@@ -1,3 +1,4 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   addDoc,
   collection,
@@ -6,7 +7,6 @@ import {
   getDocs,
   updateDoc,
 } from 'firebase/firestore';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { firestore } from '../services/firebaseConfig';
 
 function useWantedCards() {
@@ -14,7 +14,7 @@ function useWantedCards() {
 
   const wantedCardsCollectionRef = collection(firestore, 'wanted-cards');
 
-  const { data: cards, ...rest } = useQuery('useWantedCards', async () => {
+  const { data: cards, ...rest } = useQuery(['useWantedCards'], async () => {
     const { docs } = await getDocs(wantedCardsCollectionRef);
 
     return [
@@ -26,7 +26,7 @@ function useWantedCards() {
     async (newWantedCard: Omit<WantedCard, 'id'>) => {
       const card = await addDoc(wantedCardsCollectionRef, newWantedCard);
 
-      await queryClient.invalidateQueries('useWantedCards');
+      await queryClient.invalidateQueries(['useWantedCards']);
 
       return card;
     }
@@ -38,7 +38,7 @@ function useWantedCards() {
 
       await updateDoc(cardDoc, { name, amount, imgUrl, priority });
 
-      await queryClient.invalidateQueries('useWantedCards');
+      await queryClient.invalidateQueries(['useWantedCards']);
     }
   );
 
@@ -47,7 +47,7 @@ function useWantedCards() {
 
     await deleteDoc(cardDoc);
 
-    await queryClient.invalidateQueries('useWantedCards');
+    await queryClient.invalidateQueries(['useWantedCards']);
   });
 
   return { cards, addWantedCard, updateWantedCard, deleteWantedCard, ...rest };

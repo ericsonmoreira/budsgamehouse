@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
-import { QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import { useLocalStorage } from 'usehooks-ts';
 import AppRoutes from './routes/AppRoutes';
 import queryClient from './services/queryClient';

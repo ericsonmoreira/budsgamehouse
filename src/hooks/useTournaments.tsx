@@ -1,3 +1,4 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   addDoc,
   collection,
@@ -7,7 +8,6 @@ import {
   getDocs,
   updateDoc,
 } from 'firebase/firestore';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { firestore } from '../services/firebaseConfig';
 
 type AddTournamentsData = {
@@ -24,7 +24,7 @@ function useTournaments() {
   const tradingCardsCollectionRef = collection(firestore, 'tournaments');
 
   const { data: tournaments, ...rest } = useQuery(
-    'useTournaments',
+    ['useTournaments'],
     async () => {
       const { docs } = await getDocs(tradingCardsCollectionRef);
 
@@ -49,7 +49,7 @@ function useTournaments() {
     async (tournament: AddTournamentsData) => {
       const tournamentDoc = await addDoc(tradingCardsCollectionRef, tournament);
 
-      await queryClient.invalidateQueries('useTournaments');
+      await queryClient.invalidateQueries(['useTournaments']);
 
       const docSnap = await getDoc(tournamentDoc);
 
@@ -63,7 +63,7 @@ function useTournaments() {
 
       await updateDoc(tournamentDoc, tournament);
 
-      await queryClient.invalidateQueries('useTournaments');
+      await queryClient.invalidateQueries(['useTournaments']);
     }
   );
 
@@ -72,7 +72,7 @@ function useTournaments() {
 
     await deleteDoc(tournamentDoc);
 
-    await queryClient.invalidateQueries('useTournaments');
+    await queryClient.invalidateQueries(['useTournaments']);
   });
 
   return {

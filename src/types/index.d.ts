@@ -55,6 +55,14 @@ declare type WantedCard = {
   priority: WantedCardPriority;
 };
 
+declare type Product = {
+  id: string;
+  name: string;
+  price: number;
+  category: string;
+  imgUrl?: string;
+};
+
 declare type WantedCardPriority = 'high' | 'medium' | 'low';
 
 declare type MatchResult = 'first-player-win' | 'second-player-win' | 'draw';
