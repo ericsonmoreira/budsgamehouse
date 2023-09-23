@@ -10,6 +10,7 @@ import useProducts from '../../hooks/useProducts';
 import useTradingCards from '../../hooks/useTradingCards';
 import useWantedCards from '../../hooks/useWantedCards';
 import routesNames from '../../routes/routesNames';
+import useFiados from '../../hooks/useFiados';
 
 const Home: React.FC = () => {
   const { players, isLoading: isLoadingPlayers } = usePlayers();
@@ -19,6 +20,8 @@ const Home: React.FC = () => {
   const { cards: wantedCards, isLoading: isLoadingWantedCards } = useWantedCards();
 
   const { data: products, isLoading: isLoadingProducts } = useProducts();
+
+  const { data: fiados, isLoading: isLoadingFiados } = useFiados();
 
   const items = useMemo<HomeCardProps[]>(
     () => [
@@ -53,6 +56,14 @@ const Home: React.FC = () => {
         icon: LocalGroceryStoreIcon,
         to: routesNames.PRODUCTS,
         isLoading: isLoadingProducts,
+      },
+      {
+        title: 'Fiados',
+        subheader: 'Total de pessoas com Fiados',
+        amount: fiados?.length,
+        icon: LocalGroceryStoreIcon,
+        to: routesNames.FIADOS,
+        isLoading: isLoadingFiados,
       },
     ],
     [players, wantedCards, tradingCards]

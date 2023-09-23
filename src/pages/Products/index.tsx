@@ -58,6 +58,7 @@ const Products: React.FC = () => {
 
   const handledelete = (id: string) => {
     setProductToDeleteId(id);
+
     setDeleteDialogOpen(true);
   };
 
