@@ -13,13 +13,14 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import DataGridFiados from '../../components/datagrids/DataGridFiados';
 import AddFiadoDialog from '../../components/dialogs/fiados/AddFiadoDialog';
 import useFiados from '../../hooks/useFiados';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import deleteFiado from '../../resources/fiados/deleteFiado';
 import toast from 'react-hot-toast';
+import UpdateFiadoDialog from '../../components/dialogs/fiados/UpdateFiadoDialog';
 
 const Fiados: React.FC = () => {
   const queryClient = useQueryClient();
@@ -28,9 +29,13 @@ const Fiados: React.FC = () => {
 
   const [deleteFiadoDialogOpen, setDeleteFiadoDialogOpen] = useState(false);
 
+  const [updateFiadoDialogOpen, setUpdateFiadoDialogOpen] = useState(false);
+
   const [fiadoToDeleteSelected, setFiadoToDeleteSelected] = useState<Fiado>({} as Fiado);
 
-  const { data, isLoading } = useFiados();
+  const [fiadoToUpdateSelected, setFiadoToUpdateSelected] = useState<Fiado>({} as Fiado);
+
+  const { data, isLoading: useFiadosIsLoading } = useFiados();
 
   const { mutate: deleteFiadoMutate, isLoading: deleteFiadoMutateIsloading } = useMutation({
     mutationFn: async () => {
@@ -47,8 +52,19 @@ const Fiados: React.FC = () => {
 
   const handledelete = (fiadoToDelete: Fiado) => {
     setFiadoToDeleteSelected(fiadoToDelete);
+
     setDeleteFiadoDialogOpen(true);
   };
+
+  const handleUpdate = (fiadoToDelete: Fiado) => {
+    setFiadoToUpdateSelected(fiadoToDelete);
+
+    setUpdateFiadoDialogOpen(true);
+  };
+
+  const isLoading = useMemo(() => {
+    return useFiadosIsLoading || deleteFiadoMutateIsloading;
+  }, [useFiadosIsLoading, deleteFiadoMutateIsloading]);
 
   return (
     <>
@@ -75,7 +91,7 @@ const Fiados: React.FC = () => {
             ...fiado,
             actions: {
               handledelete: () => handledelete(fiado),
-              handleUpdate: () => {},
+              handleUpdate: () => handleUpdate(fiado),
             },
           }))}
           loading={isLoading}
@@ -87,6 +103,14 @@ const Fiados: React.FC = () => {
         open={addFiadoDialogOpen}
         setOpen={setAddFiadoDialogOpen}
         onClose={() => setAddFiadoDialogOpen(false)}
+      />
+      <UpdateFiadoDialog
+        title="Adicionar Fiado"
+        subTitle="Um Fiado para um Jogador"
+        open={updateFiadoDialogOpen}
+        fiadoToUpdate={fiadoToUpdateSelected}
+        setOpen={setUpdateFiadoDialogOpen}
+        onClose={() => setUpdateFiadoDialogOpen(false)}
       />
       <Dialog fullWidth maxWidth="md" open={deleteFiadoDialogOpen} onClose={() => setDeleteFiadoDialogOpen(false)}>
         <DialogTitle>Remover Fiado</DialogTitle>
@@ -101,7 +125,7 @@ const Fiados: React.FC = () => {
           <Button onClick={() => deleteFiadoMutate()}>Confirmar</Button>
         </DialogActions>
       </Dialog>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={deleteFiadoMutateIsloading}>
+      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
         <CircularProgress color="primary" />
       </Backdrop>
     </>
