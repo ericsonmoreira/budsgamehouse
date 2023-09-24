@@ -3,7 +3,6 @@ import CachedIcon from '@mui/icons-material/Cached';
 import HomeIcon from '@mui/icons-material/Home';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import LogoutIcon from '@mui/icons-material/Logout';
-import PaidIcon from '@mui/icons-material/Paid';
 import PersonIcon from '@mui/icons-material/Person';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import { Box, Button, Divider, Drawer, useMediaQuery } from '@mui/material';
@@ -55,11 +54,6 @@ const items: AppDrawerItemData[] = [
     icon: PriceCheckIcon,
     to: routesNames.BALANCES,
     title: 'Saldos',
-  },
-  {
-    icon: PaidIcon,
-    to: routesNames.FIADOS,
-    title: 'Fiados',
   },
 ];
 

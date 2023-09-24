@@ -1,34 +1,19 @@
-import { Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
-import { memo } from 'react';
-import usePlayer from '../../../hooks/usePlayer';
 import { formatterCurrencyBRL } from '../../../utils/formatters';
 import AvatarPlayer from '../../AvatarPlayer';
 import ActionsCell from '../../cells/ActionsCell';
+import TypographyBalance from '../../TypographyBalance';
 
-type DataGridFiadosRowData = Fiado & {
+type DataGridBalancesRowData = Player & {
   actions: {
     handleUpdate(): void;
-    handledelete(): void;
   };
 };
 
-type DataGridFiadosProps = {
-  rows?: DataGridFiadosRowData[];
+type DataGridBalancesProps = {
+  rows?: DataGridBalancesRowData[];
   loading?: boolean;
 };
-
-const PlayerNameCellMemo = memo(function PlayerNameCell({ id }: { id: string }) {
-  const { data } = usePlayer(id);
-
-  return <Typography variant="inherit">{data?.name}</Typography>;
-});
-
-const AvatarPlayerCellMemo = memo(function PlayerNameCell({ id }: { id: string }) {
-  const { data } = usePlayer(id);
-
-  return data ? <AvatarPlayer sx={{ width: 20, height: 20 }} player={data} /> : null;
-});
 
 const columns: GridColDef[] = [
   {
@@ -38,18 +23,17 @@ const columns: GridColDef[] = [
     align: 'center',
     disableColumnMenu: true,
     sortable: false,
-    renderCell: ({ row }) => <AvatarPlayerCellMemo id={row.playerId} />,
+    renderCell: ({ row }) => <AvatarPlayer player={row} />,
   },
   {
-    field: 'playerId',
+    field: 'name',
     headerName: 'Nome',
     flex: 1,
-    renderCell: ({ row }) => <PlayerNameCellMemo id={row.playerId} />,
   },
   {
-    field: 'value',
-    headerName: 'Valor',
-    valueFormatter: ({ value }) => formatterCurrencyBRL.format(value),
+    field: 'balance',
+    headerName: 'Saldo',
+    renderCell: ({ row }) => <TypographyBalance balance={row.balance} />,
   },
   {
     field: 'actions',
@@ -67,7 +51,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-const DataGridFiados: React.FC<DataGridFiadosProps> = ({ rows = [], loading }) => {
+const DataGridBalances: React.FC<DataGridBalancesProps> = ({ rows = [], loading }) => {
   return (
     <DataGrid
       rows={rows}
@@ -85,4 +69,4 @@ const DataGridFiados: React.FC<DataGridFiadosProps> = ({ rows = [], loading }) =
   );
 };
 
-export default DataGridFiados;
+export default DataGridBalances;

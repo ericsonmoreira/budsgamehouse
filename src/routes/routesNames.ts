@@ -4,10 +4,11 @@ const routesNames = {
   TRANDING_CARDS: '/trading-cards',
   WANTED_CARDS: '/wanted-cards',
   PLAYERS: '/players',
+  VIEW_PLAYER: '/players/:id',
   PRODUCTS: '/products',
-  FIADOS: '/fiados',
   LOGIN: '/login',
   RECOVER_PASSWORD: '/recover-password',
+  NOT_FOUND: '*',
 };
 
 export default routesNames;

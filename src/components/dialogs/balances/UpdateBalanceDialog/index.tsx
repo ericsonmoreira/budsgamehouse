@@ -1,57 +1,57 @@
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import DeleteIcon from '@mui/icons-material/Delete';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import {
   Autocomplete,
+  Backdrop,
+  Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogProps,
   DialogTitle,
-  Stack,
-  TextField,
-  TableContainer,
+  IconButton,
   Paper,
+  Stack,
   Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableFooter,
   TableHead,
   TableRow,
-  TableCell,
-  TableBody,
-  TableFooter,
-  Box,
+  TextField,
   Typography,
-  IconButton,
 } from '@mui/material';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 import useProducts from '../../../../hooks/useProducts';
+import updatePlayer from '../../../../resources/players/updatePlayer';
 import { formatterCurrencyBRL } from '../../../../utils/formatters';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import usePlayer from '../../../../hooks/usePlayer';
 import AvatarPlayer from '../../../AvatarPlayer';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import DeleteIcon from '@mui/icons-material/Delete';
 
-type ItemShoppingCart = {
-  amount: number;
-} & Product;
-
-type UpdateFiadoDialogProps = {
+type UpdateBalanceDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  fiadoToUpdate: Fiado;
+  playerToUpdate: Player;
 };
 
-const UpdateFiadoDialog: React.FC<UpdateFiadoDialogProps & DialogProps> = ({
+const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
   title,
   subTitle,
-  fiadoToUpdate,
+  playerToUpdate,
   setOpen,
   ...rest
 }) => {
-  const { data: produtos } = useProducts();
+  const queryClient = useQueryClient();
 
-  const { data: player } = usePlayer(fiadoToUpdate.playerId);
+  const { data: produtos } = useProducts();
 
   const [shoppingCart, setShoppingCart] = useState<ItemShoppingCart[]>([]);
 
@@ -61,6 +61,7 @@ const UpdateFiadoDialog: React.FC<UpdateFiadoDialogProps & DialogProps> = ({
     if (produtos && shoppingCart) {
       return produtos.filter((product) => !shoppingCart.some((elem) => elem.id === product.id));
     }
+
     return [];
   }, [produtos, shoppingCart]);
 
@@ -99,7 +100,7 @@ const UpdateFiadoDialog: React.FC<UpdateFiadoDialogProps & DialogProps> = ({
     }
   }
 
-  function handlePlusMinusProductInShoppingCart(row: ItemShoppingCart): void {
+  const handlePlusMinusProductInShoppingCart = (row: ItemShoppingCart) => {
     const index = shoppingCart.findIndex((elem) => elem.id === row.id);
 
     if (index >= 0) {
@@ -109,30 +110,44 @@ const UpdateFiadoDialog: React.FC<UpdateFiadoDialogProps & DialogProps> = ({
 
       setShoppingCart(newArray);
     }
-  }
+  };
 
-  function handleRemoveProductInShoppingCart(row: ItemShoppingCart): void {
+  const handleRemoveProductInShoppingCart = (row: ItemShoppingCart) => {
     setShoppingCart((old) => old.filter((elem) => elem.id !== row.id));
-  }
+  };
+
+  const { mutate: updateFiadoMutate, isLoading: updateFiadoMutateIsloading } = useMutation({
+    mutationFn: async () => {
+      await updatePlayer({ ...playerToUpdate, balance: playerToUpdate.balance - totalToPay });
+
+      await queryClient.invalidateQueries(['usePlayers']);
+    },
+    onSuccess: () => {
+      handleClose();
+
+      toast.success('Produto adicionado com sucesso');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
 
   return (
-    <Dialog fullWidth maxWidth="md" {...rest}>
+    <Dialog fullWidth maxWidth="md" onClose={handleClose} {...rest}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
-        {player && (
-          <Box mt={2} display="flex" alignItems="center" justifyContent="space-between">
-            <Stack direction="row" spacing={1} alignItems="center">
-              <AvatarPlayer player={player} />
-              <Typography variant="h4">{player.name}</Typography>
-            </Stack>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <Typography variant="h4">{formatterCurrencyBRL.format(fiadoToUpdate.value)}</Typography>
-              <ArrowForwardIcon fontSize="large" />
-              <Typography variant="h4">{formatterCurrencyBRL.format(fiadoToUpdate.value + totalToPay)}</Typography>
-            </Stack>
-          </Box>
-        )}
+        <Box mt={2} display="flex" alignItems="center" justifyContent="space-between">
+          <Stack direction="row" spacing={1} alignItems="center">
+            <AvatarPlayer player={playerToUpdate} />
+            <Typography variant="h4">{playerToUpdate.name}</Typography>
+          </Stack>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Typography variant="h4">{formatterCurrencyBRL.format(playerToUpdate.balance)}</Typography>
+            <ArrowForwardIcon fontSize="large" />
+            <Typography variant="h4">{formatterCurrencyBRL.format(playerToUpdate.balance - totalToPay)}</Typography>
+          </Stack>
+        </Box>
         <Stack direction="row" spacing={2} my={2}>
           <Autocomplete
             value={selectedProduct}
@@ -210,10 +225,15 @@ const UpdateFiadoDialog: React.FC<UpdateFiadoDialogProps & DialogProps> = ({
         <Button color="secondary" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button autoFocus>Confirmar</Button>
+        <Button disabled={totalToPay <= 0} onClick={() => updateFiadoMutate()}>
+          Confirmar
+        </Button>
       </DialogActions>
+      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={updateFiadoMutateIsloading}>
+        <CircularProgress color="primary" />
+      </Backdrop>
     </Dialog>
   );
 };
 
-export default UpdateFiadoDialog;
+export default UpdateBalanceDialog;

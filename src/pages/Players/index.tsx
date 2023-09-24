@@ -22,10 +22,11 @@ const Players: React.FC = () => {
     id: '',
     name: '',
     email: '',
+    balance: 0,
   });
 
-  const handleUpdate = ({ id, name, email, avatarImgUrl }: Player) => {
-    setPlayerToUpdate({ id, name, email, avatarImgUrl });
+  const handleUpdate = ({ id, name, email, avatarImgUrl, balance }: Player) => {
+    setPlayerToUpdate({ id, name, email, avatarImgUrl, balance });
     setUpdatePlayerDialogOpen(true);
   };
 
@@ -62,7 +63,7 @@ const Players: React.FC = () => {
             email,
             avatarImgUrl,
             actions: {
-              handleUpdate: () => handleUpdate({ id, name, email }),
+              handleUpdate: () => handleUpdate({ id, name, email, balance: 0 }),
               handledelete: () => handledelete(id),
             },
           }))}

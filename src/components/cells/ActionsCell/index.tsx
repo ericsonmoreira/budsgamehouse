@@ -7,25 +7,25 @@ type ActionsCellProps = {
   handledelete?: () => void;
 };
 
-const ActionsCell: React.FC<ActionsCellProps> = ({
-  handleUpdate,
-  handledelete,
-}) => {
+const ActionsCell: React.FC<ActionsCellProps> = ({ handleUpdate, handledelete }) => {
   return (
     <Box>
-      <Tooltip title="Deletar">
-        <IconButton color="error" onClick={handledelete}>
-          <RemoveCircleIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
-      <Tooltip title="Editar">
-        <IconButton color="info" onClick={handleUpdate}>
-          <EditIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
+      {handledelete && (
+        <Tooltip title="Deletar">
+          <IconButton color="error" onClick={handledelete}>
+            <RemoveCircleIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      )}
+      {handleUpdate && (
+        <Tooltip title="Editar">
+          <IconButton color="info" onClick={handleUpdate}>
+            <EditIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      )}
     </Box>
   );
 };
 
 export default ActionsCell;
-
