@@ -9,7 +9,6 @@ type ImageDropZoneProps = {
   setFile: React.Dispatch<React.SetStateAction<File | null | undefined>>;
 };
 
-// TODO: usar esse imgUrl para exibir a imagem se ela já existir
 const ImageDropZone: React.FC<ImageDropZoneProps> = ({ file, setFile }) => {
   const { palette } = useTheme();
 

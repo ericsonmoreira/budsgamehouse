@@ -57,14 +57,11 @@ const Players: React.FC = () => {
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridPlaysers
           loading={isLoading}
-          rows={players?.map(({ id, name, email, avatarImgUrl }) => ({
-            id,
-            name,
-            email,
-            avatarImgUrl,
+          rows={players?.map((row) => ({
+            ...row,
             actions: {
-              handleUpdate: () => handleUpdate({ id, name, email, balance: 0 }),
-              handledelete: () => handledelete(id),
+              handleUpdate: () => handleUpdate(row),
+              handledelete: () => handledelete(row.id),
             },
           }))}
         />

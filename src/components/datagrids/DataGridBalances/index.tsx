@@ -1,8 +1,7 @@
 import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
-import { formatterCurrencyBRL } from '../../../utils/formatters';
 import AvatarPlayer from '../../AvatarPlayer';
+import TypographyBalance from '../../Typography';
 import ActionsCell from '../../cells/ActionsCell';
-import TypographyBalance from '../../TypographyBalance';
 
 type DataGridBalancesRowData = Player & {
   actions: {
@@ -23,7 +22,7 @@ const columns: GridColDef[] = [
     align: 'center',
     disableColumnMenu: true,
     sortable: false,
-    renderCell: ({ row }) => <AvatarPlayer player={row} />,
+    renderCell: ({ row }) => <AvatarPlayer sx={{ width: 24, height: 24 }} player={row} />,
   },
   {
     field: 'name',

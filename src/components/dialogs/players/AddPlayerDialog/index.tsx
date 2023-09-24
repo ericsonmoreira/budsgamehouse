@@ -1,6 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  Backdrop,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -9,9 +11,13 @@ import {
   DialogTitle,
   Stack,
 } from '@mui/material';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import usePlayers from '../../../../hooks/usePlayers';
+import addPlayer from '../../../../resources/players/addPlayer';
+import uploadImageInStorage from '../../../../resources/uploadImageInStorage';
+import ImageDropZone from '../../../ImageDropZone';
 import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema ';
 
@@ -27,7 +33,9 @@ type AddPlayerDialogFormData = {
 };
 
 const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({ title, subTitle, setOpen, ...rest }) => {
-  const { control, handleSubmit } = useForm<AddPlayerDialogFormData>({
+  const queryClient = useQueryClient();
+
+  const { control, handleSubmit, reset } = useForm<AddPlayerDialogFormData>({
     resolver: yupResolver(schema),
     defaultValues: {
       name: '',
@@ -35,17 +43,42 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({ title, 
     },
   });
 
-  const { addPlayer } = usePlayers();
+  const [file, setFile] = useState<File | null>();
 
-  const handleConfirmAction = ({ name, email }: AddPlayerDialogFormData) => {
-    addPlayer({ name, email });
+  const { mutate: addPlayerMutate, isLoading: addPlayerIsLoading } = useMutation({
+    mutationFn: async ({ name, email }: AddPlayerDialogFormData) => {
+      if (file) {
+        const avatarImgUrl = await uploadImageInStorage(file);
 
-    toast.success('Player adicionado com sucesso!');
+        await addPlayer({ name, balance: 0, email, avatarImgUrl });
+      } else {
+        await addPlayer({ name, balance: 0, email });
+      }
 
-    setOpen(false);
+      await queryClient.invalidateQueries(['usePlayers']);
+    },
+    onSuccess: () => {
+      handleClose();
+
+      toast.success('Produto adicionado com sucesso');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const handleConfirmAction = (data: AddPlayerDialogFormData) => {
+    addPlayerMutate(data);
   };
 
-  const handleCancelAction = () => {
+  const handleClose = () => {
+    reset({
+      email: '',
+      name: '',
+    });
+
+    setFile(null);
+
     setOpen(false);
   };
 
@@ -62,6 +95,7 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({ title, 
             marginTop: 1,
           }}
         >
+          <ImageDropZone file={file} setFile={setFile} />
           <ControlledTextField
             name="name"
             control={control}
@@ -83,11 +117,12 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({ title, 
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCancelAction}>Cancelar</Button>
-        <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>
-          Add
-        </Button>
+        <Button onClick={handleClose}>Cancelar</Button>
+        <Button onClick={handleSubmit(handleConfirmAction)}>Confirmar</Button>
       </DialogActions>
+      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={addPlayerIsLoading}>
+        <CircularProgress color="primary" />
+      </Backdrop>
     </Dialog>
   );
 };
