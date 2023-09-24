@@ -22,10 +22,11 @@ const Players: React.FC = () => {
     id: '',
     name: '',
     email: '',
+    balance: 0,
   });
 
-  const handleUpdate = ({ id, name, email, avatarImgUrl }: Player) => {
-    setPlayerToUpdate({ id, name, email, avatarImgUrl });
+  const handleUpdate = ({ id, name, email, avatarImgUrl, balance }: Player) => {
+    setPlayerToUpdate({ id, name, email, avatarImgUrl, balance });
     setUpdatePlayerDialogOpen(true);
   };
 
@@ -56,14 +57,11 @@ const Players: React.FC = () => {
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridPlaysers
           loading={isLoading}
-          rows={players?.map(({ id, name, email, avatarImgUrl }) => ({
-            id,
-            name,
-            email,
-            avatarImgUrl,
+          rows={players?.map((row) => ({
+            ...row,
             actions: {
-              handleUpdate: () => handleUpdate({ id, name, email }),
-              handledelete: () => handledelete(id),
+              handleUpdate: () => handleUpdate(row),
+              handledelete: () => handledelete(row.id),
             },
           }))}
         />

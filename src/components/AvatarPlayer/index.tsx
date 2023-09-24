@@ -1,10 +1,11 @@
-import { Avatar, AvatarProps, Tooltip, Typography } from '@mui/material';
+import { Avatar, AvatarProps, Tooltip, Typography, IconButton } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import routesNames from '../../routes/routesNames';
 
 type AvatarPlayerProps = {
   player: Player;
 };
 
-// VIDE: https://mui.com/material-ui/react-avatar/#letter-avatars
 function stringToColor(string: string) {
   let hash = 0;
   let i;
@@ -33,32 +34,24 @@ function stringAvatar(name: string) {
   };
 }
 
-const AvatarPlayer: React.FC<AvatarPlayerProps & AvatarProps> = ({
-  player,
-  sx: originalSx,
-  ...rest
-}) => {
+const AvatarPlayer: React.FC<AvatarPlayerProps & AvatarProps> = ({ player, sx: originalSx, ...rest }) => {
   const { sx, children } = stringAvatar(player.name);
+
+  const navigate = useNavigate();
 
   return (
     <Tooltip title={player.name}>
-      {player.avatarImgUrl ? (
-        <Avatar
-          sx={{ ...originalSx, ...sx }}
-          {...rest}
-          src={player.avatarImgUrl}
-        />
-      ) : (
-        <Avatar
-          sx={{ ...originalSx, ...sx }}
-          {...rest}
-          src={player.avatarImgUrl}
-        >
-          <Typography variant="inherit" sx={{ fontSize: 10 }}>
-            {children}
-          </Typography>
-        </Avatar>
-      )}
+      <IconButton onClick={() => navigate(routesNames.VIEW_PLAYER.replace(':id', player.id))}>
+        {player.avatarImgUrl ? (
+          <Avatar sx={{ ...originalSx, ...sx }} {...rest} src={player.avatarImgUrl} />
+        ) : (
+          <Avatar sx={{ ...originalSx, ...sx }} {...rest} src={player.avatarImgUrl}>
+            <Typography variant="inherit" sx={{ fontSize: 10 }}>
+              {children}
+            </Typography>
+          </Avatar>
+        )}
+      </IconButton>
     </Tooltip>
   );
 };

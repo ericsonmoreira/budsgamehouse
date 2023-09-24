@@ -1,23 +1,23 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import {
+  Backdrop,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogProps,
   DialogTitle,
-  IconButton,
   Stack,
 } from '@mui/material';
-import { Box } from '@mui/system';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { useEffect } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import usePlayers from '../../../../hooks/usePlayers';
-import { storage } from '../../../../services/firebaseConfig';
+import updatePlayer from '../../../../resources/players/updatePlayer';
+import uploadImageInStorage from '../../../../resources/uploadImageInStorage';
+import ImageDropZone from '../../../ImageDropZone';
 import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema ';
 
@@ -31,7 +31,6 @@ type UpdatePlayerDialogProps = {
 type UpdatePlayerDialogFormData = {
   name: string;
   email: string;
-  image: File[];
 };
 
 const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
@@ -41,39 +40,62 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
   playerToUpdate,
   ...rest
 }) => {
-  const { id, name, email } = playerToUpdate;
+  const queryClient = useQueryClient();
 
-  const { updatePlayer } = usePlayers();
+  const [file, setFile] = useState<File | null>();
 
-  const { control, handleSubmit, setValue, register } = useForm<UpdatePlayerDialogFormData>({
+  const { control, handleSubmit, reset } = useForm<UpdatePlayerDialogFormData>({
     resolver: yupResolver(schema),
   });
 
-  const handleConfirmAction = async ({ name, email, image }: UpdatePlayerDialogFormData) => {
-    if (image) {
-      const storageRef = ref(storage, `images/${id}`);
+  const handleConfirmAction = async (data: UpdatePlayerDialogFormData) => {
+    updatePlayerMutate(data);
+  };
 
-      await uploadBytes(storageRef, image[0]);
+  const handleClose = () => {
+    reset({
+      name: '',
+      email: '',
+    });
 
-      const urlImage = await getDownloadURL(storageRef);
-
-      updatePlayer({ id, name, email, avatarImgUrl: urlImage });
-    } else {
-      updatePlayer({ id, name, email });
-    }
-
-    toast.success('Player atualizado com sucesso!');
+    setFile(null);
 
     setOpen(false);
   };
 
-  const handleCancelAction = () => {
-    setOpen(false);
-  };
+  const { mutate: updatePlayerMutate, isLoading: updatePlayerIsLoading } = useMutation({
+    mutationFn: async ({ email, name }: UpdatePlayerDialogFormData) => {
+      if (file) {
+        const avatarImgUrl = await uploadImageInStorage(file);
+
+        await updatePlayer({ id: playerToUpdate.id, name, email, balance: playerToUpdate.balance, avatarImgUrl });
+      } else {
+        await updatePlayer({
+          id: playerToUpdate.id,
+          name,
+          email,
+          balance: playerToUpdate.balance,
+          avatarImgUrl: playerToUpdate.avatarImgUrl,
+        });
+      }
+
+      await queryClient.invalidateQueries(['usePlayers']);
+    },
+    onSuccess: () => {
+      handleClose();
+
+      toast.success('Produto adicionado com sucesso');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
 
   useEffect(() => {
-    setValue('name', name);
-    setValue('email', email);
+    reset({
+      name: playerToUpdate.name,
+      email: playerToUpdate.email,
+    });
   }, [playerToUpdate]);
 
   return (
@@ -89,12 +111,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
             marginY: 2,
           }}
         >
-          <Box>
-            <IconButton color="primary" component="label">
-              <input {...register('image')} hidden accept="image/*" type="file" />
-              <PhotoCamera />
-            </IconButton>
-          </Box>
+          <ImageDropZone file={file} setFile={setFile} />
           <ControlledTextField
             name="name"
             control={control}
@@ -116,13 +133,16 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="error" disableElevation onClick={handleCancelAction}>
+        <Button variant="contained" color="error" disableElevation onClick={handleClose}>
           Cancelar
         </Button>
         <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>
           Confirmar
         </Button>
       </DialogActions>
+      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={updatePlayerIsLoading}>
+        <CircularProgress color="primary" />
+      </Backdrop>
     </Dialog>
   );
 };
