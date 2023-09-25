@@ -1,9 +1,4 @@
-import {
-  DataGrid,
-  GridColDef,
-  GridRenderCellParams,
-  GridToolbar,
-} from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
 import { formatterCurrencyBRL } from '../../../utils/formatters';
 import ActionsCell from '../../cells/ActionsCell';
 
@@ -28,12 +23,7 @@ const columns: GridColDef[] = [
     disableColumnMenu: true,
     sortable: false,
     renderCell: ({ row }) =>
-      row.imgUrl && (
-        <img
-          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-          src={row.imgUrl}
-        />
-      ),
+      row.imgUrl && <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={row.imgUrl} />,
   },
   { field: 'name', headerName: 'Nome', flex: 1 },
   { field: 'category', headerName: 'Categoria', flex: 1 },
@@ -43,9 +33,17 @@ const columns: GridColDef[] = [
     valueFormatter: ({ value }) => formatterCurrencyBRL.format(value),
   },
   {
+    field: 'stock',
+    headerName: 'Quantidade em Estoque',
+    headerAlign: 'right',
+    align: 'right',
+    flex: 1,
+  },
+  {
     field: 'actions',
     headerName: 'Ações',
     width: 150,
+    headerAlign: 'right',
     align: 'right',
     disableColumnMenu: true,
     sortable: false,
@@ -54,19 +52,11 @@ const columns: GridColDef[] = [
         handleUpdate(): void;
         handledelete(): void;
       }>
-    ) => (
-      <ActionsCell
-        handleUpdate={params.value?.handleUpdate}
-        handledelete={params.value?.handledelete}
-      />
-    ),
+    ) => <ActionsCell handleUpdate={params.value?.handleUpdate} handledelete={params.value?.handledelete} />,
   },
 ];
 
-const DataGridProducts: React.FC<DataGridProductsProps> = ({
-  rows = [],
-  loading,
-}) => {
+const DataGridProducts: React.FC<DataGridProductsProps> = ({ rows = [], loading }) => {
   return (
     <DataGrid
       rows={rows}

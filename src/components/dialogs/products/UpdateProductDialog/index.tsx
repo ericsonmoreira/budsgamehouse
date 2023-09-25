@@ -20,6 +20,7 @@ import updateProduct from '../../../../resources/products/updateProduct';
 import uploadImageInStorage from '../../../../resources/uploadImageInStorage';
 import { PRODUCT_CATEGORIES } from '../../../../utils/constants';
 import ImageDropZone from '../../../ImageDropZone';
+import ControlledCurrencyTextField from '../../../textfields/ControlledCurrencyTextField';
 import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema ';
 
@@ -34,6 +35,7 @@ type UpdateProductDialogFormData = {
   name: string;
   price: number;
   category: string;
+  stock: number;
 };
 
 const UpdateProductDialog: React.FC<UpdateProductDialogProps & DialogProps> = ({
@@ -43,7 +45,7 @@ const UpdateProductDialog: React.FC<UpdateProductDialogProps & DialogProps> = ({
   productToUpdate,
   ...rest
 }) => {
-  const { id, name, category, price, imgUrl } = productToUpdate;
+  const { id, name, category, price, imgUrl, stock } = productToUpdate;
 
   const queryClient = useQueryClient();
 
@@ -54,13 +56,13 @@ const UpdateProductDialog: React.FC<UpdateProductDialogProps & DialogProps> = ({
   const [file, setFile] = useState<File | null>();
 
   const { mutate: updateProductMutate, isLoading: updateProductMutateIsloading } = useMutation({
-    mutationFn: async ({ name, price, category, imgUrl }: Omit<Product, 'id'>) => {
+    mutationFn: async ({ name, price, category, stock, imgUrl }: Omit<Product, 'id'>) => {
       if (file) {
         const newImgUrl = await uploadImageInStorage(file);
 
-        await updateProduct({ id, name, price, category, imgUrl: newImgUrl });
+        await updateProduct({ id, name, price, category, stock, imgUrl: newImgUrl });
       } else {
-        await updateProduct({ id, name, price, category, imgUrl });
+        await updateProduct({ id, name, price, category, stock, imgUrl });
       }
 
       await queryClient.invalidateQueries(['useProducts']);
@@ -84,6 +86,7 @@ const UpdateProductDialog: React.FC<UpdateProductDialogProps & DialogProps> = ({
       name: '',
       category: '',
       price: 0,
+      stock: 0,
     });
 
     setFile(null);
@@ -100,6 +103,7 @@ const UpdateProductDialog: React.FC<UpdateProductDialogProps & DialogProps> = ({
       name,
       category,
       price,
+      stock,
     });
   }, [productToUpdate]);
 
@@ -140,14 +144,24 @@ const UpdateProductDialog: React.FC<UpdateProductDialogProps & DialogProps> = ({
             </ControlledTextField>
           </Grid>
           <Grid item xs={12}>
-            <ControlledTextField
+            <ControlledCurrencyTextField
               name="price"
               control={control}
               variant="outlined"
               size="small"
               label="Preço"
-              type="number"
               fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <ControlledTextField
+              name="stock"
+              control={control}
+              variant="outlined"
+              size="small"
+              label="Quantidade em Estoque"
+              fullWidth
+              type="number"
             />
           </Grid>
         </Grid>
