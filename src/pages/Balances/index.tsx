@@ -1,12 +1,11 @@
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PersonIcon from '@mui/icons-material/Person';
-import { Box, Chip, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, Chip, Stack, Tooltip, Typography } from '@mui/material';
 import React, { useMemo, useState } from 'react';
 import DataGridBalances from '../../components/datagrids/DataGridBalances';
 import UpdateBalanceDialog from '../../components/dialogs/balances/UpdateBalanceDialog';
 import usePlayers from '../../hooks/usePlayers';
 import { formatterCurrencyBRL } from '../../utils/formatters';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 type ContentCard = {
   title: string;
@@ -110,13 +109,8 @@ const Balances: React.FC = () => {
         }}
       >
         <Typography variant="h4" color="textPrimary">
-          Fiados
+          Saldos
         </Typography>
-        <Tooltip title="Add">
-          <IconButton color="secondary">
-            <AddCircleIcon fontSize="large" />
-          </IconButton>
-        </Tooltip>
       </Box>
       <Box mx={1}>
         <Stack direction="row" spacing={1}>
