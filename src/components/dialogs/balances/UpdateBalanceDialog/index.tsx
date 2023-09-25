@@ -66,8 +66,6 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
   }, [produtos, shoppingCart]);
 
   const handleAddProductToShoppingCart = () => {
-    console.log(selectedProduct);
-
     if (selectedProduct) {
       setShoppingCart((old) => [{ amount: 1, ...selectedProduct }, ...old]);
 
@@ -100,7 +98,7 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
     }
   }
 
-  const handlePlusMinusProductInShoppingCart = (row: ItemShoppingCart) => {
+  const handleMinusOneProductInShoppingCart = (row: ItemShoppingCart) => {
     const index = shoppingCart.findIndex((elem) => elem.id === row.id);
 
     if (index >= 0) {
@@ -186,7 +184,7 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
                         <IconButton size="small" onClick={() => handlePlusOneProductInShoppingCart(row)}>
                           <AddCircleIcon fontSize="inherit" color="success" />
                         </IconButton>
-                        <IconButton size="small" onClick={() => handlePlusMinusProductInShoppingCart(row)}>
+                        <IconButton size="small" onClick={() => handleMinusOneProductInShoppingCart(row)}>
                           <RemoveCircleIcon fontSize="inherit" color="error" />
                         </IconButton>
                         <IconButton size="small" onClick={() => handleRemoveProductInShoppingCart(row)}>
@@ -202,7 +200,7 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
               ))}
               {shoppingCart.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={4}>Nenhum Produto</TableCell>
+                  <TableCell colSpan={4}>Nenhum Produto Selecionado</TableCell>
                 </TableRow>
               )}
             </TableBody>

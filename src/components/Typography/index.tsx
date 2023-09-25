@@ -8,7 +8,7 @@ type TypographyBalanceProps = {
 
 const getColor = (balenace: number) => {
   if (balenace > 0) {
-    return 'sucess';
+    return 'green';
   } else if (balenace < 0) {
     return 'error';
   } else {
@@ -18,7 +18,7 @@ const getColor = (balenace: number) => {
 
 const TypographyBalance: React.FC<TypographyBalanceProps> = ({ balance, ...rest }) => {
   return (
-    <Typography color={getColor(balance)} {...rest}>
+    <Typography fontWeight={700} color={getColor(balance)} {...rest}>
       {formatterCurrencyBRL.format(balance)}
     </Typography>
   );

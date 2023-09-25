@@ -16,12 +16,12 @@ const ControlledTextField = <TextFieldValues extends FieldValues, TextFieldName 
   const { control, name, textFieldProps, children } = props;
 
   const {
-    field,
+    field: { ref, ...rest },
     fieldState: { error },
   } = useController({ control, name });
 
   return (
-    <TextField {...field} {...textFieldProps} error={!!error} helperText={error?.message}>
+    <TextField {...rest} {...textFieldProps} inputRef={ref} error={!!error} helperText={error?.message}>
       {children}
     </TextField>
   );
