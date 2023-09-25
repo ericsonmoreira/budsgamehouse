@@ -5,9 +5,7 @@ import PasswordTextField from '../../PasswordTextField';
 type ControlledPasswordTextFieldProps<
   TextFieldValues extends FieldValues,
   TextFieldName extends FieldPath<TextFieldValues>
-> = UseControllerProps<TextFieldValues, TextFieldName> & {
-  textFieldProps?: TextFieldProps;
-};
+> = UseControllerProps<TextFieldValues, TextFieldName> & TextFieldProps;
 
 const ControlledPasswordTextField = <
   TextFieldValues extends FieldValues,
@@ -15,14 +13,14 @@ const ControlledPasswordTextField = <
 >(
   props: ControlledPasswordTextFieldProps<TextFieldValues, TextFieldName>
 ) => {
-  const { control, name, textFieldProps } = props;
+  const { control, name, ...rest } = props;
 
   const {
-    field,
+    field: { ref, ...fieldRest },
     fieldState: { error },
   } = useController({ control, name });
 
-  return <PasswordTextField {...field} {...textFieldProps} error={!!error} helperText={error?.message} />;
+  return <PasswordTextField {...rest} {...fieldRest} inputRef={ref} error={!!error} helperText={error?.message} />;
 };
 
 export default ControlledPasswordTextField;

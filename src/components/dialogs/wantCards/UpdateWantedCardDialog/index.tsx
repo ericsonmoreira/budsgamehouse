@@ -100,42 +100,30 @@ const UpdateWantedCardDialog: React.FC<UpdateWantedCardDialogProps & DialogProps
               marginLeft: 2,
             }}
           >
-            <ControlledTextField
-              name="name"
-              control={control}
-              textFieldProps={{
-                variant: 'outlined',
-                size: 'small',
-                label: 'Nome',
-                disabled: true,
-              }}
-            />
+            <ControlledTextField name="name" control={control} variant="outlined" size="small" label="Nome" disabled />
             <ControlledTextField
               name="amount"
               control={control}
-              textFieldProps={{
-                variant: 'outlined',
-                size: 'small',
-                label: 'Quantidade',
-                type: 'number',
-                InputProps: { inputProps: { min: 1 } },
-              }}
+              variant="outlined"
+              size="small"
+              label="Quantidade"
+              type="number"
+              InputProps={{ inputProps: { min: 1 } }}
             />
             <ControlledTextField
               name="priority"
               control={control}
-              textFieldProps={{
-                select: true,
-                children: priorityMapValues.map(({ value, label }) => (
-                  <MenuItem key={value} value={value}>
-                    {label}
-                  </MenuItem>
-                )),
-                variant: 'outlined',
-                size: 'small',
-                label: 'Prioridade',
-              }}
-            />
+              select
+              variant="outlined"
+              size="small"
+              label="Prioridade"
+            >
+              {priorityMapValues.map(({ value, label }) => (
+                <MenuItem key={value} value={value}>
+                  {label}
+                </MenuItem>
+              ))}
+            </ControlledTextField>
           </Stack>
         </Box>
       </DialogContent>

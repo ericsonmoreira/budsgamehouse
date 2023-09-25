@@ -33,4 +33,5 @@ declare type PlayerActivite = {
   playerId: string;
   type: string;
   description: string;
+  date: Date;
 };

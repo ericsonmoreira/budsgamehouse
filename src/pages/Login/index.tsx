@@ -57,23 +57,13 @@ const Login: React.FC = () => {
           }}
         >
           <Typography variant="h6">Login ATM</Typography>
-          <ControlledTextField
-            name="email"
-            control={control}
-            textFieldProps={{
-              variant: 'outlined',
-              size: 'small',
-              label: 'Email',
-            }}
-          />
+          <ControlledTextField name="email" control={control} variant="outlined" size="small" label="Email" />
           <ControlledPasswordTextField
             name="password"
             control={control}
-            textFieldProps={{
-              variant: 'outlined',
-              size: 'small',
-              label: 'Password',
-            }}
+            variant="outlined"
+            size="small"
+            label="Password"
           />
           {signError && (
             <Typography sx={{ color: (theme) => theme.palette.error.dark }}>

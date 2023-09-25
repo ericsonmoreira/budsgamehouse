@@ -5,26 +5,19 @@ import { FieldPath, FieldValues, UseControllerProps, useController } from 'react
 type ControlledTextFieldProps<
   TextFieldValues extends FieldValues,
   TextFieldName extends FieldPath<TextFieldValues>
-> = UseControllerProps<TextFieldValues, TextFieldName> & {
-  textFieldProps?: TextFieldProps;
-  children?: React.ReactNode;
-};
+> = UseControllerProps<TextFieldValues, TextFieldName> & TextFieldProps;
 
 const ControlledTextField = <TextFieldValues extends FieldValues, TextFieldName extends FieldPath<TextFieldValues>>(
   props: ControlledTextFieldProps<TextFieldValues, TextFieldName>
 ) => {
-  const { control, name, textFieldProps, children } = props;
+  const { control, name, ...rest } = props;
 
   const {
-    field,
+    field: { ref, ...fieldRest },
     fieldState: { error },
   } = useController({ control, name });
 
-  return (
-    <TextField {...field} {...textFieldProps} error={!!error} helperText={error?.message}>
-      {children}
-    </TextField>
-  );
+  return <TextField {...rest} {...fieldRest} inputRef={ref} error={!!error} helperText={error?.message} />;
 };
 
 export default ControlledTextField;

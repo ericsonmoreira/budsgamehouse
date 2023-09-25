@@ -1,13 +1,11 @@
-import { TextField, TextFieldProps } from '@mui/material';
+import { InputAdornment, TextField, TextFieldProps } from '@mui/material';
 import { FieldPath, FieldValues, UseControllerProps, useController } from 'react-hook-form';
-import { NumericFormat } from 'react-number-format';
+import { NumericFormat, NumericFormatProps } from 'react-number-format';
 
 type ControlledCurrencyTextFieldProps<
   TextFieldValues extends FieldValues,
   TextFieldName extends FieldPath<TextFieldValues>
-> = UseControllerProps<TextFieldValues, TextFieldName> & {
-  textFieldProps?: TextFieldProps;
-};
+> = UseControllerProps<TextFieldValues, TextFieldName> & NumericFormatProps<TextFieldProps>;
 
 const ControlledCurrencyTextField = <
   TextFieldValues extends FieldValues,
@@ -15,28 +13,29 @@ const ControlledCurrencyTextField = <
 >(
   props: ControlledCurrencyTextFieldProps<TextFieldValues, TextFieldName>
 ) => {
-  const { control, name, textFieldProps } = props;
+  const { control, name, ...rest } = props;
 
   const {
-    field,
+    field: { ref, onChange, ...fieldRest },
     fieldState: { error },
   } = useController({ control, name });
 
   return (
-    <TextField
-      {...field}
-      {...textFieldProps}
+    <NumericFormat
+      {...rest}
+      {...fieldRest}
+      getInputRef={ref}
       error={!!error}
       helperText={error?.message}
+      customInput={TextField}
+      allowLeadingZeros
+      fixedDecimalScale
+      thousandSeparator="."
+      decimalSeparator=","
+      decimalScale={2}
+      onValueChange={(values) => onChange(values.floatValue)}
       InputProps={{
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        inputComponent: NumericFormat as any,
-        inputProps: {
-          allowLeadingZeros: true,
-          fixedDecimalScale: true,
-          thousandSeparator: ',',
-          decimalScale: 2,
-        },
+        startAdornment: <InputAdornment position="start">R$</InputAdornment>,
       }}
     />
   );

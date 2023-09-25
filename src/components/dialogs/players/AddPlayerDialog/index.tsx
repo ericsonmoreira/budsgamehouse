@@ -96,24 +96,8 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({ title, 
           }}
         >
           <ImageDropZone file={file} setFile={setFile} />
-          <ControlledTextField
-            name="name"
-            control={control}
-            textFieldProps={{
-              variant: 'outlined',
-              size: 'small',
-              label: 'Nome',
-            }}
-          />
-          <ControlledTextField
-            name="email"
-            control={control}
-            textFieldProps={{
-              variant: 'outlined',
-              size: 'small',
-              label: 'Email',
-            }}
-          />
+          <ControlledTextField name="name" control={control} variant="outlined" size="small" label="Nome" />
+          <ControlledTextField name="email" control={control} variant="outlined" size="small" label="Email" />
         </Stack>
       </DialogContent>
       <DialogActions>

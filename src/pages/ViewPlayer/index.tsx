@@ -14,9 +14,11 @@ import {
 } from '@mui/material';
 import { Navigate, useParams } from 'react-router-dom';
 import AvatarPlayer from '../../components/AvatarPlayer';
+import TypographyBalance from '../../components/Typography';
 import usePlayer from '../../hooks/usePlayer';
 import routesNames from '../../routes/routesNames';
-import { formatterCurrencyBRL } from '../../utils/formatters';
+import PaymentDialog from '../../components/dialogs/balances/PaymentDialog';
+import { useState } from 'react';
 
 type ViewPlayerParams = {
   id: string;
@@ -24,6 +26,8 @@ type ViewPlayerParams = {
 
 const ViewPlayer: React.FC = () => {
   const { id } = useParams<ViewPlayerParams>();
+
+  const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
 
   const { data: player, isLoading: playerIsLoading, error: playerError } = usePlayer(id ?? '');
 
@@ -47,32 +51,45 @@ const ViewPlayer: React.FC = () => {
       </Box>
       <Box m={1} display="flex">
         {player && (
-          <Card sx={{ minWidth: 257 }}>
-            <CardHeader
-              avatar={<AvatarPlayer player={player} />}
-              titleTypographyProps={{ variant: 'h5' }}
-              title={player.name}
+          <>
+            <Card sx={{ minWidth: 257 }}>
+              <CardHeader
+                avatar={<AvatarPlayer player={player} />}
+                titleTypographyProps={{ variant: 'h5' }}
+                title={player.name}
+              />
+              <CardContent>
+                <Box display="flex" alignItems="center" justifyContent="space-between">
+                  <Stack direction="row" alignItems="center" spacing={1} justifyContent="center">
+                    <PaidIcon />
+                    <Typography variant="h6">Saldo</Typography>
+                  </Stack>
+                  <TypographyBalance balance={player.balance} variant="h5" />
+                </Box>
+              </CardContent>
+              <CardActions>
+                <Button
+                  variant="outlined"
+                  color="success"
+                  fullWidth
+                  startIcon={<PaymentIcon />}
+                  onClick={() => setPaymentDialogOpen(true)}
+                >
+                  Efetuar Pagamento Pagamento
+                </Button>
+              </CardActions>
+            </Card>
+            <PaymentDialog
+              title="Pagamento"
+              subTitle="Esse pagamento irá ser adicionado ao Saldo do Jogador"
+              open={paymentDialogOpen}
+              setOpen={setPaymentDialogOpen}
+              playerToUpdate={player}
             />
-            <CardContent>
-              <Box display="flex" alignItems="center" justifyContent="space-between">
-                <Stack direction="row" alignItems="center" spacing={1} justifyContent="center">
-                  <PaidIcon />
-                  <Typography variant="h6">Fiado</Typography>
-                </Stack>
-
-                <Typography variant="h5" color="error">
-                  {formatterCurrencyBRL.format(player.balance)}
-                </Typography>
-              </Box>
-            </CardContent>
-            <CardActions>
-              <Button variant="outlined" startIcon={<PaymentIcon />}>
-                Pagar
-              </Button>
-            </CardActions>
-          </Card>
+          </>
         )}
       </Box>
+
       <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={playerIsLoading}>
         <CircularProgress color="primary" />
       </Backdrop>

@@ -55,15 +55,7 @@ const RecoverPassword: React.FC = () => {
           }}
         >
           <Typography variant="h6">Redefinir senha</Typography>
-          <ControlledTextField
-            name="email"
-            control={control}
-            textFieldProps={{
-              variant: 'outlined',
-              size: 'small',
-              label: 'Email',
-            }}
-          />
+          <ControlledTextField name="email" control={control} variant="outlined" size="small" label="Email" />
           {error && (
             <Typography sx={{ color: (theme) => theme.palette.error.dark }}>
               {verifyFirebaseErroCode((error as AuthError).code)}
