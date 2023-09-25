@@ -154,14 +154,20 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
             onChange={(_, newValue) => {
               setSelectedProduct(newValue);
             }}
+            renderOption={(props, option) => (
+              <Box component="li" {...props}>
+                <Typography flexGrow={1}>{option.name}</Typography>
+                <Typography color="GrayText">{formatterCurrencyBRL.format(option.price)}</Typography>
+              </Box>
+            )}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             getOptionLabel={(option) => option.name}
             fullWidth
             renderInput={(params) => <TextField {...params} ref={null} size="small" label="Produtos" />}
           />
-          <Button variant="contained" disabled={!selectedProduct} onClick={handleAddProductToShoppingCart}>
-            Adicionar
-          </Button>
+          <IconButton color="success" disabled={!selectedProduct} onClick={handleAddProductToShoppingCart}>
+            <AddCircleIcon />
+          </IconButton>
         </Stack>
         <TableContainer component={Paper}>
           <Table size="small">
