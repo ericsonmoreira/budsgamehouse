@@ -35,6 +35,7 @@ import updatePlayer from '../../../../resources/players/updatePlayer';
 import { formatterCurrencyBRL } from '../../../../utils/formatters';
 import AvatarPlayer from '../../../AvatarPlayer';
 import TypographyBalance from '../../../Typography';
+import updateProduct from '../../../../resources/products/updateProduct';
 
 type UpdateBalanceDialogProps = {
   title: string;
@@ -118,6 +119,15 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
   const { mutate: updateFiadoMutate, isLoading: updateFiadoMutateIsloading } = useMutation({
     mutationFn: async () => {
       await updatePlayer({ ...playerToUpdate, balance: playerToUpdate.balance - totalToPay });
+
+      // Atualiza todos os produtos de acorodo com a quantidade para remover do estoque
+      await Promise.all(
+        shoppingCart.map(({ amount, category, id, name, price, stock, imgUrl }) =>
+          updateProduct({ id, category, name, price, stock: stock - amount, imgUrl })
+        )
+      );
+
+      await queryClient.invalidateQueries(['useProducts']);
 
       await queryClient.invalidateQueries(['usePlayers']);
     },

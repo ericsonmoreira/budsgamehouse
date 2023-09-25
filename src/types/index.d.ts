@@ -22,6 +22,7 @@ declare type Product = {
   price: number;
   category: string;
   imgUrl?: string;
+  stock: number;
 };
 
 declare type ItemShoppingCart = {

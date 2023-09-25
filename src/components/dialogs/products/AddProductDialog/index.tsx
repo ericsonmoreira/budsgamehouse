@@ -20,6 +20,7 @@ import addProduct from '../../../../resources/products/addProduct';
 import uploadImageInStorage from '../../../../resources/uploadImageInStorage';
 import { PRODUCT_CATEGORIES } from '../../../../utils/constants';
 import ImageDropZone from '../../../ImageDropZone';
+import ControlledCurrencyTextField from '../../../textfields/ControlledCurrencyTextField';
 import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema';
 
@@ -50,13 +51,13 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title
   const queryClient = useQueryClient();
 
   const { mutate: addProductMutate, isLoading: addProductMutateIsloading } = useMutation({
-    mutationFn: async ({ name, price, category }: Omit<Product, 'id'>) => {
+    mutationFn: async ({ name, price, category }: Omit<Product, 'id' | 'stock'>) => {
       if (file) {
         const imgUrl = await uploadImageInStorage(file);
 
-        await addProduct({ name, price, category, imgUrl });
+        await addProduct({ name, price, category, stock: 0, imgUrl });
       } else {
-        await addProduct({ name, price, category, imgUrl: '' });
+        await addProduct({ name, price, category, stock: 0 });
       }
 
       await queryClient.invalidateQueries(['useProducts']);
@@ -124,14 +125,13 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title
             </ControlledTextField>
           </Grid>
           <Grid item xs={12}>
-            <ControlledTextField
+            <ControlledCurrencyTextField
               name="price"
               control={control}
               variant="outlined"
               size="small"
               label="Preço"
               fullWidth
-              type="number"
             />
           </Grid>
         </Grid>
