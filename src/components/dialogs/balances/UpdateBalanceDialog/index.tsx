@@ -34,6 +34,7 @@ import useProducts from '../../../../hooks/useProducts';
 import updatePlayer from '../../../../resources/players/updatePlayer';
 import { formatterCurrencyBRL } from '../../../../utils/formatters';
 import AvatarPlayer from '../../../AvatarPlayer';
+import TypographyBalance from '../../../Typography';
 
 type UpdateBalanceDialogProps = {
   title: string;
@@ -141,9 +142,9 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
             <Typography variant="h4">{playerToUpdate.name}</Typography>
           </Stack>
           <Stack direction="row" spacing={1} alignItems="center">
-            <Typography variant="h4">{formatterCurrencyBRL.format(playerToUpdate.balance)}</Typography>
+            <TypographyBalance variant="h4" balance={playerToUpdate.balance} />
             <ArrowForwardIcon fontSize="large" />
-            <Typography variant="h4">{formatterCurrencyBRL.format(playerToUpdate.balance - totalToPay)}</Typography>
+            <TypographyBalance variant="h4" balance={playerToUpdate.balance - totalToPay} />
           </Stack>
         </Box>
         <Stack direction="row" spacing={2} my={2}>
