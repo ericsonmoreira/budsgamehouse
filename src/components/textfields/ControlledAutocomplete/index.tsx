@@ -4,22 +4,20 @@ import { FieldPath, FieldValues, UseControllerProps, useController } from 'react
 type ControlledAutocompleteProps<
   TextFieldValues extends FieldValues,
   TextFieldName extends FieldPath<TextFieldValues>
-> = UseControllerProps<TextFieldValues, TextFieldName> & {
-  textFieldProps?: TextFieldProps;
-};
+> = UseControllerProps<TextFieldValues, TextFieldName> & TextFieldProps;
 
 // TODO: implementar esse componenete
 const ControlledAutocomplete = <TextFieldValues extends FieldValues, TextFieldName extends FieldPath<TextFieldValues>>(
   props: ControlledAutocompleteProps<TextFieldValues, TextFieldName>
 ) => {
-  const { control, name, textFieldProps } = props;
+  const { control, name, ...rest } = props;
 
   const {
-    field,
+    field: { ref, ...fieldRest },
     fieldState: { error },
   } = useController({ control, name });
 
-  return <TextField {...field} {...textFieldProps} error={!!error} helperText={error?.message} />;
+  return <TextField {...rest} {...fieldRest} inputRef={ref} error={!!error} helperText={error?.message} />;
 };
 
 export default ControlledAutocomplete;

@@ -100,25 +100,21 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title
             <ControlledTextField
               name="name"
               control={control}
-              textFieldProps={{
-                variant: 'outlined',
-                size: 'small',
-                label: 'Nome do Produto',
-                fullWidth: true,
-              }}
+              variant="outlined"
+              size="small"
+              label="Nome do Produto"
+              fullWidth
             />
           </Grid>
           <Grid item xs={12}>
             <ControlledTextField
               name="category"
               control={control}
-              textFieldProps={{
-                variant: 'outlined',
-                size: 'small',
-                label: 'Categoria',
-                fullWidth: true,
-                select: true,
-              }}
+              variant="outlined"
+              size="small"
+              label="Categoria"
+              fullWidth
+              select
             >
               {PRODUCT_CATEGORIES.map((option) => (
                 <MenuItem key={option} value={option}>
@@ -131,13 +127,11 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title
             <ControlledTextField
               name="price"
               control={control}
-              textFieldProps={{
-                variant: 'outlined',
-                size: 'small',
-                label: 'Preço',
-                fullWidth: true,
-                type: 'number',
-              }}
+              variant="outlined"
+              size="small"
+              label="Preço"
+              fullWidth
+              type="number"
             />
           </Grid>
         </Grid>

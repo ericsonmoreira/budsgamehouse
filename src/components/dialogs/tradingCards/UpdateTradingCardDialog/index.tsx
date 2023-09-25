@@ -90,26 +90,15 @@ const UpdateTradingCardDialog: React.FC<UpdateTradingCardDialogProps & DialogPro
               marginLeft: 2,
             }}
           >
-            <ControlledTextField
-              name="name"
-              control={control}
-              textFieldProps={{
-                variant: 'outlined',
-                size: 'small',
-                label: 'Nome',
-                disabled: true,
-              }}
-            />
+            <ControlledTextField name="name" control={control} variant="outlined" size="small" label="Nome" disabled />
             <ControlledTextField
               name="amount"
               control={control}
-              textFieldProps={{
-                variant: 'outlined',
-                size: 'small',
-                label: 'Quantidade',
-                type: 'number',
-                InputProps: { inputProps: { min: 1 } },
-              }}
+              variant="outlined"
+              size="small"
+              label="Quantidade"
+              type="number"
+              InputProps={{ inputProps: { min: 1 } }}
             />
           </Stack>
         </Box>
