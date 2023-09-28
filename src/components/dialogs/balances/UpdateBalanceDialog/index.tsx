@@ -36,6 +36,7 @@ import { formatterCurrencyBRL } from '../../../../utils/formatters';
 import AvatarPlayer from '../../../AvatarPlayer';
 import TypographyBalance from '../../../Typography';
 import updateProduct from '../../../../resources/products/updateProduct';
+import addSale from '../../../../resources/sales/addSale';
 
 type UpdateBalanceDialogProps = {
   title: string;
@@ -127,9 +128,22 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
         )
       );
 
+      // Criando uma nova compra
+      await addSale({
+        date: new Date(Date.now()),
+        playerId: playerToUpdate.id,
+        products: shoppingCart.map(({ id, name, amount }) => ({
+          id,
+          name,
+          amount,
+        })),
+      });
+
       await queryClient.invalidateQueries(['useProducts']);
 
       await queryClient.invalidateQueries(['usePlayers']);
+
+      await queryClient.invalidateQueries(['useSales']);
     },
     onSuccess: () => {
       handleClose();
