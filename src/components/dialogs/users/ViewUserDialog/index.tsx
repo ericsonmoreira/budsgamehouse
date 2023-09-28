@@ -5,11 +5,13 @@ import { auth } from '../../../../services/firebaseConfig';
 const ViewUserDialog: React.FC<DialogProps> = ({ ...rest }) => {
   const [user] = useAuthState(auth);
 
+  if (!user) return null;
+
   return (
     <Dialog fullWidth maxWidth="md" {...rest}>
       <DialogTitle>Usuário</DialogTitle>
       <DialogContent>
-        <DialogContentText>Email: {user?.email}</DialogContentText>
+        <DialogContentText>Email: {user.email}</DialogContentText>
       </DialogContent>
     </Dialog>
   );

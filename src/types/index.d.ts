@@ -40,6 +40,7 @@ declare type PlayerActivite = {
 declare type Sale = {
   id: string;
   playerId: string;
+  userId: string;
   products: {
     id: string;
     name: string;

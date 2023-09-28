@@ -29,14 +29,16 @@ import {
 } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
 import useProducts from '../../../../hooks/useProducts';
 import updatePlayer from '../../../../resources/players/updatePlayer';
+import updateProduct from '../../../../resources/products/updateProduct';
+import addSale from '../../../../resources/sales/addSale';
+import { auth } from '../../../../services/firebaseConfig';
 import { formatterCurrencyBRL } from '../../../../utils/formatters';
 import AvatarPlayer from '../../../AvatarPlayer';
 import TypographyBalance from '../../../Typography';
-import updateProduct from '../../../../resources/products/updateProduct';
-import addSale from '../../../../resources/sales/addSale';
 
 type UpdateBalanceDialogProps = {
   title: string;
@@ -53,6 +55,7 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
   ...rest
 }) => {
   const queryClient = useQueryClient();
+  const [user] = useAuthState(auth);
 
   const { data: produtos } = useProducts();
 
@@ -119,31 +122,36 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
 
   const { mutate: updateFiadoMutate, isLoading: updateFiadoMutateIsloading } = useMutation({
     mutationFn: async () => {
-      await updatePlayer({ ...playerToUpdate, balance: playerToUpdate.balance - totalToPay });
+      if (user) {
+        await updatePlayer({ ...playerToUpdate, balance: playerToUpdate.balance - totalToPay });
 
-      // Atualiza todos os produtos de acorodo com a quantidade para remover do estoque
-      await Promise.all(
-        shoppingCart.map(({ amount, category, id, name, price, stock, imgUrl }) =>
-          updateProduct({ id, category, name, price, stock: stock - amount, imgUrl })
-        )
-      );
+        // Atualiza todos os produtos de acorodo com a quantidade para remover do estoque
+        await Promise.all(
+          shoppingCart.map(({ amount, category, id, name, price, stock, imgUrl }) =>
+            updateProduct({ id, category, name, price, stock: stock - amount, imgUrl })
+          )
+        );
 
-      // Criando uma nova compra
-      await addSale({
-        date: new Date(Date.now()),
-        playerId: playerToUpdate.id,
-        products: shoppingCart.map(({ id, name, amount }) => ({
-          id,
-          name,
-          amount,
-        })),
-      });
+        // Criando uma nova compra
+        await addSale({
+          date: new Date(Date.now()),
+          playerId: playerToUpdate.id,
+          products: shoppingCart.map(({ id, name, amount }) => ({
+            id,
+            name,
+            amount,
+          })),
+          userId: user.uid,
+        });
 
-      await queryClient.invalidateQueries(['useProducts']);
+        await queryClient.invalidateQueries(['useProducts']);
 
-      await queryClient.invalidateQueries(['usePlayers']);
+        await queryClient.invalidateQueries(['usePlayers']);
 
-      await queryClient.invalidateQueries(['useSales']);
+        await queryClient.invalidateQueries(['useSales']);
+      } else {
+        throw new Error('Usuário não encontrado.');
+      }
     },
     onSuccess: () => {
       handleClose();
