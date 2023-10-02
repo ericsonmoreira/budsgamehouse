@@ -34,7 +34,7 @@ declare type PlayerActivite = {
   playerId: string;
   type: string;
   description: string;
-  date: Date;
+  date: Timestamp;
 };
 
 declare type Sale = {
@@ -45,6 +45,7 @@ declare type Sale = {
     id: string;
     name: string;
     amount: number;
+    price: number;
   }[];
-  date: Date;
+  createdAt: Timestamp;
 };

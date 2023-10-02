@@ -28,6 +28,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Timestamp } from 'firebase/firestore';
 import { useMemo, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
@@ -134,12 +135,13 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
 
         // Criando uma nova compra
         await addSale({
-          date: new Date(Date.now()),
+          createdAt: Timestamp.now(),
           playerId: playerToUpdate.id,
-          products: shoppingCart.map(({ id, name, amount }) => ({
+          products: shoppingCart.map(({ id, name, amount, price }) => ({
             id,
             name,
             amount,
+            price,
           })),
           userId: user.uid,
         });
@@ -149,6 +151,8 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
         await queryClient.invalidateQueries(['usePlayers']);
 
         await queryClient.invalidateQueries(['useSales']);
+
+        await queryClient.invalidateQueries(['useSalesFromPlayer', playerToUpdate.id]);
       } else {
         throw new Error('Usuário não encontrado.');
       }

@@ -7,10 +7,10 @@ const path = 'sales';
 const queryKey = 'useSales';
 
 function useSales() {
-  const associatesCollectionRef = collection(firestore, path);
+  const salesCollectionRef = collection(firestore, path);
 
   return useQuery([queryKey], async () => {
-    const { docs } = await getDocs(associatesCollectionRef);
+    const { docs } = await getDocs(salesCollectionRef);
 
     return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as Sale))];
   });
