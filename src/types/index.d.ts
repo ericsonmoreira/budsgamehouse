@@ -34,5 +34,18 @@ declare type PlayerActivite = {
   playerId: string;
   type: string;
   description: string;
-  date: Date;
+  date: Timestamp;
+};
+
+declare type Sale = {
+  id: string;
+  playerId: string;
+  userId: string;
+  products: {
+    id: string;
+    name: string;
+    amount: number;
+    price: number;
+  }[];
+  createdAt: Timestamp;
 };

@@ -9,16 +9,19 @@ import {
   CardContent,
   CardHeader,
   CircularProgress,
+  Paper,
   Stack,
   Typography,
 } from '@mui/material';
+import { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import AvatarPlayer from '../../components/AvatarPlayer';
 import TypographyBalance from '../../components/Typography';
-import usePlayer from '../../hooks/usePlayer';
-import routesNames from '../../routes/routesNames';
 import PaymentDialog from '../../components/dialogs/balances/PaymentDialog';
-import { useState } from 'react';
+import usePlayer from '../../hooks/usePlayer';
+import useSalesFromPlayer from '../../hooks/useSalesFromPlayer';
+import routesNames from '../../routes/routesNames';
+import SaleInformationCard from '../../components/SalesInformationCard';
 
 type ViewPlayerParams = {
   id: string;
@@ -30,6 +33,8 @@ const ViewPlayer: React.FC = () => {
   const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
 
   const { data: player, isLoading: playerIsLoading, error: playerError } = usePlayer(id ?? '');
+
+  const { data: sales } = useSalesFromPlayer(id ?? '');
 
   if (playerError) {
     return <Navigate to={routesNames.NOT_FOUND} />;
@@ -49,7 +54,7 @@ const ViewPlayer: React.FC = () => {
           Payer
         </Typography>
       </Box>
-      <Box m={1} display="flex">
+      <Box m={1} display="flex" flexDirection="column" alignItems="center">
         {player && (
           <>
             <Card sx={{ minWidth: 257 }}>
@@ -89,7 +94,7 @@ const ViewPlayer: React.FC = () => {
           </>
         )}
       </Box>
-
+      <Stack spacing={1}>{sales && sales.map((sale) => <SaleInformationCard key={sale.id} data={sale} />)}</Stack>
       <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={playerIsLoading}>
         <CircularProgress color="primary" />
       </Backdrop>

@@ -19,8 +19,9 @@ import toast from 'react-hot-toast';
 import DataGridProducts from '../../components/datagrids/DataGridProducts';
 import AddProductDialog from '../../components/dialogs/products/AddProductDialog';
 import UpdateProductDialog from '../../components/dialogs/products/UpdateProductDialog';
-import deleteProduct from '../../resources/products/deleteProduct';
 import useProducts from '../../hooks/useProducts';
+import useTopSellingProducts from '../../hooks/useTopSellingProducts';
+import deleteProduct from '../../resources/products/deleteProduct';
 
 const Products: React.FC = () => {
   const [addProductDialogOpen, setAddProductDialogOpen] = useState(false);
@@ -28,6 +29,8 @@ const Products: React.FC = () => {
   const queryClient = useQueryClient();
 
   const { data: products, isLoading } = useProducts();
+
+  const topSellingProducts = useTopSellingProducts();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -81,6 +84,7 @@ const Products: React.FC = () => {
           </IconButton>
         </Tooltip>
       </Box>
+      <Typography>{JSON.stringify(topSellingProducts, undefined, 2)}</Typography>
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridProducts
           loading={isLoading}
