@@ -66,7 +66,7 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({ title, subTitle, playerTo
     onSuccess: () => {
       handleClose();
 
-      toast.success('Produto adicionado com sucesso');
+      toast.success('Pagamento efetuado com sucesso');
     },
     onError: () => {
       toast.error('Algo de errado aconteceu');
