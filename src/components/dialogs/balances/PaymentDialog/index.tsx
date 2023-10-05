@@ -12,6 +12,7 @@ import {
   DialogProps,
   DialogTitle,
   Stack,
+  Grid,
   Typography,
 } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -23,6 +24,11 @@ import AvatarPlayer from '../../../AvatarPlayer';
 import TypographyBalance from '../../../Typography';
 import ControlledCurrencyTextField from '../../../textfields/ControlledCurrencyTextField';
 import schema from './schema ';
+import addPayment from '../../../../resources/payments/addPayment';
+import ControlledTextField from '../../../textfields/ControlledTextField';
+import { Timestamp } from 'firebase/firestore';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../../../../services/firebaseConfig';
 
 type PaymentDialogProps = {
   title: string;
@@ -33,15 +39,19 @@ type PaymentDialogProps = {
 
 type PaymentDialogFormData = {
   paymentValue: number;
+  description: string;
 };
 
 const PaymentDialog: React.FC<PaymentDialogProps> = ({ title, subTitle, playerToUpdate, setOpen, ...rest }) => {
   const queryClient = useQueryClient();
 
+  const [user] = useAuthState(auth);
+
   const { control, handleSubmit, watch, reset } = useForm<PaymentDialogFormData>({
     resolver: yupResolver(schema),
     defaultValues: {
       paymentValue: 0,
+      description: '',
     },
   });
 
@@ -52,24 +62,43 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({ title, subTitle, playerTo
 
     reset({
       paymentValue: 0,
+      description: '',
     });
   };
 
   const { mutate: paymentMutate, isLoading: paymentMutateIsloading } = useMutation({
-    mutationFn: async ({ paymentValue }: PaymentDialogFormData) => {
-      await updatePlayer({ ...playerToUpdate, balance: playerToUpdate.balance + paymentValue });
+    mutationFn: async ({ paymentValue, description }: PaymentDialogFormData) => {
+      if (user) {
+        await updatePlayer({ ...playerToUpdate, balance: playerToUpdate.balance + paymentValue });
 
-      await queryClient.invalidateQueries(['usePlayers']);
+        await addPayment({
+          previousPlayerBalance: playerToUpdate.balance,
+          currentPlayerBalance: playerToUpdate.balance + paymentValue,
+          value: paymentValue,
+          description,
+          createdAt: Timestamp.now(),
+          playerId: playerToUpdate.id,
+          userId: user.uid,
+        });
 
-      await queryClient.invalidateQueries(['usePlayer', playerToUpdate.id]);
+        await queryClient.invalidateQueries(['usePlayers']);
+
+        await queryClient.invalidateQueries(['usePlayer', playerToUpdate.id]);
+
+        await queryClient.invalidateQueries(['usePayments']);
+
+        await queryClient.invalidateQueries(['usePaymentsFromPlayer', playerToUpdate.id]);
+      } else {
+        throw new Error('Usuário não autenticado');
+      }
     },
     onSuccess: () => {
       handleClose();
 
       toast.success('Pagamento efetuado com sucesso');
     },
-    onError: () => {
-      toast.error('Algo de errado aconteceu');
+    onError: (error: Error) => {
+      toast.error(error.message);
     },
   });
 
@@ -93,13 +122,29 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({ title, subTitle, playerTo
             <TypographyBalance variant="h4" balance={playerToUpdate.balance + paymentValueWatch} />
           </Stack>
         </Box>
-        <ControlledCurrencyTextField
-          control={control}
-          name="paymentValue"
-          fullWidth
-          label="Valor do Pagamento"
-          size="small"
-        />
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <ControlledCurrencyTextField
+              control={control}
+              name="paymentValue"
+              fullWidth
+              label="Valor do Pagamento"
+              size="small"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <ControlledTextField
+              control={control}
+              multiline
+              minRows={3}
+              name="description"
+              fullWidth
+              label="Descrição"
+              placeholder="Descreva aqui o seu pagamento..."
+              size="small"
+            />
+          </Grid>
+        </Grid>
       </DialogContent>
       <DialogActions>
         <Button color="secondary" onClick={handleClose}>

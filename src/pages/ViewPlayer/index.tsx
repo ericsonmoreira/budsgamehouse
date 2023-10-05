@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
@@ -27,6 +27,9 @@ import PaymentDialog from '../../components/dialogs/balances/PaymentDialog';
 import usePlayer from '../../hooks/usePlayer';
 import useSalesFromPlayer from '../../hooks/useSalesFromPlayer';
 import routesNames from '../../routes/routesNames';
+import usePaymentsFromPlayer from '../../hooks/usePaymentsFromPlayer';
+import PaymentInformations from '../../components/PaymentInformations';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 type ViewPlayerParams = {
   id: string;
@@ -35,13 +38,27 @@ type ViewPlayerParams = {
 const ViewPlayer: React.FC = () => {
   const { id } = useParams<ViewPlayerParams>();
 
+  const { palette, spacing } = useTheme();
+
   const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
 
-  const { data: player, isLoading: playerIsLoading, error: playerError } = usePlayer(id ?? '');
+  const { data: player, isLoading: playerIsLoading, error: playerError } = usePlayer(id);
 
-  const { data: sales } = useSalesFromPlayer(id ?? '');
+  const { data: sales } = useSalesFromPlayer(id);
 
-  const { palette, spacing } = useTheme();
+  const { data: payments } = usePaymentsFromPlayer(id);
+
+  const playerActivities = useMemo<Array<Sale | Payment>>(() => {
+    if (sales && payments) {
+      return [...sales, ...payments].sort((a, b) => b.createdAt - a.createdAt);
+    }
+
+    return [];
+  }, [sales, payments]);
+
+  const isSale = (obj: object): boolean => {
+    return 'products' in obj;
+  };
 
   if (playerError) {
     return <Navigate to={routesNames.NOT_FOUND} />;
@@ -99,30 +116,35 @@ const ViewPlayer: React.FC = () => {
             />
           </Card>
         )}
-        {sales &&
-          sales.map((sale) => (
-            <VerticalTimeline key={sale.id} lineColor={palette.text.secondary}>
-              <VerticalTimelineElement
-                position="right"
-                date={format(sale.createdAt.toDate(), 'PPPp', { locale: ptBR })}
-                iconStyle={{
-                  background: palette.primary.main,
-                  color: palette.common.white,
-                  borderBlockColor: palette.text.secondary,
-                }}
-                contentArrowStyle={{ borderRightColor: palette.primary.main }}
-                contentStyle={{
-                  backgroundColor: palette.primary.main,
-                  boxShadow: 'none',
-                  color: palette.text.primary,
-                  padding: spacing(1),
-                }}
-                icon={<ShoppingCartIcon />}
-              >
-                <SaleInformationsTable key={sale.id} data={sale} />
-              </VerticalTimelineElement>
-            </VerticalTimeline>
-          ))}
+        {playerActivities.map((activite) => (
+          <VerticalTimeline key={activite.id} lineColor={palette.text.secondary}>
+            <VerticalTimelineElement
+              position={isSale(activite) ? 'right' : 'lefth'}
+              date={format(activite.createdAt.toDate(), 'PPPp', { locale: ptBR })}
+              iconStyle={{
+                background: isSale(activite) ? palette.primary.main : palette.success.main,
+                color: palette.common.white,
+                borderBlockColor: palette.text.secondary,
+              }}
+              contentArrowStyle={{ borderRightColor: palette.primary.main }}
+              contentStyle={{
+                backgroundColor: palette.primary.main,
+                boxShadow: 'none',
+                color: palette.text.primary,
+                padding: spacing(1),
+              }}
+              icon={isSale(activite) ? <ShoppingCartIcon /> : <AttachMoneyIcon />}
+            >
+              {isSale(activite) ? (
+                <SaleInformationsTable key={activite.id} data={activite as Sale} />
+              ) : (
+                <Box>
+                  <PaymentInformations data={activite as Payment} />
+                </Box>
+              )}
+            </VerticalTimelineElement>
+          </VerticalTimeline>
+        ))}
       </Box>
       <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={playerIsLoading}>
         <CircularProgress color="primary" />
