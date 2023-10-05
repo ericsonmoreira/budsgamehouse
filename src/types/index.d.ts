@@ -1,43 +1,43 @@
 declare type WantedCardPriority = 'high' | 'medium' | 'low';
 
-declare type Player = {
+declare interface Player {
   id: string;
   name: string;
   email: string;
   avatarImgUrl?: string;
   balance: number;
-};
+}
 
-declare type WantedCard = {
+declare interface WantedCard {
   id: string;
   imgUrl: string;
   name: string;
   amount: number;
   priority: WantedCardPriority;
-};
+}
 
-declare type Product = {
+declare interface Product {
   id: string;
   name: string;
   price: number;
   category: string;
   imgUrl?: string;
   stock: number;
-};
+}
 
 declare type ItemShoppingCart = {
   amount: number;
 } & Product;
 
-declare type PlayerActivite = {
+declare interface PlayerActivite {
   id: string;
   playerId: string;
   type: string;
   description: string;
   date: Timestamp;
-};
+}
 
-declare type Sale = {
+declare interface Sale {
   id: string;
   playerId: string;
   userId: string;
@@ -48,4 +48,15 @@ declare type Sale = {
     price: number;
   }[];
   createdAt: Timestamp;
-};
+}
+
+declare interface Payment {
+  id: string;
+  playerId: string;
+  userId: string;
+  previousPlayerBalance: number;
+  currentPlayerBalance: number;
+  value: number;
+  description: string;
+  createdAt: Timestamp;
+}

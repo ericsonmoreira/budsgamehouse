@@ -6,18 +6,24 @@ const path = 'players';
 
 const queryKey = 'usePlayer';
 
-function usePlayer(userId: string) {
-  return useQuery<Player>([queryKey, userId], async () => {
-    const playerDocRef = doc(firestore, path, userId);
+function usePlayer(userId = '') {
+  return useQuery<Player>(
+    [queryKey, userId],
+    async () => {
+      const playerDocRef = doc(firestore, path, userId);
 
-    const playerDocSnap = await getDoc(playerDocRef);
+      const playerDocSnap = await getDoc(playerDocRef);
 
-    const id = playerDocSnap.id;
+      const id = playerDocSnap.id;
 
-    const data = playerDocSnap.data();
+      const data = playerDocSnap.data();
 
-    return { id, ...data } as Player;
-  });
+      return { id, ...data } as Player;
+    },
+    {
+      enabled: userId !== '',
+    }
+  );
 }
 
 export default usePlayer;
