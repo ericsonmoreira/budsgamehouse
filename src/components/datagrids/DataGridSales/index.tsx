@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { formatterCurrencyBRL } from '../../../utils/formatters';
 import ActionsCell from '../../cells/ActionsCell';
+import NoDataOverlay from '../../NoDataOverlay';
 
 type DataGridSalesRowData = Sale & {
   actions: {
@@ -67,7 +68,11 @@ const DataGridSales: React.FC<DataGridSalesProps> = ({ rows = [], loading }) => 
       density="compact"
       columns={columns}
       disableColumnMenu={false}
-      components={{ Toolbar: GridToolbar }}
+      components={{
+        Toolbar: GridToolbar,
+        NoRowsOverlay: () => <NoDataOverlay />,
+        NoResultsOverlay: () => <NoDataOverlay />,
+      }}
       disableSelectionOnClick
       loading={loading}
       sx={{ backgroundColor: (theme) => theme.palette.background.paper }}

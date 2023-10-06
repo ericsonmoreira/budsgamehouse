@@ -1,11 +1,7 @@
-import {
-  DataGrid,
-  GridColDef,
-  GridRenderCellParams,
-  GridToolbar,
-} from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
 import AvatarPlayer from '../../AvatarPlayer';
 import ActionsCell from '../../cells/ActionsCell';
+import NoDataOverlay from '../../NoDataOverlay';
 
 type DataGridPlaysersRowData = {
   id: string;
@@ -31,9 +27,7 @@ const columns: GridColDef[] = [
     align: 'center',
     disableColumnMenu: true,
     sortable: false,
-    renderCell: ({ row }) => (
-      <AvatarPlayer player={row} sx={{ width: 24, height: 24 }} />
-    ),
+    renderCell: ({ row }) => <AvatarPlayer player={row} sx={{ width: 24, height: 24 }} />,
   },
   { field: 'name', headerName: 'Nome', flex: 1 },
   { field: 'email', headerName: 'Email', flex: 1 },
@@ -49,19 +43,11 @@ const columns: GridColDef[] = [
         handleUpdate(): void;
         handledelete(): void;
       }>
-    ) => (
-      <ActionsCell
-        handleUpdate={params.value?.handleUpdate}
-        handledelete={params.value?.handledelete}
-      />
-    ),
+    ) => <ActionsCell handleUpdate={params.value?.handleUpdate} handledelete={params.value?.handledelete} />,
   },
 ];
 
-const DataGridPlaysers: React.FC<DataGridPlaysersProps> = ({
-  rows = [],
-  loading,
-}) => {
+const DataGridPlaysers: React.FC<DataGridPlaysersProps> = ({ rows = [], loading }) => {
   return (
     <DataGrid
       rows={rows}
@@ -71,7 +57,11 @@ const DataGridPlaysers: React.FC<DataGridPlaysersProps> = ({
       density="compact"
       columns={columns}
       disableColumnMenu={false}
-      components={{ Toolbar: GridToolbar }}
+      components={{
+        Toolbar: GridToolbar,
+        NoRowsOverlay: () => <NoDataOverlay />,
+        NoResultsOverlay: () => <NoDataOverlay />,
+      }}
       disableSelectionOnClick
       loading={loading}
       sx={{ backgroundColor: (theme) => theme.palette.background.paper }}

@@ -1,5 +1,6 @@
 import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
 import AvatarPlayer from '../../AvatarPlayer';
+import NoDataOverlay from '../../NoDataOverlay';
 import TypographyBalance from '../../Typography';
 import ActionsCell from '../../cells/ActionsCell';
 
@@ -60,7 +61,11 @@ const DataGridBalances: React.FC<DataGridBalancesProps> = ({ rows = [], loading 
       density="compact"
       columns={columns}
       disableColumnMenu={false}
-      components={{ Toolbar: GridToolbar }}
+      components={{
+        Toolbar: GridToolbar,
+        NoRowsOverlay: () => <NoDataOverlay />,
+        NoResultsOverlay: () => <NoDataOverlay />,
+      }}
       disableSelectionOnClick
       loading={loading}
       sx={{ backgroundColor: (theme) => theme.palette.background.paper }}
