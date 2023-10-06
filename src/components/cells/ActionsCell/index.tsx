@@ -1,13 +1,15 @@
-import { Box, IconButton, Tooltip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Box, IconButton, Tooltip } from '@mui/material';
 
 type ActionsCellProps = {
   handleUpdate?: () => void;
   handledelete?: () => void;
+  handleView?: () => void;
 };
 
-const ActionsCell: React.FC<ActionsCellProps> = ({ handleUpdate, handledelete }) => {
+const ActionsCell: React.FC<ActionsCellProps> = ({ handleUpdate, handledelete, handleView }) => {
   return (
     <Box>
       {handledelete && (
@@ -21,6 +23,13 @@ const ActionsCell: React.FC<ActionsCellProps> = ({ handleUpdate, handledelete })
         <Tooltip title="Editar">
           <IconButton color="info" onClick={handleUpdate}>
             <EditIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      )}
+      {handleView && (
+        <Tooltip title="Vizualizar">
+          <IconButton color="default" onClick={handleView}>
+            <VisibilityIcon fontSize="small" />
           </IconButton>
         </Tooltip>
       )}

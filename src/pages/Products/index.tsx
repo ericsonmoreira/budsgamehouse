@@ -20,7 +20,6 @@ import DataGridProducts from '../../components/datagrids/DataGridProducts';
 import AddProductDialog from '../../components/dialogs/products/AddProductDialog';
 import UpdateProductDialog from '../../components/dialogs/products/UpdateProductDialog';
 import useProducts from '../../hooks/useProducts';
-import useTopSellingProducts from '../../hooks/useTopSellingProducts';
 import deleteProduct from '../../resources/products/deleteProduct';
 
 const Products: React.FC = () => {
@@ -29,8 +28,6 @@ const Products: React.FC = () => {
   const queryClient = useQueryClient();
 
   const { data: products, isLoading } = useProducts();
-
-  const topSellingProducts = useTopSellingProducts();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -51,10 +48,10 @@ const Products: React.FC = () => {
       setDeleteDialogOpen(false);
 
       await deleteProduct(productToDeleteId);
+
+      await queryClient.invalidateQueries(['useProducts']);
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries(['useProducts']);
-
       toast.success('Produto removido com sucesso');
     },
   });
@@ -84,7 +81,6 @@ const Products: React.FC = () => {
           </IconButton>
         </Tooltip>
       </Box>
-      <Typography>{JSON.stringify(topSellingProducts, undefined, 2)}</Typography>
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridProducts
           loading={isLoading}

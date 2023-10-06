@@ -12,6 +12,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import routesNames from '../../routes/routesNames';
 import { auth } from '../../services/firebaseConfig';
 import NavItem from '../NavItem';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 type AppDrawerItemData = {
   to: string;
@@ -54,6 +55,11 @@ const items: AppDrawerItemData[] = [
     icon: PriceCheckIcon,
     to: routesNames.BALANCES,
     title: 'Saldos',
+  },
+  {
+    icon: AttachMoneyIcon,
+    to: routesNames.SALES,
+    title: 'Vendas',
   },
 ];
 
