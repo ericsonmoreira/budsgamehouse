@@ -1,10 +1,17 @@
-import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { formatterCurrencyBRL } from '../../../utils/formatters';
+import ActionsCell from '../../cells/ActionsCell';
+
+type DataGridSalesRowData = Sale & {
+  actions: {
+    handleView(): void;
+  };
+};
 
 type DataGridSalesProps = {
-  rows?: Sale[];
+  rows?: DataGridSalesRowData[];
   loading?: boolean;
 };
 
@@ -35,7 +42,21 @@ const columns: GridColDef[] = [
     field: 'createdAt',
     headerName: 'Data',
     flex: 1,
-    valueFormatter: ({ value }) => format(value.toDate(), 'PPPp', { locale: ptBR }),
+    valueFormatter: ({ value }) => format(value.toDate(), 'PPP', { locale: ptBR }),
+  },
+  {
+    field: 'actions',
+    headerName: 'Ações',
+    width: 100,
+    headerAlign: 'right',
+    align: 'right',
+    disableColumnMenu: true,
+    sortable: false,
+    renderCell: (
+      params: GridRenderCellParams<{
+        handleView(): void;
+      }>
+    ) => <ActionsCell handleView={params.value?.handleView} />,
   },
 ];
 
@@ -43,9 +64,6 @@ const DataGridSales: React.FC<DataGridSalesProps> = ({ rows = [], loading }) => 
   return (
     <DataGrid
       rows={rows}
-      initialState={{
-        sorting: { sortModel: [{ field: 'name', sort: 'asc' }] },
-      }}
       density="compact"
       columns={columns}
       disableColumnMenu={false}
