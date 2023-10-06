@@ -6,6 +6,7 @@ const routesNames = {
   PLAYERS: '/players',
   VIEW_PLAYER: '/players/:id',
   PRODUCTS: '/products',
+  SALES: '/sales',
   LOGIN: '/login',
   RECOVER_PASSWORD: '/recover-password',
   NOT_FOUND: '*',

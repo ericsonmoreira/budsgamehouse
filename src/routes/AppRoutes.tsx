@@ -8,6 +8,7 @@ import NotFoundPage from '../pages/NotFoundPage';
 import Players from '../pages/Players';
 import Products from '../pages/Products';
 import RecoverPassword from '../pages/RecoverPassword';
+import Sales from '../pages/Sales';
 import TradingCards from '../pages/TradingCards';
 import ViewPlayer from '../pages/ViewPlayer';
 import WantedCards from '../pages/WantedCards';
@@ -27,6 +28,7 @@ const AppRoutes: React.FC = () => {
             <Route path={routesNames.PLAYERS} element={<Players />} />
             <Route path={routesNames.VIEW_PLAYER} element={<ViewPlayer />} />
             <Route path={routesNames.PRODUCTS} element={<Products />} />
+            <Route path={routesNames.SALES} element={<Sales />} />
             <Route path={routesNames.NOT_FOUND} element={<NotFoundPage />} />
           </Route>
         </Route>
