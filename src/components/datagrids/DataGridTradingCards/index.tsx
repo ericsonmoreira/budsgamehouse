@@ -1,11 +1,7 @@
-import {
-  DataGrid,
-  GridColDef,
-  GridRenderCellParams,
-  GridToolbar,
-} from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
 import ActionsCell from '../../cells/ActionsCell';
 import ImageCell from '../../cells/ImageCell';
+import NoDataOverlay from '../../NoDataOverlay';
 
 type DataGridTradingCardsRowData = {
   id: string;
@@ -46,12 +42,7 @@ const columns: GridColDef[] = [
         handleUpdate(): void;
         handledelete(): void;
       }>
-    ) => (
-      <ActionsCell
-        handleUpdate={params.value?.handleUpdate}
-        handledelete={params.value?.handledelete}
-      />
-    ),
+    ) => <ActionsCell handleUpdate={params.value?.handleUpdate} handledelete={params.value?.handledelete} />,
   },
 ];
 
@@ -68,7 +59,11 @@ const DataGridTradingCards: React.FC<DataGridTradingCardsProps> = ({
       }}
       columns={columns}
       disableColumnMenu={false}
-      components={{ Toolbar: GridToolbar }}
+      components={{
+        Toolbar: GridToolbar,
+        NoRowsOverlay: () => <NoDataOverlay />,
+        NoResultsOverlay: () => <NoDataOverlay />,
+      }}
       disableSelectionOnClick
       loading={loading}
       sx={{ backgroundColor: (theme) => theme.palette.background.paper }}

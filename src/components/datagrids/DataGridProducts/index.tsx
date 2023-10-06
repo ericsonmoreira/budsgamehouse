@@ -1,5 +1,6 @@
 import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
 import { formatterCurrencyBRL } from '../../../utils/formatters';
+import NoDataOverlay from '../../NoDataOverlay';
 import ActionsCell from '../../cells/ActionsCell';
 
 type DataGridProductsRowData = Product & {
@@ -66,7 +67,11 @@ const DataGridProducts: React.FC<DataGridProductsProps> = ({ rows = [], loading 
       density="compact"
       columns={columns}
       disableColumnMenu={false}
-      components={{ Toolbar: GridToolbar }}
+      components={{
+        Toolbar: GridToolbar,
+        NoRowsOverlay: () => <NoDataOverlay />,
+        NoResultsOverlay: () => <NoDataOverlay />,
+      }}
       disableSelectionOnClick
       loading={loading}
       sx={{ backgroundColor: (theme) => theme.palette.background.paper }}
