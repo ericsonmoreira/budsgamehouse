@@ -82,7 +82,7 @@ const ViewPlayer: React.FC = () => {
         {player && (
           <Card sx={{ minWidth: 257 }}>
             <CardHeader
-              avatar={<AvatarPlayer player={player} />}
+              avatar={<AvatarPlayer playerId={player.id} />}
               titleTypographyProps={{ variant: 'h5' }}
               title={player.name}
             />

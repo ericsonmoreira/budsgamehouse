@@ -60,3 +60,19 @@ declare interface Payment {
   description: string;
   createdAt: Timestamp;
 }
+
+type CommandStatus = 'open' | 'closed' | 'canceled';
+
+declare interface Command {
+  id: string;
+  name: string;
+  userId: string;
+  products: {
+    id: string;
+    name: string;
+    amount: number;
+    price: number;
+  }[];
+  status: CommandStatus;
+  createdAt: Timestamp;
+}

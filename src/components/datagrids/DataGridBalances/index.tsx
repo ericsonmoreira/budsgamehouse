@@ -19,11 +19,11 @@ const columns: GridColDef[] = [
   {
     field: 'Imagem',
     headerName: '',
-    width: 30,
+    width: 24,
     align: 'center',
     disableColumnMenu: true,
     sortable: false,
-    renderCell: ({ row }) => <AvatarPlayer sx={{ width: 24, height: 24 }} player={row} />,
+    renderCell: ({ row }) => <AvatarPlayer sx={{ width: 24, height: 24 }} playerId={row.id} />,
   },
   {
     field: 'name',
@@ -33,12 +33,13 @@ const columns: GridColDef[] = [
   {
     field: 'balance',
     headerName: 'Saldo',
+    flex: 1,
     renderCell: ({ row }) => <TypographyBalance balance={row.balance} />,
   },
   {
     field: 'actions',
-    headerName: 'Ações',
-    width: 150,
+    headerName: '',
+    width: 24,
     align: 'right',
     disableColumnMenu: true,
     sortable: false,

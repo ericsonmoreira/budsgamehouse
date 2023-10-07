@@ -1,9 +1,10 @@
 import { Avatar, AvatarProps, Tooltip, Typography, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import routesNames from '../../routes/routesNames';
+import usePlayer from '../../hooks/usePlayer';
 
 type AvatarPlayerProps = {
-  player: Player;
+  playerId: string;
 };
 
 function stringToColor(string: string) {
@@ -34,20 +35,24 @@ function stringAvatar(name: string) {
   };
 }
 
-const AvatarPlayer: React.FC<AvatarPlayerProps & AvatarProps> = ({ player, sx: originalSx, ...rest }) => {
-  const { sx, children } = stringAvatar(player.name);
+const AvatarPlayer: React.FC<AvatarPlayerProps & AvatarProps> = ({ playerId, sx: originalSx, ...rest }) => {
+  const { data: player, isLoading, isError } = usePlayer(playerId);
 
   const navigate = useNavigate();
+
+  if (isLoading || isError) {
+    return null;
+  }
 
   return (
     <Tooltip title={player.name}>
       <IconButton onClick={() => navigate(routesNames.VIEW_PLAYER.replace(':id', player.id))}>
         {player.avatarImgUrl ? (
-          <Avatar sx={{ ...originalSx, ...sx }} {...rest} src={player.avatarImgUrl} />
+          <Avatar sx={{ ...originalSx, ...stringAvatar(player.name).sx }} {...rest} src={player.avatarImgUrl} />
         ) : (
-          <Avatar sx={{ ...originalSx, ...sx }} {...rest} src={player.avatarImgUrl}>
+          <Avatar sx={{ ...originalSx, ...stringAvatar(player.name).sx }} {...rest} src={player.avatarImgUrl}>
             <Typography variant="inherit" sx={{ fontSize: 10 }}>
-              {children}
+              {stringAvatar(player.name).children}
             </Typography>
           </Avatar>
         )}

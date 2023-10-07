@@ -1,6 +1,7 @@
 const routesNames = {
   HOME: '/',
   BALANCES: '/balances',
+  COMMANDS: '/commands',
   TRANDING_CARDS: '/trading-cards',
   WANTED_CARDS: '/wanted-cards',
   PLAYERS: '/players',

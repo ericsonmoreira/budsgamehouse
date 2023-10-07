@@ -174,7 +174,7 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
         <Box mt={2} display="flex" alignItems="center" justifyContent="space-between">
           <Stack direction="row" spacing={1} alignItems="center">
-            <AvatarPlayer player={playerToUpdate} />
+            <AvatarPlayer playerId={playerToUpdate.id} />
             <Typography variant="h4">{playerToUpdate.name}</Typography>
           </Stack>
           <Stack direction="row" spacing={1} alignItems="center">

@@ -27,7 +27,7 @@ const columns: GridColDef[] = [
     align: 'center',
     disableColumnMenu: true,
     sortable: false,
-    renderCell: ({ row }) => <AvatarPlayer player={row} sx={{ width: 24, height: 24 }} />,
+    renderCell: ({ row }) => <AvatarPlayer playerId={row.id} sx={{ width: 24, height: 24 }} />,
   },
   { field: 'name', headerName: 'Nome', flex: 1 },
   { field: 'email', headerName: 'Email', flex: 1 },
