@@ -2,6 +2,7 @@ const routesNames = {
   HOME: '/',
   BALANCES: '/balances',
   COMMANDS: '/commands',
+  VIEW_COMMAND: '/commands/:id',
   TRANDING_CARDS: '/trading-cards',
   WANTED_CARDS: '/wanted-cards',
   PLAYERS: '/players',

@@ -4,6 +4,8 @@ import { CardsClubIcon, CardsDiamondIcon, CardsHeartIcon, CardsSpadeIcon } from 
 import TypographyBalance from '../Typography';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { useNavigate } from 'react-router-dom';
+import routesNames from '../../routes/routesNames';
 
 type CommandCardProps = {
   data: Command;
@@ -19,6 +21,8 @@ const cardsSuitiesMap: Record<'club' | 'diamond' | 'heart' | 'spade', React.FC<S
 const CommandCard: React.FC<CommandCardProps> = ({ data }) => {
   const [num, suite] = data.name.split('|');
 
+  const navigate = useNavigate();
+
   const IconComponent = cardsSuitiesMap[suite as 'club' | 'diamond' | 'heart' | 'spade'];
 
   const total = useMemo(() => {
@@ -26,7 +30,11 @@ const CommandCard: React.FC<CommandCardProps> = ({ data }) => {
   }, [data]);
 
   return (
-    <ButtonBase TouchRippleProps={{ center: false }} sx={{ width: '100%' }}>
+    <ButtonBase
+      TouchRippleProps={{ center: false }}
+      sx={{ width: '100%' }}
+      onClick={() => navigate(routesNames.VIEW_COMMAND.replace(':id', data.id))}
+    >
       <Paper sx={{ width: '100%' }}>
         <Box p={2}>
           <Box display="flex" alignItems="center">
