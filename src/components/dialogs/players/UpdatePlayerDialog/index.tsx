@@ -80,6 +80,8 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
       }
 
       await queryClient.invalidateQueries(['usePlayers']);
+
+      await queryClient.invalidateQueries(['usePlayer', playerToUpdate.id]);
     },
     onSuccess: () => {
       handleClose();
