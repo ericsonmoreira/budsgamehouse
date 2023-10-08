@@ -56,19 +56,19 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title
   const [user] = useAuthState(auth);
 
   const possibleCommandsNames = useMemo(() => {
-    if (commands) {
-      const names = [];
+    const names = [];
 
-      for (const suite of cardSuities) {
-        for (const num of cardNumbers) {
-          names.push(`${num}|${suite}`);
-        }
+    for (const suite of cardSuities) {
+      for (const num of cardNumbers) {
+        names.push(`${num}|${suite}`);
       }
-
-      return names.filter((name) => !commands.some((command) => command.name === name));
     }
 
-    return [];
+    if (commands) {
+      return names.filter((name) => !commands.some((command) => command.name === name));
+    } else {
+      return names;
+    }
   }, [commands]);
 
   const { handleSubmit, reset, control } = useForm<AddCommandDialogFormData>({
