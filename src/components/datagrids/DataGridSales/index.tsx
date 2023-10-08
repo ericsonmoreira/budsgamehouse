@@ -45,7 +45,7 @@ const columns: GridColDef[] = [
     field: 'createdAt',
     headerName: 'Data',
     flex: 1,
-    valueFormatter: ({ value }) => format(value.toDate(), 'PPP', { locale: ptBR }),
+    valueFormatter: ({ value }) => format(value.toDate(), 'PPPp', { locale: ptBR }),
   },
   {
     field: 'actions',
@@ -68,6 +68,9 @@ const DataGridSales: React.FC<DataGridSalesProps> = ({ rows = [], loading }) => 
     <DataGrid
       rows={rows}
       density="compact"
+      initialState={{
+        sorting: { sortModel: [{ field: 'createdAt', sort: 'desc' }] },
+      }}
       columns={columns}
       disableColumnMenu={false}
       components={{

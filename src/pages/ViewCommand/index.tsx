@@ -1,7 +1,10 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import BlockIcon from '@mui/icons-material/Block';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import SaveIcon from '@mui/icons-material/Save';
 import {
   Autocomplete,
   Backdrop,
@@ -22,17 +25,22 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Timestamp } from 'firebase/firestore';
+import { useEffect, useMemo, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import toast from 'react-hot-toast';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import 'react-vertical-timeline-component/style.min.css';
 import useCommand from '../../hooks/useCommand';
 import useProducts from '../../hooks/useProducts';
 import { CardsClubIcon, CardsDiamondIcon, CardsHeartIcon, CardsSpadeIcon } from '../../icons';
-import routesNames from '../../routes/routesNames';
-import { formatterCurrencyBRL } from '../../utils/formatters';
-import toast from 'react-hot-toast';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import updateCommand from '../../resources/commands/updateCommand';
+import updateProductStock from '../../resources/products/updateProductStock';
+import addSale from '../../resources/sales/addSale';
+import routesNames from '../../routes/routesNames';
+import { auth } from '../../services/firebaseConfig';
+import { formatterCurrencyBRL } from '../../utils/formatters';
 
 type ViewCommandParams = {
   id: string;
@@ -70,6 +78,8 @@ const CommandTitleName = ({ command }: { command: Command }) => {
 const ViewCommand: React.FC = () => {
   const navigate = useNavigate();
 
+  const [user] = useAuthState(auth);
+
   const queryClient = useQueryClient();
 
   const { id } = useParams<ViewCommandParams>();
@@ -78,25 +88,38 @@ const ViewCommand: React.FC = () => {
 
   const { data: produtos } = useProducts();
 
-  const [shoppingCart, setShoppingCart] = useState<{ id: string; name: string; amount: number; price: number }[]>([]); // TODO: usar isso para cadastrar os produtos
-
-  const newCommandProducts = useMemo(() => {
-    if (shoppingCart && command) {
-      return [...command.products, ...shoppingCart];
-    }
-
-    return [];
-  }, [command, shoppingCart]);
+  const [shoppingCart, setShoppingCart] = useState<{ id: string; name: string; amount: number; price: number }[]>([]);
 
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
+  const commandIsClosed = useMemo(() => {
+    if (command) {
+      return command.status === 'closed';
+    }
+
+    return false;
+  }, [command]);
+
+  const commandIsCanceled = useMemo(() => {
+    if (command) {
+      return command.status === 'canceled';
+    }
+
+    return false;
+  }, [command]);
+
+  const isDisableCommandEdition = useMemo(
+    () => commandIsClosed || commandIsCanceled,
+    [commandIsClosed, commandIsCanceled]
+  );
+
   const validProdutos = useMemo(() => {
-    if (produtos && newCommandProducts) {
-      return produtos.filter((product) => !newCommandProducts.some((elem) => elem.id === product.id));
+    if (produtos && shoppingCart) {
+      return produtos.filter((product) => !shoppingCart.some((elem) => elem.id === product.id));
     }
 
     return [];
-  }, [produtos, newCommandProducts]);
+  }, [produtos, shoppingCart]);
 
   const handleAddProductToShoppingCart = () => {
     if (selectedProduct) {
@@ -135,18 +158,16 @@ const ViewCommand: React.FC = () => {
   };
 
   const totalToPay = useMemo(() => {
-    return newCommandProducts.reduce((acc, curr) => acc + curr.price * curr.amount, 0);
-  }, [newCommandProducts]);
+    return shoppingCart.reduce((acc, curr) => acc + curr.price * curr.amount, 0);
+  }, [shoppingCart]);
 
-  const { mutate: updateCommandMutate, isLoading: updatecOMMANDMutateIsloading } = useMutation({
+  const { mutate: updateCommandMutate, isLoading: updateCommandMutateIsloading } = useMutation({
     mutationFn: async () => {
       if (command) {
-        await updateCommand({ ...command, products: [...command.products, ...shoppingCart] });
+        await updateCommand({ ...command, products: shoppingCart });
       }
 
-      setShoppingCart([]);
-
-      await queryClient.invalidateQueries(['useCommands']);
+      await queryClient.invalidateQueries(['useCommands', 'open']);
 
       await queryClient.invalidateQueries(['useCommand', id]);
     },
@@ -157,6 +178,76 @@ const ViewCommand: React.FC = () => {
       toast.error(error.message);
     },
   });
+
+  const { mutate: closeCommandMutate, isLoading: closeCommandMutateIsloading } = useMutation({
+    mutationFn: async () => {
+      if (command && user) {
+        await updateCommand({ ...command, status: 'closed' });
+
+        await queryClient.invalidateQueries(['useCommands', 'open']);
+
+        await queryClient.invalidateQueries(['useCommand', id]);
+
+        // Atualiza todos os produtos de acorodo com a quantidade para remover do estoque
+        await Promise.all(shoppingCart.map(({ id, amount }) => updateProductStock(id, -amount)));
+
+        // // Criando uma nova compra
+        await addSale({
+          createdAt: Timestamp.now(),
+          playerId: '',
+          products: shoppingCart.map(({ id, name, amount, price }) => ({
+            id,
+            name,
+            amount,
+            price,
+          })),
+          userId: user.uid,
+        });
+
+        await queryClient.invalidateQueries(['useProducts']);
+
+        await queryClient.invalidateQueries(['useSales']);
+      } else {
+        throw new Error('Usuário não cadastrado');
+      }
+    },
+    onSuccess: () => {
+      toast.success('Comanda Atualizada com sucesso');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const { mutate: cancelCommandMutate, isLoading: cancelCommandMutateIsloading } = useMutation({
+    mutationFn: async () => {
+      if (command) {
+        await updateCommand({ ...command, status: 'canceled' });
+      }
+
+      await queryClient.invalidateQueries(['useCommands', 'open']);
+
+      await queryClient.invalidateQueries(['useCommand', id]);
+    },
+    onSuccess: () => {
+      toast.success('Comanda Atualizada com sucesso');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const isLoading = useMemo(
+    () =>
+      commandIsLoading || updateCommandMutateIsloading || closeCommandMutateIsloading || cancelCommandMutateIsloading,
+    [commandIsLoading, updateCommandMutateIsloading, closeCommandMutateIsloading || cancelCommandMutateIsloading]
+  );
+
+  useEffect(() => {
+    if (command) {
+      setShoppingCart(command.products);
+    }
+  }, [command]);
 
   if (commandError) {
     return <Navigate to={routesNames.NOT_FOUND} />;
@@ -179,6 +270,7 @@ const ViewCommand: React.FC = () => {
       <Box m={1} height={1}>
         <Stack direction="row" spacing={2} my={2}>
           <Autocomplete
+            disabled={isDisableCommandEdition}
             value={selectedProduct}
             options={validProdutos}
             onChange={(_, newValue) => {
@@ -199,6 +291,11 @@ const ViewCommand: React.FC = () => {
             <AddCircleIcon />
           </IconButton>
         </Stack>
+        {command && (
+          <Typography color="GrayText" gutterBottom>
+            Status: {command.status}
+          </Typography>
+        )}
         <TableContainer component={Paper}>
           <TableContainer component={Paper}>
             <Table size="small">
@@ -213,29 +310,33 @@ const ViewCommand: React.FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {newCommandProducts.map((row) => (
-                  <TableRow key={row.name}>
-                    <TableCell align="right">
-                      <Box display="flex" alignItems="center" justifyContent="space-between">
-                        <Typography variant="inherit">{row.name}</Typography>
-                        <Stack direction="row">
-                          <IconButton size="small" onClick={() => handlePlusOneProductInShoppingCart(row)}>
-                            <AddCircleIcon fontSize="inherit" color="success" />
-                          </IconButton>
-                          <IconButton size="small" onClick={() => handleMinusOneProductInShoppingCart(row)}>
-                            <RemoveCircleIcon fontSize="inherit" color="error" />
-                          </IconButton>
-                          <IconButton size="small" onClick={() => handleRemoveProductInShoppingCart(row)}>
-                            <DeleteIcon fontSize="inherit" color="error" />
-                          </IconButton>
-                        </Stack>
-                      </Box>
-                    </TableCell>
-                    <TableCell align="right">{row.amount}</TableCell>
-                    <TableCell align="right">{formatterCurrencyBRL.format(row.price)}</TableCell>
-                    <TableCell align="right">{formatterCurrencyBRL.format(row.amount * row.price)}</TableCell>
-                  </TableRow>
-                ))}
+                {shoppingCart
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map((row) => (
+                    <TableRow key={row.name}>
+                      <TableCell align="right">
+                        <Box display="flex" alignItems="center" justifyContent="space-between">
+                          <Typography variant="inherit">{row.name}</Typography>
+                          {!isDisableCommandEdition && (
+                            <Stack direction="row">
+                              <IconButton onClick={() => handlePlusOneProductInShoppingCart(row)}>
+                                <AddCircleIcon fontSize="inherit" color="success" />
+                              </IconButton>
+                              <IconButton onClick={() => handleMinusOneProductInShoppingCart(row)}>
+                                <RemoveCircleIcon fontSize="inherit" color="error" />
+                              </IconButton>
+                              <IconButton onClick={() => handleRemoveProductInShoppingCart(row)}>
+                                <DeleteIcon fontSize="inherit" color="error" />
+                              </IconButton>
+                            </Stack>
+                          )}
+                        </Box>
+                      </TableCell>
+                      <TableCell align="right">{row.amount}</TableCell>
+                      <TableCell align="right">{formatterCurrencyBRL.format(row.price)}</TableCell>
+                      <TableCell align="right">{formatterCurrencyBRL.format(row.amount * row.price)}</TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
               <TableFooter>
                 <TableRow>
@@ -253,16 +354,33 @@ const ViewCommand: React.FC = () => {
           </TableContainer>
         </TableContainer>
         <Stack direction="row" spacing={1} mt={2} justifyContent="flex-end">
-          <Button>Cancelar Comanda</Button>
-          <Button variant="contained" onClick={() => updateCommandMutate()}>
+          <Button
+            color="warning"
+            startIcon={<BlockIcon />}
+            disabled={isDisableCommandEdition}
+            onClick={() => cancelCommandMutate()}
+          >
+            Cancelar Comanda
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<DoneAllIcon />}
+            disabled={isDisableCommandEdition}
+            onClick={() => closeCommandMutate()}
+          >
+            Fechar Comanda
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<SaveIcon />}
+            disabled={isDisableCommandEdition}
+            onClick={() => updateCommandMutate()}
+          >
             Salvar
           </Button>
         </Stack>
       </Box>
-      <Backdrop
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={commandIsLoading || updatecOMMANDMutateIsloading}
-      >
+      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
         <CircularProgress color="primary" />
       </Backdrop>
     </>
