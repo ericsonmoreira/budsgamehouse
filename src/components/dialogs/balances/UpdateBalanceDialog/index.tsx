@@ -93,7 +93,7 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
     setShoppingCart([]);
   };
 
-  function handlePlusOneProductInShoppingCart(row: ItemShoppingCart): void {
+  const handlePlusOneProductInShoppingCart = (row: ItemShoppingCart) => {
     const index = shoppingCart.findIndex((elem) => elem.id === row.id);
 
     if (index >= 0) {
@@ -103,7 +103,7 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
 
       setShoppingCart(newArray);
     }
-  }
+  };
 
   const handleMinusOneProductInShoppingCart = (row: ItemShoppingCart) => {
     const index = shoppingCart.findIndex((elem) => elem.id === row.id);
