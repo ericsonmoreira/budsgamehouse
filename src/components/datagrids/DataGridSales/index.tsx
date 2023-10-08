@@ -4,6 +4,7 @@ import { ptBR } from 'date-fns/locale';
 import { formatterCurrencyBRL } from '../../../utils/formatters';
 import ActionsCell from '../../cells/ActionsCell';
 import NoDataOverlay from '../../NoDataOverlay';
+import AvatarPlayer from '../../AvatarPlayer';
 
 type DataGridSalesRowData = Sale & {
   actions: {
@@ -19,8 +20,9 @@ type DataGridSalesProps = {
 const columns: GridColDef[] = [
   {
     field: 'playerId',
-    headerName: 'Jogador',
-    flex: 1,
+    headerName: '',
+    width: 24,
+    renderCell: ({ row }) => <AvatarPlayer sx={{ width: 24, height: 24 }} playerId={row.playerId} />,
   },
   {
     field: 'products',
@@ -43,12 +45,12 @@ const columns: GridColDef[] = [
     field: 'createdAt',
     headerName: 'Data',
     flex: 1,
-    valueFormatter: ({ value }) => format(value.toDate(), 'PPP', { locale: ptBR }),
+    valueFormatter: ({ value }) => format(value.toDate(), 'PPPp', { locale: ptBR }),
   },
   {
     field: 'actions',
-    headerName: 'Ações',
-    width: 100,
+    headerName: '',
+    width: 24,
     headerAlign: 'right',
     align: 'right',
     disableColumnMenu: true,
@@ -66,6 +68,9 @@ const DataGridSales: React.FC<DataGridSalesProps> = ({ rows = [], loading }) => 
     <DataGrid
       rows={rows}
       density="compact"
+      initialState={{
+        sorting: { sortModel: [{ field: 'createdAt', sort: 'desc' }] },
+      }}
       columns={columns}
       disableColumnMenu={false}
       components={{

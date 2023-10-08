@@ -8,7 +8,6 @@ type ControlledPhoneTextFieldProps<
   TextFieldName extends FieldPath<TextFieldValues>
 > = UseControllerProps<TextFieldValues, TextFieldName> & PatternFormatProps<TextFieldProps>;
 
-// TODO: Ajustar esse componente como o ControlledTextField
 const ControlledPhoneTextField = <
   TextFieldValues extends FieldValues,
   TextFieldName extends FieldPath<TextFieldValues>

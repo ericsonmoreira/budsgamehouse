@@ -1,6 +1,6 @@
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PersonIcon from '@mui/icons-material/Person';
-import { Box, Chip, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, Chip, Grid, Tooltip, Typography } from '@mui/material';
 import React, { useMemo, useState } from 'react';
 import DataGridBalances from '../../components/datagrids/DataGridBalances';
 import UpdateBalanceDialog from '../../components/dialogs/balances/UpdateBalanceDialog';
@@ -16,7 +16,7 @@ type ContentCard = {
 };
 
 const Balances: React.FC = () => {
-  const { players } = usePlayers();
+  const { players, isLoading } = usePlayers();
 
   const [updateFiadoDialogOpen, setUpdateFiadoDialogOpen] = useState(false);
 
@@ -112,17 +112,20 @@ const Balances: React.FC = () => {
           Saldos
         </Typography>
       </Box>
-      <Box mx={1}>
-        <Stack direction="row" spacing={1}>
+      <Box m={1}>
+        <Grid container spacing={1}>
           {contentCards.map(({ title, tooltipTitle, value, color, icon }, index) => (
-            <Tooltip title={tooltipTitle} key={index}>
-              <Chip size="small" icon={icon} color={color} variant="outlined" label={`${title}: ${value}`} />
-            </Tooltip>
+            <Grid item key={index}>
+              <Tooltip title={tooltipTitle}>
+                <Chip size="small" icon={icon} color={color} variant="outlined" label={`${title}: ${value}`} />
+              </Tooltip>
+            </Grid>
           ))}
-        </Stack>
+        </Grid>
       </Box>
-      <Box m={1} sx={{ height: 1 }}>
+      <Box m={1} height={1}>
         <DataGridBalances
+          loading={isLoading}
           rows={players?.map((player) => ({
             ...player,
             actions: {

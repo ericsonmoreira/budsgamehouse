@@ -1,3 +1,4 @@
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PaidIcon from '@mui/icons-material/Paid';
 import PaymentIcon from '@mui/icons-material/Payment';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -21,15 +22,14 @@ import { Navigate, useParams } from 'react-router-dom';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 import AvatarPlayer from '../../components/AvatarPlayer';
+import PaymentInformations from '../../components/PaymentInformations';
 import SaleInformationsTable from '../../components/SaleInformationsTable';
 import TypographyBalance from '../../components/Typography';
 import PaymentDialog from '../../components/dialogs/balances/PaymentDialog';
+import usePaymentsFromPlayer from '../../hooks/usePaymentsFromPlayer';
 import usePlayer from '../../hooks/usePlayer';
 import useSalesFromPlayer from '../../hooks/useSalesFromPlayer';
 import routesNames from '../../routes/routesNames';
-import usePaymentsFromPlayer from '../../hooks/usePaymentsFromPlayer';
-import PaymentInformations from '../../components/PaymentInformations';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 type ViewPlayerParams = {
   id: string;
@@ -82,7 +82,7 @@ const ViewPlayer: React.FC = () => {
         {player && (
           <Card sx={{ minWidth: 257 }}>
             <CardHeader
-              avatar={<AvatarPlayer player={player} />}
+              avatar={<AvatarPlayer playerId={player.id} />}
               titleTypographyProps={{ variant: 'h5' }}
               title={player.name}
             />
@@ -121,6 +121,7 @@ const ViewPlayer: React.FC = () => {
             <VerticalTimelineElement
               position={isSale(activite) ? 'right' : 'lefth'}
               date={format(activite.createdAt.toDate(), 'PPPp', { locale: ptBR })}
+              icon={isSale(activite) ? <ShoppingCartIcon /> : <AttachMoneyIcon />}
               iconStyle={{
                 background: isSale(activite) ? palette.primary.main : palette.success.main,
                 color: palette.common.white,
@@ -133,7 +134,6 @@ const ViewPlayer: React.FC = () => {
                 color: palette.text.primary,
                 padding: spacing(1),
               }}
-              icon={isSale(activite) ? <ShoppingCartIcon /> : <AttachMoneyIcon />}
             >
               {isSale(activite) ? (
                 <SaleInformationsTable key={activite.id} data={activite as Sale} />

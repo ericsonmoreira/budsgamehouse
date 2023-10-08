@@ -14,6 +14,8 @@ import ViewPlayer from '../pages/ViewPlayer';
 import WantedCards from '../pages/WantedCards';
 import PrivateRoutes from './PrivateRoutes';
 import routesNames from './routesNames';
+import Commands from '../pages/Commands';
+import ViewCommand from '../pages/ViewCommand';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -23,6 +25,8 @@ const AppRoutes: React.FC = () => {
           <Route element={<DashboardLayout />}>
             <Route path={routesNames.HOME} element={<Home />} />
             <Route path={routesNames.BALANCES} element={<Balances />} />
+            <Route path={routesNames.COMMANDS} element={<Commands />} />
+            <Route path={routesNames.VIEW_COMMAND} element={<ViewCommand />} />
             <Route path={routesNames.TRANDING_CARDS} element={<TradingCards />} />
             <Route path={routesNames.WANTED_CARDS} element={<WantedCards />} />
             <Route path={routesNames.PLAYERS} element={<Players />} />

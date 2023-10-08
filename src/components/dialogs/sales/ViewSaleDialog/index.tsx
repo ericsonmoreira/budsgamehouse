@@ -42,7 +42,7 @@ const ViewSaleDialog: React.FC<ViewSaleDialogProps & DialogProps> = ({
         {player && (
           <Box>
             <Stack direction="row" spacing={2} alignItems="center">
-              <AvatarPlayer player={player} />
+              <AvatarPlayer playerId={player.id} />
               <Typography variant="h5">{player.name}</Typography>
             </Stack>
             <Stack>
