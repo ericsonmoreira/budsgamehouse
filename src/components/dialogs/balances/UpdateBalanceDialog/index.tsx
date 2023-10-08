@@ -14,6 +14,7 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
+  Grid,
   IconButton,
   Paper,
   Stack,
@@ -172,17 +173,21 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
-        <Box mt={2} display="flex" alignItems="center" justifyContent="space-between">
-          <Stack direction="row" spacing={1} alignItems="center">
-            <AvatarPlayer playerId={playerToUpdate.id} />
-            <Typography variant="h4">{playerToUpdate.name}</Typography>
-          </Stack>
-          <Stack direction="row" spacing={1} alignItems="center">
-            <TypographyBalance variant="h4" balance={playerToUpdate.balance} />
-            <ArrowForwardIcon fontSize="large" />
-            <TypographyBalance variant="h4" balance={playerToUpdate.balance - totalToPay} />
-          </Stack>
-        </Box>
+        <Grid container alignItems="center" spacing={1}>
+          <Grid item>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <AvatarPlayer playerId={playerToUpdate.id} />
+              <Typography variant="h4">{playerToUpdate.name}</Typography>
+            </Stack>
+          </Grid>
+          <Grid item>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <TypographyBalance variant="h4" balance={playerToUpdate.balance} />
+              <ArrowForwardIcon fontSize="large" />
+              <TypographyBalance variant="h4" balance={playerToUpdate.balance - totalToPay} />
+            </Stack>
+          </Grid>
+        </Grid>
         <Stack direction="row" spacing={2} my={2}>
           <Autocomplete
             value={selectedProduct}
@@ -209,10 +214,14 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
           <Table size="small">
             <TableHead>
               <TableRow>
-                <TableCell>Produto</TableCell>
-                <TableCell align="right">Quantidade</TableCell>
-                <TableCell align="right">Valor Unit.</TableCell>
-                <TableCell align="right" width={150}>
+                <TableCell style={{ flex: 1 }}>Produto</TableCell>
+                <TableCell width="10%" style={{ minWidth: 20 }} align="right">
+                  #
+                </TableCell>
+                <TableCell width="10%" style={{ minWidth: 100 }} align="right">
+                  V. Unit.
+                </TableCell>
+                <TableCell width="10%" style={{ minWidth: 100 }} align="right">
                   Total
                 </TableCell>
               </TableRow>
