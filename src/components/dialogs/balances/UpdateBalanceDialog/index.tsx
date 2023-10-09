@@ -3,7 +3,6 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import {
-  Autocomplete,
   Backdrop,
   Box,
   Button,
@@ -25,7 +24,6 @@ import {
   TableFooter,
   TableHead,
   TableRow,
-  TextField,
   Typography,
 } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -39,6 +37,7 @@ import updateProduct from '../../../../resources/products/updateProduct';
 import addSale from '../../../../resources/sales/addSale';
 import { auth } from '../../../../services/firebaseConfig';
 import { formatterCurrencyBRL } from '../../../../utils/formatters';
+import AutocompleteProducts from '../../../AutocompleteProducts';
 import AvatarPlayer from '../../../AvatarPlayer';
 import TypographyBalance from '../../../Typography';
 
@@ -189,26 +188,12 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
           </Grid>
         </Grid>
         <Stack direction="row" spacing={2} my={2}>
-          <Autocomplete
-            value={selectedProduct}
-            options={validProdutos}
-            onChange={(_, newValue) => {
-              setSelectedProduct(newValue);
-            }}
-            renderOption={(props, option) => (
-              <Box component="li" {...props}>
-                <Typography flexGrow={1}>{option.name}</Typography>
-                <Typography color="GrayText">{formatterCurrencyBRL.format(option.price)}</Typography>
-              </Box>
-            )}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
-            getOptionLabel={(option) => option.name}
-            fullWidth
-            renderInput={(params) => <TextField {...params} ref={null} size="small" label="Produtos" />}
+          <AutocompleteProducts
+            validProdutos={validProdutos}
+            selectedProduct={selectedProduct}
+            setSelectedProduct={setSelectedProduct}
+            onClickAddProductButton={handleAddProductToShoppingCart}
           />
-          <IconButton color="success" disabled={!selectedProduct} onClick={handleAddProductToShoppingCart}>
-            <AddCircleIcon />
-          </IconButton>
         </Stack>
         <TableContainer component={Paper}>
           <Table size="small">
