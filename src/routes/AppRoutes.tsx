@@ -2,6 +2,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import BasicLayout from '../layouts/BasicLayout';
 import DashboardLayout from '../layouts/DashboardLayout';
 import Balances from '../pages/Balances';
+import Commands from '../pages/Commands';
+import Expenses from '../pages/Expenses';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -10,12 +12,11 @@ import Products from '../pages/Products';
 import RecoverPassword from '../pages/RecoverPassword';
 import Sales from '../pages/Sales';
 import TradingCards from '../pages/TradingCards';
+import ViewCommand from '../pages/ViewCommand';
 import ViewPlayer from '../pages/ViewPlayer';
 import WantedCards from '../pages/WantedCards';
 import PrivateRoutes from './PrivateRoutes';
 import routesNames from './routesNames';
-import Commands from '../pages/Commands';
-import ViewCommand from '../pages/ViewCommand';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -26,6 +27,7 @@ const AppRoutes: React.FC = () => {
             <Route path={routesNames.HOME} element={<Home />} />
             <Route path={routesNames.BALANCES} element={<Balances />} />
             <Route path={routesNames.COMMANDS} element={<Commands />} />
+            <Route path={routesNames.EXPENSES} element={<Expenses />} />
             <Route path={routesNames.VIEW_COMMAND} element={<ViewCommand />} />
             <Route path={routesNames.TRANDING_CARDS} element={<TradingCards />} />
             <Route path={routesNames.WANTED_CARDS} element={<WantedCards />} />

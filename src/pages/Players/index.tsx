@@ -1,6 +1,6 @@
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useState } from 'react';
+import PageHeader from '../../components/PageHeader';
 import DataGridPlaysers from '../../components/datagrids/DataGridPlaysers';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
 import AddPlayerDialog from '../../components/dialogs/players/AddPlayerDialog';
@@ -37,23 +37,7 @@ const Players: React.FC = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          margin: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography variant="h4" color="textPrimary">
-          Payers
-        </Typography>
-        <Tooltip title="Add">
-          <IconButton color="secondary" onClick={() => setAddPlayerDialogOpen(true)}>
-            <AddCircleIcon fontSize="large" />
-          </IconButton>
-        </Tooltip>
-      </Box>
+      <PageHeader title="Payers" onClickAddButton={() => setAddPlayerDialogOpen(true)} />
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridPlaysers
           loading={isLoading}

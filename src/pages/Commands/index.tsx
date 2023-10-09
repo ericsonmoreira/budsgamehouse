@@ -1,9 +1,9 @@
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Backdrop, Box, CircularProgress, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Backdrop, CircularProgress, Grid } from '@mui/material';
 import React, { useState } from 'react';
 import CommandCard from '../../components/CommandCard';
-import useCommands from '../../hooks/useCommands';
+import PageHeader from '../../components/PageHeader';
 import AddCommandDialog from '../../components/dialogs/commands/AddCommandDialog';
+import useCommands from '../../hooks/useCommands';
 
 const Commands: React.FC = () => {
   const [openAddCommandDialog, setOpenAddCommandDialog] = useState(false);
@@ -12,23 +12,7 @@ const Commands: React.FC = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          margin: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography variant="h4" color="textPrimary">
-          Comandas
-        </Typography>
-        <Tooltip title="Adicionar Comanda">
-          <IconButton color="secondary" onClick={() => setOpenAddCommandDialog(true)}>
-            <AddCircleIcon fontSize="large" />
-          </IconButton>
-        </Tooltip>
-      </Box>
+      <PageHeader title="Comandas" onClickAddButton={() => setOpenAddCommandDialog(true)} />
       <Grid container padding={1} spacing={1}>
         {commands &&
           commands.map((command) => (

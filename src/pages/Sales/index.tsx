@@ -1,8 +1,9 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import React, { useState } from 'react';
-import useSales from '../../hooks/useSales';
+import PageHeader from '../../components/PageHeader';
 import DataGridSales from '../../components/datagrids/DataGridSales';
 import ViewSaleDialog from '../../components/dialogs/sales/ViewSaleDialog';
+import useSales from '../../hooks/useSales';
 
 const Sales: React.FC = () => {
   const { data: sales, isLoading } = useSales();
@@ -19,18 +20,7 @@ const Sales: React.FC = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          margin: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography variant="h4" color="textPrimary">
-          Vendas
-        </Typography>
-      </Box>
+      <PageHeader title="Vendas" />
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridSales
           rows={sales?.map((sale) => ({ ...sale, actions: { handleView: () => handleView(sale) } }))}
