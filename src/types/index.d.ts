@@ -79,9 +79,10 @@ declare interface Command {
 
 declare interface Expense {
   id: string;
+  userId: string;
   description: string;
   value: number;
-  userId: string;
+  name: string;
   products: {
     id: string;
     name: string;
