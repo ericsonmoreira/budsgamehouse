@@ -22,6 +22,7 @@ import { Navigate, useParams } from 'react-router-dom';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 import AvatarPlayer from '../../components/AvatarPlayer';
+import PageHeader from '../../components/PageHeader';
 import PaymentInformations from '../../components/PaymentInformations';
 import SaleInformationsTable from '../../components/SaleInformationsTable';
 import TypographyBalance from '../../components/Typography';
@@ -66,18 +67,7 @@ const ViewPlayer: React.FC = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          margin: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography variant="h4" color="textPrimary">
-          Payer
-        </Typography>
-      </Box>
+      <PageHeader title="Payer" />
       <Box m={1} display="flex" flexDirection="column">
         {player && (
           <Card sx={{ minWidth: 257 }}>

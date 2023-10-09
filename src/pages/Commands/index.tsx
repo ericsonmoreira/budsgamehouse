@@ -1,9 +1,10 @@
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Backdrop, Box, CircularProgress, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import React, { useState } from 'react';
 import CommandCard from '../../components/CommandCard';
-import useCommands from '../../hooks/useCommands';
+import Page from '../../components/Page';
+import PageHeader from '../../components/PageHeader';
 import AddCommandDialog from '../../components/dialogs/commands/AddCommandDialog';
+import useCommands from '../../hooks/useCommands';
 
 const Commands: React.FC = () => {
   const [openAddCommandDialog, setOpenAddCommandDialog] = useState(false);
@@ -11,24 +12,8 @@ const Commands: React.FC = () => {
   const { data: commands, isLoading } = useCommands('open');
 
   return (
-    <>
-      <Box
-        sx={{
-          margin: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography variant="h4" color="textPrimary">
-          Comandas
-        </Typography>
-        <Tooltip title="Adicionar Comanda">
-          <IconButton color="secondary" onClick={() => setOpenAddCommandDialog(true)}>
-            <AddCircleIcon fontSize="large" />
-          </IconButton>
-        </Tooltip>
-      </Box>
+    <Page loading={isLoading}>
+      <PageHeader title="Comandas" onClickAddButton={() => setOpenAddCommandDialog(true)} />
       <Grid container padding={1} spacing={1}>
         {commands &&
           commands.map((command) => (
@@ -43,10 +28,7 @@ const Commands: React.FC = () => {
         open={openAddCommandDialog}
         setOpen={setOpenAddCommandDialog}
       />
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
-        <CircularProgress color="primary" />
-      </Backdrop>
-    </>
+    </Page>
   );
 };
 

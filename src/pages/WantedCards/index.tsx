@@ -1,6 +1,6 @@
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useState } from 'react';
+import PageHeader from '../../components/PageHeader';
 import DataGridWantedCards from '../../components/datagrids/DataGridWantedCards';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
 import AddWantCardDialog from '../../components/dialogs/wantCards/AddWantCardDialog';
@@ -40,23 +40,10 @@ const WantedCards: React.FC = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          margin: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography variant="h4" color="textPrimary">
-          Want List - Lista de cartas para aquisição
-        </Typography>
-        <Tooltip title="Add">
-          <IconButton color="secondary" onClick={() => setAddWantCardDialogOpen(true)}>
-            <AddCircleIcon fontSize="large" />
-          </IconButton>
-        </Tooltip>
-      </Box>
+      <PageHeader
+        title="Want List - Lista de cartas para aquisição"
+        onClickAddButton={() => setAddWantCardDialogOpen(true)}
+      />
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridWantedCards
           loading={isLoading}

@@ -1,7 +1,9 @@
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PersonIcon from '@mui/icons-material/Person';
-import { Box, Chip, Grid, Tooltip, Typography } from '@mui/material';
+import { Box, Chip, Grid, Tooltip } from '@mui/material';
 import React, { useMemo, useState } from 'react';
+import Page from '../../components/Page';
+import PageHeader from '../../components/PageHeader';
 import DataGridBalances from '../../components/datagrids/DataGridBalances';
 import UpdateBalanceDialog from '../../components/dialogs/balances/UpdateBalanceDialog';
 import usePlayers from '../../hooks/usePlayers';
@@ -99,19 +101,8 @@ const Balances: React.FC = () => {
   };
 
   return (
-    <>
-      <Box
-        sx={{
-          margin: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography variant="h4" color="textPrimary">
-          Saldos
-        </Typography>
-      </Box>
+    <Page>
+      <PageHeader title="Saldos" />
       <Box m={1}>
         <Grid container spacing={1}>
           {contentCards.map(({ title, tooltipTitle, value, color, icon }, index) => (
@@ -141,7 +132,7 @@ const Balances: React.FC = () => {
         open={updateFiadoDialogOpen}
         setOpen={setUpdateFiadoDialogOpen}
       />
-    </>
+    </Page>
   );
 };
 

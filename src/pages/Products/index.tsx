@@ -1,21 +1,9 @@
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import {
-  Backdrop,
-  Box,
-  Button,
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import Page from '../../components/Page';
+import PageHeader from '../../components/PageHeader';
 import DataGridProducts from '../../components/datagrids/DataGridProducts';
 import AddProductDialog from '../../components/dialogs/products/AddProductDialog';
 import UpdateProductDialog from '../../components/dialogs/products/UpdateProductDialog';
@@ -63,24 +51,8 @@ const Products: React.FC = () => {
   };
 
   return (
-    <>
-      <Box
-        sx={{
-          margin: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography variant="h4" color="textPrimary">
-          Produtos
-        </Typography>
-        <Tooltip title="Adicionar um novo Produto">
-          <IconButton color="secondary" onClick={() => setAddProductDialogOpen(true)}>
-            <AddCircleIcon fontSize="large" />
-          </IconButton>
-        </Tooltip>
-      </Box>
+    <Page loading={deleteProductMutateIsloading}>
+      <PageHeader title="Produtos" onClickAddButton={() => setAddProductDialogOpen(true)} />
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridProducts
           loading={isLoading}
@@ -120,10 +92,7 @@ const Products: React.FC = () => {
           <Button onClick={() => deleteProductMutate()}>Confirmar</Button>
         </DialogActions>
       </Dialog>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={deleteProductMutateIsloading}>
-        <CircularProgress color="primary" />
-      </Backdrop>
-    </>
+    </Page>
   );
 };
 

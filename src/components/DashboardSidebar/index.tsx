@@ -13,9 +13,8 @@ import { useSignOut } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import routesNames from '../../routes/routesNames';
 import { auth } from '../../services/firebaseConfig';
+import ReceiptIcon from '@mui/icons-material/Receipt';
 import NavItem from '../NavItem';
-
-// ♣️♦️ATM GAME HOUSE - POKER ♥️♠️
 
 type AppDrawerItemData = {
   to: string;
@@ -68,6 +67,11 @@ const items: AppDrawerItemData[] = [
     icon: AttachMoneyIcon,
     to: routesNames.SALES,
     title: 'Vendas',
+  },
+  {
+    icon: ReceiptIcon,
+    to: routesNames.EXPENSES,
+    title: 'Despesas',
   },
 ];
 

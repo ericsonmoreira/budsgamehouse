@@ -2,9 +2,10 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 import CachedIcon from '@mui/icons-material/Cached';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import PersonIcon from '@mui/icons-material/Person';
-import { Box, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { useMemo } from 'react';
 import HomeCard, { HomeCardProps } from '../../components/HomeCard';
+import Page from '../../components/Page';
 import usePlayers from '../../hooks/usePlayers';
 import useProducts from '../../hooks/useProducts';
 import useTradingCards from '../../hooks/useTradingCards';
@@ -59,15 +60,15 @@ const Home: React.FC = () => {
   );
 
   return (
-    <Box sx={{ margin: 1 }}>
-      <Grid container spacing={2}>
+    <Page>
+      <Grid container spacing={1} p={1}>
         {items.map((item) => (
           <Grid key={item.title} item xs={12} md={6} lg={4} xl={3}>
             <HomeCard {...item} />
           </Grid>
         ))}
       </Grid>
-    </Box>
+    </Page>
   );
 };
 

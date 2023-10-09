@@ -1,6 +1,7 @@
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useState } from 'react';
+import Page from '../../components/Page';
+import PageHeader from '../../components/PageHeader';
 import DataGridTradingCards from '../../components/datagrids/DataGridTradingCards';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
 import AddTradingCardDialog from '../../components/dialogs/tradingCards/AddTradingCardDialog';
@@ -38,25 +39,9 @@ const TradingCards: React.FC = () => {
   };
 
   return (
-    <>
-      <Box
-        sx={{
-          margin: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography variant="h4" color="textPrimary">
-          Cartas de Troca
-        </Typography>
-        <Tooltip title="Add">
-          <IconButton color="secondary" onClick={() => setAddTradingCardDialogOpen(true)}>
-            <AddCircleIcon fontSize="large" />
-          </IconButton>
-        </Tooltip>
-      </Box>
-      <Box sx={{ margin: 1, height: 1 }}>
+    <Page>
+      <PageHeader title="Cartas de Troca" onClickAddButton={() => setAddTradingCardDialogOpen(true)} />
+      <Box height={1} m={1}>
         <DataGridTradingCards
           loading={isLoading}
           rows={tradingCards?.map(({ id, name, amount, imgUrl }) => ({
@@ -95,7 +80,7 @@ const TradingCards: React.FC = () => {
         onClose={() => setDeleteDialogOpen(false)}
         handleConfirmAction={() => deleteTradingCard(tradingCardToDeleteId)}
       />
-    </>
+    </Page>
   );
 };
 
