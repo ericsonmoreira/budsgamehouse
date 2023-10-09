@@ -76,3 +76,17 @@ declare interface Command {
   status: CommandStatus;
   createdAt: Timestamp;
 }
+
+declare interface Expense {
+  id: string;
+  userId: string;
+  description: string;
+  value: number;
+  name: string;
+  products: {
+    id: string;
+    name: string;
+    amount: number;
+  }[];
+  createdAt: Timestamp;
+}

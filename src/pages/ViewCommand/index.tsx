@@ -1,16 +1,12 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BlockIcon from '@mui/icons-material/Block';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import SaveIcon from '@mui/icons-material/Save';
 import {
-  Autocomplete,
-  Backdrop,
   Box,
   Button,
-  CircularProgress,
   IconButton,
   Paper,
   Stack,
@@ -22,7 +18,6 @@ import {
   TableFooter,
   TableHead,
   TableRow,
-  TextField,
   Typography,
 } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -30,8 +25,11 @@ import { Timestamp } from 'firebase/firestore';
 import { useEffect, useMemo, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import 'react-vertical-timeline-component/style.min.css';
+import AutocompleteProducts from '../../components/AutocompleteProducts';
+import Page from '../../components/Page';
+import PageHeader from '../../components/PageHeader';
 import useCommand from '../../hooks/useCommand';
 import useProducts from '../../hooks/useProducts';
 import { CardsClubIcon, CardsDiamondIcon, CardsHeartIcon, CardsSpadeIcon } from '../../icons';
@@ -66,18 +64,16 @@ const CommandTitleName = ({ command }: { command: Command }) => {
   const IconComponent = cardsSuitiesMap[suite as 'club' | 'diamond' | 'heart' | 'spade'];
 
   return (
-    <Stack direction="row" spacing={1} alignContent="center">
+    <Box display="flex" alignItems="center" m={1}>
       <Typography variant="h4" color="textPrimary">
-        Comanda {num}
+        {num}
       </Typography>
       <IconComponent fontSize="large" />
-    </Stack>
+    </Box>
   );
 };
 
 const ViewCommand: React.FC = () => {
-  const navigate = useNavigate();
-
   const [user] = useAuthState(auth);
 
   const queryClient = useQueryClient();
@@ -254,43 +250,17 @@ const ViewCommand: React.FC = () => {
   }
 
   return (
-    <>
-      <Box
-        sx={{
-          margin: 1,
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <IconButton onClick={() => navigate(-1)}>
-          <ArrowBackIcon />
-        </IconButton>
-        {command && <CommandTitleName command={command} />}
-      </Box>
+    <Page loading={isLoading}>
+      <PageHeader title="Comanda" containsBackButton />
+      {command && <CommandTitleName command={command} />}
       <Box m={1} height={1}>
-        <Stack direction="row" spacing={2} my={2}>
-          <Autocomplete
-            disabled={isDisableCommandEdition}
-            value={selectedProduct}
-            options={validProdutos}
-            onChange={(_, newValue) => {
-              setSelectedProduct(newValue);
-            }}
-            renderOption={(props, option) => (
-              <Box component="li" {...props}>
-                <Typography flexGrow={1}>{option.name}</Typography>
-                <Typography color="GrayText">{formatterCurrencyBRL.format(option.price)}</Typography>
-              </Box>
-            )}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
-            getOptionLabel={(option) => option.name}
-            fullWidth
-            renderInput={(params) => <TextField {...params} ref={null} size="small" label="Produtos" />}
-          />
-          <IconButton color="success" onClick={() => handleAddProductToShoppingCart()} disabled={!selectedProduct}>
-            <AddCircleIcon />
-          </IconButton>
-        </Stack>
+        <AutocompleteProducts
+          disabled={isDisableCommandEdition}
+          selectedProduct={selectedProduct}
+          setSelectedProduct={setSelectedProduct}
+          validProdutos={validProdutos}
+          onClickAddProductButton={handleAddProductToShoppingCart}
+        />
         {command && (
           <Typography color="GrayText" gutterBottom>
             Status: {command.status}
@@ -380,10 +350,7 @@ const ViewCommand: React.FC = () => {
           </Button>
         </Stack>
       </Box>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
-        <CircularProgress color="primary" />
-      </Backdrop>
-    </>
+    </Page>
   );
 };
 
