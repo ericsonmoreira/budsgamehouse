@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import { useState } from 'react';
+import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
 import DataGridTradingCards from '../../components/datagrids/DataGridTradingCards';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
@@ -38,9 +39,9 @@ const TradingCards: React.FC = () => {
   };
 
   return (
-    <>
+    <Page>
       <PageHeader title="Cartas de Troca" onClickAddButton={() => setAddTradingCardDialogOpen(true)} />
-      <Box sx={{ margin: 1, height: 1 }}>
+      <Box height={1} m={1}>
         <DataGridTradingCards
           loading={isLoading}
           rows={tradingCards?.map(({ id, name, amount, imgUrl }) => ({
@@ -79,7 +80,7 @@ const TradingCards: React.FC = () => {
         onClose={() => setDeleteDialogOpen(false)}
         handleConfirmAction={() => deleteTradingCard(tradingCardToDeleteId)}
       />
-    </>
+    </Page>
   );
 };
 

@@ -1,17 +1,8 @@
-import {
-  Backdrop,
-  Box,
-  Button,
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
 import DataGridProducts from '../../components/datagrids/DataGridProducts';
 import AddProductDialog from '../../components/dialogs/products/AddProductDialog';
@@ -60,7 +51,7 @@ const Products: React.FC = () => {
   };
 
   return (
-    <>
+    <Page loading={deleteProductMutateIsloading}>
       <PageHeader title="Produtos" onClickAddButton={() => setAddProductDialogOpen(true)} />
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridProducts
@@ -101,10 +92,7 @@ const Products: React.FC = () => {
           <Button onClick={() => deleteProductMutate()}>Confirmar</Button>
         </DialogActions>
       </Dialog>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={deleteProductMutateIsloading}>
-        <CircularProgress color="primary" />
-      </Backdrop>
-    </>
+    </Page>
   );
 };
 

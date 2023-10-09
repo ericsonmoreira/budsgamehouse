@@ -6,6 +6,7 @@ import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
 import AddPlayerDialog from '../../components/dialogs/players/AddPlayerDialog';
 import UpdatePlayerDialog from '../../components/dialogs/players/UpdatePlayerDialog';
 import usePlayers from '../../hooks/usePlayers';
+import Page from '../../components/Page';
 
 const Players: React.FC = () => {
   const [addPlayerDialogOpen, setAddPlayerDialogOpen] = useState(false);
@@ -36,7 +37,7 @@ const Players: React.FC = () => {
   };
 
   return (
-    <>
+    <Page>
       <PageHeader title="Payers" onClickAddButton={() => setAddPlayerDialogOpen(true)} />
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridPlaysers
@@ -74,7 +75,7 @@ const Players: React.FC = () => {
         onClose={() => setDeleteDialogOpen(false)}
         handleConfirmAction={() => deletePlayer(playerToDeleteId)}
       />
-    </>
+    </Page>
   );
 };
 

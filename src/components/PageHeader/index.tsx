@@ -14,14 +14,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, onClickAddButton, contai
   const navigate = useNavigate();
 
   return (
-    <Box
-      sx={{
-        margin: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
-    >
+    <Box m={1} display="flex" alignItems="center" justifyContent="space-between">
       <Stack direction="row" spacing={1}>
         {containsBackButton && (
           <IconButton onClick={() => navigate(-1)}>

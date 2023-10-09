@@ -4,6 +4,7 @@ import PageHeader from '../../components/PageHeader';
 import DataGridSales from '../../components/datagrids/DataGridSales';
 import ViewSaleDialog from '../../components/dialogs/sales/ViewSaleDialog';
 import useSales from '../../hooks/useSales';
+import Page from '../../components/Page';
 
 const Sales: React.FC = () => {
   const { data: sales, isLoading } = useSales();
@@ -19,7 +20,7 @@ const Sales: React.FC = () => {
   };
 
   return (
-    <>
+    <Page>
       <PageHeader title="Vendas" />
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridSales
@@ -34,7 +35,7 @@ const Sales: React.FC = () => {
         setOpen={setViewSaleDialogOpen}
         saleToview={saleToview}
       />
-    </>
+    </Page>
   );
 };
 
