@@ -2,6 +2,7 @@ const routesNames = {
   HOME: '/',
   BALANCES: '/balances',
   EXPENSES: '/expenses',
+  VIEW_EXPENSE: '/expenses/:id',
   COMMANDS: '/commands',
   CLIENT: '/client',
   VIEW_CLIENT: '/client/:id',

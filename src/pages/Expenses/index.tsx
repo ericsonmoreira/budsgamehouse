@@ -5,9 +5,13 @@ import PageHeader from '../../components/PageHeader';
 import DataGridExpenses from '../../components/datagrids/DataGridExpenses';
 import AddExpenseDialog from '../../components/dialogs/expenses/AddExpenseDialog';
 import useExpenses from '../../hooks/useExpenses';
+import { useNavigate } from 'react-router-dom';
+import routesNames from '../../routes/routesNames';
 
 const Expenses: React.FC = () => {
   const [openAddExpenseDialog, setOpenAddExpenseDialog] = useState(false);
+
+  const navigate = useNavigate();
 
   const { data: expenses, isLoading } = useExpenses();
 
@@ -20,7 +24,7 @@ const Expenses: React.FC = () => {
           rows={expenses?.map((expense) => ({
             ...expense,
             actions: {
-              handleUpdate: () => {},
+              handleView: () => navigate(routesNames.VIEW_EXPENSE.replace(':id', expense.id)),
             },
           }))}
         />

@@ -16,6 +16,7 @@ import Sales from '../pages/Sales';
 import TradingCards from '../pages/TradingCards';
 import ViewClient from '../pages/ViewClient';
 import ViewCommand from '../pages/ViewCommand';
+import ViewExpense from '../pages/ViewExpense';
 import ViewPlayer from '../pages/ViewPlayer';
 import WantedCards from '../pages/WantedCards';
 import PrivateRoutes from './PrivateRoutes';
@@ -31,6 +32,7 @@ const AppRoutes: React.FC = () => {
             <Route path={routesNames.BALANCES} element={<Balances />} />
             <Route path={routesNames.COMMANDS} element={<Commands />} />
             <Route path={routesNames.EXPENSES} element={<Expenses />} />
+            <Route path={routesNames.VIEW_EXPENSE} element={<ViewExpense />} />
             <Route path={routesNames.VIEW_COMMAND} element={<ViewCommand />} />
             <Route path={routesNames.TRANDING_CARDS} element={<TradingCards />} />
             <Route path={routesNames.WANTED_CARDS} element={<WantedCards />} />

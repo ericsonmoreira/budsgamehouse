@@ -21,7 +21,8 @@ const columns: GridColDef[] = [
   {
     field: 'playerId',
     headerName: '',
-    width: 24,
+    align: 'center',
+    width: 20,
     renderCell: ({ row }) => <AvatarPlayer sx={{ width: 24, height: 24 }} playerId={row.playerId} />,
   },
   {
