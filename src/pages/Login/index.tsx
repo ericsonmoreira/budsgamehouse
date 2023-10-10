@@ -81,11 +81,11 @@ const Login: React.FC = () => {
             <Button disableElevation type="submit" variant="contained">
               Login
             </Button>
-            <Button variant="text" onClick={() => navigate(routesNames.RECOVER_PASSWORD)}>
-              Redefinir senha
-            </Button>
           </Stack>
         </form>
+        <Button variant="text" onClick={() => navigate(routesNames.RECOVER_PASSWORD)}>
+          Redefinir senha
+        </Button>
       </Paper>
     </Page>
   );
