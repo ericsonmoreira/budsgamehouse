@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box, Button, CircularProgress, Paper, Stack, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { AuthError } from 'firebase/auth';
 import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
@@ -8,8 +8,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import Page from '../../components/Page';
+import PaperGlass from '../../components/PaperGlass';
 import ControlledTextField from '../../components/textfields/ControlledTextField';
-import routesNames from '../../routes/routesNames';
 import { auth } from '../../services/firebaseConfig';
 import verifyFirebaseErroCode from '../../services/verifyFirebaseErroCode';
 import schema from './schema ';
@@ -45,17 +45,7 @@ const RecoverPassword: React.FC = () => {
 
   return (
     <Page loading={isLoading}>
-      <Paper
-        elevation={0}
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          p: 2,
-          width: '100%',
-          background: 'rgba(0, 0, 0, 0.25)',
-          backdropFilter: 'blur(5px)',
-        }}
-      >
+      <PaperGlass>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack
             spacing={2}
@@ -65,7 +55,14 @@ const RecoverPassword: React.FC = () => {
             }}
           >
             <Typography variant="h6">Redefinir senha</Typography>
-            <ControlledTextField name="email" control={control} variant="outlined" size="small" label="Email" />
+            <ControlledTextField
+              autoFocus
+              name="email"
+              control={control}
+              variant="outlined"
+              size="small"
+              label="Email"
+            />
             {error && (
               <Typography sx={{ color: (theme) => theme.palette.error.dark }}>
                 {verifyFirebaseErroCode((error as AuthError).code)}
@@ -84,7 +81,7 @@ const RecoverPassword: React.FC = () => {
                 variant="text"
                 disabled={sending}
                 startIcon={<ArrowBackIcon />}
-                onClick={() => navigate(routesNames.LOGIN)}
+                onClick={() => navigate(-1)}
               >
                 Voltar
               </Button>
@@ -100,7 +97,7 @@ const RecoverPassword: React.FC = () => {
             </Box>
           </Stack>
         </form>
-      </Paper>
+      </PaperGlass>
     </Page>
   );
 };

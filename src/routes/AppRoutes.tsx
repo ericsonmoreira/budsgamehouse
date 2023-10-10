@@ -1,7 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AreaClientLayout from '../layouts/AreaClientLayout';
 import BasicLayout from '../layouts/BasicLayout';
 import DashboardLayout from '../layouts/DashboardLayout';
 import Balances from '../pages/Balances';
+import Client from '../pages/Client';
 import Commands from '../pages/Commands';
 import Expenses from '../pages/Expenses';
 import Home from '../pages/Home';
@@ -12,6 +14,7 @@ import Products from '../pages/Products';
 import RecoverPassword from '../pages/RecoverPassword';
 import Sales from '../pages/Sales';
 import TradingCards from '../pages/TradingCards';
+import ViewClient from '../pages/ViewClient';
 import ViewCommand from '../pages/ViewCommand';
 import ViewPlayer from '../pages/ViewPlayer';
 import WantedCards from '../pages/WantedCards';
@@ -41,6 +44,10 @@ const AppRoutes: React.FC = () => {
         <Route element={<BasicLayout />}>
           <Route path={routesNames.LOGIN} element={<Login />} />
           <Route path={routesNames.RECOVER_PASSWORD} element={<RecoverPassword />} />
+          <Route path={routesNames.CLIENT} element={<Client />} />
+        </Route>
+        <Route element={<AreaClientLayout />}>
+          <Route path={routesNames.VIEW_CLIENT} element={<ViewClient />} />
         </Route>
       </Routes>
     </BrowserRouter>

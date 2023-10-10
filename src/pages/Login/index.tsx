@@ -1,10 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Paper, Stack, Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Page from '../../components/Page';
+import PaperGlass from '../../components/PaperGlass';
 import ControlledPasswordTextField from '../../components/textfields/ControlledPasswordTextField';
 import ControlledTextField from '../../components/textfields/ControlledTextField';
 import routesNames from '../../routes/routesNames';
@@ -45,48 +46,64 @@ const Login: React.FC = () => {
 
   return (
     <Page loading={loading}>
-      <Paper
-        elevation={0}
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          p: 2,
-          width: '100%',
-          background: 'rgba(0, 0, 0, 0.25)',
-          backdropFilter: 'blur(5px)',
-        }}
-      >
+      <PaperGlass>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack
-            spacing={2}
-            sx={{
-              display: 'flex',
-              flex: 1,
-            }}
-          >
-            <Typography variant="h6">Login ATM</Typography>
-            <ControlledTextField name="email" control={control} variant="outlined" size="small" label="Email" />
-            <ControlledPasswordTextField
-              name="password"
-              control={control}
-              variant="outlined"
-              size="small"
-              label="Password"
-            />
-            {signError && (
-              <Typography sx={{ color: (theme) => theme.palette.error.dark }}>
-                {verifyFirebaseErroCode(signError.code)}
-              </Typography>
-            )}
-            <Button disableElevation type="submit" variant="contained">
-              Login
-            </Button>
-          </Stack>
+          <Typography variant="h6" gutterBottom>
+            Login
+          </Typography>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <ControlledTextField
+                autoFocus
+                name="email"
+                control={control}
+                variant="outlined"
+                size="small"
+                label="Email"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <ControlledPasswordTextField
+                name="password"
+                control={control}
+                variant="outlined"
+                size="small"
+                label="Password"
+                fullWidth
+              />
+              {signError && (
+                <Typography sx={{ color: (theme) => theme.palette.error.dark }}>
+                  {verifyFirebaseErroCode(signError.code)}
+                </Typography>
+              )}
+            </Grid>
+            <Grid item xs={12}>
+              <Button disableElevation fullWidth type="submit" variant="contained">
+                Login
+              </Button>
+            </Grid>
+          </Grid>
         </form>
-        <Button variant="text" onClick={() => navigate(routesNames.RECOVER_PASSWORD)}>
-          Redefinir senha
-        </Button>
-      </Paper>
+        <Grid container mt={1} spacing={1}>
+          <Grid item xs={12} sm={6}>
+            <Button variant="outlined" fullWidth onClick={() => navigate(routesNames.RECOVER_PASSWORD)}>
+              Redefinir senha
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => {
+                navigate(routesNames.CLIENT);
+              }}
+            >
+              Área do Cliente
+            </Button>
+          </Grid>
+        </Grid>
+      </PaperGlass>
     </Page>
   );
 };
