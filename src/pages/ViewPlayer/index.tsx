@@ -2,19 +2,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PaidIcon from '@mui/icons-material/Paid';
 import PaymentIcon from '@mui/icons-material/Payment';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import {
-  Backdrop,
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  CircularProgress,
-  Stack,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, CardHeader, Stack, Typography, useTheme } from '@mui/material';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { useMemo, useState } from 'react';
@@ -22,6 +10,7 @@ import { Navigate, useParams } from 'react-router-dom';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 import AvatarPlayer from '../../components/AvatarPlayer';
+import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
 import PaymentInformations from '../../components/PaymentInformations';
 import SaleInformationsTable from '../../components/SaleInformationsTable';
@@ -66,7 +55,7 @@ const ViewPlayer: React.FC = () => {
   }
 
   return (
-    <>
+    <Page loading={playerIsLoading}>
       <PageHeader title="Payer" />
       <Box m={1} display="flex" flexDirection="column">
         {player && (
@@ -136,10 +125,7 @@ const ViewPlayer: React.FC = () => {
           </VerticalTimeline>
         ))}
       </Box>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={playerIsLoading}>
-        <CircularProgress color="primary" />
-      </Backdrop>
-    </>
+    </Page>
   );
 };
 

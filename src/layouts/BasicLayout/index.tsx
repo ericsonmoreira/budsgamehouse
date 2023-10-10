@@ -6,7 +6,7 @@ import BackGroundLoginPageImg from '../../assets/bgLogin02.jpg';
 const BasicLayout: React.FC = () => {
   const theme = useTheme();
 
-  const upLg = useMediaQuery(theme.breakpoints.up('lg'));
+  const upMd = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
     <Box
@@ -22,7 +22,7 @@ const BasicLayout: React.FC = () => {
         maxWidth="xl"
         sx={{
           display: 'flex',
-          flexDirection: upLg ? 'row' : 'column',
+          flexDirection: upMd ? 'row' : 'column',
           height: '100vh',
         }}
       >
@@ -35,7 +35,7 @@ const BasicLayout: React.FC = () => {
             justifyContent: 'center',
           }}
         >
-          <img src="/atm-logo.png" style={{ maxWidth: '100%', width: 'auto' }} />
+          <img src="/atm-logo.png" style={{ maxWidth: upMd ? '300px' : '220px', width: 'auto' }} />
         </Box>
         <Box
           sx={{
@@ -44,7 +44,7 @@ const BasicLayout: React.FC = () => {
             flexDirection: 'column',
             flex: 1,
             alignItems: 'center',
-            justifyContent: upLg ? 'center' : 'flex-start',
+            justifyContent: upMd ? 'center' : 'flex-start',
           }}
         >
           <Outlet />
