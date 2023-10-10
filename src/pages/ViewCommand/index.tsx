@@ -7,6 +7,8 @@ import SaveIcon from '@mui/icons-material/Save';
 import {
   Box,
   Button,
+  Chip,
+  Grid,
   IconButton,
   Paper,
   Stack,
@@ -58,17 +60,28 @@ const cardsSuitiesMap: Record<'club' | 'diamond' | 'heart' | 'spade', React.FC<S
   spade: CardsSpadeIcon,
 };
 
+const cardsStatusMap: Record<'open' | 'closed' | 'canceled', React.FC> = {
+  open: () => <Chip label="ABERTA" variant="outlined" color="success" />,
+  closed: () => <Chip label="FECHADA" variant="outlined" color="error" />,
+  canceled: () => <Chip label="CANCELADA" variant="outlined" color="warning" />,
+};
+
 const CommandTitleName = ({ command }: { command: Command }) => {
   const [num, suite] = command.name.split('|');
 
   const IconComponent = cardsSuitiesMap[suite as 'club' | 'diamond' | 'heart' | 'spade'];
 
+  const StatusComponent = cardsStatusMap[command.status];
+
   return (
-    <Box display="flex" alignItems="center" m={1}>
-      <Typography variant="h4" color="textPrimary">
-        {num}
-      </Typography>
-      <IconComponent fontSize="large" />
+    <Box display="flex" alignItems="center" justifyContent="space-between" m={1}>
+      <Box display="flex" alignItems="center">
+        <Typography variant="h4" color="textPrimary">
+          {num}
+        </Typography>
+        <IconComponent fontSize="large" />
+      </Box>
+      <StatusComponent />
     </Box>
   );
 };
@@ -262,9 +275,11 @@ const ViewCommand: React.FC = () => {
           onClickAddProductButton={handleAddProductToShoppingCart}
         />
         {command && (
-          <Typography color="GrayText" gutterBottom>
-            Status: {command.status}
-          </Typography>
+          <Box my={1}>
+            <Typography color="GrayText" gutterBottom>
+              Status: {command.status}
+            </Typography>
+          </Box>
         )}
         <TableContainer component={Paper}>
           <TableContainer component={Paper}>
@@ -323,32 +338,44 @@ const ViewCommand: React.FC = () => {
             </Table>
           </TableContainer>
         </TableContainer>
-        <Stack direction="row" spacing={1} mt={2} justifyContent="flex-end">
-          <Button
-            color="warning"
-            startIcon={<BlockIcon />}
-            disabled={isDisableCommandEdition}
-            onClick={() => cancelCommandMutate()}
-          >
-            Cancelar Comanda
-          </Button>
-          <Button
-            variant="contained"
-            startIcon={<DoneAllIcon />}
-            disabled={isDisableCommandEdition}
-            onClick={() => closeCommandMutate()}
-          >
-            Fechar Comanda
-          </Button>
-          <Button
-            variant="contained"
-            startIcon={<SaveIcon />}
-            disabled={isDisableCommandEdition}
-            onClick={() => updateCommandMutate()}
-          >
-            Salvar
-          </Button>
-        </Stack>
+        <Box mt={1}>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={4}>
+              <Button
+                color="warning"
+                variant="outlined"
+                startIcon={<BlockIcon />}
+                disabled={isDisableCommandEdition}
+                onClick={() => cancelCommandMutate()}
+                fullWidth
+              >
+                Cancelar Comanda
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Button
+                variant="contained"
+                startIcon={<DoneAllIcon />}
+                disabled={isDisableCommandEdition}
+                onClick={() => closeCommandMutate()}
+                fullWidth
+              >
+                Fechar Comanda
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Button
+                variant="contained"
+                startIcon={<SaveIcon />}
+                disabled={isDisableCommandEdition}
+                onClick={() => updateCommandMutate()}
+                fullWidth
+              >
+                Salvar
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
       </Box>
     </Page>
   );

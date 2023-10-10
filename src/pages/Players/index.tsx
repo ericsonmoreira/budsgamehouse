@@ -1,12 +1,14 @@
-import { Box } from '@mui/material';
+import { Box, InputAdornment, TextField } from '@mui/material';
 import { useState } from 'react';
+import { useDebounce } from 'usehooks-ts';
+import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
 import DataGridPlaysers from '../../components/datagrids/DataGridPlaysers';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
 import AddPlayerDialog from '../../components/dialogs/players/AddPlayerDialog';
 import UpdatePlayerDialog from '../../components/dialogs/players/UpdatePlayerDialog';
 import usePlayers from '../../hooks/usePlayers';
-import Page from '../../components/Page';
+import SearchIcon from '@mui/icons-material/Search';
 
 const Players: React.FC = () => {
   const [addPlayerDialogOpen, setAddPlayerDialogOpen] = useState(false);
@@ -26,6 +28,10 @@ const Players: React.FC = () => {
     balance: 0,
   });
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const searchTermDebounced = useDebounce(searchTerm, 300);
+
   const handleUpdate = ({ id, name, email, avatarImgUrl, balance }: Player) => {
     setPlayerToUpdate({ id, name, email, avatarImgUrl, balance });
     setUpdatePlayerDialogOpen(true);
@@ -39,16 +45,36 @@ const Players: React.FC = () => {
   return (
     <Page>
       <PageHeader title="Payers" onClickAddButton={() => setAddPlayerDialogOpen(true)} />
+      <Box mx={1}>
+        <TextField
+          value={searchTerm}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setSearchTerm(event.target.value);
+          }}
+          placeholder="Buscar po nome..."
+          size="small"
+          fullWidth
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchIcon color="inherit" fontSize="inherit" />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridPlaysers
           loading={isLoading}
-          rows={players?.map((row) => ({
-            ...row,
-            actions: {
-              handleUpdate: () => handleUpdate(row),
-              handledelete: () => handledelete(row.id),
-            },
-          }))}
+          rows={players
+            ?.filter(({ name }) => name.includes(searchTermDebounced))
+            .map((row) => ({
+              ...row,
+              actions: {
+                handleUpdate: () => handleUpdate(row),
+                handledelete: () => handledelete(row.id),
+              },
+            }))}
         />
       </Box>
       <AddPlayerDialog

@@ -32,6 +32,14 @@ const Home: React.FC = () => {
         isLoading: isLoadingPlayers,
       },
       {
+        title: 'Produtos',
+        subheader: 'Produtos cadastrados',
+        amount: products?.length,
+        icon: LocalGroceryStoreIcon,
+        to: routesNames.PRODUCTS,
+        isLoading: isLoadingProducts,
+      },
+      {
         title: 'Troca',
         subheader: 'Cards para troca',
         amount: tradingCards?.length,
@@ -46,14 +54,6 @@ const Home: React.FC = () => {
         icon: AddCardIcon,
         to: routesNames.WANTED_CARDS,
         isLoading: isLoadingWantedCards,
-      },
-      {
-        title: 'Produtos',
-        subheader: 'Produtos cadastrados',
-        amount: products?.length,
-        icon: LocalGroceryStoreIcon,
-        to: routesNames.PRODUCTS,
-        isLoading: isLoadingProducts,
       },
     ],
     [players, wantedCards, tradingCards, products]
