@@ -1,4 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import LoginIcon from '@mui/icons-material/Login';
+import PersonIcon from '@mui/icons-material/Person';
 import { Button, Grid, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
@@ -56,6 +58,7 @@ const Login: React.FC = () => {
               <ControlledTextField
                 autoFocus
                 name="email"
+                type="email"
                 control={control}
                 variant="outlined"
                 size="small"
@@ -79,7 +82,7 @@ const Login: React.FC = () => {
               )}
             </Grid>
             <Grid item xs={12}>
-              <Button disableElevation fullWidth type="submit" variant="contained">
+              <Button disableElevation fullWidth type="submit" variant="contained" endIcon={<LoginIcon />}>
                 Login
               </Button>
             </Grid>
@@ -98,6 +101,7 @@ const Login: React.FC = () => {
               onClick={() => {
                 navigate(routesNames.CLIENT);
               }}
+              endIcon={<PersonIcon />}
             >
               Área do Cliente
             </Button>
