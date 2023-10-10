@@ -1,12 +1,13 @@
-import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
 import NoDataOverlay from '../../NoDataOverlay';
 import TypographyBalance from '../../Typography';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import ActionsCell from '../../cells/ActionsCell';
 
 type DataGridExpensesRowData = Expense & {
   actions: {
-    handleUpdate(): void;
+    handleView(): void;
   };
 };
 
@@ -32,6 +33,19 @@ const columns: GridColDef[] = [
     headerName: 'Data',
     flex: 1,
     valueFormatter: ({ value }) => format(value.toDate(), 'PPPp', { locale: ptBR }),
+  },
+  {
+    field: 'actions',
+    headerName: '',
+    width: 24,
+    align: 'right',
+    disableColumnMenu: true,
+    sortable: false,
+    renderCell: (
+      params: GridRenderCellParams<{
+        handleView(): void;
+      }>
+    ) => <ActionsCell handleView={params.value?.handleView} />,
   },
 ];
 
