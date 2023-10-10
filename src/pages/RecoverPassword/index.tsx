@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material';
+import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { AuthError } from 'firebase/auth';
 import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
@@ -47,55 +47,50 @@ const RecoverPassword: React.FC = () => {
     <Page loading={isLoading}>
       <PaperGlass>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack
-            spacing={2}
-            sx={{
-              display: 'flex',
-              flex: 1,
-            }}
-          >
-            <Typography variant="h6">Redefinir senha</Typography>
-            <ControlledTextField
-              autoFocus
-              name="email"
-              control={control}
-              variant="outlined"
-              size="small"
-              label="Email"
-            />
-            {error && (
-              <Typography sx={{ color: (theme) => theme.palette.error.dark }}>
-                {verifyFirebaseErroCode((error as AuthError).code)}
-              </Typography>
-            )}
-            <Box
-              sx={{
-                display: 'flex',
-                width: '100%',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Button
-                disableElevation
-                type="submit"
-                variant="text"
-                disabled={sending}
-                startIcon={<ArrowBackIcon />}
-                onClick={() => navigate(-1)}
-              >
-                Voltar
-              </Button>
-              <Button
-                disableElevation
-                type="submit"
-                variant="contained"
-                disabled={sending || !!error} // necessário travar o botão quando acontece um errro
-                endIcon={sending && <CircularProgress size={12} color="info" sx={{ marginLeft: 2 }} />}
-              >
-                Enviar
-              </Button>
-            </Box>
-          </Stack>
+          <Typography variant="h6" gutterBottom>
+            Redefinir senha
+          </Typography>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <ControlledTextField
+                autoFocus
+                name="email"
+                type="email"
+                control={control}
+                variant="outlined"
+                size="small"
+                label="Email"
+                fullWidth
+              />
+              {error && (
+                <Typography sx={{ color: (theme) => theme.palette.error.dark }}>
+                  {verifyFirebaseErroCode((error as AuthError).code)}
+                </Typography>
+              )}
+            </Grid>
+            <Grid item xs={12}>
+              <Stack direction="row" spacing={1}>
+                <Button
+                  disableElevation
+                  variant="outlined"
+                  disabled={sending}
+                  startIcon={<ArrowBackIcon />}
+                  onClick={() => navigate(-1)}
+                >
+                  Voltar
+                </Button>
+                <Button
+                  disableElevation
+                  type="submit"
+                  variant="contained"
+                  fullWidth
+                  disabled={sending || !!error} // necessário travar o botão quando acontece um errro
+                >
+                  Enviar
+                </Button>
+              </Stack>
+            </Grid>
+          </Grid>
         </form>
       </PaperGlass>
     </Page>

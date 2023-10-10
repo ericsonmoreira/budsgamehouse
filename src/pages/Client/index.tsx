@@ -74,7 +74,7 @@ const Client: React.FC = () => {
                   Voltar
                 </Button>
                 <Button disableElevation fullWidth type="submit" variant="contained">
-                  Login
+                  Acessar
                 </Button>
               </Stack>
             </Grid>
