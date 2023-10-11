@@ -43,7 +43,7 @@ const CommandCard: React.FC<CommandCardProps> = ({ data }) => {
           </Box>
           <TypographyBalance variant="h4" balance={total} />
           <Typography variant="caption" color="GrayText">
-            Aberto em {format(Date.now(), 'PPPp', { locale: ptBR })}
+            Aberto em {format(data.createdAt, 'PPPp', { locale: ptBR })}
           </Typography>
         </Box>
       </Paper>
