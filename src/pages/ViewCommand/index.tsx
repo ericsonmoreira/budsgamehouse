@@ -174,14 +174,14 @@ const ViewCommand: React.FC = () => {
     mutationFn: async () => {
       if (command) {
         await updateCommand({ ...command, products: shoppingCart });
+
+        await queryClient.invalidateQueries(['useCommands', 'open']);
+
+        await queryClient.invalidateQueries(['useCommand', id]);
       }
-
-      await queryClient.invalidateQueries(['useCommands', 'open']);
-
-      await queryClient.invalidateQueries(['useCommand', id]);
     },
     onSuccess: () => {
-      toast.success('Comanda Atualizada com sucesso');
+      toast.success('Comanda Salva com sucesso');
     },
     onError: (error: Error) => {
       toast.error(error.message);
@@ -192,10 +192,6 @@ const ViewCommand: React.FC = () => {
     mutationFn: async () => {
       if (command && user) {
         await updateCommand({ ...command, status: 'closed' });
-
-        await queryClient.invalidateQueries(['useCommands', 'open']);
-
-        await queryClient.invalidateQueries(['useCommand', id]);
 
         // Atualiza todos os produtos de acorodo com a quantidade para remover do estoque
         await Promise.all(shoppingCart.map(({ id, amount }) => updateProductStock(id, -amount)));
@@ -213,6 +209,12 @@ const ViewCommand: React.FC = () => {
           userId: user.uid,
         });
 
+        await queryClient.invalidateQueries(['useCommands', 'open']);
+
+        await queryClient.invalidateQueries(['useCommands', 'closed']);
+
+        await queryClient.invalidateQueries(['useCommand', id]);
+
         await queryClient.invalidateQueries(['useProducts']);
 
         await queryClient.invalidateQueries(['useSales']);
@@ -221,7 +223,7 @@ const ViewCommand: React.FC = () => {
       }
     },
     onSuccess: () => {
-      toast.success('Comanda Atualizada com sucesso');
+      toast.success('Comanda Fechada com sucesso');
     },
     onError: (error: Error) => {
       toast.error(error.message);
@@ -236,10 +238,12 @@ const ViewCommand: React.FC = () => {
 
       await queryClient.invalidateQueries(['useCommands', 'open']);
 
+      await queryClient.invalidateQueries(['useCommands', 'canceled']);
+
       await queryClient.invalidateQueries(['useCommand', id]);
     },
     onSuccess: () => {
-      toast.success('Comanda Atualizada com sucesso');
+      toast.success('Comanda Cancelada com sucesso');
     },
     onError: (error: Error) => {
       toast.error(error.message);
