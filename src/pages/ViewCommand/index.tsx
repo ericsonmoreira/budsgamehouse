@@ -74,7 +74,7 @@ const CommandTitleName = ({ command }: { command: Command }) => {
   const StatusComponent = cardsStatusMap[command.status];
 
   return (
-    <Box display="flex" alignItems="center" justifyContent="space-between" m={1}>
+    <Box display="flex" alignItems="center" justifyContent="space-between">
       <Box display="flex" alignItems="center">
         <Typography variant="h4" color="textPrimary">
           {num}
@@ -265,117 +265,116 @@ const ViewCommand: React.FC = () => {
   return (
     <Page loading={isLoading}>
       <PageHeader title="Comanda" containsBackButton />
-      {command && <CommandTitleName command={command} />}
       <Box m={1} height={1}>
-        <AutocompleteProducts
-          disabled={isDisableCommandEdition}
-          selectedProduct={selectedProduct}
-          setSelectedProduct={setSelectedProduct}
-          validProdutos={validProdutos}
-          onClickAddProductButton={handleAddProductToShoppingCart}
-        />
-        {command && (
-          <Box my={1}>
-            <Typography color="GrayText" gutterBottom>
-              Status: {command.status}
-            </Typography>
-          </Box>
-        )}
-        <TableContainer component={Paper}>
-          <TableContainer component={Paper}>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Produto</TableCell>
-                  <TableCell align="right">Quantidade</TableCell>
-                  <TableCell align="right">Valor Unit.</TableCell>
-                  <TableCell align="right" width={150}>
-                    Total
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {shoppingCart
-                  .sort((a, b) => a.name.localeCompare(b.name))
-                  .map((row) => (
-                    <TableRow key={row.name}>
-                      <TableCell align="right">
+        <Grid container spacing={1}>
+          {command && (
+            <Grid item xs={12}>
+              <CommandTitleName command={command} />
+            </Grid>
+          )}
+          <Grid item xs={12}>
+            <AutocompleteProducts
+              disabled={isDisableCommandEdition}
+              selectedProduct={selectedProduct}
+              setSelectedProduct={setSelectedProduct}
+              validProdutos={validProdutos}
+              onClickAddProductButton={handleAddProductToShoppingCart}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TableContainer component={Paper}>
+              <TableContainer component={Paper}>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Produto</TableCell>
+                      <TableCell align="right">Quantidade</TableCell>
+                      <TableCell align="right">Valor Unit.</TableCell>
+                      <TableCell align="right" width={150}>
+                        Total
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {shoppingCart
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map((row) => (
+                        <TableRow key={row.name}>
+                          <TableCell align="right">
+                            <Box display="flex" alignItems="center" justifyContent="space-between">
+                              <Typography variant="inherit">{row.name}</Typography>
+                              {!isDisableCommandEdition && (
+                                <Stack direction="row">
+                                  <IconButton onClick={() => handlePlusOneProductInShoppingCart(row)}>
+                                    <AddCircleIcon fontSize="inherit" color="success" />
+                                  </IconButton>
+                                  <IconButton onClick={() => handleMinusOneProductInShoppingCart(row)}>
+                                    <RemoveCircleIcon fontSize="inherit" color="error" />
+                                  </IconButton>
+                                  <IconButton onClick={() => handleRemoveProductInShoppingCart(row)}>
+                                    <DeleteIcon fontSize="inherit" color="error" />
+                                  </IconButton>
+                                </Stack>
+                              )}
+                            </Box>
+                          </TableCell>
+                          <TableCell align="right">{row.amount}</TableCell>
+                          <TableCell align="right">{formatterCurrencyBRL.format(row.price)}</TableCell>
+                          <TableCell align="right">{formatterCurrencyBRL.format(row.amount * row.price)}</TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TableCell colSpan={4}>
                         <Box display="flex" alignItems="center" justifyContent="space-between">
-                          <Typography variant="inherit">{row.name}</Typography>
-                          {!isDisableCommandEdition && (
-                            <Stack direction="row">
-                              <IconButton onClick={() => handlePlusOneProductInShoppingCart(row)}>
-                                <AddCircleIcon fontSize="inherit" color="success" />
-                              </IconButton>
-                              <IconButton onClick={() => handleMinusOneProductInShoppingCart(row)}>
-                                <RemoveCircleIcon fontSize="inherit" color="error" />
-                              </IconButton>
-                              <IconButton onClick={() => handleRemoveProductInShoppingCart(row)}>
-                                <DeleteIcon fontSize="inherit" color="error" />
-                              </IconButton>
-                            </Stack>
-                          )}
+                          <Typography variant="h6">Total a Pagar</Typography>
+                          <Typography variant="h6" color="error">
+                            {formatterCurrencyBRL.format(totalToPay)}
+                          </Typography>
                         </Box>
                       </TableCell>
-                      <TableCell align="right">{row.amount}</TableCell>
-                      <TableCell align="right">{formatterCurrencyBRL.format(row.price)}</TableCell>
-                      <TableCell align="right">{formatterCurrencyBRL.format(row.amount * row.price)}</TableCell>
                     </TableRow>
-                  ))}
-              </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TableCell colSpan={4}>
-                    <Box display="flex" alignItems="center" justifyContent="space-between">
-                      <Typography variant="h6">Total a Pagar</Typography>
-                      <Typography variant="h6" color="error">
-                        {formatterCurrencyBRL.format(totalToPay)}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              </TableFooter>
-            </Table>
-          </TableContainer>
-        </TableContainer>
-        <Box mt={1}>
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={4}>
-              <Button
-                color="warning"
-                variant="outlined"
-                startIcon={<BlockIcon />}
-                disabled={isDisableCommandEdition}
-                onClick={() => cancelCommandMutate()}
-                fullWidth
-              >
-                Cancelar Comanda
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Button
-                variant="contained"
-                startIcon={<DoneAllIcon />}
-                disabled={isDisableCommandEdition}
-                onClick={() => closeCommandMutate()}
-                fullWidth
-              >
-                Fechar Comanda
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Button
-                variant="contained"
-                startIcon={<SaveIcon />}
-                disabled={isDisableCommandEdition}
-                onClick={() => updateCommandMutate()}
-                fullWidth
-              >
-                Salvar
-              </Button>
-            </Grid>
+                  </TableFooter>
+                </Table>
+              </TableContainer>
+            </TableContainer>
           </Grid>
-        </Box>
+          <Grid item xs={12} sm={4}>
+            <Button
+              color="warning"
+              variant="outlined"
+              startIcon={<BlockIcon />}
+              disabled={isDisableCommandEdition}
+              onClick={() => cancelCommandMutate()}
+              fullWidth
+            >
+              Cancelar Comanda
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Button
+              variant="contained"
+              startIcon={<DoneAllIcon />}
+              disabled={isDisableCommandEdition}
+              onClick={() => closeCommandMutate()}
+              fullWidth
+            >
+              Fechar Comanda
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Button
+              variant="contained"
+              startIcon={<SaveIcon />}
+              disabled={isDisableCommandEdition}
+              onClick={() => updateCommandMutate()}
+              fullWidth
+            >
+              Salvar
+            </Button>
+          </Grid>
+        </Grid>
       </Box>
     </Page>
   );
