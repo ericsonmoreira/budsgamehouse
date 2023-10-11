@@ -1,4 +1,14 @@
-import { Box, Paper, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
 import React from 'react';
 import TypographyBalance from '../Typography';
 
@@ -9,21 +19,42 @@ type PaymentInformationsProps = {
 const PaymentInformations: React.FC<PaymentInformationsProps> = ({ data }) => {
   return (
     <Paper>
-      <Stack spacing={1} p={1}>
-        <Box display="flex" alignItems="flex-end" justifyContent="space-between">
-          <Typography variant="body1">Valor do pagamento</Typography>
-          <TypographyBalance variant="body1" balance={data.value} />
-        </Box>
-        <Box display="flex" alignItems="flex-end" justifyContent="space-between">
-          <Typography variant="body1">Saldo Anterior</Typography>
-          <TypographyBalance variant="body1" balance={data.previousPlayerBalance} />
-        </Box>
-        <Box display="flex" alignItems="flex-end" justifyContent="space-between">
-          <Typography variant="body1">Saldo Atualizado</Typography>
-          <TypographyBalance variant="body1" balance={data.currentPlayerBalance} />
-        </Box>
-        <Typography>Descrição: {data.description}</Typography>
-      </Stack>
+      <Box p={1}>
+        <TableContainer component={Paper} variant="outlined">
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Saldo Anterior</TableCell>
+                <TableCell align="right">Pagamento</TableCell>
+                <TableCell align="right">Saldo Atualizado</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell>
+                  <TypographyBalance component="section" balance={data.previousPlayerBalance} />
+                </TableCell>
+                <TableCell align="right">
+                  <TypographyBalance component="section" balance={data.value} />
+                </TableCell>
+                <TableCell align="right">
+                  <TypographyBalance component="section" balance={data.currentPlayerBalance} />
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+        {data.description && (
+          <Box mt={1}>
+            <Typography gutterBottom component="section">
+              Descrição
+            </Typography>
+            <Typography component="section" color="text.secondary">
+              {data.description}
+            </Typography>
+          </Box>
+        )}
+      </Box>
     </Paper>
   );
 };

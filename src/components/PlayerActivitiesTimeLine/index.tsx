@@ -8,7 +8,7 @@ import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeli
 import usePaymentsFromPlayer from '../../hooks/usePaymentsFromPlayer';
 import useSalesFromPlayer from '../../hooks/useSalesFromPlayer';
 import PaymentInformations from '../PaymentInformations';
-import SaleInformationsTable from '../SaleInformationsTable';
+import SaleInformations from '../SaleInformations';
 
 type PlayerActivitiesTimeLineProps = {
   data: Player;
@@ -57,7 +57,7 @@ const PlayerActivitiesTimeLine: React.FC<PlayerActivitiesTimeLineProps> = ({ dat
           }}
         >
           {isSale(activite) ? (
-            <SaleInformationsTable key={activite.id} data={activite as Sale} />
+            <SaleInformations key={activite.id} data={activite as Sale} />
           ) : (
             <Box>
               <PaymentInformations data={activite as Payment} />

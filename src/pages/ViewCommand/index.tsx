@@ -173,7 +173,15 @@ const ViewCommand: React.FC = () => {
   const { mutate: updateCommandMutate, isLoading: updateCommandMutateIsloading } = useMutation({
     mutationFn: async () => {
       if (command) {
-        await updateCommand({ ...command, products: shoppingCart });
+        await updateCommand({
+          ...command,
+          products: shoppingCart.map(({ amount, id, name, price }) => ({
+            amount,
+            id,
+            name,
+            price,
+          })),
+        });
 
         await queryClient.invalidateQueries(['useCommands', 'open']);
 

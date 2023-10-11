@@ -1,7 +1,7 @@
 import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
+import NoDataOverlay from '../../NoDataOverlay';
 import ActionsCell from '../../cells/ActionsCell';
 import ImageCell from '../../cells/ImageCell';
-import NoDataOverlay from '../../NoDataOverlay';
 
 type DataGridTradingCardsRowData = {
   id: string;
@@ -22,18 +22,19 @@ type DataGridTradingCardsProps = {
 const columns: GridColDef[] = [
   {
     field: 'imgUrl',
-    headerName: 'Imagem',
-    width: 100,
+    headerName: '',
+    width: 20,
+    align: 'center',
     disableColumnMenu: true,
     sortable: false,
     renderCell: ({ value }) => <ImageCell value={value} />,
   },
-  { field: 'name', headerName: 'Nome', flex: 1 },
-  { field: 'amount', headerName: 'Quantidade', width: 150, align: 'right' },
+  { field: 'name', headerName: 'Nome', flex: 2 },
+  { field: 'amount', headerName: 'Quantidade', flex: 1, maxWidth: 100, align: 'right' },
   {
     field: 'actions',
-    headerName: 'Ações',
-    width: 150,
+    headerName: '',
+    width: 80,
     align: 'right',
     disableColumnMenu: true,
     sortable: false,

@@ -18,4 +18,3 @@ const ImageCell: React.FC<ImageCellProps> = ({ value }) => {
 };
 
 export default ImageCell;
-

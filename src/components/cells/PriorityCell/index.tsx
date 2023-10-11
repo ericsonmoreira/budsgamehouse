@@ -10,15 +10,7 @@ const PriorityCell: React.FC<PriorityCellProps> = ({ value }) => {
       WantedCardPriority | 'default',
       {
         label: string;
-        color:
-          | 'default'
-          | 'primary'
-          | 'secondary'
-          | 'error'
-          | 'info'
-          | 'success'
-          | 'warning'
-          | undefined;
+        color: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | undefined;
       }
     > = {
       high: { label: 'Alto', color: 'primary' },
@@ -32,8 +24,7 @@ const PriorityCell: React.FC<PriorityCellProps> = ({ value }) => {
 
   const { label, color } = getPriorityMapLabel(value);
 
-  return <Chip label={label} color={color} />;
+  return <Chip label={label} color={color} size="small" sx={{ minWidth: 50 }} />;
 };
 
 export default PriorityCell;
-
