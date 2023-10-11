@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import usePlayer from '../../../../hooks/usePlayer';
 import AvatarPlayer from '../../../AvatarPlayer';
-import SaleInformationsTable from '../../../SaleInformationsTable';
+import SaleInformationsTable from '../../../SaleInformations';
 
 type ViewSaleDialogProps = {
   title: string;
