@@ -7,6 +7,7 @@ import ActionsCell from '../../cells/ActionsCell';
 type DataGridBalancesRowData = Player & {
   actions: {
     handleUpdate(): void;
+    handleTransfer(): void;
   };
 };
 
@@ -39,16 +40,16 @@ const columns: GridColDef[] = [
   {
     field: 'actions',
     headerName: '',
-    width: 24,
+    width: 80,
     align: 'right',
     disableColumnMenu: true,
     sortable: false,
     renderCell: (
       params: GridRenderCellParams<{
         handleUpdate(): void;
-        handledelete(): void;
+        handleTransfer(): void;
       }>
-    ) => <ActionsCell handleUpdate={params.value?.handleUpdate} handledelete={params.value?.handledelete} />,
+    ) => <ActionsCell handleUpdate={params.value?.handleUpdate} handleTransfer={params.value?.handleTransfer} />,
   },
 ];
 

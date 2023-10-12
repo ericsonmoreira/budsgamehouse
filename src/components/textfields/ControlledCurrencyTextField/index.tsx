@@ -33,7 +33,7 @@ const ControlledCurrencyTextField = <
       thousandSeparator="."
       decimalSeparator=","
       decimalScale={2}
-      onValueChange={(values) => onChange(values.floatValue)}
+      onValueChange={(values) => onChange(values.floatValue ?? 0)}
       InputProps={{
         startAdornment: <InputAdornment position="start">R$</InputAdornment>,
       }}
