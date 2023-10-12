@@ -5,6 +5,7 @@ import React, { useMemo, useState } from 'react';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
 import DataGridBalances from '../../components/datagrids/DataGridBalances';
+import TransferBalanceBetweenPlayersDialog from '../../components/dialogs/balances/TransferBalanceBetweenPlayersDialog';
 import UpdateBalanceDialog from '../../components/dialogs/balances/UpdateBalanceDialog';
 import usePlayers from '../../hooks/usePlayers';
 import { formatterCurrencyBRL } from '../../utils/formatters';
@@ -22,7 +23,11 @@ const Balances: React.FC = () => {
 
   const [updateFiadoDialogOpen, setUpdateFiadoDialogOpen] = useState(false);
 
+  const [transferDialogOpen, setTransferDialogOpen] = useState(false);
+
   const [playerToUpdate, setPlayerToUpdate] = useState<Player>({} as Player);
+
+  const [senderPlayerFransfer, setSenderPlayerFransfer] = useState<Player>({} as Player);
 
   const totalPlayersNegativeBaleance = useMemo(() => {
     if (players) {
@@ -100,6 +105,12 @@ const Balances: React.FC = () => {
     setUpdateFiadoDialogOpen(true);
   };
 
+  const handleTransfer = (player: Player) => {
+    setSenderPlayerFransfer(player);
+
+    setTransferDialogOpen(true);
+  };
+
   return (
     <Page>
       <PageHeader title="Saldos" />
@@ -121,6 +132,7 @@ const Balances: React.FC = () => {
             ...player,
             actions: {
               handleUpdate: () => handleUpdate(player),
+              handleTransfer: () => handleTransfer(player),
             },
           }))}
         />
@@ -131,6 +143,13 @@ const Balances: React.FC = () => {
         playerToUpdate={playerToUpdate}
         open={updateFiadoDialogOpen}
         setOpen={setUpdateFiadoDialogOpen}
+      />
+      <TransferBalanceBetweenPlayersDialog
+        title="Nova Transferência"
+        subTitle="Tranfira Saldo entre Jogadores"
+        senderPlayer={senderPlayerFransfer}
+        open={transferDialogOpen}
+        setOpen={setTransferDialogOpen}
       />
     </Page>
   );

@@ -90,3 +90,12 @@ declare interface Expense {
   }[];
   createdAt: Timestamp;
 }
+
+declare interface Transfer {
+  id: string;
+  userId: string;
+  sendingPlayerId: string;
+  receiverPlayerId: string;
+  value: number;
+  createdAt: Timestamp;
+}

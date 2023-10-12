@@ -1,15 +1,18 @@
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+
 import { Box, IconButton, Tooltip } from '@mui/material';
 
 type ActionsCellProps = {
   handleUpdate?: () => void;
   handledelete?: () => void;
   handleView?: () => void;
+  handleTransfer?: () => void;
 };
 
-const ActionsCell: React.FC<ActionsCellProps> = ({ handleUpdate, handledelete, handleView }) => {
+const ActionsCell: React.FC<ActionsCellProps> = ({ handleUpdate, handledelete, handleView, handleTransfer }) => {
   return (
     <Box>
       {handledelete && (
@@ -30,6 +33,13 @@ const ActionsCell: React.FC<ActionsCellProps> = ({ handleUpdate, handledelete, h
         <Tooltip title="Vizualizar">
           <IconButton color="default" onClick={handleView}>
             <VisibilityIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      )}
+      {handleTransfer && (
+        <Tooltip title="Transferir Saldo">
+          <IconButton color="default" onClick={handleTransfer}>
+            <SwapHorizIcon fontSize="small" />
           </IconButton>
         </Tooltip>
       )}
