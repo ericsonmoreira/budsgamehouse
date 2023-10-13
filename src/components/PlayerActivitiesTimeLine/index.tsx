@@ -25,7 +25,7 @@ const isSale = (obj: object): boolean => {
 };
 
 const isPayment = (obj: object): boolean => {
-  return 'previousPlayerBalance' in obj && 'currentPlayerBalance' in obj;
+  return 'previousPlayerBalance' in obj || 'currentPlayerBalance' in obj;
 };
 
 const isTransfer = (obj: object): boolean => {
@@ -44,8 +44,8 @@ const getObjectType = (obj: object): PlayerActiviteType | undefined => {
 
 const iconRender = (obj: object) => {
   const iconRenderMap: Record<PlayerActiviteType, React.ReactNode> = {
-    payment: <ShoppingCartIcon />,
-    sale: <AttachMoneyIcon />,
+    payment: <AttachMoneyIcon />,
+    sale: <ShoppingCartIcon />,
     transfer: <SwapHorizIcon />,
   };
 
@@ -76,18 +76,6 @@ const PlayerActivitiesTimeLine: React.FC<PlayerActivitiesTimeLineProps> = ({ dat
   const { data: payments } = usePaymentsFromPlayer(id);
 
   const { data: transfers } = useTransfersFromPlayer(id);
-
-  const getPosition = (obj: object): 'right' | 'lefth' => {
-    const iconRenderMap: Record<PlayerActiviteType, 'right' | 'lefth'> = {
-      payment: 'lefth',
-      sale: 'right',
-      transfer: 'lefth',
-    };
-
-    const playerActiviteType = getObjectType(obj);
-
-    return playerActiviteType ? iconRenderMap[playerActiviteType] : 'lefth';
-  };
 
   const getIconStyle = (obj: object): React.CSSProperties | undefined => {
     const iconRenderMap: Record<PlayerActiviteType, React.CSSProperties> = {
@@ -167,13 +155,12 @@ const PlayerActivitiesTimeLine: React.FC<PlayerActivitiesTimeLineProps> = ({ dat
   }, [sales, payments]);
 
   return (
-    <VerticalTimeline lineColor={palette.text.secondary}>
+    <VerticalTimeline lineColor={palette.text.secondary} layout="1-column">
       {playerActivities.map((activite, index) => (
         <VerticalTimelineElement
           key={index}
           date={format(activite.createdAt.toDate(), 'PPPp', { locale: ptBR })}
           contentArrowStyle={getContentArrowStyle(activite)}
-          position={getPosition(activite)}
           icon={iconRender(activite)}
           iconStyle={getIconStyle(activite)}
           contentStyle={getContentStyle(activite)}

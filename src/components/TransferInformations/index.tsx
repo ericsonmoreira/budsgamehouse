@@ -17,9 +17,12 @@ const TransferInformations: React.FC<TransferInformationsProps> = ({ data }) => 
   return (
     <Paper>
       <Box p={1}>
-        <Typography>Remetente: {sendingPlayer?.name}</Typography>
-        <Typography>Recebedor: {receiverPlayer?.name}</Typography>
-        <TypographyBalance balance={value} />
+        <Typography component="section" variant="h6" gutterBottom>
+          Transferência
+        </Typography>
+        <Typography component="section">Remetente: {sendingPlayer?.name}</Typography>
+        <Typography component="section">Recebedor: {receiverPlayer?.name}</Typography>
+        <TypographyBalance component="section" balance={value} />
       </Box>
     </Paper>
   );
