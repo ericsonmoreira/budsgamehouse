@@ -8,6 +8,7 @@ import {
   TableHead,
   TableRow,
   Box,
+  Typography,
 } from '@mui/material';
 import React, { useMemo } from 'react';
 import { formatterCurrencyBRL } from '../../utils/formatters';
@@ -22,6 +23,9 @@ const SaleInformations: React.FC<SaleInformationsProps> = ({ data }) => {
   return (
     <Paper>
       <Box p={1}>
+        <Typography component="section" variant="h6" gutterBottom>
+          Consumo
+        </Typography>
         <TableContainer component={Paper} variant="outlined">
           <Table size="small">
             <TableHead>

@@ -99,3 +99,10 @@ declare interface Transfer {
   value: number;
   createdAt: Timestamp;
 }
+
+declare interface UserApp {
+  id: string;
+  uid: string;
+  name: string;
+  email: string;
+}

@@ -20,6 +20,9 @@ const PaymentInformations: React.FC<PaymentInformationsProps> = ({ data }) => {
   return (
     <Paper>
       <Box p={1}>
+        <Typography component="section" variant="h6" gutterBottom>
+          Pagamento
+        </Typography>
         <TableContainer component={Paper} variant="outlined">
           <Table size="small">
             <TableHead>
