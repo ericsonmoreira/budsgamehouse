@@ -1,5 +1,6 @@
+import SearchIcon from '@mui/icons-material/Search';
 import { Box, InputAdornment, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useDebounce } from 'usehooks-ts';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
@@ -8,7 +9,6 @@ import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
 import AddPlayerDialog from '../../components/dialogs/players/AddPlayerDialog';
 import UpdatePlayerDialog from '../../components/dialogs/players/UpdatePlayerDialog';
 import usePlayers from '../../hooks/usePlayers';
-import SearchIcon from '@mui/icons-material/Search';
 
 const Players: React.FC = () => {
   const [addPlayerDialogOpen, setAddPlayerDialogOpen] = useState(false);
@@ -31,6 +31,14 @@ const Players: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const searchTermDebounced = useDebounce(searchTerm, 300);
+
+  const searchedPlayers = useMemo(() => {
+    if (players) {
+      return players.filter(({ name }) => name.toLowerCase().includes(searchTermDebounced.toLowerCase()));
+    }
+
+    return [];
+  }, [players, searchTermDebounced]);
 
   const handleUpdate = ({ id, name, email, avatarImgUrl, balance }: Player) => {
     setPlayerToUpdate({ id, name, email, avatarImgUrl, balance });
@@ -66,15 +74,13 @@ const Players: React.FC = () => {
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridPlaysers
           loading={isLoading}
-          rows={players
-            ?.filter(({ name }) => name.includes(searchTermDebounced))
-            .map((row) => ({
-              ...row,
-              actions: {
-                handleUpdate: () => handleUpdate(row),
-                handledelete: () => handledelete(row.id),
-              },
-            }))}
+          rows={searchedPlayers.map((row) => ({
+            ...row,
+            actions: {
+              handleUpdate: () => handleUpdate(row),
+              handledelete: () => handledelete(row.id),
+            },
+          }))}
         />
       </Box>
       <AddPlayerDialog
