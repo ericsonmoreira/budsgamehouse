@@ -39,20 +39,23 @@ const ViewSaleDialog: React.FC<ViewSaleDialogProps & DialogProps> = ({
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{subTitle}</DialogContentText>
-        {player && (
-          <Box>
+        {player ? (
+          <Box my={1}>
             <Stack direction="row" spacing={2} alignItems="center">
               <AvatarPlayer playerId={player.id} />
               <Typography variant="h5">{player.name}</Typography>
             </Stack>
-            <Stack>
-              <Typography>Email: {player.email}</Typography>
-            </Stack>
+            <Typography>Email: {player.email}</Typography>
+          </Box>
+        ) : (
+          <Box my={1}>
+            <Typography variant="h5">Venda avulsa</Typography>
           </Box>
         )}
+
         <SaleInformationsTable data={saleToview} />
       </DialogContent>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading && saleToview.playerId !== ''}>
         <CircularProgress color="primary" />
       </Backdrop>
     </Dialog>

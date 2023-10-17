@@ -1,7 +1,9 @@
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PersonIcon from '@mui/icons-material/Person';
-import { Box, Chip, Grid, Tooltip } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import { Box, Chip, Grid, InputAdornment, TextField, Tooltip } from '@mui/material';
 import React, { useMemo, useState } from 'react';
+import { useDebounce } from 'usehooks-ts';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
 import DataGridBalances from '../../components/datagrids/DataGridBalances';
@@ -19,7 +21,7 @@ type ContentCard = {
 };
 
 const Balances: React.FC = () => {
-  const { players, isLoading } = usePlayers();
+  const { data: players, isLoading } = usePlayers();
 
   const [updateFiadoDialogOpen, setUpdateFiadoDialogOpen] = useState(false);
 
@@ -28,6 +30,18 @@ const Balances: React.FC = () => {
   const [playerToUpdate, setPlayerToUpdate] = useState<Player>({} as Player);
 
   const [senderPlayerFransfer, setSenderPlayerFransfer] = useState<Player>({} as Player);
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const searchTermDebounced = useDebounce(searchTerm, 300);
+
+  const searchedPlayers = useMemo(() => {
+    if (players) {
+      return players.filter(({ name }) => name.toLowerCase().includes(searchTermDebounced.toLowerCase()));
+    }
+
+    return [];
+  }, [players, searchTermDebounced]);
 
   const totalPlayersNegativeBaleance = useMemo(() => {
     if (players) {
@@ -125,10 +139,28 @@ const Balances: React.FC = () => {
           ))}
         </Grid>
       </Box>
+      <Box mx={1}>
+        <TextField
+          value={searchTerm}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setSearchTerm(event.target.value);
+          }}
+          placeholder="Buscar po nome..."
+          size="small"
+          fullWidth
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchIcon color="inherit" fontSize="inherit" />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
       <Box m={1} height={1}>
         <DataGridBalances
           loading={isLoading}
-          rows={players?.map((player) => ({
+          rows={searchedPlayers.map((player) => ({
             ...player,
             actions: {
               handleUpdate: () => handleUpdate(player),

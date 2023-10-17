@@ -1329,6 +1329,13 @@
   dependencies:
     firebase "*"
 
+"@types/image-blob-reduce@^4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@types/image-blob-reduce/-/image-blob-reduce-4.1.2.tgz#625de251d6383e31133d50a31baa90fce408686e"
+  integrity sha512-THSjmaXDnJPYdn+fm/+eiMVowXrH5Mj9IU71lAOoXysDRGdqirQhl40wnZ/bbyrKSH3fIy8n3Z3iliHXjZ1tjA==
+  dependencies:
+    "@types/pica" "*"
+
 "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.4.tgz#8467d4b3c087805d63580480890791277ce35c44"
@@ -1358,6 +1365,11 @@
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
+
+"@types/pica@*":
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/@types/pica/-/pica-9.0.2.tgz#5a8f101aac143c2901f632dea55526fe5cd18de7"
+  integrity sha512-wzm356kS47uuQKosoD0i7Q0op9NmNfmSO8XT+IxibTzu/V+CIL2n1KEGsXe/CiM6Ujkuebnrliz+MkHmCD/ZjQ==
 
 "@types/prop-types@*", "@types/prop-types@^15.7.5":
   version "15.7.7"
@@ -2637,6 +2649,11 @@ globby@^11.1.0:
     merge2 "^1.4.1"
     slash "^3.0.0"
 
+glur@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/glur/-/glur-1.1.2.tgz#f20ea36db103bfc292343921f1f91e83c3467689"
+  integrity sha512-l+8esYHTKOx2G/Aao4lEQ0bnHWg4fWtJbVoZZT9Knxi01pB8C80BR85nONLFwkkQoFRCmXY+BUcGZN3yZ2QsRA==
+
 goober@^2.1.10:
   version "2.1.13"
   resolved "https://registry.yarnpkg.com/goober/-/goober-2.1.13.tgz#e3c06d5578486212a76c9eba860cbc3232ff6d7c"
@@ -2741,6 +2758,13 @@ ignore@^5.2.0:
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.4.tgz#a291c0c6178ff1b960befe47fcdec301674a6324"
   integrity sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==
+
+image-blob-reduce@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/image-blob-reduce/-/image-blob-reduce-4.1.0.tgz#45f1e146ceaa45079025febe307f9b1e8b6833c9"
+  integrity sha512-iljleP8Fr7tS1ezrAazWi30abNPYXtBGXb9R9oTZDWObqiKq18AQJGTUb0wkBOtdCZ36/IirkuuAIIHTjBJIjA==
+  dependencies:
+    pica "^9.0.0"
 
 import-fresh@^3.2.1:
   version "3.3.0"
@@ -3224,6 +3248,14 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
+multimath@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/multimath/-/multimath-2.0.0.tgz#0d37acf67c328f30e3d8c6b0d3209e6082710302"
+  integrity sha512-toRx66cAMJ+Ccz7pMIg38xSIrtnbozk0dchXezwQDMgQmbGpfxjtv68H+L00iFL8hxDaVjrmwAFSb3I6bg8Q2g==
+  dependencies:
+    glur "^1.1.2"
+    object-assign "^4.1.1"
+
 nanoclone@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/nanoclone/-/nanoclone-0.2.1.tgz#dd4090f8f1a110d26bb32c49ed2f5b9235209ed4"
@@ -3415,6 +3447,16 @@ pathval@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/pathval/-/pathval-1.1.1.tgz#8534e77a77ce7ac5a2512ea21e0fdb8fcf6c3d8d"
   integrity sha512-Dp6zGqpTdETdR63lehJYPeIOqpiNBNtc7BpWSLrOje7UaIsE5aY92r/AunQA7rsXvet3lrJ3JnZX29UPTKXyKQ==
+
+pica@^9.0.0:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/pica/-/pica-9.0.1.tgz#9ba5a5e81fc09dca9800abef9fb8388434b18b2f"
+  integrity sha512-v0U4vY6Z3ztz9b4jBIhCD3WYoecGXCQeCsYep+sXRefViL+mVVoTL+wqzdPeE+GpBFsRUtQZb6dltvAt2UkMtQ==
+  dependencies:
+    glur "^1.1.2"
+    multimath "^2.0.0"
+    object-assign "^4.1.1"
+    webworkify "^1.5.0"
 
 picocolors@^1.0.0:
   version "1.0.0"
@@ -4274,6 +4316,11 @@ websocket-extensions@>=0.1.1:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.4.tgz#7f8473bc839dfd87608adb95d7eb075211578a42"
   integrity sha512-OqedPIGOfsDlo31UNwYbCFMSaO9m9G/0faIHj5/dZFDMFqPTcx6UwqyOy3COEaEOg/9VsGIpdqn62W5KhoKSpg==
+
+webworkify@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/webworkify/-/webworkify-1.5.0.tgz#734ad87a774de6ebdd546e1d3e027da5b8f4a42c"
+  integrity sha512-AMcUeyXAhbACL8S2hqqdqOLqvJ8ylmIbNwUIqQujRSouf4+eUFaXbG6F1Rbu+srlJMmxQWsiU7mOJi0nMBfM1g==
 
 whatwg-url@^5.0.0:
   version "5.0.0"

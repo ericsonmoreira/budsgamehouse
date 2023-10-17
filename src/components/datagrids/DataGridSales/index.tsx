@@ -2,9 +2,9 @@ import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { formatterCurrencyBRL } from '../../../utils/formatters';
-import ActionsCell from '../../cells/ActionsCell';
-import NoDataOverlay from '../../NoDataOverlay';
 import AvatarPlayer from '../../AvatarPlayer';
+import NoDataOverlay from '../../NoDataOverlay';
+import ActionsCell from '../../cells/ActionsCell';
 
 type DataGridSalesRowData = Sale & {
   actions: {
@@ -23,7 +23,8 @@ const columns: GridColDef[] = [
     headerName: '',
     align: 'center',
     width: 20,
-    renderCell: ({ row }) => <AvatarPlayer sx={{ width: 24, height: 24 }} playerId={row.playerId} />,
+    renderCell: ({ row }) =>
+      row.playerId ? <AvatarPlayer sx={{ width: 24, height: 24 }} playerId={row.playerId} /> : null,
   },
   {
     field: 'products',
