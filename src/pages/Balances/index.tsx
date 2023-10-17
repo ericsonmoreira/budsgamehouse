@@ -21,7 +21,7 @@ type ContentCard = {
 };
 
 const Balances: React.FC = () => {
-  const { players, isLoading } = usePlayers();
+  const { data: players, isLoading } = usePlayers();
 
   const [updateFiadoDialogOpen, setUpdateFiadoDialogOpen] = useState(false);
 
