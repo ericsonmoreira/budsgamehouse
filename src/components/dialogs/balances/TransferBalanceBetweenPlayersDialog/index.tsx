@@ -55,7 +55,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
 
   const [user] = useAuthState(auth);
 
-  const { players } = usePlayers();
+  const { data: players } = usePlayers();
 
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 

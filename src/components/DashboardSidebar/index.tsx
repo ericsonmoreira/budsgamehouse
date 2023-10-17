@@ -1,11 +1,13 @@
 import AddCardIcon from '@mui/icons-material/AddCard';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CachedIcon from '@mui/icons-material/Cached';
+import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
 import HomeIcon from '@mui/icons-material/Home';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
+import ReceiptIcon from '@mui/icons-material/Receipt';
 import SellIcon from '@mui/icons-material/Sell';
 import { Box, Button, Divider, Drawer, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -13,7 +15,6 @@ import { useSignOut } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import routesNames from '../../routes/routesNames';
 import { auth } from '../../services/firebaseConfig';
-import ReceiptIcon from '@mui/icons-material/Receipt';
 import NavItem from '../NavItem';
 
 type AppDrawerItemData = {
@@ -72,6 +73,11 @@ const items: AppDrawerItemData[] = [
     icon: ReceiptIcon,
     to: routesNames.EXPENSES,
     title: 'Despesas',
+  },
+  {
+    icon: CalendarViewMonthIcon,
+    to: routesNames.SCHEDULE,
+    title: 'Programação',
   },
 ];
 

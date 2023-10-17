@@ -21,6 +21,7 @@ import ViewPlayer from '../pages/ViewPlayer';
 import WantedCards from '../pages/WantedCards';
 import PrivateRoutes from './PrivateRoutes';
 import routesNames from './routesNames';
+import Schedule from '../pages/Schedule';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -40,6 +41,7 @@ const AppRoutes: React.FC = () => {
             <Route path={routesNames.VIEW_PLAYER} element={<ViewPlayer />} />
             <Route path={routesNames.PRODUCTS} element={<Products />} />
             <Route path={routesNames.SALES} element={<Sales />} />
+            <Route path={routesNames.SCHEDULE} element={<Schedule />} />
             <Route path={routesNames.NOT_FOUND} element={<NotFoundPage />} />
           </Route>
         </Route>
