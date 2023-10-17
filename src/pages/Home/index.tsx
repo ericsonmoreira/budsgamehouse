@@ -15,7 +15,7 @@ import useWantedCards from '../../hooks/useWantedCards';
 import routesNames from '../../routes/routesNames';
 
 const Home: React.FC = () => {
-  const { players, isLoading: isLoadingPlayers } = usePlayers();
+  const { data: players, isLoading: isLoadingPlayers } = usePlayers();
 
   const { data: commands, isLoading: isLoadingCommands } = useCommands('open');
 

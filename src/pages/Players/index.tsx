@@ -1,6 +1,8 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, InputAdornment, TextField } from '@mui/material';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useDebounce } from 'usehooks-ts';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
@@ -9,15 +11,18 @@ import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
 import AddPlayerDialog from '../../components/dialogs/players/AddPlayerDialog';
 import UpdatePlayerDialog from '../../components/dialogs/players/UpdatePlayerDialog';
 import usePlayers from '../../hooks/usePlayers';
+import deletePlayer from '../../resources/players/deletePlayer';
 
 const Players: React.FC = () => {
+  const queryClient = useQueryClient();
+
   const [addPlayerDialogOpen, setAddPlayerDialogOpen] = useState(false);
 
   const [updatePlayerDialogOpen, setUpdatePlayerDialogOpen] = useState(false);
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  const { players, deletePlayer, isLoading } = usePlayers();
+  const { data: players, isLoading } = usePlayers();
 
   const [playerToDeleteId, setPlayerToDeleteId] = useState('');
 
@@ -40,18 +45,37 @@ const Players: React.FC = () => {
     return [];
   }, [players, searchTermDebounced]);
 
+  const { mutate: deletePlayerMutate, isLoading: deletePlayerMutateIsloading } = useMutation({
+    mutationFn: async (playerId: string) => {
+      await deletePlayer(playerId);
+
+      await queryClient.invalidateQueries(['usePlayers']);
+
+      await queryClient.invalidateQueries(['usePlayer', playerToUpdate.id]);
+
+      await queryClient.invalidateQueries(['usePayments']);
+
+      await queryClient.invalidateQueries(['usePaymentsFromPlayer', playerToUpdate.id]);
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
+
   const handleUpdate = ({ id, name, email, avatarImgUrl, balance }: Player) => {
     setPlayerToUpdate({ id, name, email, avatarImgUrl, balance });
+
     setUpdatePlayerDialogOpen(true);
   };
 
   const handledelete = (id: string) => {
     setPlayerToDeleteId(id);
+
     setDeleteDialogOpen(true);
   };
 
   return (
-    <Page>
+    <Page loading={deletePlayerMutateIsloading}>
       <PageHeader title="Payers" onClickAddButton={() => setAddPlayerDialogOpen(true)} />
       <Box mx={1}>
         <TextField
@@ -59,7 +83,7 @@ const Players: React.FC = () => {
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setSearchTerm(event.target.value);
           }}
-          placeholder="Buscar po nome..."
+          placeholder="Buscar por nome..."
           size="small"
           fullWidth
           InputProps={{
@@ -100,12 +124,12 @@ const Players: React.FC = () => {
       />
       <ConfirmActionDialog
         title="Remover Player"
-        subTitle="Deseja realmente remover esse Jogador"
-        confirmationMesage="Player removido com sucessor"
+        subTitle="Deseja realmente remover esse Jogador?"
+        confirmationMesage="Player removido com sucesso."
         open={deleteDialogOpen}
         setOpen={setDeleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
-        handleConfirmAction={() => deletePlayer(playerToDeleteId)}
+        handleConfirmAction={() => deletePlayerMutate(playerToDeleteId)}
       />
     </Page>
   );
