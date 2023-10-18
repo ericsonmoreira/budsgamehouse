@@ -13,6 +13,7 @@ import Players from '../pages/Players';
 import Products from '../pages/Products';
 import RecoverPassword from '../pages/RecoverPassword';
 import Sales from '../pages/Sales';
+import Schedules from '../pages/Schedules';
 import TradingCards from '../pages/TradingCards';
 import ViewClient from '../pages/ViewClient';
 import ViewCommand from '../pages/ViewCommand';
@@ -21,7 +22,6 @@ import ViewPlayer from '../pages/ViewPlayer';
 import WantedCards from '../pages/WantedCards';
 import PrivateRoutes from './PrivateRoutes';
 import routesNames from './routesNames';
-import Schedule from '../pages/Schedule';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -41,7 +41,7 @@ const AppRoutes: React.FC = () => {
             <Route path={routesNames.VIEW_PLAYER} element={<ViewPlayer />} />
             <Route path={routesNames.PRODUCTS} element={<Products />} />
             <Route path={routesNames.SALES} element={<Sales />} />
-            <Route path={routesNames.SCHEDULE} element={<Schedule />} />
+            <Route path={routesNames.SCHEDULES} element={<Schedules />} />
             <Route path={routesNames.NOT_FOUND} element={<NotFoundPage />} />
           </Route>
         </Route>

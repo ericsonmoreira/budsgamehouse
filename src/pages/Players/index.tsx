@@ -112,14 +112,12 @@ const Players: React.FC = () => {
         subTitle="Cadastre aqui novos jogadores"
         open={addPlayerDialogOpen}
         setOpen={setAddPlayerDialogOpen}
-        onClose={() => setAddPlayerDialogOpen(false)}
       />
       <UpdatePlayerDialog
         title="Update Player"
         subTitle="Atualize aqui o Jogador"
         open={updatePlayerDialogOpen}
         setOpen={setUpdatePlayerDialogOpen}
-        onClose={() => setUpdatePlayerDialogOpen(false)}
         playerToUpdate={playerToUpdate}
       />
       <ConfirmActionDialog

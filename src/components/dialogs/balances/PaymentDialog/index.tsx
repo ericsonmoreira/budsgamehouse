@@ -107,7 +107,7 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({ title, subTitle, playerTo
   };
 
   return (
-    <Dialog fullWidth maxWidth="md" onClose={handleClose} {...rest}>
+    <Dialog fullWidth maxWidth="md" {...rest} onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
