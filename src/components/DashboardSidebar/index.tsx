@@ -76,8 +76,8 @@ const items: AppDrawerItemData[] = [
   },
   {
     icon: CalendarViewMonthIcon,
-    to: routesNames.SCHEDULE,
-    title: 'Programação',
+    to: routesNames.SCHEDULES,
+    title: 'Programações',
   },
 ];
 

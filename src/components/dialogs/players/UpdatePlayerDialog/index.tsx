@@ -101,7 +101,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
   }, [playerToUpdate]);
 
   return (
-    <Dialog {...rest} fullScreen>
+    <Dialog {...rest} fullScreen onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{subTitle}</DialogContentText>

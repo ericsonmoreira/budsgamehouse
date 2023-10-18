@@ -133,7 +133,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
   };
 
   return (
-    <Dialog onClose={handleClose} {...rest} fullScreen>
+    <Dialog {...rest} fullScreen onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>

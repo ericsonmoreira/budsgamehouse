@@ -14,7 +14,7 @@ const routesNames = {
   PRODUCTS: '/products',
   SALES: '/sales',
   LOGIN: '/login',
-  SCHEDULE: '/schedule',
+  SCHEDULES: '/schedules',
   RECOVER_PASSWORD: '/recover-password',
   NOT_FOUND: '*',
 };

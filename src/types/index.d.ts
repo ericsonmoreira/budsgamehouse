@@ -106,3 +106,12 @@ declare interface UserApp {
   name: string;
   email: string;
 }
+
+declare interface Schedule {
+  id: string;
+  title: string;
+  description: string;
+  start: Timestamp;
+  end: Timestamp;
+  createdAt: Timestamp;
+}

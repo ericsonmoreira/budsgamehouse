@@ -1,11 +1,13 @@
 import { Box, Paper } from '@mui/material';
 import { format, getDay, parse, startOfWeek } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import React from 'react';
+import React, { useState } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
+import AddSchedulesDialog from '../../components/dialogs/schedules/AddSchedulesDialog';
+import useSchedules from '../../hooks/useSchedules';
 
 const locales = {
   ptBR: ptBR,
@@ -13,31 +15,33 @@ const locales = {
 
 const localizer = dateFnsLocalizer({ format, parse, startOfWeek, getDay, locales });
 
-const Schedule: React.FC = () => {
+const Schedules: React.FC = () => {
+  const { data: schedules, isLoading } = useSchedules();
+
+  const [addScheduleDialogOpen, setAddScheduleDialogOpen] = useState(false);
+
   return (
-    <Page>
-      <PageHeader title="Programação" />
+    <Page loading={isLoading}>
+      <PageHeader title="Programação" onClickAddButton={() => setAddScheduleDialogOpen(true)} />
       <Paper sx={{ margin: 1, height: 1 }} component={Box} p={1}>
         <Calendar
           onDoubleClickEvent={(event) => console.log(event)}
           localizer={localizer}
-          events={[
-            {
-              start: new Date(),
-              end: new Date(),
-              title: 'Teste',
-              tooltip: 'Teste',
-            },
-          ]}
+          events={schedules?.map(({ start, end, title }) => ({ start: start.toDate(), end: end.toDate(), title }))}
           startAccessor="start"
           endAccessor="end"
           titleAccessor="title"
-          tooltipAccessor="tooltip"
           culture="ptBR"
         />
       </Paper>
+      <AddSchedulesDialog
+        title="Adicionar Programação"
+        subTitle="Adicionar Programação"
+        open={addScheduleDialogOpen}
+        setOpen={setAddScheduleDialogOpen}
+      />
     </Page>
   );
 };
 
-export default Schedule;
+export default Schedules;

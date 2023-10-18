@@ -83,7 +83,7 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({ title, 
   };
 
   return (
-    <Dialog {...rest} fullScreen>
+    <Dialog {...rest} fullScreen onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{subTitle}</DialogContentText>
