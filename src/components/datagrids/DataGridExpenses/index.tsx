@@ -54,6 +54,9 @@ const DataGridExpenses: React.FC<DataGridExpensesProps> = ({ rows = [], loading 
     <DataGrid
       rows={rows}
       density="compact"
+      initialState={{
+        sorting: { sortModel: [{ field: 'createdAt', sort: 'desc' }] },
+      }}
       columns={columns}
       disableColumnMenu={false}
       components={{
