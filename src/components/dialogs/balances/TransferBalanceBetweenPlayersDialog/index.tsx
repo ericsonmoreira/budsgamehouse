@@ -29,7 +29,7 @@ import addTransfer from '../../../../resources/transfers/addTransfer';
 import { auth } from '../../../../services/firebaseConfig';
 import AutocompletePlayers from '../../../AutocompletePlayers';
 import AvatarPlayer from '../../../AvatarPlayer';
-import TypographyBalance from '../../../Typography';
+import TypographyBalance from '../../../TypographyBalance';
 import ControlledCurrencyTextField from '../../../textfields/ControlledCurrencyTextField';
 import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema';

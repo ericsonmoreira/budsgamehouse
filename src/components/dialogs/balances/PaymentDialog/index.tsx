@@ -11,24 +11,24 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
-  Stack,
   Grid,
+  Stack,
   Typography,
 } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Timestamp } from 'firebase/firestore';
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import updatePlayer from '../../../../resources/players/updatePlayer';
-import AvatarPlayer from '../../../AvatarPlayer';
-import TypographyBalance from '../../../Typography';
-import ControlledCurrencyTextField from '../../../textfields/ControlledCurrencyTextField';
-import schema from './schema ';
 import addPayment from '../../../../resources/payments/addPayment';
-import ControlledTextField from '../../../textfields/ControlledTextField';
-import { Timestamp } from 'firebase/firestore';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import updatePlayer from '../../../../resources/players/updatePlayer';
 import { auth } from '../../../../services/firebaseConfig';
+import AvatarPlayer from '../../../AvatarPlayer';
+import TypographyBalance from '../../../TypographyBalance';
+import ControlledCurrencyTextField from '../../../textfields/ControlledCurrencyTextField';
+import ControlledTextField from '../../../textfields/ControlledTextField';
+import schema from './schema ';
 
 type PaymentDialogProps = {
   title: string;

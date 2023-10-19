@@ -1,7 +1,7 @@
+import { Box, Paper, Typography } from '@mui/material';
 import React from 'react';
 import usePlayer from '../../hooks/usePlayer';
-import { Box, Paper, Typography } from '@mui/material';
-import TypographyBalance from '../Typography';
+import TypographyBalance from '../TypographyBalance';
 
 type TransferInformationsProps = {
   data: Transfer;

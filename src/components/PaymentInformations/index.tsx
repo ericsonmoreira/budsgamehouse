@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
-import TypographyBalance from '../Typography';
+import TypographyBalance from '../TypographyBalance';
 
 type PaymentInformationsProps = {
   data: Payment;
