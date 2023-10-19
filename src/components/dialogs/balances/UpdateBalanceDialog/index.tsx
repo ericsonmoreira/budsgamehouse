@@ -39,7 +39,7 @@ import { auth } from '../../../../services/firebaseConfig';
 import { formatterCurrencyBRL } from '../../../../utils/formatters';
 import AutocompleteProducts from '../../../AutocompleteProducts';
 import AvatarPlayer from '../../../AvatarPlayer';
-import TypographyBalance from '../../../Typography';
+import TypographyBalance from '../../../TypographyBalance';
 
 type UpdateBalanceDialogProps = {
   title: string;

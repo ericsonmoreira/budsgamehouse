@@ -29,8 +29,9 @@ import addTransfer from '../../../../resources/transfers/addTransfer';
 import { auth } from '../../../../services/firebaseConfig';
 import AutocompletePlayers from '../../../AutocompletePlayers';
 import AvatarPlayer from '../../../AvatarPlayer';
-import TypographyBalance from '../../../Typography';
+import TypographyBalance from '../../../TypographyBalance';
 import ControlledCurrencyTextField from '../../../textfields/ControlledCurrencyTextField';
+import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema';
 
 type TransferBalanceBetweenPlayersDialogProps = {
@@ -42,6 +43,12 @@ type TransferBalanceBetweenPlayersDialogProps = {
 
 type TransferBalanceBetweenPlayersDialogFormData = {
   value: number;
+  description?: string;
+};
+
+const defaultValues: TransferBalanceBetweenPlayersDialogFormData = {
+  value: 0,
+  description: '',
 };
 
 const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayersDialogProps & DialogProps> = ({
@@ -61,9 +68,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
 
   const { handleSubmit, reset, control, watch } = useForm<TransferBalanceBetweenPlayersDialogFormData>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      value: 0,
-    },
+    defaultValues,
   });
 
   const valueWatch = watch('value');
@@ -79,22 +84,23 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
   const handleClose = () => {
     setSelectedPlayer(null);
 
-    reset({
-      value: 0,
-    });
+    reset(defaultValues);
 
     setOpen(false);
   };
 
   const { mutate: transferMutate, isLoading: transferMutateIsloading } = useMutation({
-    mutationFn: async ({ value }: TransferBalanceBetweenPlayersDialogFormData) => {
+    mutationFn: async ({ value, description }: TransferBalanceBetweenPlayersDialogFormData) => {
       if (user && selectedPlayer) {
+        console.log({ value, description });
+
         await addTransfer({
           userId: user.uid,
           sendingPlayerId: senderPlayer.id,
           receiverPlayerId: selectedPlayer.id,
           createdAt: Timestamp.now(),
           value,
+          description,
         });
 
         await updatePlayer({
@@ -128,8 +134,8 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
     },
   });
 
-  const handleConfirmAction = ({ value }: TransferBalanceBetweenPlayersDialogFormData) => {
-    transferMutate({ value });
+  const handleConfirmAction = ({ value, description }: TransferBalanceBetweenPlayersDialogFormData) => {
+    transferMutate({ value, description });
   };
 
   return (
@@ -205,6 +211,18 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
               control={control}
               name="value"
               label="Valor da Transferência"
+              fullWidth
+              size="small"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={12} mt={1}>
+            <ControlledTextField
+              control={control}
+              name="description"
+              multiline
+              rows={3}
+              label="Descrição"
               fullWidth
               size="small"
               variant="outlined"

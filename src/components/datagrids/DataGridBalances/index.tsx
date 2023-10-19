@@ -1,7 +1,7 @@
 import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
 import AvatarPlayer from '../../AvatarPlayer';
 import NoDataOverlay from '../../NoDataOverlay';
-import TypographyBalance from '../../Typography';
+import TypographyBalance from '../../TypographyBalance';
 import ActionsCell from '../../cells/ActionsCell';
 
 type DataGridBalancesRowData = Player & {

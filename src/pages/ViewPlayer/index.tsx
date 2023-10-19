@@ -8,7 +8,7 @@ import AvatarPlayer from '../../components/AvatarPlayer';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
 import PlayerActivitiesTimeLine from '../../components/PlayerActivitiesTimeLine';
-import TypographyBalance from '../../components/Typography';
+import TypographyBalance from '../../components/TypographyBalance';
 import PaymentDialog from '../../components/dialogs/balances/PaymentDialog';
 import usePlayer from '../../hooks/usePlayer';
 import routesNames from '../../routes/routesNames';

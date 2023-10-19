@@ -1,11 +1,11 @@
 import { Box, ButtonBase, Paper, SvgIconProps, Typography } from '@mui/material';
-import React, { useMemo } from 'react';
-import { CardsClubIcon, CardsDiamondIcon, CardsHeartIcon, CardsSpadeIcon } from '../../icons';
-import TypographyBalance from '../Typography';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CardsClubIcon, CardsDiamondIcon, CardsHeartIcon, CardsSpadeIcon } from '../../icons';
 import routesNames from '../../routes/routesNames';
+import TypographyBalance from '../TypographyBalance';
 
 type CommandCardProps = {
   data: Command;

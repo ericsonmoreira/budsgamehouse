@@ -14,8 +14,8 @@ import {
 import { useParams } from 'react-router-dom';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
+import TypographyBalance from '../../components/TypographyBalance';
 import useExpense from '../../hooks/useExpense';
-import TypographyBalance from '../../components/Typography';
 
 type ViewExpenseParams = {
   id: string;

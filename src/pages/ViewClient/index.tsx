@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import AvatarPlayer from '../../components/AvatarPlayer';
 import Page from '../../components/Page';
 import PlayerActivitiesTimeLine from '../../components/PlayerActivitiesTimeLine';
-import TypographyBalance from '../../components/Typography';
+import TypographyBalance from '../../components/TypographyBalance';
 import usePlayer from '../../hooks/usePlayer';
 
 type ViewClientParams = {

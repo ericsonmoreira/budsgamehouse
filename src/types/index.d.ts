@@ -97,6 +97,7 @@ declare interface Transfer {
   sendingPlayerId: string;
   receiverPlayerId: string;
   value: number;
+  description?: string;
   createdAt: Timestamp;
 }
 

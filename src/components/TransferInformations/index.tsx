@@ -1,14 +1,14 @@
+import { Box, Paper, Typography } from '@mui/material';
 import React from 'react';
 import usePlayer from '../../hooks/usePlayer';
-import { Box, Paper, Typography } from '@mui/material';
-import TypographyBalance from '../Typography';
+import TypographyBalance from '../TypographyBalance';
 
 type TransferInformationsProps = {
   data: Transfer;
 };
 
 const TransferInformations: React.FC<TransferInformationsProps> = ({ data }) => {
-  const { receiverPlayerId, sendingPlayerId, value } = data;
+  const { receiverPlayerId, sendingPlayerId, value, description } = data;
 
   const { data: receiverPlayer } = usePlayer(receiverPlayerId);
 
@@ -22,6 +22,14 @@ const TransferInformations: React.FC<TransferInformationsProps> = ({ data }) => 
         </Typography>
         <Typography component="section">Remetente: {sendingPlayer?.name}</Typography>
         <Typography component="section">Recebedor: {receiverPlayer?.name}</Typography>
+        {description && (
+          <>
+            <Typography component="section">Descrição</Typography>
+            <Typography component="section" color="text.secondary">
+              {description}
+            </Typography>
+          </>
+        )}
         <TypographyBalance component="section" balance={value} />
       </Box>
     </Paper>

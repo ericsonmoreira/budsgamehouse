@@ -1,8 +1,8 @@
 import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
-import NoDataOverlay from '../../NoDataOverlay';
-import TypographyBalance from '../../Typography';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import NoDataOverlay from '../../NoDataOverlay';
+import TypographyBalance from '../../TypographyBalance';
 import ActionsCell from '../../cells/ActionsCell';
 
 type DataGridExpensesRowData = Expense & {
@@ -54,6 +54,9 @@ const DataGridExpenses: React.FC<DataGridExpensesProps> = ({ rows = [], loading 
     <DataGrid
       rows={rows}
       density="compact"
+      initialState={{
+        sorting: { sortModel: [{ field: 'createdAt', sort: 'desc' }] },
+      }}
       columns={columns}
       disableColumnMenu={false}
       components={{
