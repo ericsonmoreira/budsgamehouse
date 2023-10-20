@@ -17,6 +17,7 @@ import routesNames from '../../routes/routesNames';
 import { auth } from '../../services/firebaseConfig';
 import NavItem from '../NavItem';
 
+import SettingsIcon from '@mui/icons-material/Settings';
 type AppDrawerItemData = {
   to: string;
   icon: React.FC;
@@ -78,6 +79,11 @@ const items: AppDrawerItemData[] = [
     icon: CalendarViewMonthIcon,
     to: routesNames.SCHEDULES,
     title: 'Programações',
+  },
+  {
+    icon: SettingsIcon,
+    to: routesNames.SETTINGS,
+    title: 'Settings',
   },
 ];
 
