@@ -1,11 +1,12 @@
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
-import PersonIcon from '@mui/icons-material/Person';
-import { AppBar, AppBarProps, Box, IconButton, Toolbar, Tooltip } from '@mui/material';
+import { AppBar, AppBarProps, Avatar, Box, IconButton, Toolbar, Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useLocalStorage } from 'usehooks-ts';
+import { auth } from '../../services/firebaseConfig';
 import ViewUserDialog from '../dialogs/users/ViewUserDialog';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
@@ -21,6 +22,8 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSideb
   const [viewUserDialogOpen, setViewUserDialogOpen] = useState(false);
 
   const [isDarkTheme, setIsDarkTheme] = useLocalStorage('darkTheme', true);
+
+  const [user] = useAuthState(auth);
 
   const handleToggleTheme = () => {
     setIsDarkTheme((old) => !old);
@@ -70,11 +73,17 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSideb
               {isDarkTheme ? <DarkModeOutlinedIcon fontSize="small" /> : <LightModeOutlinedIcon fontSize="small" />}
             </IconButton>
           </Tooltip>
-          <Tooltip title="Usuário">
-            <IconButton onClick={() => setViewUserDialogOpen(true)}>
-              <PersonIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
+          {user && (
+            <Tooltip title="Usuário">
+              <IconButton onClick={() => setViewUserDialogOpen(true)}>
+                <Avatar
+                  sx={({ spacing }) => ({ width: spacing(4), height: spacing(4) })}
+                  alt={user.displayName ?? undefined}
+                  src={user.photoURL ?? undefined}
+                />
+              </IconButton>
+            </Tooltip>
+          )}
         </Box>
       </Toolbar>
       <ViewUserDialog open={viewUserDialogOpen} onClose={() => setViewUserDialogOpen(false)} />

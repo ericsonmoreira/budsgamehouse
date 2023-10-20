@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogContentText, DialogProps, DialogTitle } from '@mui/material';
+import { Avatar, Box, Dialog, DialogContent, DialogProps, DialogTitle, Stack, Typography } from '@mui/material';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../../../services/firebaseConfig';
 
@@ -11,7 +11,17 @@ const ViewUserDialog: React.FC<DialogProps> = ({ ...rest }) => {
     <Dialog fullWidth maxWidth="md" {...rest}>
       <DialogTitle>Usuário</DialogTitle>
       <DialogContent>
-        <DialogContentText>Email: {user.email}</DialogContentText>
+        <Box display="flex" alignItems="center">
+          <Avatar
+            sx={({ spacing }) => ({ width: spacing(8), height: spacing(8) })}
+            alt={user.displayName ?? undefined}
+            src={user.photoURL ?? undefined}
+          />
+          <Stack m={2}>
+            <Typography variant="h5">{user.displayName}</Typography>
+            <Typography color="text.secondary">{user.email}</Typography>
+          </Stack>
+        </Box>
       </DialogContent>
     </Dialog>
   );
