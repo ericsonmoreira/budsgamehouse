@@ -1,9 +1,9 @@
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, AppBarProps, Avatar, Box, IconButton, Toolbar, Tooltip } from '@mui/material';
+import { AppBar, AppBarProps, Avatar, Badge, Box, IconButton, Toolbar, Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useLocalStorage } from 'usehooks-ts';
 import { auth } from '../../services/firebaseConfig';
@@ -24,6 +24,14 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSideb
   const [isDarkTheme, setIsDarkTheme] = useLocalStorage('darkTheme', true);
 
   const [user] = useAuthState(auth);
+
+  const registrationCompleted = useMemo(() => {
+    if (user) {
+      return !!user.photoURL && !!user.displayName;
+    }
+
+    return false;
+  }, [user]);
 
   const handleToggleTheme = () => {
     setIsDarkTheme((old) => !old);
@@ -76,17 +84,19 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSideb
           {user && (
             <Tooltip title="Usuário">
               <IconButton onClick={() => setViewUserDialogOpen(true)}>
-                <Avatar
-                  sx={({ spacing }) => ({ width: spacing(4), height: spacing(4) })}
-                  alt={user.displayName ?? undefined}
-                  src={user.photoURL ?? undefined}
-                />
+                <Badge badgeContent={1} color="primary" invisible={registrationCompleted}>
+                  <Avatar
+                    sx={({ spacing }) => ({ width: spacing(4), height: spacing(4) })}
+                    alt={user.displayName ?? undefined}
+                    src={user.photoURL ?? undefined}
+                  />
+                </Badge>
               </IconButton>
             </Tooltip>
           )}
         </Box>
       </Toolbar>
-      <ViewUserDialog open={viewUserDialogOpen} onClose={() => setViewUserDialogOpen(false)} />
+      <ViewUserDialog open={viewUserDialogOpen} setOpen={setViewUserDialogOpen} />
     </DashboardNavbarRoot>
   );
 };

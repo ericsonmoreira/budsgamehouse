@@ -1,14 +1,41 @@
-import { Avatar, Box, Dialog, DialogContent, DialogProps, DialogTitle, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Dialog, DialogContent, DialogProps, DialogTitle, Stack, Typography } from '@mui/material';
+import { useMemo } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
+import routesNames from '../../../../routes/routesNames';
 import { auth } from '../../../../services/firebaseConfig';
 
-const ViewUserDialog: React.FC<DialogProps> = ({ ...rest }) => {
+type ViewUserDialogProps = {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+} & DialogProps;
+
+const ViewUserDialog: React.FC<ViewUserDialogProps> = ({ setOpen, ...rest }) => {
   const [user] = useAuthState(auth);
+
+  const navigate = useNavigate();
+
+  const registrationCompleted = useMemo(() => {
+    if (user) {
+      return !!user.photoURL && !!user.displayName;
+    }
+
+    return false;
+  }, [user]);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCompleteRegistration = () => {
+    setOpen(false);
+
+    navigate(routesNames.SETTINGS);
+  };
 
   if (!user) return null;
 
   return (
-    <Dialog fullWidth maxWidth="md" {...rest}>
+    <Dialog {...rest} fullWidth maxWidth="md" onClose={handleClose}>
       <DialogTitle>Usuário</DialogTitle>
       <DialogContent>
         <Box display="flex" alignItems="center">
@@ -22,6 +49,7 @@ const ViewUserDialog: React.FC<DialogProps> = ({ ...rest }) => {
             <Typography color="text.secondary">{user.email}</Typography>
           </Stack>
         </Box>
+        {!registrationCompleted && <Button onClick={handleCompleteRegistration}>Concluir cadastro</Button>}
       </DialogContent>
     </Dialog>
   );
