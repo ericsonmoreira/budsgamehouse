@@ -4,10 +4,9 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AvatarPlayer from '../../components/AvatarPlayer';
 import Page from '../../components/Page';
-import PlayerActivitiesTimeLine from '../../components/PlayerActivitiesTimeLine';
+import PlayerExtract from '../../components/PlayerExtract';
 import TypographyBalance from '../../components/TypographyBalance';
 import usePlayer from '../../hooks/usePlayer';
-
 type ViewClientParams = {
   id: string;
 };
@@ -48,7 +47,9 @@ const ViewClient: React.FC = () => {
                     <Typography color="GrayText">Email: {player.email}</Typography>
                   </CardContent>
                 </Card>
-                <PlayerActivitiesTimeLine data={player} />
+                <Box mt={1}>
+                  <PlayerExtract player={player} />
+                </Box>
               </>
             )}
           </Box>

@@ -168,7 +168,7 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
   });
 
   return (
-    <Dialog fullWidth maxWidth="md" {...rest} onClose={handleClose}>
+    <Dialog {...rest} fullScreen onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
