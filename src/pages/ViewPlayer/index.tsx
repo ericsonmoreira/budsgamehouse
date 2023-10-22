@@ -7,7 +7,7 @@ import 'react-vertical-timeline-component/style.min.css';
 import AvatarPlayer from '../../components/AvatarPlayer';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
-import PlayerActivitiesTimeLine from '../../components/PlayerActivitiesTimeLine';
+import PlayerExtract from '../../components/PlayerExtract';
 import TypographyBalance from '../../components/TypographyBalance';
 import PaymentDialog from '../../components/dialogs/balances/PaymentDialog';
 import usePlayer from '../../hooks/usePlayer';
@@ -61,15 +61,20 @@ const ViewPlayer: React.FC = () => {
                   Efetuar Pagamento Pagamento
                 </Button>
               </CardActions>
-              <PaymentDialog
-                title="Pagamento"
-                subTitle="Esse pagamento irá ser adicionado ao Saldo do Jogador"
-                open={paymentDialogOpen}
-                setOpen={setPaymentDialogOpen}
-                playerToUpdate={player}
-              />
             </Card>
-            <PlayerActivitiesTimeLine data={player} />
+            <Box marginTop={1}>
+              <Typography variant="h6" color="GrayText" gutterBottom>
+                Extrato
+              </Typography>
+              <PlayerExtract player={player} />
+            </Box>
+            <PaymentDialog
+              title="Pagamento"
+              subTitle="Esse pagamento irá ser adicionado ao Saldo do Jogador"
+              open={paymentDialogOpen}
+              setOpen={setPaymentDialogOpen}
+              playerToUpdate={player}
+            />
           </>
         )}
       </Box>
