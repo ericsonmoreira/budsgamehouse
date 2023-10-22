@@ -63,9 +63,6 @@ const ViewPlayer: React.FC = () => {
               </CardActions>
             </Card>
             <Box marginTop={1}>
-              <Typography variant="h6" color="GrayText" gutterBottom>
-                Extrato
-              </Typography>
               <PlayerExtract player={player} />
             </Box>
             <PaymentDialog

@@ -166,39 +166,44 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
   }
 
   return (
-    <TableContainer component={Paper}>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell width={50}>Data</TableCell>
-            <TableCell width={100}>Tipo</TableCell>
-            <TableCell align="right">R$</TableCell>
-            <TableCell width={32} align="center"></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {playerActivities &&
-            playerActivities.map((activite) => (
-              <TableRow key={activite.id}>
-                <TableCell>{format(activite.createdAt.toDate(), 'dd/LL', { locale: ptBR })}</TableCell>
-                <TableCell>
-                  <Stack alignItems="center" direction="row" spacing={1}>
-                    <Typography>{iconRender(activite)}</Typography>
-                    <Typography>{getObjectTypeName(activite)}</Typography>
-                  </Stack>
-                </TableCell>
-                <TableCell align="right">
-                  <TypographyBalance variant="inherit" balance={getObjectTypeBalance(activite)} />
-                </TableCell>
-                <TableCell align="center">
-                  <IconButton onClick={() => handleViewActivite(activite)}>
-                    <VisibilityIcon fontSize="small" />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
+    <>
+      <Typography variant="h6" color="GrayText" gutterBottom>
+        Extrato
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell width={50}>Data</TableCell>
+              <TableCell width={100}>Tipo</TableCell>
+              <TableCell align="right">R$</TableCell>
+              <TableCell width={32} align="center"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {playerActivities &&
+              playerActivities.map((activite) => (
+                <TableRow key={activite.id}>
+                  <TableCell>{format(activite.createdAt.toDate(), 'dd/LL', { locale: ptBR })}</TableCell>
+                  <TableCell>
+                    <Stack alignItems="center" direction="row" spacing={1}>
+                      <Typography>{iconRender(activite)}</Typography>
+                      <Typography>{getObjectTypeName(activite)}</Typography>
+                    </Stack>
+                  </TableCell>
+                  <TableCell align="right">
+                    <TypographyBalance variant="inherit" balance={getObjectTypeBalance(activite)} />
+                  </TableCell>
+                  <TableCell align="center">
+                    <IconButton onClick={() => handleViewActivite(activite)}>
+                      <VisibilityIcon fontSize="small" />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <Dialog fullScreen open={openDialog} onClose={handleClose}>
         <DialogTitle>Detalhamento</DialogTitle>
         {selectedActive && <DialogContent>{contentRender(selectedActive)}</DialogContent>}
@@ -208,7 +213,7 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
           </Button>
         </DialogActions>
       </Dialog>
-    </TableContainer>
+    </>
   );
 };
 
