@@ -36,14 +36,16 @@ type AddProductDialogFormData = {
   category: string;
 };
 
+const defaultValues: AddProductDialogFormData = {
+  name: '',
+  category: PRODUCT_CATEGORIES[0],
+  price: 0,
+};
+
 const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title, subTitle, setOpen, ...rest }) => {
   const { handleSubmit, reset, control } = useForm<AddProductDialogFormData>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      name: '',
-      category: PRODUCT_CATEGORIES[0],
-      price: 0,
-    },
+    defaultValues,
   });
 
   const [file, setFile] = useState<File | null>();
@@ -77,19 +79,15 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title
   };
 
   const handleClose = () => {
-    reset({
-      name: '',
-      category: '',
-      price: 0,
-    });
+    setOpen(false);
 
     setFile(null);
 
-    setOpen(false);
+    reset(defaultValues);
   };
 
   return (
-    <Dialog fullWidth maxWidth="md" {...rest}>
+    <Dialog fullScreen {...rest} onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>

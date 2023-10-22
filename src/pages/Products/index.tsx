@@ -70,7 +70,6 @@ const Products: React.FC = () => {
         subTitle="Adiciona um novo Produto"
         open={addProductDialogOpen}
         setOpen={setAddProductDialogOpen}
-        onClose={() => setAddProductDialogOpen(false)}
       />
       <UpdateProductDialog
         productToUpdate={productToUpdate}

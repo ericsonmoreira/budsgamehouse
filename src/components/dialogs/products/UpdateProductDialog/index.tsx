@@ -108,7 +108,7 @@ const UpdateProductDialog: React.FC<UpdateProductDialogProps & DialogProps> = ({
   }, [productToUpdate]);
 
   return (
-    <Dialog fullWidth maxWidth="md" {...rest}>
+    <Dialog fullScreen {...rest}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>

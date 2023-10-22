@@ -1,5 +1,8 @@
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import {
+  Box,
   Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -7,9 +10,10 @@ import {
   TableFooter,
   TableHead,
   TableRow,
-  Box,
   Typography,
 } from '@mui/material';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import React, { useMemo } from 'react';
 import { formatterCurrencyBRL } from '../../utils/formatters';
 
@@ -26,6 +30,10 @@ const SaleInformations: React.FC<SaleInformationsProps> = ({ data }) => {
         <Typography component="section" variant="h6" gutterBottom>
           Consumo
         </Typography>
+        <Stack direction="row" spacing={1} alignItems="center" mb={1}>
+          <CalendarMonthIcon fontSize="small" />
+          <Typography>{format(data.createdAt.toDate(), 'PPPp', { locale: ptBR })}</Typography>
+        </Stack>
         <TableContainer component={Paper} variant="outlined">
           <Table size="small">
             <TableHead>

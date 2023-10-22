@@ -109,17 +109,20 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
 
   const [selectedActive, setSelectedActive] = useState<object | null>(null);
 
-  const handleViewActivite = (obj: object) => {
-    setSelectedActive(obj);
+  const handleViewActivite = useCallback(
+    (obj: object) => {
+      setSelectedActive(obj);
 
-    setOpenDialog(true);
-  };
+      setOpenDialog(true);
+    },
+    [setSelectedActive, setOpenDialog]
+  );
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpenDialog(false);
 
     setSelectedActive(null);
-  };
+  }, [setSelectedActive, setOpenDialog]);
 
   const isLoading = useMemo(
     () => salesIsLoading || paymentsIsLoading || transfersIsLoading,
@@ -145,7 +148,7 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
         sale: (obj: object) => {
           const activite = obj as Sale;
 
-          return activite.products.reduce((acc, curr) => acc + curr.price * curr.amount, 0);
+          return -activite.products.reduce((acc, curr) => acc + curr.price * curr.amount, 0);
         },
         transfer: (obj: object) => {
           const activite = obj as Transfer;
@@ -177,7 +180,7 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
               <TableCell width={50}>Data</TableCell>
               <TableCell width={100}>Tipo</TableCell>
               <TableCell align="right">R$</TableCell>
-              <TableCell width={32} align="center"></TableCell>
+              <TableCell width={24} align="center"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -187,8 +190,12 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
                   <TableCell>{format(activite.createdAt.toDate(), 'dd/LL', { locale: ptBR })}</TableCell>
                   <TableCell>
                     <Stack alignItems="center" direction="row" spacing={1}>
-                      <Typography>{iconRender(activite)}</Typography>
-                      <Typography>{getObjectTypeName(activite)}</Typography>
+                      <Typography color="primary" variant="inherit">
+                        {iconRender(activite)}
+                      </Typography>
+                      <Typography color="primary" variant="inherit">
+                        {getObjectTypeName(activite)}
+                      </Typography>
                     </Stack>
                   </TableCell>
                   <TableCell align="right">
