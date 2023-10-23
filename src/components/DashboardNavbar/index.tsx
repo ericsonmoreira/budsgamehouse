@@ -1,17 +1,16 @@
-import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
-import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, AppBarProps, Avatar, Badge, Box, IconButton, Toolbar, Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useMemo, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useLocalStorage } from 'usehooks-ts';
+import { ManaBIcon, ManaWIcon } from '../../icons';
 import { auth } from '../../services/firebaseConfig';
 import ViewUserDialog from '../dialogs/users/ViewUserDialog';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
-  boxShadow: theme.shadows[1],
+  boxShadow: theme.shadows[0],
 }));
 
 type DashboardNavbarProps = {
@@ -77,8 +76,8 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSideb
         <Box sx={{ flexGrow: 1 }} />
         <Box>
           <Tooltip title="Tema da interface">
-            <IconButton onClick={handleToggleTheme}>
-              {isDarkTheme ? <DarkModeOutlinedIcon fontSize="small" /> : <LightModeOutlinedIcon fontSize="small" />}
+            <IconButton onClick={handleToggleTheme} size="small">
+              {isDarkTheme ? <ManaBIcon /> : <ManaWIcon />}
             </IconButton>
           </Tooltip>
           {user && (
