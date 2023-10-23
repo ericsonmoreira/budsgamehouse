@@ -9,15 +9,16 @@ import PersonIcon from '@mui/icons-material/Person';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import SellIcon from '@mui/icons-material/Sell';
-import { Box, Button, Divider, Drawer, useMediaQuery } from '@mui/material';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { Box, Button, Divider, Drawer, Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useSignOut } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { version } from '../../../package.json';
 import routesNames from '../../routes/routesNames';
 import { auth } from '../../services/firebaseConfig';
 import NavItem from '../NavItem';
 
-import SettingsIcon from '@mui/icons-material/Settings';
 type AppDrawerItemData = {
   to: string;
   icon: React.FC;
@@ -115,7 +116,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ open, onClose }) =>
         height: '100%',
       }}
     >
-      <Box sx={{ flexGrow: 1, py: 2 }}>
+      <Box flexGrow={1} py={2}>
         {items.map(({ icon, title, to }) => (
           <NavItem
             key={title}
@@ -126,6 +127,11 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ open, onClose }) =>
             onClick={() => onClose()}
           />
         ))}
+      </Box>
+      <Box p={2}>
+        <Typography color="text.secondary" variant="caption">
+          App version: {version}
+        </Typography>
       </Box>
       <Divider />
       <Box padding={1}>

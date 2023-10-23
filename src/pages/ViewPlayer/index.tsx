@@ -1,3 +1,4 @@
+import EmailIcon from '@mui/icons-material/Email';
 import PaidIcon from '@mui/icons-material/Paid';
 import PaymentIcon from '@mui/icons-material/Payment';
 import { Box, Button, Card, CardActions, CardContent, CardHeader, Stack, Typography } from '@mui/material';
@@ -48,7 +49,10 @@ const ViewPlayer: React.FC = () => {
                   </Stack>
                   <TypographyBalance balance={player.balance} variant="h5" />
                 </Box>
-                <Typography color="GrayText">Email: {player.email}</Typography>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <EmailIcon fontSize="small" />
+                  <Typography color="GrayText">{player.email}</Typography>
+                </Stack>
               </CardContent>
               <CardActions>
                 <Button
