@@ -1,16 +1,5 @@
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Skeleton,
-  SvgIcon,
-  useTheme,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, CardHeader, Skeleton, SvgIcon, Typography } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -23,16 +12,7 @@ export type HomeCardProps = {
   isLoading?: boolean;
 };
 
-const HomeCard: React.FC<HomeCardProps> = ({
-  title,
-  subheader,
-  amount,
-  icon: Icon,
-  to,
-  isLoading,
-}) => {
-  const theme = useTheme();
-
+const HomeCard: React.FC<HomeCardProps> = ({ title, subheader, amount, icon: Icon, to, isLoading }) => {
   const navigate = useNavigate();
 
   return (
@@ -49,24 +29,18 @@ const HomeCard: React.FC<HomeCardProps> = ({
           }}
         >
           <Icon fontSize="inherit" color="secondary" />
-          <Typography fontSize="inherit">
-            {isLoading ? <Skeleton variant="text" width={50} /> : amount}
-          </Typography>
+          <Typography fontSize="inherit">{isLoading ? <Skeleton variant="text" width={50} /> : amount}</Typography>
         </Box>
       </CardContent>
       <CardActions
         disableSpacing
-        sx={{
+        sx={({ palette }) => ({
           borderTop: 1,
-          borderTopColor: theme.palette.divider,
+          borderTopColor: palette.divider,
           justifyContent: 'end',
-        }}
+        })}
       >
-        <Button
-          variant="text"
-          endIcon={<ArrowForwardIcon />}
-          onClick={() => navigate(to)}
-        >
+        <Button variant="text" endIcon={<ArrowForwardIcon />} onClick={() => navigate(to)}>
           Acessar
         </Button>
       </CardActions>

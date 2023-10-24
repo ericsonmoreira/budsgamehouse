@@ -54,7 +54,12 @@ const ViewPlayer: React.FC = () => {
                   <Typography color="GrayText">{player.email}</Typography>
                 </Stack>
               </CardContent>
-              <CardActions>
+              <CardActions
+                sx={({ palette }) => ({
+                  borderTop: 1,
+                  borderTopColor: palette.divider,
+                })}
+              >
                 <Button
                   variant="outlined"
                   color="success"

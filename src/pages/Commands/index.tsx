@@ -36,7 +36,9 @@ const Commands: React.FC = () => {
   };
 
   const { data: openedCommands, isLoading: openedCommandsIsLoading } = useCommands('open');
+
   const { data: closedCommands, isLoading: closedCommandsIsLoading } = useCommands('closed');
+
   const { data: canceledCommands, isLoading: canceledCommandsIsLoading } = useCommands('canceled');
 
   const isLoading = useMemo(

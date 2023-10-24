@@ -28,6 +28,7 @@ const WantedCards: React.FC = () => {
 
   const handleUpdate = ({ id, name, amount, imgUrl, priority }: WantedCardUpdateData) => {
     setWantedCardToUpdate({ id, name, amount, imgUrl, priority });
+
     setUpdateWantedCardDialogOpen(true);
   };
 
@@ -35,6 +36,7 @@ const WantedCards: React.FC = () => {
 
   const handledelete = (id: string) => {
     setWantedCardToDeleteId(id);
+
     setDeleteDialogOpen(true);
   };
 

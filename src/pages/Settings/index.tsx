@@ -1,3 +1,4 @@
+import EditIcon from '@mui/icons-material/Edit';
 import { Avatar, Box, Button, Card, CardActions, CardHeader } from '@mui/material';
 import React, { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -5,7 +6,6 @@ import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
 import EditUserDialog from '../../components/dialogs/users/EditUserDialog';
 import { auth } from '../../services/firebaseConfig';
-import EditIcon from '@mui/icons-material/Edit';
 
 const Settings: React.FC = () => {
   const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);

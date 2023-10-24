@@ -82,7 +82,7 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSideb
           </Tooltip>
           {user && (
             <Tooltip title="Usuário">
-              <IconButton onClick={() => setViewUserDialogOpen(true)}>
+              <IconButton size="small" onClick={() => setViewUserDialogOpen(true)}>
                 <Badge badgeContent={1} color="primary" invisible={registrationCompleted}>
                   <Avatar
                     sx={({ spacing }) => ({ width: spacing(4), height: spacing(4) })}
