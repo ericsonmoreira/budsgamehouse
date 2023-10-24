@@ -54,6 +54,7 @@ const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = 
 
   const { card } = useCardByName(cardNameSelected);
 
+  // TODO: passar isso aqui pra uma mutation
   const handleConfirmAction = () => {
     try {
       if (card) {
@@ -72,8 +73,11 @@ const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = 
       console.log(error);
     } finally {
       resetField('searchTerm');
+
       setCardNameSelected('');
+
       setAmount('1');
+
       setOpen(false);
     }
   };

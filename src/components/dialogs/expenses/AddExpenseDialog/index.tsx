@@ -120,8 +120,6 @@ const AddExpenseDialog: React.FC<AddExpenseDialogProps & DialogProps> = ({ title
           createdAt: Timestamp.now(),
         });
 
-        console.log(products);
-
         await Promise.all(products.map(({ productId, amount }) => updateProductStock(productId, amount)));
 
         await queryClient.invalidateQueries(['useProducts']);

@@ -92,8 +92,6 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
   const { mutate: transferMutate, isLoading: transferMutateIsloading } = useMutation({
     mutationFn: async ({ value, description }: TransferBalanceBetweenPlayersDialogFormData) => {
       if (user && selectedPlayer) {
-        console.log({ value, description });
-
         await addTransfer({
           userId: user.uid,
           sendingPlayerId: senderPlayer.id,

@@ -25,7 +25,6 @@ const Schedules: React.FC = () => {
       <PageHeader title="Programação" onClickAddButton={() => setAddScheduleDialogOpen(true)} />
       <Paper sx={{ margin: 1, height: 1 }} component={Box} p={1}>
         <Calendar
-          onDoubleClickEvent={(event) => console.log(event)}
           localizer={localizer}
           events={schedules?.map(({ start, end, title }) => ({ start: start.toDate(), end: end.toDate(), title }))}
           startAccessor="start"
