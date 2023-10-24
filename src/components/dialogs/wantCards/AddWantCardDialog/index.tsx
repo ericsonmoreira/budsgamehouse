@@ -77,9 +77,13 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({ tit
       console.log(error);
     } finally {
       resetField('searchTerm');
+
       setCardNameSelected('');
+
       setAmount('1');
+
       setPriority('medium');
+
       setOpen(false);
     }
   };

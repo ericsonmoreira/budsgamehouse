@@ -1,5 +1,5 @@
 import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, AppBarProps, Avatar, Badge, Box, IconButton, Toolbar, Tooltip } from '@mui/material';
+import { AppBar, AppBarProps, Avatar, Badge, Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useMemo, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -73,7 +73,11 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSideb
         >
           <img src="/atm-logo.png" alt="Atm Logo" style={{ width: '3rem', height: '3rem' }} />
         </Box>
-        <Box sx={{ flexGrow: 1 }} />
+        <Box flexGrow={1} display="flex" alignItems="center" justifyContent={'center'}>
+          <Typography variant="h4" color="text.primary">
+            ATM
+          </Typography>
+        </Box>
         <Box>
           <Tooltip title="Tema da interface">
             <IconButton onClick={handleToggleTheme} size="small">
@@ -82,7 +86,7 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSideb
           </Tooltip>
           {user && (
             <Tooltip title="Usuário">
-              <IconButton onClick={() => setViewUserDialogOpen(true)}>
+              <IconButton size="small" onClick={() => setViewUserDialogOpen(true)}>
                 <Badge badgeContent={1} color="primary" invisible={registrationCompleted}>
                   <Avatar
                     sx={({ spacing }) => ({ width: spacing(4), height: spacing(4) })}

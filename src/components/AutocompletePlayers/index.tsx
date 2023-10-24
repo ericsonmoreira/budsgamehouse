@@ -24,6 +24,9 @@ const AutocompletePlayers: React.FC<AutocompletePlayersProps> = ({
         }}
         renderOption={(props, option) => (
           <Box component="li" {...props}>
+            {option.avatarImgUrl && (
+              <img src={option.avatarImgUrl} style={{ width: 20, height: 20, borderRadius: '50%', marginRight: 4 }} />
+            )}
             <Typography flexGrow={1}>{option.name}</Typography>
           </Box>
         )}

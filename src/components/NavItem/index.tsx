@@ -1,4 +1,4 @@
-import { Box, Button, ListItem, ListItemProps } from '@mui/material';
+import { Button, ListItem, ListItemProps } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 export type NavItemProps = {
@@ -19,21 +19,32 @@ const NavItem: React.FC<NavItemProps & ListItemProps> = ({ to, icon: Icon, title
       }}
       {...rest}
     >
-      <NavLink to={to} style={{ textDecoration: 'none' }}>
+      <NavLink to={to} style={{ textDecoration: 'none', width: '100%' }}>
         <Button
           startIcon={<Icon />}
-          disableRipple
-          sx={{
+          sx={({ palette }) => ({
             borderRadius: 1,
-            color: active ? 'secondary.main' : 'neutral.300',
+            color: active ? palette.secondary.main : 'neutral.300',
             justifyContent: 'flex-start',
             px: 2,
             textAlign: 'left',
             textTransform: 'none',
             width: '100%',
-          }}
+            position: 'relative',
+            '&::after': {
+              position: 'absolute',
+              top: 'center',
+              left: 0,
+              height: 'calc(100% - 8px)',
+              borderRadius: '2px',
+              width: '4px',
+              backgroundColor: palette.secondary.main,
+              content: '""',
+              display: active ? 'block' : 'none',
+            },
+          })}
         >
-          <Box sx={{ flexGrow: 1 }}>{title}</Box>
+          {title}
         </Button>
       </NavLink>
     </ListItem>

@@ -30,6 +30,9 @@ const AutocompleteProducts: React.FC<AutocompleteProductsProps> = ({
         }}
         renderOption={(props, option) => (
           <Box component="li" {...props}>
+            {option.imgUrl && (
+              <img src={option.imgUrl} style={{ width: 20, height: 20, borderRadius: '50%', marginRight: 4 }} />
+            )}
             <Typography flexGrow={1}>{option.name}</Typography>
             <Typography color="GrayText">{formatterCurrencyBRL.format(option.price)}</Typography>
           </Box>
