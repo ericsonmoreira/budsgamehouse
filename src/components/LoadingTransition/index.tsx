@@ -1,4 +1,6 @@
-import { Box, CircularProgress } from '@mui/material';
+import { Box } from '@mui/material';
+import Lottie from 'lottie-react';
+import LoadingAnimation from '../../assets/lotties/loading.json';
 
 const LoadingTransition: React.FC = () => {
   return (
@@ -12,7 +14,7 @@ const LoadingTransition: React.FC = () => {
         backgroundColor: (theme) => theme.palette.background.default,
       }}
     >
-      <CircularProgress />
+      <Lottie animationData={LoadingAnimation} style={{ width: '20%', height: '20%' }} />
     </Box>
   );
 };
