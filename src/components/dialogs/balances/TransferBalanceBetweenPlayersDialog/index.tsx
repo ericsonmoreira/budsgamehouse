@@ -67,11 +67,15 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
   const { handleSubmit, reset, control, watch } = useForm<TransferBalanceBetweenPlayersDialogFormData>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema(senderPlayer.balance)),
     defaultValues,
   });
 
   const valueWatch = watch('value');
+
+  const disableTransfer = useMemo(() => {
+    return senderPlayer.balance <= 0;
+  }, [senderPlayer]);
 
   const playersEligibleToReceive = useMemo(() => {
     if (players && senderPlayer) {
@@ -141,9 +145,15 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
+        {disableTransfer && (
+          <DialogContentText gutterBottom color="error">
+            Player com sado negativo. Não é possível fazer transferência.
+          </DialogContentText>
+        )}
         <Grid container alignItems="center" spacing={1}>
           <Grid item xs={12}>
             <AutocompletePlayers
+              disabled={disableTransfer}
               validPlayers={playersEligibleToReceive}
               selectedPlayer={selectedPlayer}
               setSelectedPlayer={setSelectedPlayer}
@@ -206,6 +216,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
           </Grid>
           <Grid item xs={12} mt={1}>
             <ControlledCurrencyTextField
+              disabled={disableTransfer}
               control={control}
               name="value"
               label="Valor da Transferência"
@@ -216,6 +227,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
           </Grid>
           <Grid item xs={12} mt={1}>
             <ControlledTextField
+              disabled={disableTransfer}
               control={control}
               name="description"
               multiline
@@ -232,7 +244,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
         <Button color="secondary" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button onClick={handleSubmit(handleConfirmAction)} disabled={!selectedPlayer}>
+        <Button onClick={handleSubmit(handleConfirmAction)} disabled={!selectedPlayer || disableTransfer}>
           Confirmar
         </Button>
       </DialogActions>
