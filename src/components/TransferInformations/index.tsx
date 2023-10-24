@@ -1,9 +1,11 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import { Box, Paper, Stack, Typography } from '@mui/material';
+import ForwardIcon from '@mui/icons-material/Forward';
+import { Box, Grid, Paper, Stack, Typography } from '@mui/material';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import React from 'react';
 import usePlayer from '../../hooks/usePlayer';
+import AvatarPlayer from '../AvatarPlayer';
 import TypographyBalance from '../TypographyBalance';
 
 type TransferInformationsProps = {
@@ -20,24 +22,41 @@ const TransferInformations: React.FC<TransferInformationsProps> = ({ data }) => 
   return (
     <Paper>
       <Box p={1}>
-        <Typography component="section" variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom>
           Transferência
         </Typography>
         <Stack direction="row" spacing={1} alignItems="center" mb={1}>
           <CalendarMonthIcon fontSize="small" />
           <Typography>{format(data.createdAt.toDate(), 'PPPp', { locale: ptBR })}</Typography>
         </Stack>
-        <Typography component="section">Remetente: {sendingPlayer?.name}</Typography>
-        <Typography component="section">Recebedor: {receiverPlayer?.name}</Typography>
+        {sendingPlayer && receiverPlayer && (
+          <Grid container alignItems="center" spacing={1}>
+            <Grid item xs={12} sm={5}>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <AvatarPlayer playerId={sendingPlayer.id} />
+                <Typography variant="h6">{sendingPlayer.name}</Typography>
+              </Stack>
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
+                <TypographyBalance balance={value} />
+                <ForwardIcon />
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={5}>
+              <Stack direction="row" spacing={1} alignItems="center" justifyContent="flex-end">
+                <AvatarPlayer playerId={receiverPlayer.id} />
+                <Typography variant="h6">{receiverPlayer.name}</Typography>
+              </Stack>
+            </Grid>
+          </Grid>
+        )}
         {description && (
           <>
-            <Typography component="section">Descrição</Typography>
-            <Typography component="section" color="text.secondary">
-              {description}
-            </Typography>
+            <Typography>Descrição</Typography>
+            <Typography color="text.secondary">{description}</Typography>
           </>
         )}
-        <TypographyBalance component="section" balance={value} />
       </Box>
     </Paper>
   );

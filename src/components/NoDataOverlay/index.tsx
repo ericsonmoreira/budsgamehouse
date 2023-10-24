@@ -1,14 +1,15 @@
 import { Box, Typography } from '@mui/material';
+import Lottie from 'lottie-react';
 import React from 'react';
-import NotDataImg from '../../assets/noData.svg';
+import NotDataAnimation from '../../assets/lotties/noData.json';
 
-const NoDataOverlay: React.FC<React.HTMLAttributes<HTMLImageElement>> = (props) => {
+const NoDataOverlay: React.FC = () => {
   return (
     <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height="100%">
       <Typography variant="inherit" gutterBottom>
-        Não há linhas para mostrar...
+        Nada para apresentar...
       </Typography>
-      <img {...props} src={NotDataImg} style={{ width: '50%', maxWidth: '300px' }} />
+      <Lottie animationData={NotDataAnimation} />
     </Box>
   );
 };

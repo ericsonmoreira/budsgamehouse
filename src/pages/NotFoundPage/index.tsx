@@ -1,15 +1,18 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
+import Lottie from 'lottie-react';
 import React from 'react';
-import NotFoundImg from '../../assets/404.svg';
+import NotFoundAnimation from '../../assets/lotties/404.json';
+import Page from '../../components/Page';
+import PageHeader from '../../components/PageHeader';
 
 const NotFoundPage: React.FC = () => {
   return (
-    <Box width={1} height={1} display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-      <Typography gutterBottom variant="h3" color="textPrimary">
-        Contúdo não encontrado
-      </Typography>
-      <img src={NotFoundImg} width="50%" />
-    </Box>
+    <Page>
+      <PageHeader title="Opss..." containsBackButton />
+      <Box width={1} height={1} p={3} display="flex" flexDirection="column" alignItems="center">
+        <Lottie animationData={NotFoundAnimation} />
+      </Box>
+    </Page>
   );
 };
 
