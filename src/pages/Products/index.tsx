@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Grid,
   InputAdornment,
   TextField,
 } from '@mui/material';
@@ -78,22 +79,26 @@ const Products: React.FC = () => {
     <Page loading={deleteProductMutateIsloading}>
       <PageHeader title="Produtos" onClickAddButton={() => setAddProductDialogOpen(true)} />
       <Box mx={1}>
-        <TextField
-          value={searchTerm}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setSearchTerm(event.target.value);
-          }}
-          placeholder="Buscar por nome..."
-          size="small"
-          fullWidth
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon color="inherit" fontSize="inherit" />
-              </InputAdornment>
-            ),
-          }}
-        />
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <TextField
+              value={searchTerm}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setSearchTerm(event.target.value);
+              }}
+              placeholder="Buscar por nome..."
+              size="small"
+              fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon color="inherit" fontSize="inherit" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+        </Grid>
       </Box>
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridProducts
