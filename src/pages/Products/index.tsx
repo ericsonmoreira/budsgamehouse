@@ -1,12 +1,25 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  InputAdornment,
+  TextField,
+} from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
 import DataGridProducts from '../../components/datagrids/DataGridProducts';
 import AddProductDialog from '../../components/dialogs/products/AddProductDialog';
 import UpdateProductDialog from '../../components/dialogs/products/UpdateProductDialog';
+import useDebounce from '../../hooks/useDebounce';
 import useProducts from '../../hooks/useProducts';
 import deleteProduct from '../../resources/products/deleteProduct';
 
@@ -24,6 +37,18 @@ const Products: React.FC = () => {
   const [productToUpdate, setProductToUpdate] = useState<Product>({} as Product);
 
   const [updateProductDialogOpen, setUpdatePproductDialogOpen] = useState(false);
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const searchTermDebounced = useDebounce(searchTerm, 300);
+
+  const searchedProducts = useMemo(() => {
+    if (products) {
+      return products.filter(({ name }) => name.toLowerCase().includes(searchTermDebounced.toLowerCase()));
+    }
+
+    return [];
+  }, [products, searchTermDebounced]);
 
   const handleUpdate = (product: Product) => {
     setProductToUpdate(product);
@@ -53,10 +78,32 @@ const Products: React.FC = () => {
   return (
     <Page loading={deleteProductMutateIsloading}>
       <PageHeader title="Produtos" onClickAddButton={() => setAddProductDialogOpen(true)} />
+      <Box mx={1}>
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <TextField
+              value={searchTerm}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setSearchTerm(event.target.value);
+              }}
+              placeholder="Buscar por nome..."
+              size="small"
+              fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon color="inherit" fontSize="inherit" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+        </Grid>
+      </Box>
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridProducts
           loading={isLoading}
-          rows={products?.map((product) => ({
+          rows={searchedProducts.map((product) => ({
             ...product,
             actions: {
               handledelete: () => handledelete(product.id),

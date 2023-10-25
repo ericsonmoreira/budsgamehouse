@@ -1,8 +1,8 @@
-import { DataGrid, GridColDef, GridComparatorFn, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
+import { GridColDef, GridComparatorFn, GridRenderCellParams } from '@mui/x-data-grid';
 import ActionsCell from '../../cells/ActionsCell';
 import ImageCell from '../../cells/ImageCell';
 import PriorityCell from '../../cells/PriorityCell';
-import NoDataOverlay from '../../NoDataOverlay';
+import CustomDataGrid from '../CustomDataGrid';
 
 const priorityGridComparatorFn: GridComparatorFn<WantedCardPriority> = (a, b): number => {
   const priorityValues: Record<WantedCardPriority, number> = {
@@ -76,29 +76,17 @@ const columns: GridColDef[] = [
   },
 ];
 
-const DataGridWantedCards: React.FC<DataGridWantedCardsProps> = ({
-  rows = [], // default enpty array
-  loading,
-}) => {
+const DataGridWantedCards: React.FC<DataGridWantedCardsProps> = ({ rows = [], loading }) => {
   return (
-    <DataGrid
-      rows={rows}
-      density="compact"
+    <CustomDataGrid
       columns={columns}
+      rows={rows}
       initialState={{
         sorting: {
-          sortModel: [{ field: 'priority', sort: 'desc' }], // Na versão gratúita não temos seleçao multipla. Só é possível classificar um campo por vez.
+          sortModel: [{ field: 'priority', sort: 'desc' }],
         },
       }}
-      disableColumnMenu={false}
-      components={{
-        Toolbar: GridToolbar,
-        NoRowsOverlay: () => <NoDataOverlay />,
-        NoResultsOverlay: () => <NoDataOverlay />,
-      }}
-      disableSelectionOnClick
       loading={loading}
-      sx={{ backgroundColor: (theme) => theme.palette.background.paper }}
     />
   );
 };

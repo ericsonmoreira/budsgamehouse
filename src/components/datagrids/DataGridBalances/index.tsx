@@ -1,8 +1,8 @@
-import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
+import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import AvatarPlayer from '../../AvatarPlayer';
-import NoDataOverlay from '../../NoDataOverlay';
 import TypographyBalance from '../../TypographyBalance';
 import ActionsCell from '../../cells/ActionsCell';
+import CustomDataGrid from '../CustomDataGrid';
 
 type DataGridBalancesRowData = Player & {
   actions: {
@@ -55,22 +55,13 @@ const columns: GridColDef[] = [
 
 const DataGridBalances: React.FC<DataGridBalancesProps> = ({ rows = [], loading }) => {
   return (
-    <DataGrid
+    <CustomDataGrid
+      columns={columns}
       rows={rows}
       initialState={{
         sorting: { sortModel: [{ field: 'name', sort: 'asc' }] },
       }}
-      density="compact"
-      columns={columns}
-      disableColumnMenu={false}
-      components={{
-        Toolbar: GridToolbar,
-        NoRowsOverlay: () => <NoDataOverlay />,
-        NoResultsOverlay: () => <NoDataOverlay />,
-      }}
-      disableSelectionOnClick
       loading={loading}
-      sx={{ backgroundColor: (theme) => theme.palette.background.paper }}
     />
   );
 };

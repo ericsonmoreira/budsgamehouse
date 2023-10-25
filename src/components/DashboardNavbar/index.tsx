@@ -74,7 +74,7 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSideb
           <img src="/atm-logo.png" alt="Atm Logo" style={{ width: '3rem', height: '3rem' }} />
         </Box>
         <Box flexGrow={1} display="flex" alignItems="center" justifyContent={'center'}>
-          <Typography variant="h4" color="text.primary">
+          <Typography variant="h3" color="text.primary" fontWeight={900}>
             ATM
           </Typography>
         </Box>

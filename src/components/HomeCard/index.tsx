@@ -37,7 +37,7 @@ const HomeCard: React.FC<HomeCardProps> = ({ title, subheader, amount, icon: Ico
         sx={({ palette }) => ({
           borderTop: 1,
           borderTopColor: palette.divider,
-          justifyContent: 'end',
+          justifyContent: 'flex-end',
         })}
       >
         <Button variant="text" endIcon={<ArrowForwardIcon />} onClick={() => navigate(to)}>
