@@ -1,7 +1,7 @@
-import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
+import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { formatterCurrencyBRL } from '../../../utils/formatters';
-import NoDataOverlay from '../../NoDataOverlay';
 import ActionsCell from '../../cells/ActionsCell';
+import CustomDataGrid from '../CustomDataGrid';
 
 type DataGridProductsRowData = Product & {
   actions: {
@@ -40,7 +40,7 @@ const columns: GridColDef[] = [
     headerName: 'Estoque',
     headerAlign: 'right',
     align: 'right',
-    maxWidth: 50,
+    maxWidth: 60,
   },
   {
     field: 'actions',
@@ -60,22 +60,13 @@ const columns: GridColDef[] = [
 
 const DataGridProducts: React.FC<DataGridProductsProps> = ({ rows = [], loading }) => {
   return (
-    <DataGrid
+    <CustomDataGrid
       rows={rows}
       initialState={{
         sorting: { sortModel: [{ field: 'name', sort: 'asc' }] },
       }}
-      density="compact"
       columns={columns}
-      disableColumnMenu={false}
-      components={{
-        Toolbar: GridToolbar,
-        NoRowsOverlay: () => <NoDataOverlay />,
-        NoResultsOverlay: () => <NoDataOverlay />,
-      }}
-      disableSelectionOnClick
       loading={loading}
-      sx={{ backgroundColor: (theme) => theme.palette.background.paper }}
     />
   );
 };

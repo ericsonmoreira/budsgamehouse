@@ -1,10 +1,10 @@
-import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
+import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { formatterCurrencyBRL } from '../../../utils/formatters';
 import AvatarPlayer from '../../AvatarPlayer';
-import NoDataOverlay from '../../NoDataOverlay';
 import ActionsCell from '../../cells/ActionsCell';
+import CustomDataGrid from '../CustomDataGrid';
 
 type DataGridSalesRowData = Sale & {
   actions: {
@@ -67,22 +67,13 @@ const columns: GridColDef[] = [
 
 const DataGridSales: React.FC<DataGridSalesProps> = ({ rows = [], loading }) => {
   return (
-    <DataGrid
+    <CustomDataGrid
+      columns={columns}
       rows={rows}
-      density="compact"
       initialState={{
         sorting: { sortModel: [{ field: 'createdAt', sort: 'desc' }] },
       }}
-      columns={columns}
-      disableColumnMenu={false}
-      components={{
-        Toolbar: GridToolbar,
-        NoRowsOverlay: () => <NoDataOverlay />,
-        NoResultsOverlay: () => <NoDataOverlay />,
-      }}
-      disableSelectionOnClick
       loading={loading}
-      sx={{ backgroundColor: (theme) => theme.palette.background.paper }}
     />
   );
 };

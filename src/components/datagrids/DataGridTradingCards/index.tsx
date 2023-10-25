@@ -1,7 +1,7 @@
-import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
-import NoDataOverlay from '../../NoDataOverlay';
+import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import ActionsCell from '../../cells/ActionsCell';
 import ImageCell from '../../cells/ImageCell';
+import CustomDataGrid from '../CustomDataGrid';
 
 type DataGridTradingCardsRowData = {
   id: string;
@@ -47,27 +47,15 @@ const columns: GridColDef[] = [
   },
 ];
 
-const DataGridTradingCards: React.FC<DataGridTradingCardsProps> = ({
-  rows = [], // default enpty array
-  loading,
-}) => {
+const DataGridTradingCards: React.FC<DataGridTradingCardsProps> = ({ rows = [], loading }) => {
   return (
-    <DataGrid
+    <CustomDataGrid
+      columns={columns}
       rows={rows}
-      density="compact"
       initialState={{
         sorting: { sortModel: [{ field: 'name', sort: 'asc' }] },
       }}
-      columns={columns}
-      disableColumnMenu={false}
-      components={{
-        Toolbar: GridToolbar,
-        NoRowsOverlay: () => <NoDataOverlay />,
-        NoResultsOverlay: () => <NoDataOverlay />,
-      }}
-      disableSelectionOnClick
       loading={loading}
-      sx={{ backgroundColor: (theme) => theme.palette.background.paper }}
     />
   );
 };

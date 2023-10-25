@@ -1,9 +1,9 @@
-import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
+import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import NoDataOverlay from '../../NoDataOverlay';
 import TypographyBalance from '../../TypographyBalance';
 import ActionsCell from '../../cells/ActionsCell';
+import CustomDataGrid from '../CustomDataGrid';
 
 type DataGridExpensesRowData = Expense & {
   actions: {
@@ -51,22 +51,13 @@ const columns: GridColDef[] = [
 
 const DataGridExpenses: React.FC<DataGridExpensesProps> = ({ rows = [], loading }) => {
   return (
-    <DataGrid
+    <CustomDataGrid
+      columns={columns}
       rows={rows}
-      density="compact"
       initialState={{
         sorting: { sortModel: [{ field: 'createdAt', sort: 'desc' }] },
       }}
-      columns={columns}
-      disableColumnMenu={false}
-      components={{
-        Toolbar: GridToolbar,
-        NoRowsOverlay: () => <NoDataOverlay />,
-        NoResultsOverlay: () => <NoDataOverlay />,
-      }}
-      disableSelectionOnClick
       loading={loading}
-      sx={{ backgroundColor: (theme) => theme.palette.background.paper }}
     />
   );
 };
