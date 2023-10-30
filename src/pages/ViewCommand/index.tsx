@@ -7,12 +7,10 @@ import SaveIcon from '@mui/icons-material/Save';
 import {
   Box,
   Button,
-  Chip,
   Grid,
   IconButton,
   Paper,
   Stack,
-  SvgIconProps,
   Table,
   TableBody,
   TableCell,
@@ -30,11 +28,11 @@ import toast from 'react-hot-toast';
 import { Navigate, useParams } from 'react-router-dom';
 import 'react-vertical-timeline-component/style.min.css';
 import AutocompleteProducts from '../../components/AutocompleteProducts';
+import CommandTitleName from '../../components/CommandTitleName';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
 import useCommand from '../../hooks/useCommand';
 import useProducts from '../../hooks/useProducts';
-import { CardsClubIcon, CardsDiamondIcon, CardsHeartIcon, CardsSpadeIcon } from '../../icons';
 import updateCommand from '../../resources/commands/updateCommand';
 import updateProductStock from '../../resources/products/updateProductStock';
 import addSale from '../../resources/sales/addSale';
@@ -51,39 +49,6 @@ type CommandItemShoppingCart = {
   name: string;
   amount: number;
   price: number;
-};
-
-const cardsSuitiesMap: Record<'club' | 'diamond' | 'heart' | 'spade', React.FC<SvgIconProps>> = {
-  club: CardsClubIcon,
-  diamond: CardsDiamondIcon,
-  heart: CardsHeartIcon,
-  spade: CardsSpadeIcon,
-};
-
-const cardsStatusMap: Record<'open' | 'closed' | 'canceled', React.FC> = {
-  open: () => <Chip label="ABERTA" variant="outlined" color="success" />,
-  closed: () => <Chip label="FECHADA" variant="outlined" color="error" />,
-  canceled: () => <Chip label="CANCELADA" variant="outlined" color="warning" />,
-};
-
-const CommandTitleName = ({ command }: { command: Command }) => {
-  const [num, suite] = command.name.split('|');
-
-  const IconComponent = cardsSuitiesMap[suite as 'club' | 'diamond' | 'heart' | 'spade'];
-
-  const StatusComponent = cardsStatusMap[command.status];
-
-  return (
-    <Box display="flex" alignItems="center" justifyContent="space-between">
-      <Box display="flex" alignItems="center">
-        <Typography variant="h4" color="textPrimary">
-          {num}
-        </Typography>
-        <IconComponent fontSize="large" />
-      </Box>
-      <StatusComponent />
-    </Box>
-  );
 };
 
 const ViewCommand: React.FC = () => {
