@@ -1,5 +1,4 @@
-import SearchIcon from '@mui/icons-material/Search';
-import { Box, InputAdornment, TextField } from '@mui/material';
+import { Box } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -10,6 +9,7 @@ import DataGridPlaysers from '../../components/datagrids/DataGridPlaysers';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
 import AddPlayerDialog from '../../components/dialogs/players/AddPlayerDialog';
 import UpdatePlayerDialog from '../../components/dialogs/players/UpdatePlayerDialog';
+import SearchTextField from '../../components/textfields/SearchTextField';
 import usePlayers from '../../hooks/usePlayers';
 import deletePlayer from '../../resources/players/deletePlayer';
 
@@ -78,21 +78,12 @@ const Players: React.FC = () => {
     <Page loading={deletePlayerMutateIsloading}>
       <PageHeader title="Payers" onClickAddButton={() => setAddPlayerDialogOpen(true)} />
       <Box mx={1}>
-        <TextField
+        <SearchTextField
           value={searchTerm}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setSearchTerm(event.target.value);
-          }}
+          setValue={setSearchTerm}
           placeholder="Buscar por nome..."
           size="small"
           fullWidth
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon color="inherit" fontSize="inherit" />
-              </InputAdornment>
-            ),
-          }}
         />
       </Box>
       <Box sx={{ margin: 1, height: 1 }}>

@@ -1,7 +1,6 @@
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PersonIcon from '@mui/icons-material/Person';
-import SearchIcon from '@mui/icons-material/Search';
-import { Box, Chip, Grid, InputAdornment, TextField, Tooltip } from '@mui/material';
+import { Box, Chip, Grid, Tooltip } from '@mui/material';
 import React, { useMemo, useState } from 'react';
 import { useDebounce } from 'usehooks-ts';
 import Page from '../../components/Page';
@@ -9,6 +8,7 @@ import PageHeader from '../../components/PageHeader';
 import DataGridBalances from '../../components/datagrids/DataGridBalances';
 import TransferBalanceBetweenPlayersDialog from '../../components/dialogs/balances/TransferBalanceBetweenPlayersDialog';
 import UpdateBalanceDialog from '../../components/dialogs/balances/UpdateBalanceDialog';
+import SearchTextField from '../../components/textfields/SearchTextField';
 import usePlayers from '../../hooks/usePlayers';
 import { formatterCurrencyBRL } from '../../utils/formatters';
 
@@ -140,21 +140,12 @@ const Balances: React.FC = () => {
         </Grid>
       </Box>
       <Box mx={1}>
-        <TextField
+        <SearchTextField
           value={searchTerm}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setSearchTerm(event.target.value);
-          }}
-          placeholder="Buscar po nome..."
+          setValue={setSearchTerm}
+          placeholder="Buscar por nome..."
           size="small"
           fullWidth
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon color="inherit" fontSize="inherit" />
-              </InputAdornment>
-            ),
-          }}
         />
       </Box>
       <Box m={1} height={1}>
