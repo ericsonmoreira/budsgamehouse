@@ -1,16 +1,4 @@
-import SearchIcon from '@mui/icons-material/Search';
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Grid,
-  InputAdornment,
-  TextField,
-} from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -19,6 +7,7 @@ import PageHeader from '../../components/PageHeader';
 import DataGridProducts from '../../components/datagrids/DataGridProducts';
 import AddProductDialog from '../../components/dialogs/products/AddProductDialog';
 import UpdateProductDialog from '../../components/dialogs/products/UpdateProductDialog';
+import SearchTextField from '../../components/textfields/SearchTextField';
 import useDebounce from '../../hooks/useDebounce';
 import useProducts from '../../hooks/useProducts';
 import deleteProduct from '../../resources/products/deleteProduct';
@@ -81,21 +70,12 @@ const Products: React.FC = () => {
       <Box mx={1}>
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <TextField
+            <SearchTextField
               value={searchTerm}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setSearchTerm(event.target.value);
-              }}
+              setValue={setSearchTerm}
               placeholder="Buscar por nome..."
               size="small"
               fullWidth
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon color="inherit" fontSize="inherit" />
-                  </InputAdornment>
-                ),
-              }}
             />
           </Grid>
         </Grid>
