@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {
   Backdrop,
-  Box,
   Button,
   CircularProgress,
   Dialog,
@@ -107,22 +106,25 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({ title, subTitle, playerTo
   };
 
   return (
-    <Dialog fullWidth maxWidth="md" {...rest} onClose={handleClose}>
+    <Dialog {...rest} fullScreen onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
-        <Box my={2} display="flex" alignItems="center" justifyContent="space-between">
-          <Stack direction="row" spacing={1} alignItems="center">
-            <AvatarPlayer playerId={playerToUpdate.id} />
-            <Typography variant="h4">{playerToUpdate.name}</Typography>
-          </Stack>
-          <Stack direction="row" spacing={1} alignItems="center">
-            <TypographyBalance variant="h4" balance={playerToUpdate.balance} />
-            <ArrowForwardIcon fontSize="large" />
-            <TypographyBalance variant="h4" balance={playerToUpdate.balance + paymentValueWatch} />
-          </Stack>
-        </Box>
-        <Grid container spacing={2}>
+
+        <Grid container spacing={1}>
+          <Grid item xs={12} md={4}>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <AvatarPlayer playerId={playerToUpdate.id} />
+              <Typography variant="h4">{playerToUpdate.name}</Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={8} display="flex" alignItems="center">
+            <Stack direction="row" spacing={1} alignItems="center">
+              <TypographyBalance variant="h5" balance={playerToUpdate.balance} />
+              <ArrowForwardIcon fontSize="large" />
+              <TypographyBalance variant="h5" balance={playerToUpdate.balance + paymentValueWatch} />
+            </Stack>
+          </Grid>
           <Grid item xs={12}>
             <ControlledCurrencyTextField
               control={control}
