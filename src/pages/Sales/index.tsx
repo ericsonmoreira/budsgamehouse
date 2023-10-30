@@ -1,22 +1,40 @@
-import { Box, useTheme } from '@mui/material';
-import { format, parse } from 'date-fns';
+import { Box, MenuItem, TextField } from '@mui/material';
+import { format, subMonths } from 'date-fns';
 import React, { useMemo, useState } from 'react';
-import Chart from 'react-apexcharts';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
+import SalesChartBar from '../../components/charts/SalesChartBar';
 import DataGridSales from '../../components/datagrids/DataGridSales';
 import ViewSaleDialog from '../../components/dialogs/sales/ViewSaleDialog';
-import useSales from '../../hooks/useSales';
-import { formatterCurrencyBRL } from '../../utils/formatters';
+import useSalesPerMonth from '../../hooks/useSalesPerMonth';
 
 const Sales: React.FC = () => {
-  const { palette, typography } = useTheme();
+  const [selectedMonth, setSelectedMonth] = useState(format(Date.now(), 'MM/yyyy'));
 
-  const { data: sales, isLoading } = useSales();
+  const [mes, ano] = selectedMonth.split('/');
+
+  // Pegando o Objeto Date do Mês selecionado
+  const { data: sales, isLoading } = useSalesPerMonth(new Date(`${ano}-${mes}-01T00:00:00`));
 
   const [viewSaleDialogOpen, setViewSaleDialogOpen] = useState(false);
 
   const [saleToview, setSaleToview] = useState<Sale>({} as Sale);
+
+  // últimos 12 meses
+  const lastTwelveMonths = useMemo(() => {
+    const now = Date.now();
+
+    const months: string[] = []; // MM/yyyy
+
+    for (let i = 0; i < 12; i++) {
+      const data = subMonths(now, i);
+
+      const mesAno = format(data, 'MM/yyyy');
+      months.push(mesAno);
+    }
+
+    return months;
+  }, []);
 
   const handleView = (sale: Sale) => {
     setSaleToview(sale);
@@ -24,83 +42,29 @@ const Sales: React.FC = () => {
     setViewSaleDialogOpen(true);
   };
 
-  const calculateSalesByDayOfMonth = useMemo(() => {
-    const salesByDayOfMonth: { day: string; value: number }[] = [];
-
-    if (sales) {
-      for (const sale of sales) {
-        const day = format(sale.createdAt.toDate(), 'yy/MM/dd');
-
-        const value = sale.products.reduce((acc, curr) => acc + curr.amount * curr.price, 0);
-
-        const existingDay = salesByDayOfMonth.find((item) => item.day === day);
-
-        if (existingDay) {
-          existingDay.value += value;
-        } else {
-          salesByDayOfMonth.push({
-            value,
-            day,
-          });
-        }
-      }
-    }
-
-    salesByDayOfMonth.sort((a, b) => a.day.localeCompare(b.day));
-
-    return salesByDayOfMonth;
-  }, [sales]);
-
   return (
     <Page>
       <PageHeader title="Vendas" />
+
       <Box p={1}>
-        <Chart
-          type="bar"
-          options={{
-            title: {
-              text: 'Vendas por dia',
-              align: 'center',
-            },
-            dataLabels: {
-              formatter: (value) => formatterCurrencyBRL.format(Number(value)),
-            },
-            plotOptions: {
-              bar: {
-                horizontal: false,
-                dataLabels: {
-                  position: 'bottom',
-                },
-              },
-            },
-            theme: {
-              mode: palette.mode,
-            },
-            chart: {
-              id: 'sales',
-              fontFamily: typography.fontFamily,
-            },
-            xaxis: {
-              categories: calculateSalesByDayOfMonth.map((elem) => elem.day),
-              labels: {
-                formatter: (value) => format(parse(value, 'yy/MM/dd', new Date()), 'dd/MM'),
-              },
-            },
-            yaxis: {
-              labels: {
-                formatter: (value) => formatterCurrencyBRL.format(value),
-              },
-            },
+        <TextField
+          select
+          label="Mês"
+          variant="outlined"
+          size="small"
+          margin="normal"
+          value={selectedMonth}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setSelectedMonth(event.target.value);
           }}
-          series={[
-            {
-              name: 'Vendas por dia',
-              data: calculateSalesByDayOfMonth.map((elem) => elem.value),
-            },
-          ]}
-          width="100%"
-          height="200"
-        />
+        >
+          {lastTwelveMonths.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
+        <SalesChartBar sales={sales} />
       </Box>
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridSales
