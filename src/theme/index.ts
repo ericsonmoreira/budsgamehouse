@@ -1,5 +1,5 @@
 import { grey } from '@mui/material/colors';
-import { createTheme } from '@mui/material/styles';
+import { alpha, createTheme } from '@mui/material/styles';
 import { ptBR } from '@mui/x-data-grid';
 
 const lightTheme = createTheme(
@@ -20,6 +20,18 @@ const lightTheme = createTheme(
           disableElevation: true,
         },
       },
+      MuiTableRow: {
+        styleOverrides: {
+          root: {
+            '&:nth-of-type(even)': {
+              backgroundColor: alpha('#a2a2a2', 0.1),
+            },
+            '&:hover': {
+              backgroundColor: alpha('#a2a2a2', 0.2),
+            },
+          },
+        },
+      },
     },
   },
   ptBR
@@ -37,6 +49,18 @@ const darkTheme = createTheme(
       MuiButton: {
         defaultProps: {
           disableElevation: true,
+        },
+      },
+      MuiTableRow: {
+        styleOverrides: {
+          root: {
+            '&:nth-of-type(even)': {
+              backgroundColor: alpha('#d2d2d2', 0.1),
+            },
+            '&:hover': {
+              backgroundColor: alpha('#d2d2d2', 0.2),
+            },
+          },
         },
       },
     },
