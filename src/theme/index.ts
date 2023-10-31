@@ -23,10 +23,10 @@ const lightTheme = createTheme(
       MuiTableRow: {
         styleOverrides: {
           root: {
-            '&:nth-of-type(even)': {
+            '&:nth-of-type(even) td': {
               backgroundColor: alpha('#a2a2a2', 0.1),
             },
-            '&:hover': {
+            '&:hover td': {
               backgroundColor: alpha('#a2a2a2', 0.2),
             },
           },
@@ -54,10 +54,10 @@ const darkTheme = createTheme(
       MuiTableRow: {
         styleOverrides: {
           root: {
-            '&:nth-of-type(even)': {
+            '&:nth-of-type(even) td': {
               backgroundColor: alpha('#d2d2d2', 0.1),
             },
-            '&:hover': {
+            '&:hover td': {
               backgroundColor: alpha('#d2d2d2', 0.2),
             },
           },
