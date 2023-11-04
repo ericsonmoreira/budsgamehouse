@@ -16,6 +16,7 @@ const routesNames = {
   LOGIN: '/login',
   SCHEDULES: '/schedules',
   RECOVER_PASSWORD: '/recover-password',
+  TOURNAMENT_PRIZES: '/tournament-prizes',
   SETTINGS: '/settings',
   NOT_FOUND: '*',
 };

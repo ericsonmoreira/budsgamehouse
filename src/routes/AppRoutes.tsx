@@ -15,6 +15,7 @@ import RecoverPassword from '../pages/RecoverPassword';
 import Sales from '../pages/Sales';
 import Schedules from '../pages/Schedules';
 import Settings from '../pages/Settings';
+import TournamentPrizes from '../pages/TournamentPrizes';
 import TradingCards from '../pages/TradingCards';
 import ViewClient from '../pages/ViewClient';
 import ViewCommand from '../pages/ViewCommand';
@@ -43,6 +44,7 @@ const AppRoutes: React.FC = () => {
             <Route path={routesNames.PRODUCTS} element={<Products />} />
             <Route path={routesNames.SALES} element={<Sales />} />
             <Route path={routesNames.SCHEDULES} element={<Schedules />} />
+            <Route path={routesNames.TOURNAMENT_PRIZES} element={<TournamentPrizes />} />
             <Route path={routesNames.SETTINGS} element={<Settings />} />
             <Route path={routesNames.NOT_FOUND} element={<NotFoundPage />} />
           </Route>

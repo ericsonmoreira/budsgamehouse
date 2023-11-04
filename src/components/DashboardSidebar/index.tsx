@@ -2,6 +2,7 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CachedIcon from '@mui/icons-material/Cached';
 import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import HomeIcon from '@mui/icons-material/Home';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -80,6 +81,11 @@ const items: AppDrawerItemData[] = [
     icon: CalendarViewMonthIcon,
     to: routesNames.SCHEDULES,
     title: 'Programações',
+  },
+  {
+    icon: EmojiEventsIcon,
+    to: routesNames.TOURNAMENT_PRIZES,
+    title: 'Premiações',
   },
   {
     icon: SettingsIcon,
