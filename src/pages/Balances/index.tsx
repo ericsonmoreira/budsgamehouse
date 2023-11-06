@@ -141,6 +141,7 @@ const Balances: React.FC = () => {
       </Box>
       <Box mx={1}>
         <SearchTextField
+          autoFocus
           value={searchTerm}
           setValue={setSearchTerm}
           placeholder="Buscar por nome..."
