@@ -71,6 +71,7 @@ const Products: React.FC = () => {
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <SearchTextField
+              autoFocus
               value={searchTerm}
               setValue={setSearchTerm}
               placeholder="Buscar por nome..."

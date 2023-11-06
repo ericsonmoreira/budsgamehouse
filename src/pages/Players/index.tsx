@@ -79,6 +79,7 @@ const Players: React.FC = () => {
       <PageHeader title="Payers" onClickAddButton={() => setAddPlayerDialogOpen(true)} />
       <Box mx={1}>
         <SearchTextField
+          autoFocus
           value={searchTerm}
           setValue={setSearchTerm}
           placeholder="Buscar por nome..."
