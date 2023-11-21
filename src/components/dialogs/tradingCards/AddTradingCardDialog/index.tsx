@@ -84,12 +84,14 @@ const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = 
 
   const handleCancelAction = () => {
     resetField('searchTerm');
+
     setCardNameSelected('');
+
     setOpen(false);
   };
 
   return (
-    <Dialog fullWidth maxWidth="md" {...rest}>
+    <Dialog fullScreen {...rest}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{subTitle}</DialogContentText>

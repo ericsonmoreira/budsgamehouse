@@ -24,6 +24,8 @@ type SaleInformationsProps = {
 const SaleInformations: React.FC<SaleInformationsProps> = ({ data }) => {
   const totalSum = useMemo(() => data.products.reduce((acc, curr) => acc + curr.amount * curr.price, 0), [data]);
 
+  const { products, createdAt, looseValue } = data;
+
   return (
     <Paper>
       <Box p={1}>
@@ -32,8 +34,11 @@ const SaleInformations: React.FC<SaleInformationsProps> = ({ data }) => {
         </Typography>
         <Stack direction="row" spacing={1} alignItems="center" mb={1}>
           <CalendarMonthIcon fontSize="small" />
-          <Typography>{format(data.createdAt.toDate(), 'PPPp', { locale: ptBR })}</Typography>
+          <Typography>{format(createdAt.toDate(), 'PPPp', { locale: ptBR })}</Typography>
         </Stack>
+        <Typography component="section" gutterBottom>
+          Produtos
+        </Typography>
         <TableContainer component={Paper} variant="outlined">
           <Table size="small">
             <TableHead>
@@ -45,7 +50,7 @@ const SaleInformations: React.FC<SaleInformationsProps> = ({ data }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.products.map((product) => (
+              {products.map((product) => (
                 <TableRow key={product.id}>
                   <TableCell>{product.name}</TableCell>
                   <TableCell align="right">{product.amount}</TableCell>
@@ -62,6 +67,16 @@ const SaleInformations: React.FC<SaleInformationsProps> = ({ data }) => {
             </TableFooter>
           </Table>
         </TableContainer>
+        {looseValue && (
+          <Box display="flex" alignItems="center" justifyContent="space-between" width="100%" marginTop={1}>
+            <Typography>Valor em cartas avulsas</Typography>
+            <Typography>{formatterCurrencyBRL.format(looseValue)}</Typography>
+          </Box>
+        )}
+        <Box display="flex" alignItems="center" justifyContent="space-between" width="100%" marginTop={1}>
+          <Typography variant="h5">Total</Typography>
+          <Typography variant="h5">{formatterCurrencyBRL.format(totalSum + (looseValue ?? 0))}</Typography>
+        </Box>
       </Box>
     </Paper>
   );

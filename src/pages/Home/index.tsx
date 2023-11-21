@@ -6,6 +6,7 @@ import SellIcon from '@mui/icons-material/Sell';
 import { Grid } from '@mui/material';
 import { useMemo } from 'react';
 import HomeCard, { HomeCardProps } from '../../components/HomeCard';
+import MarketCard from '../../components/MarketCard';
 import Page from '../../components/Page';
 import useCommands from '../../hooks/useCommands';
 import usePlayers from '../../hooks/usePlayers';
@@ -74,6 +75,9 @@ const Home: React.FC = () => {
   return (
     <Page>
       <Grid container spacing={1} p={1}>
+        <Grid item xs={12}>
+          <MarketCard />
+        </Grid>
         {items.map((item) => (
           <Grid key={item.title} item xs={12} md={6} lg={4} xl={3}>
             <HomeCard {...item} />

@@ -148,7 +148,9 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
         sale: (obj: object) => {
           const activite = obj as Sale;
 
-          return -activite.products.reduce((acc, curr) => acc + curr.price * curr.amount, 0);
+          return (
+            -activite.products.reduce((acc, curr) => acc + curr.price * curr.amount, 0) - (activite?.looseValue || 0)
+          );
         },
         transfer: (obj: object) => {
           const activite = obj as Transfer;

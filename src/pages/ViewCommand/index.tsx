@@ -260,61 +260,59 @@ const ViewCommand: React.FC = () => {
           </Grid>
           <Grid item xs={12}>
             <TableContainer component={Paper}>
-              <TableContainer component={Paper}>
-                <Table size="small">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Produto</TableCell>
-                      <TableCell align="right">Quantidade</TableCell>
-                      <TableCell align="right">Valor Unit.</TableCell>
-                      <TableCell align="right" width={150}>
-                        Total
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {shoppingCart
-                      .sort((a, b) => a.name.localeCompare(b.name))
-                      .map((row) => (
-                        <TableRow key={row.name}>
-                          <TableCell align="right">
-                            <Box display="flex" alignItems="center" justifyContent="space-between">
-                              <Typography variant="inherit">{row.name}</Typography>
-                              {!isDisableCommandEdition && (
-                                <Stack direction="row">
-                                  <IconButton onClick={() => handlePlusOneProductInShoppingCart(row)}>
-                                    <AddCircleIcon fontSize="inherit" color="success" />
-                                  </IconButton>
-                                  <IconButton onClick={() => handleMinusOneProductInShoppingCart(row)}>
-                                    <RemoveCircleIcon fontSize="inherit" color="error" />
-                                  </IconButton>
-                                  <IconButton onClick={() => handleRemoveProductInShoppingCart(row)}>
-                                    <DeleteIcon fontSize="inherit" color="error" />
-                                  </IconButton>
-                                </Stack>
-                              )}
-                            </Box>
-                          </TableCell>
-                          <TableCell align="right">{row.amount}</TableCell>
-                          <TableCell align="right">{formatterCurrencyBRL.format(row.price)}</TableCell>
-                          <TableCell align="right">{formatterCurrencyBRL.format(row.amount * row.price)}</TableCell>
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                  <TableFooter>
-                    <TableRow>
-                      <TableCell colSpan={4}>
-                        <Box display="flex" alignItems="center" justifyContent="space-between">
-                          <Typography variant="h6">Total a Pagar</Typography>
-                          <Typography variant="h6" color="error">
-                            {formatterCurrencyBRL.format(totalToPay)}
-                          </Typography>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  </TableFooter>
-                </Table>
-              </TableContainer>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Produto</TableCell>
+                    <TableCell align="right">Quantidade</TableCell>
+                    <TableCell align="right">Valor Unit.</TableCell>
+                    <TableCell align="right" width={150}>
+                      Total
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {shoppingCart
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((row) => (
+                      <TableRow key={row.name}>
+                        <TableCell align="right">
+                          <Box display="flex" alignItems="center" justifyContent="space-between">
+                            <Typography variant="inherit">{row.name}</Typography>
+                            {!isDisableCommandEdition && (
+                              <Stack direction="row">
+                                <IconButton onClick={() => handlePlusOneProductInShoppingCart(row)}>
+                                  <AddCircleIcon fontSize="inherit" color="success" />
+                                </IconButton>
+                                <IconButton onClick={() => handleMinusOneProductInShoppingCart(row)}>
+                                  <RemoveCircleIcon fontSize="inherit" color="error" />
+                                </IconButton>
+                                <IconButton onClick={() => handleRemoveProductInShoppingCart(row)}>
+                                  <DeleteIcon fontSize="inherit" color="error" />
+                                </IconButton>
+                              </Stack>
+                            )}
+                          </Box>
+                        </TableCell>
+                        <TableCell align="right">{row.amount}</TableCell>
+                        <TableCell align="right">{formatterCurrencyBRL.format(row.price)}</TableCell>
+                        <TableCell align="right">{formatterCurrencyBRL.format(row.amount * row.price)}</TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TableCell colSpan={4}>
+                      <Box display="flex" alignItems="center" justifyContent="space-between">
+                        <Typography variant="h6">Total a Pagar</Typography>
+                        <Typography variant="h6" color="error">
+                          {formatterCurrencyBRL.format(totalToPay)}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                </TableFooter>
+              </Table>
             </TableContainer>
           </Grid>
           <Grid item xs={12} sm={4}>

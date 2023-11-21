@@ -58,6 +58,7 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({ tit
 
   const { card } = useCardByName(cardNameSelected);
 
+  // TODO: passar isso pra uma mutation
   const handleConfirmAction = () => {
     try {
       if (card) {
