@@ -127,6 +127,8 @@ const MarketCard: React.FC = () => {
     return shoppingCart.reduce((acc, curr) => acc + curr.price * curr.amount, 0) + looseValueWatch;
   }, [shoppingCart, looseValueWatch]);
 
+  const disabledConfirm = useMemo(() => totalToPay === 0, [totalToPay]);
+
   const { mutate: confirmMutate, isLoading: confirmMutateIsloading } = useMutation({
     mutationFn: async (data: MarketCardFormData) => {
       if (user) {
@@ -260,10 +262,10 @@ const MarketCard: React.FC = () => {
         </CardContent>
       )}
       <CardActions>
-        <Button variant="contained" color="error">
+        <Button variant="contained" color="error" onClick={handleClearFields}>
           Cancelar
         </Button>
-        <Button variant="contained" color="success" onClick={handleSubmit(handleConfirm)}>
+        <Button variant="contained" color="success" onClick={handleSubmit(handleConfirm)} disabled={disabledConfirm}>
           Finalizar Pedido
         </Button>
       </CardActions>
