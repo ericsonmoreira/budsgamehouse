@@ -35,7 +35,7 @@ const ViewSaleDialog: React.FC<ViewSaleDialogProps & DialogProps> = ({
   };
 
   return (
-    <Dialog fullWidth maxWidth="md" onClose={handleClose} {...rest}>
+    <Dialog fullScreen onClose={handleClose} {...rest}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{subTitle}</DialogContentText>
@@ -52,7 +52,6 @@ const ViewSaleDialog: React.FC<ViewSaleDialogProps & DialogProps> = ({
             <Typography variant="h5">Venda avulsa</Typography>
           </Box>
         )}
-
         <SaleInformationsTable data={saleToview} />
       </DialogContent>
       <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading && saleToview.playerId !== ''}>

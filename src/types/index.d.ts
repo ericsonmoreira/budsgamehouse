@@ -47,6 +47,7 @@ declare interface Sale {
     amount: number;
     price: number;
   }[];
+  looseValue?: number;
   createdAt: Timestamp;
 }
 

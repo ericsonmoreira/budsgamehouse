@@ -1,4 +1,3 @@
-import { grey } from '@mui/material/colors';
 import { alpha, createTheme } from '@mui/material/styles';
 import { ptBR } from '@mui/x-data-grid';
 
@@ -6,9 +5,12 @@ const lightTheme = createTheme(
   {
     palette: {
       mode: 'light',
+      primary: {
+        main: '#2e6bff',
+      },
       background: {
-        default: grey[300],
-        paper: grey[200],
+        default: '#d0dee2',
+        paper: '#e3f8ff',
       },
     },
     typography: {
@@ -41,6 +43,13 @@ const darkTheme = createTheme(
   {
     palette: {
       mode: 'dark',
+      primary: {
+        main: '#2e9cff',
+      },
+      background: {
+        default: '#010405',
+        paper: '#201d1e',
+      },
     },
     typography: {
       fontSize: 12,

@@ -30,7 +30,7 @@ const columns: GridColDef[] = [
     field: 'products',
     headerName: 'Valor',
     flex: 1,
-    valueGetter: ({ value }) =>
+    valueGetter: ({ value, row }) =>
       value.reduce(
         (
           acc: number,
@@ -40,7 +40,7 @@ const columns: GridColDef[] = [
           }
         ) => acc + curr.amount * curr.price,
         0
-      ),
+      ) + (row?.looseValue || 0),
     valueFormatter: ({ value }) => formatterCurrencyBRL.format(value),
   },
   {

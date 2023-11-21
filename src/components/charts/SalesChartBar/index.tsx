@@ -18,7 +18,7 @@ const SalesChartBar: React.FC<SalesChartBarProps> = ({ sales }) => {
       for (const sale of sales) {
         const day = format(sale.createdAt.toDate(), 'yy/MM/dd');
 
-        const value = sale.products.reduce((acc, curr) => acc + curr.amount * curr.price, 0);
+        const value = sale.products.reduce((acc, curr) => acc + curr.amount * curr.price, 0) + (sale?.looseValue || 0);
 
         const existingDay = salesByDayOfMonth.find((item) => item.day === day);
 
