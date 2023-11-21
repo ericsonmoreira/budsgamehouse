@@ -23,7 +23,8 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { format } from 'date-fns';
 import { Timestamp } from 'firebase/firestore';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -39,6 +40,7 @@ import AutocompletePlayers from '../AutocompletePlayers';
 import AutocompleteProducts from '../AutocompleteProducts';
 import ControlledCurrencyTextField from '../textfields/ControlledCurrencyTextField';
 import schema from './schema';
+import updatePlayer from '../../resources/players/updatePlayer';
 
 type MarketCardCart = {
   id: string;
@@ -52,6 +54,8 @@ type MarketCardFormData = {
 };
 
 const MarketCard: React.FC = () => {
+  const queryClient = useQueryClient();
+
   const [user] = useAuthState(auth);
 
   const {
@@ -134,6 +138,10 @@ const MarketCard: React.FC = () => {
       if (user) {
         const { looseValue } = data;
 
+        if (selectedPlayer) {
+          await updatePlayer({ ...selectedPlayer, balance: selectedPlayer.balance - totalToPay });
+        }
+
         // Atualiza todos os produtos de acorodo com a quantidade para remover do estoque
         await Promise.all(shoppingCart.map(({ id, amount }) => updateProductStock(id, -amount)));
 
@@ -150,6 +158,18 @@ const MarketCard: React.FC = () => {
           userId: user.uid,
           looseValue,
         });
+
+        const [mes, ano] = format(Date.now(), 'MM/yyyy').split('/');
+
+        await queryClient.invalidateQueries(['useProducts']);
+
+        await queryClient.invalidateQueries(['usePlayers']);
+
+        await queryClient.invalidateQueries(['useSalesPerMonth', new Date(`${ano}-${mes}-01T00:00:00`)]);
+
+        if (selectedPlayer) {
+          await queryClient.invalidateQueries(['useSalesFromPlayer', selectedPlayer.id]);
+        }
       } else {
         throw new Error('Usuário não encontrado.');
       }
@@ -229,7 +249,6 @@ const MarketCard: React.FC = () => {
                           <TableCell align="right">
                             <Box display="flex" alignItems="center" justifyContent="space-between">
                               <Typography variant="inherit">{row.name}</Typography>
-
                               <Stack direction="row">
                                 <IconButton onClick={() => handlePlusOneProductInShoppingCart(row)}>
                                   <AddCircleIcon fontSize="inherit" color="success" />

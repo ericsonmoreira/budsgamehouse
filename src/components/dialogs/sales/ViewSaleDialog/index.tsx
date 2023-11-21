@@ -1,8 +1,10 @@
 import {
   Backdrop,
   Box,
+  Button,
   CircularProgress,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogContentText,
   DialogProps,
@@ -54,6 +56,11 @@ const ViewSaleDialog: React.FC<ViewSaleDialogProps & DialogProps> = ({
         )}
         <SaleInformationsTable data={saleToview} />
       </DialogContent>
+      <DialogActions>
+        <Button color="secondary" onClick={handleClose}>
+          Fechar
+        </Button>
+      </DialogActions>
       <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading && saleToview.playerId !== ''}>
         <CircularProgress color="primary" />
       </Backdrop>

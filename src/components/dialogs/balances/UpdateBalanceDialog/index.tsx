@@ -56,6 +56,7 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
   ...rest
 }) => {
   const queryClient = useQueryClient();
+
   const [user] = useAuthState(auth);
 
   const { data: produtos } = useProducts();

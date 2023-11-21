@@ -4,10 +4,10 @@ import React, { useMemo, useState } from 'react';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
 import SalesChartBar from '../../components/charts/SalesChartBar';
+import DataGridProductsSales from '../../components/datagrids/DataGridProductsSales';
 import DataGridSales from '../../components/datagrids/DataGridSales';
 import ViewSaleDialog from '../../components/dialogs/sales/ViewSaleDialog';
 import useSalesPerMonth from '../../hooks/useSalesPerMonth';
-import DataGridProductsSales from '../../components/datagrids/DataGridProductsSales';
 
 const Sales: React.FC = () => {
   const [selectedMonth, setSelectedMonth] = useState(format(Date.now(), 'MM/yyyy'));
