@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Outlet } from 'react-router-dom';
-import BackGroundLoginPageImg from '../../assets/bgLogin02.jpg';
+import BackGroundLoginPageImg from '../../assets/bgLogin.jpg';
 
 const AreaClientLayout: React.FC = () => {
   const { palette } = useTheme();

@@ -1,7 +1,7 @@
 import { Box, Container, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Outlet } from 'react-router-dom';
-import BackGroundLoginPageImg from '../../assets/bgLogin02.jpg';
+import BackGroundLoginPageImg from '../../assets/bgLogin.jpg';
 
 const BasicLayout: React.FC = () => {
   const theme = useTheme();
@@ -35,7 +35,7 @@ const BasicLayout: React.FC = () => {
             justifyContent: 'center',
           }}
         >
-          <img src="/atm-logo.png" style={{ maxWidth: upMd ? '300px' : '220px', width: 'auto' }} />
+          <img src="/buds-logo.png" style={{ maxWidth: upMd ? '300px' : '220px', width: 'auto' }} />
         </Box>
         <Box
           sx={{

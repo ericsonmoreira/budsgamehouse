@@ -71,11 +71,11 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSideb
             display: 'flex',
           }}
         >
-          <img src="/atm-logo.png" alt="Atm Logo" style={{ width: '3rem', height: '3rem' }} />
+          <img src="/buds-logo.png" alt="Buds Logo" style={{ width: '4rem' }} />
         </Box>
         <Box flexGrow={1} display="flex" alignItems="center" justifyContent={'center'}>
           <Typography variant="h5" color="text.primary" fontWeight={900}>
-            ATM
+            Buds Game House
           </Typography>
         </Box>
         <Box>
