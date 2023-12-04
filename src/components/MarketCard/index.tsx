@@ -58,15 +58,9 @@ const MarketCard: React.FC = () => {
 
   const [user] = useAuthState(auth);
 
-  const {
-    data: players,
-    // isLoading: isLoadingPlayers
-  } = usePlayers();
+  const { data: players } = usePlayers();
 
-  const {
-    data: products,
-    // isLoading: isLoadingProducts
-  } = useProducts();
+  const { data: products } = useProducts();
 
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 

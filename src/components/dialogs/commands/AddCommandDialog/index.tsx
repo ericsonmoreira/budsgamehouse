@@ -16,14 +16,16 @@ import {
   Typography,
 } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import useCommands from '../../../../hooks/useCommands';
+import usePlayers from '../../../../hooks/usePlayers';
 import { CardsClubIcon, CardsDiamondIcon, CardsHeartIcon, CardsSpadeIcon } from '../../../../icons';
 import addCommand from '../../../../resources/commands/addCommand';
 import { auth } from '../../../../services/firebaseConfig';
+import AutocompletePlayers from '../../../AutocompletePlayers';
 import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema';
 
@@ -52,6 +54,10 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title
   const queryClient = useQueryClient();
 
   const { data: commands } = useCommands('open');
+
+  const { data: players } = usePlayers();
+
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
   const [user] = useAuthState(auth);
 
@@ -116,6 +122,8 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title
     setOpen(false);
   };
 
+  const isLooseCommand = useMemo(() => !selectedPlayer, [selectedPlayer]);
+
   return (
     <Dialog fullWidth maxWidth="md" {...rest} onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
@@ -123,32 +131,43 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <ControlledTextField
-              name="name"
-              control={control}
-              defaultValue={possibleCommandsNames[0]}
-              variant="outlined"
-              label="Comanda"
-              size="small"
-              fullWidth
-              select
-            >
-              {possibleCommandsNames.map((commandName) => {
-                const [num, suite] = commandName.split('|');
-
-                const IconComponent = cardsSuitiesMap[suite as 'club' | 'diamond' | 'heart' | 'spade'];
-
-                return (
-                  <MenuItem key={commandName} value={commandName}>
-                    <Stack direction="row" spacing={1}>
-                      <Typography>{num}</Typography>
-                      <IconComponent />
-                    </Stack>
-                  </MenuItem>
-                );
-              })}
-            </ControlledTextField>
+            {players && (
+              <AutocompletePlayers
+                validPlayers={players}
+                selectedPlayer={selectedPlayer}
+                setSelectedPlayer={setSelectedPlayer}
+              />
+            )}
           </Grid>
+          {isLooseCommand && (
+            <Grid item xs={12}>
+              <ControlledTextField
+                name="name"
+                control={control}
+                defaultValue={possibleCommandsNames[0]}
+                variant="outlined"
+                label="Comanda"
+                size="small"
+                fullWidth
+                select
+              >
+                {possibleCommandsNames.map((commandName) => {
+                  const [num, suite] = commandName.split('|');
+
+                  const IconComponent = cardsSuitiesMap[suite as 'club' | 'diamond' | 'heart' | 'spade'];
+
+                  return (
+                    <MenuItem key={commandName} value={commandName}>
+                      <Stack direction="row" spacing={1}>
+                        <Typography>{num}</Typography>
+                        <IconComponent />
+                      </Stack>
+                    </MenuItem>
+                  );
+                })}
+              </ControlledTextField>
+            </Grid>
+          )}
         </Grid>
       </DialogContent>
       <DialogActions>
