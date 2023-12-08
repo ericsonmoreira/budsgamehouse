@@ -36,6 +36,7 @@ const ControlledPhoneTextField = <
             <PhoneIcon />
           </InputAdornment>
         ),
+        inputMode: 'tel',
       }}
     />
   );

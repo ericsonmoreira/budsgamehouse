@@ -20,7 +20,18 @@ const ControlledPasswordTextField = <
     fieldState: { error },
   } = useController({ control, name });
 
-  return <PasswordTextField {...rest} {...fieldRest} inputRef={ref} error={!!error} helperText={error?.message} />;
+  return (
+    <PasswordTextField
+      {...rest}
+      {...fieldRest}
+      inputRef={ref}
+      error={!!error}
+      helperText={error?.message}
+      InputProps={{
+        inputMode: 'email',
+      }}
+    />
+  );
 };
 
 export default ControlledPasswordTextField;
