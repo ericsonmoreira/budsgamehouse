@@ -1,12 +1,13 @@
 import { Box, Grid, MenuItem, TextField, Typography } from '@mui/material';
-import { format, subMonths } from 'date-fns';
-import React, { useMemo, useState } from 'react';
+import { format } from 'date-fns';
+import React, { useState } from 'react';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
 import SalesChartBar from '../../components/charts/SalesChartBar';
 import DataGridProductsSales from '../../components/datagrids/DataGridProductsSales';
 import DataGridSales from '../../components/datagrids/DataGridSales';
 import ViewSaleDialog from '../../components/dialogs/sales/ViewSaleDialog';
+import useLastTwelveMonths from '../../hooks/useLastTwelveMonths';
 import useSalesPerMonth from '../../hooks/useSalesPerMonth';
 
 const Sales: React.FC = () => {
@@ -21,21 +22,7 @@ const Sales: React.FC = () => {
 
   const [saleToview, setSaleToview] = useState<Sale>({} as Sale);
 
-  // últimos 12 meses
-  const lastTwelveMonths = useMemo(() => {
-    const now = Date.now();
-
-    const months: string[] = []; // MM/yyyy
-
-    for (let i = 0; i < 12; i++) {
-      const data = subMonths(now, i);
-
-      const mesAno = format(data, 'MM/yyyy');
-      months.push(mesAno);
-    }
-
-    return months;
-  }, []);
+  const lastTwelveMonths = useLastTwelveMonths(12);
 
   const handleView = (sale: Sale) => {
     setSaleToview(sale);

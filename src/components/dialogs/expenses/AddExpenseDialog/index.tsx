@@ -23,6 +23,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { format } from 'date-fns';
 import { Timestamp } from 'firebase/firestore';
 import { useCallback, useMemo, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -124,7 +125,10 @@ const AddExpenseDialog: React.FC<AddExpenseDialogProps & DialogProps> = ({ title
 
         await queryClient.invalidateQueries(['useProducts']);
 
-        await queryClient.invalidateQueries(['useExpenses']);
+        // Pegando mês e ano atual
+        const [mes, ano] = format(Date.now(), 'MM/yyyy').split('/');
+
+        await queryClient.invalidateQueries(['useExpensesPerMonth', new Date(`${ano}-${mes}-01T00:00:00`)]);
       } else {
         throw new Error('Usuário não encontrado');
       }
