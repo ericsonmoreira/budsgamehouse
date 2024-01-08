@@ -1,13 +1,14 @@
 import { Box, Grid, MenuItem, TextField, Typography } from '@mui/material';
 import { format } from 'date-fns';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
-import SalesChartBar from '../../components/charts/SalesChartBar';
+import SalesAndPaymentsChartBar from '../../components/charts/SalesAndPaymentsChartBar';
 import DataGridProductsSales from '../../components/datagrids/DataGridProductsSales';
 import DataGridSales from '../../components/datagrids/DataGridSales';
 import ViewSaleDialog from '../../components/dialogs/sales/ViewSaleDialog';
 import useLastTwelveMonths from '../../hooks/useLastTwelveMonths';
+import usePaymentsPerMonth from '../../hooks/usePaymentsPerMonth';
 import useSalesPerMonth from '../../hooks/useSalesPerMonth';
 
 const Sales: React.FC = () => {
@@ -15,8 +16,11 @@ const Sales: React.FC = () => {
 
   const [mes, ano] = selectedMonth.split('/');
 
-  // Pegando o Objeto Date do Mês selecionado
-  const { data: sales, isLoading } = useSalesPerMonth(new Date(`${ano}-${mes}-01T00:00:00`));
+  const { data: sales, isLoading: isLoadingSalesPerMonth } = useSalesPerMonth(new Date(`${ano}-${mes}-01T00:00:00`));
+
+  const { data: payments, isLoading: isLoadingPaymentsPerMonth } = usePaymentsPerMonth(
+    new Date(`${ano}-${mes}-01T00:00:00`)
+  );
 
   const [viewSaleDialogOpen, setViewSaleDialogOpen] = useState(false);
 
@@ -29,6 +33,11 @@ const Sales: React.FC = () => {
 
     setViewSaleDialogOpen(true);
   };
+
+  const isLoading = useMemo(
+    () => isLoadingSalesPerMonth || isLoadingPaymentsPerMonth,
+    [isLoadingSalesPerMonth, isLoadingPaymentsPerMonth]
+  );
 
   return (
     <Page>
@@ -54,7 +63,7 @@ const Sales: React.FC = () => {
           </TextField>
         </Grid>
         <Grid item xs={12}>
-          <SalesChartBar sales={sales} />
+          <SalesAndPaymentsChartBar sales={sales} payments={payments} month={selectedMonth} />
         </Grid>
         <Grid item xs={12} md={6}>
           <Typography color="text.secondary" gutterBottom>
