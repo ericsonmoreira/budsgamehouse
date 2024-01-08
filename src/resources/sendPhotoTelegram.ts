@@ -7,7 +7,9 @@ const sendPhotoTelegram = (blob: Blob) => {
   const formData = new FormData();
 
   formData.append('photo', blob, 'photo');
+
   formData.append('chat_id', telegramChatIdToNotify);
+
   formData.append('disable_web_page_preview', 'true');
 
   return telegramApi.post(`/bot${telegramBotToken}/sendPhoto`, formData, {
@@ -18,3 +20,4 @@ const sendPhotoTelegram = (blob: Blob) => {
 };
 
 export default sendPhotoTelegram;
+
