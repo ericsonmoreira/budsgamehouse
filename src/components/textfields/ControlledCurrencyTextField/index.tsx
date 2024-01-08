@@ -41,6 +41,7 @@ const ControlledCurrencyTextField = <
       onValueChange={(values) => onChange((values.floatValue || 0) / 100)}
       InputProps={{
         startAdornment: <InputAdornment position="start">R$</InputAdornment>,
+        inputMode: 'numeric',
       }}
     />
   );
