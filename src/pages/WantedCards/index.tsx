@@ -22,7 +22,7 @@ const PreviewModeImg = styled('div')<PreviewModeImgProps>(({ amount }) => ({
   position: 'relative',
 
   ':after': {
-    content: `"x ${amount}"`, // Adiciona o conteúdo dinâmico entre aspas
+    content: `"x ${String(amount)}"`, // Adiciona o conteúdo dinâmico entre aspas
     position: 'absolute',
     bottom: '10%',
     right: '10%',
