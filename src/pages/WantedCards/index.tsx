@@ -116,8 +116,8 @@ const WantedCards: React.FC = () => {
           <Grid container>
             <Each
               of={wantedCards || []}
-              render={({ imgUrl, amount }) => (
-                <Grid item xs={2} p={1}>
+              render={({ imgUrl, amount }, index) => (
+                <Grid item xs={2} p={1} key={index}>
                   <PreviewModeImg amount={amount}>
                     <img src={imgUrl} width="100%" style={{ borderRadius: '8px' }} />
                   </PreviewModeImg>
