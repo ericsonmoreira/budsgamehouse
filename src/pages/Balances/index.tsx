@@ -11,7 +11,6 @@ import UpdateBalanceDialog from '../../components/dialogs/balances/UpdateBalance
 import SearchTextField from '../../components/textfields/SearchTextField';
 import usePlayers from '../../hooks/usePlayers';
 import { formatterCurrencyBRL } from '../../utils/formatters';
-import Each from '../../components/Each';
 
 type ContentCard = {
   title: string;
@@ -131,16 +130,13 @@ const Balances: React.FC = () => {
       <PageHeader title="Saldos" />
       <Box m={1}>
         <Grid container spacing={1}>
-          <Each
-            of={contentCards}
-            render={({ tooltipTitle, icon, color, title, value }, index) => (
-              <Grid item key={index}>
-                <Tooltip title={tooltipTitle}>
-                  <Chip size="small" icon={icon} color={color} variant="outlined" label={`${title}: ${value}`} />
-                </Tooltip>
-              </Grid>
-            )}
-          />
+          {contentCards.map(({ tooltipTitle, icon, color, title, value }) => (
+            <Grid item key={title}>
+              <Tooltip title={tooltipTitle}>
+                <Chip size="small" icon={icon} color={color} variant="outlined" label={`${title}: ${value}`} />
+              </Tooltip>
+            </Grid>
+          ))}
         </Grid>
       </Box>
       <Box mx={1}>

@@ -1,6 +1,5 @@
 import { Box, Grid, MenuItem, TextField, styled } from '@mui/material';
 import { useState } from 'react';
-import Each from '../../components/Each';
 import PageHeader from '../../components/PageHeader';
 import DataGridWantedCards from '../../components/datagrids/DataGridWantedCards';
 import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
@@ -9,7 +8,6 @@ import UpdateWantedCardDialog, {
   WantedCardUpdateData,
 } from '../../components/dialogs/wantCards/UpdateWantedCardDialog';
 import useWantedCards from '../../hooks/useWantedCards';
-
 type PreviewModeType = 'Tabela' | 'Visual';
 
 const viewingModes: PreviewModeType[] = ['Tabela', 'Visual'];
@@ -114,16 +112,13 @@ const WantedCards: React.FC = () => {
         )}
         {previewMode === 'Visual' && (
           <Grid container>
-            <Each
-              of={wantedCards || []}
-              render={({ imgUrl, amount }, index) => (
-                <Grid item xs={2} p={1} key={index}>
-                  <PreviewModeImg amount={amount}>
-                    <img src={imgUrl} width="100%" style={{ borderRadius: '8px' }} />
-                  </PreviewModeImg>
-                </Grid>
-              )}
-            />
+            {wantedCards?.map(({ id, imgUrl, amount }) => (
+              <Grid item xs={2} p={1} key={id}>
+                <PreviewModeImg amount={amount}>
+                  <img src={imgUrl} width="100%" style={{ borderRadius: '8px' }} />
+                </PreviewModeImg>
+              </Grid>
+            ))}
           </Grid>
         )}
       </Box>
