@@ -1,4 +1,9 @@
 import { Autocomplete, Box, Stack, TextField, Typography } from '@mui/material';
+import { useMemo, useState } from 'react';
+
+type PlayerWithPriority = {
+  priority: number;
+} & Player;
 
 type AutocompletePlayersProps = {
   selectedPlayer: Player | null;
@@ -13,14 +18,37 @@ const AutocompletePlayers: React.FC<AutocompletePlayersProps> = ({
   validPlayers,
   disabled = false,
 }) => {
+  const [validPlayersWithPriority, setValidPlayersWithPriority] = useState<PlayerWithPriority[]>(
+    () => validPlayers?.map((player) => ({ ...player, priority: 0 })) || []
+  );
+
+  const validPlayersSorted = useMemo<Player[]>(
+    () =>
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      validPlayersWithPriority.sort((a, b) => b.priority - a.priority).map(({ priority, ...rest }) => ({ ...rest })),
+    [validPlayersWithPriority]
+  );
+
   return (
     <Stack direction="row" spacing={1} width={1}>
       <Autocomplete
         disabled={disabled}
         value={selectedPlayer}
-        options={validPlayers}
+        options={validPlayersSorted}
         onChange={(_, newValue) => {
           setSelectedPlayer(newValue);
+
+          if (newValue) {
+            setValidPlayersWithPriority((old) => {
+              const selectedPlayerIndex = old.findIndex((item) => item.id === newValue.id);
+
+              if (selectedPlayerIndex !== -1) {
+                old[selectedPlayerIndex].priority = old[selectedPlayerIndex].priority + 1;
+              }
+
+              return [...old];
+            });
+          }
         }}
         renderOption={(props, option) => (
           <Box component="li" {...props}>
