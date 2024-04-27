@@ -29,12 +29,11 @@ const CustomDataGrid: React.FC<DataGridProps> = (props) => {
     <StripedDataGrid
       {...props}
       density="compact"
-      components={{
-        NoRowsOverlay: () => <NoDataOverlay />,
-        NoResultsOverlay: () => <NoDataOverlay />,
+      slots={{
+        noRowsOverlay: () => <NoDataOverlay />,
+        noResultsOverlay: () => <NoDataOverlay />,
       }}
       getRowClassName={(params) => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
-      disableSelectionOnClick
       sx={{ backgroundColor: (theme) => theme.palette.background.paper }}
     />
   );
