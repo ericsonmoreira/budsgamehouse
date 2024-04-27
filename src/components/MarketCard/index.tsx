@@ -199,7 +199,7 @@ const MarketCard: React.FC = () => {
   // limite para compra no sistema
   const selectedPlayerIsExceededLimit = useMemo(() => {
     if (selectedPlayer) {
-      return selectedPlayer.balance <= -50;
+      return selectedPlayer.balance <= -200;
     }
 
     return false;
