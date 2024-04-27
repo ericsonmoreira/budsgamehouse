@@ -44,6 +44,10 @@ const AvatarPlayer: React.FC<AvatarPlayerProps & AvatarProps> = ({ playerId, sx:
     return null;
   }
 
+  if (!player) {
+    return null;
+  }
+
   return (
     <Tooltip title={player.name}>
       <IconButton onClick={() => navigate(routesNames.VIEW_PLAYER.replace(':id', player.id))}>
