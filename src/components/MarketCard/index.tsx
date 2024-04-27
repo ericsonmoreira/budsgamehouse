@@ -196,6 +196,15 @@ const MarketCard: React.FC = () => {
     confirmMutate(data);
   };
 
+  // limite para compra no sistema
+  const selectedPlayerIsExceededLimit = useMemo(() => {
+    if (selectedPlayer) {
+      return selectedPlayer.balance <= -50;
+    }
+
+    return false;
+  }, [selectedPlayer]);
+
   return (
     <Card>
       <CardHeader title="Caixa Aberto" subheader="Criar uma venda associada ou não a um Player" />
@@ -207,6 +216,10 @@ const MarketCard: React.FC = () => {
                 validPlayers={players}
                 selectedPlayer={selectedPlayer}
                 setSelectedPlayer={setSelectedPlayer}
+                textFieldProps={{
+                  helperText: selectedPlayerIsExceededLimit ? 'Jogador com limite de saldo negativo' : null,
+                  error: selectedPlayerIsExceededLimit,
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -215,6 +228,7 @@ const MarketCard: React.FC = () => {
                 selectedProduct={selectedProduct}
                 setSelectedProduct={setSelectedProduct}
                 onClickAddProductButton={handleAddProductToShoppingCart}
+                disabled={selectedPlayerIsExceededLimit}
               />
             </Grid>
             <Grid item xs={12}>
@@ -225,6 +239,7 @@ const MarketCard: React.FC = () => {
                 fullWidth
                 size="small"
                 variant="outlined"
+                disabled={selectedPlayerIsExceededLimit}
               />
             </Grid>
             <Grid item xs={12}>
@@ -284,7 +299,12 @@ const MarketCard: React.FC = () => {
         <Button variant="contained" color="error" onClick={handleClearFields}>
           Cancelar
         </Button>
-        <Button variant="contained" color="success" onClick={handleSubmit(handleConfirm)} disabled={disabledConfirm}>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={handleSubmit(handleConfirm)}
+          disabled={disabledConfirm || selectedPlayerIsExceededLimit}
+        >
           Finalizar Pedido
         </Button>
       </CardActions>
