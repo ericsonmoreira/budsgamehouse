@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Stack, TextField, Typography } from '@mui/material';
+import { Autocomplete, Box, Stack, TextField, TextFieldProps, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 
 type PlayerWithPriority = {
@@ -10,6 +10,7 @@ type AutocompletePlayersProps = {
   setSelectedPlayer: React.Dispatch<React.SetStateAction<Player | null>>;
   validPlayers: Player[];
   disabled?: boolean;
+  textFieldProps?: TextFieldProps;
 };
 
 const AutocompletePlayers: React.FC<AutocompletePlayersProps> = ({
@@ -17,6 +18,7 @@ const AutocompletePlayers: React.FC<AutocompletePlayersProps> = ({
   setSelectedPlayer,
   validPlayers,
   disabled = false,
+  textFieldProps,
 }) => {
   const [validPlayersWithPriority, setValidPlayersWithPriority] = useState<PlayerWithPriority[]>(
     () => validPlayers?.map((player) => ({ ...player, priority: 0 })) || []
@@ -61,7 +63,7 @@ const AutocompletePlayers: React.FC<AutocompletePlayersProps> = ({
         isOptionEqualToValue={(option, value) => option.id === value.id}
         getOptionLabel={(option) => option.name}
         fullWidth
-        renderInput={(params) => <TextField {...params} ref={null} size="small" label="Player" />}
+        renderInput={(params) => <TextField {...params} ref={null} size="small" label="Player" {...textFieldProps} />}
       />
     </Stack>
   );
