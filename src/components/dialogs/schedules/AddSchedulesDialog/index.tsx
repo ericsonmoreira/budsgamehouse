@@ -45,7 +45,7 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({ t
     },
   });
 
-  const { mutate: addScheduleMutate, isLoading: addScheduleMutateIsloading } = useMutation({
+  const { mutate: addScheduleMutate, isPending: addScheduleMutateIsloading } = useMutation({
     mutationFn: async ({ title, description, end, start }: AddSchedulesDialogFormData) => {
       addSchedule({
         title,
@@ -55,7 +55,7 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({ t
         createdAt: Timestamp.now(),
       });
 
-      await queryClient.invalidateQueries(['useSchedules']);
+      await queryClient.invalidateQueries({ queryKey: ['useSchedules'] });
     },
     onSuccess: () => {
       handleClose();

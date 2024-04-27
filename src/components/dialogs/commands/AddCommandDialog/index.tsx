@@ -78,7 +78,7 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title
     },
   });
 
-  const { mutate: addCommandMutate, isLoading: addCommandMutateIsloading } = useMutation({
+  const { mutate: addCommandMutate, isPending: addCommandMutateIsloading } = useMutation({
     mutationFn: async ({ name }: AddCommandDialogFormData) => {
       if (user) {
         await addCommand({
@@ -89,7 +89,7 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title
           userId: user.uid,
         });
 
-        await queryClient.invalidateQueries(['useCommands', 'open']);
+        await queryClient.invalidateQueries({ queryKey: ['useCommands', 'open'] });
       } else {
         throw new Error('Usuário não autenticado');
       }

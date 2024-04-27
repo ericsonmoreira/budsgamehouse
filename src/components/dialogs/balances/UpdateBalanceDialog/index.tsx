@@ -122,7 +122,7 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
     setShoppingCart((old) => old.filter((elem) => elem.id !== row.id));
   };
 
-  const { mutate: updateFiadoMutate, isLoading: updateFiadoMutateIsloading } = useMutation({
+  const { mutate: updateFiadoMutate, isPending: updateFiadoMutateIsloading } = useMutation({
     mutationFn: async () => {
       if (user) {
         await updatePlayer({ ...playerToUpdate, balance: playerToUpdate.balance - totalToPay });
@@ -147,13 +147,13 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
           userId: user.uid,
         });
 
-        await queryClient.invalidateQueries(['useProducts']);
+        await queryClient.invalidateQueries({ queryKey: ['useProducts'] });
 
-        await queryClient.invalidateQueries(['usePlayers']);
+        await queryClient.invalidateQueries({ queryKey: ['usePlayers'] });
 
-        await queryClient.invalidateQueries(['useSales']);
+        await queryClient.invalidateQueries({ queryKey: ['useSales'] });
 
-        await queryClient.invalidateQueries(['useSalesFromPlayer', playerToUpdate.id]);
+        await queryClient.invalidateQueries({ queryKey: ['useSalesFromPlayer', playerToUpdate.id] });
       } else {
         throw new Error('Usuário não encontrado.');
       }

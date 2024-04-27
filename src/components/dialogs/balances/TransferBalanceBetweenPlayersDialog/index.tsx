@@ -93,7 +93,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
     setOpen(false);
   };
 
-  const { mutate: transferMutate, isLoading: transferMutateIsloading } = useMutation({
+  const { mutate: transferMutate, isPending: transferMutateIsloading } = useMutation({
     mutationFn: async ({ value, description }: TransferBalanceBetweenPlayersDialogFormData) => {
       if (user && selectedPlayer) {
         await addTransfer({
@@ -115,13 +115,13 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
           balance: selectedPlayer.balance + value,
         });
 
-        await queryClient.invalidateQueries(['useTransfers']);
+        await queryClient.invalidateQueries({ queryKey: ['useTransfers'] });
 
-        await queryClient.invalidateQueries(['usePlayers']);
+        await queryClient.invalidateQueries({ queryKey: ['usePlayers'] });
 
-        await queryClient.invalidateQueries(['usePlayer', senderPlayer.id]);
+        await queryClient.invalidateQueries({ queryKey: ['usePlayer', senderPlayer.id] });
 
-        await queryClient.invalidateQueries(['usePlayer', selectedPlayer.id]);
+        await queryClient.invalidateQueries({ queryKey: ['usePlayer', selectedPlayer.id] });
       } else {
         throw new Error('Usuário não encontrado.');
       }

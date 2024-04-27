@@ -1,10 +1,12 @@
-import * as yup from 'yup';
+import { z } from 'zod';
 
-const schema = yup.object().shape({
-  name: yup.string().required('Campo obrigatório'),
-  price: yup.number().required('Campo obrigatório').positive('O valor tem que ser mior que R$ 0,00'),
-  category: yup.string().required('Campo obrigatório'),
-  stock: yup.number().required('Campo obrigatório').min(0, 'Valor náo pode ser menor que 0'),
+const schema = z.object({
+  name: z.string({ required_error: 'Campo obrigatório' }),
+  price: z.coerce.number({ required_error: 'Campo obrigatório' }).positive('O valor tem que ser mior que R$ 0,00'),
+  category: z.string({ required_error: 'Campo obrigatório' }),
+  stock: z.coerce.number({ required_error: 'Campo obrigatório' }).min(0, 'Valor náo pode ser menor que 0'),
 });
+
+export type UpdateProductDialogFormData = z.infer<typeof schema>;
 
 export default schema;

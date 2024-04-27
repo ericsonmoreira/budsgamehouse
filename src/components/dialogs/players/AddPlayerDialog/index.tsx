@@ -45,7 +45,7 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({ title, 
 
   const [file, setFile] = useState<File | null>();
 
-  const { mutate: addPlayerMutate, isLoading: addPlayerIsLoading } = useMutation({
+  const { mutate: addPlayerMutate, isPending: addPlayerIsLoading } = useMutation({
     mutationFn: async ({ name, email }: AddPlayerDialogFormData) => {
       if (file) {
         const avatarImgUrl = await uploadImageInStorage(file);
@@ -55,7 +55,7 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({ title, 
         await addPlayer({ name, balance: 0, email });
       }
 
-      await queryClient.invalidateQueries(['usePlayers']);
+      await queryClient.invalidateQueries({ queryKey: ['usePlayers'] });
     },
     onSuccess: () => {
       handleClose();

@@ -1,7 +1,15 @@
-import { useTheme } from '@mui/material';
+import { Box, Paper } from '@mui/material';
+import {
+  AllSeriesType,
+  BarPlot,
+  ChartsTooltip,
+  ChartsXAxis,
+  ChartsYAxis,
+  LinePlot,
+  ResponsiveChartContainer,
+} from '@mui/x-charts';
 import { eachDayOfInterval, endOfMonth, format, startOfMonth } from 'date-fns';
 import React, { useMemo } from 'react';
-import Chart from 'react-apexcharts';
 import { formatterCurrencyBRL } from '../../../utils/formatters';
 
 type SalesAndPaymentsChartBarProps = {
@@ -11,8 +19,6 @@ type SalesAndPaymentsChartBarProps = {
 };
 
 const SalesAndPaymentsChartBar: React.FC<SalesAndPaymentsChartBarProps> = ({ sales, payments, month }) => {
-  const { palette, typography } = useTheme();
-
   const [mes, ano] = month.split('/');
 
   const primeiroDia = startOfMonth(new Date(Number(ano), Number(mes) - 1));
@@ -21,51 +27,45 @@ const SalesAndPaymentsChartBar: React.FC<SalesAndPaymentsChartBarProps> = ({ sal
 
   const todasAsDatasDoMes = eachDayOfInterval({ start: primeiroDia, end: ultimoDia });
 
-  const calculateSalesByDayOfMonth = useMemo(() => {
-    const salesByDayOfMonth: { day: string; value: number }[] = [];
+  const calculateSalesByDayOfMonth = useMemo<{ day: string; value: number }[]>(() => {
+    const salesByDayOfMonth: { day: string; value: number }[] = todasAsDatasDoMes.map((date) => ({
+      day: format(date, 'dd/MM'),
+      value: 0,
+    }));
 
     if (sales) {
       for (const sale of sales) {
-        const day = format(sale.createdAt.toDate(), 'yy/MM/dd');
+        const day = format(sale.createdAt.toDate(), 'dd/MM');
 
         const value = sale.products.reduce((acc, curr) => acc + curr.amount * curr.price, 0) + (sale?.looseValue || 0);
 
-        const existingDay = salesByDayOfMonth.find((item) => item.day === day);
+        const existingDayIndex = salesByDayOfMonth.findIndex((item) => item.day === day);
 
-        if (existingDay) {
-          existingDay.value += value;
-        } else {
-          salesByDayOfMonth.push({
-            value,
-            day,
-          });
+        if (existingDayIndex >= 0) {
+          salesByDayOfMonth[existingDayIndex].value += value;
         }
       }
     }
 
-    salesByDayOfMonth.sort((a, b) => a.day.localeCompare(b.day));
-
     return salesByDayOfMonth;
-  }, [sales]);
+  }, [sales, todasAsDatasDoMes]);
 
   const calculatePaymentsByDayOfMonth = useMemo(() => {
-    const paymentsByDayOfMonth: { day: string; value: number }[] = [];
+    const paymentsByDayOfMonth: { day: string; value: number }[] = todasAsDatasDoMes.map((date) => ({
+      day: format(date, 'dd/MM'),
+      value: 0,
+    }));
 
     if (payments) {
       for (const payment of payments) {
-        const day = format(payment.createdAt.toDate(), 'yy/MM/dd');
+        const day = format(payment.createdAt.toDate(), 'dd/MM');
 
         const value = payment.value;
 
-        const existingDay = paymentsByDayOfMonth.find((item) => item.day === day);
+        const existingDayIndex = paymentsByDayOfMonth.findIndex((item) => item.day === day);
 
-        if (existingDay) {
-          existingDay.value += value;
-        } else {
-          paymentsByDayOfMonth.push({
-            value,
-            day,
-          });
+        if (existingDayIndex >= 0) {
+          paymentsByDayOfMonth[existingDayIndex].value += value;
         }
       }
     }
@@ -75,67 +75,48 @@ const SalesAndPaymentsChartBar: React.FC<SalesAndPaymentsChartBarProps> = ({ sal
     return paymentsByDayOfMonth;
   }, [payments]);
 
+  const series = useMemo<AllSeriesType[]>(
+    () => [
+      {
+        type: 'bar',
+        label: 'Venda',
+        data: calculateSalesByDayOfMonth.map((elem) => elem.value),
+        valueFormatter: (value) => formatterCurrencyBRL.format(value),
+      },
+      {
+        type: 'line',
+        label: 'Pagamento',
+        data: calculatePaymentsByDayOfMonth.map((elem) => elem.value),
+        valueFormatter: (value) => formatterCurrencyBRL.format(value),
+      },
+    ],
+    [calculateSalesByDayOfMonth, calculatePaymentsByDayOfMonth]
+  );
+
   return (
-    <Chart
-      type="line"
-      options={{
-        title: {
-          text: 'Vendas & Pagamentos por dia',
-          align: 'center',
-        },
-        dataLabels: {
-          enabled: true,
-          enabledOnSeries: [1],
-          formatter: (val: number) => formatterCurrencyBRL.format(val),
-        },
-        theme: {
-          mode: palette.mode,
-        },
-        chart: {
-          id: 'sales',
-          fontFamily: typography.fontFamily,
-        },
-        stroke: {
-          width: [0, 4],
-        },
-        xaxis: {
-          categories: todasAsDatasDoMes.map((value) => format(value, 'dd/MM')),
-        },
-        yaxis: [
-          {
-            title: {
-              text: 'Vendas',
+    <Box sx={{ width: '100%' }}>
+      <Paper sx={{ width: '100%', height: 300 }} variant="outlined">
+        <ResponsiveChartContainer
+          title="Vendas & Pagamentos por dia"
+          series={series}
+          xAxis={[
+            {
+              id: 'days',
+              data: todasAsDatasDoMes,
+              scaleType: 'band',
+              valueFormatter: (date: Date) => format(date, 'dd/MM'),
             },
-            labels: {
-              formatter: (value) => formatterCurrencyBRL.format(value ?? 0),
-            },
-          },
-          {
-            title: {
-              text: 'Pagamentos',
-            },
-            labels: {
-              formatter: (value) => formatterCurrencyBRL.format(value ?? 0),
-            },
-            opposite: true,
-          },
-        ],
-      }}
-      series={[
-        {
-          name: 'Vendas do dia',
-          type: 'column',
-          data: calculateSalesByDayOfMonth.map((elem) => elem.value),
-        },
-        {
-          name: 'Pagamentos do dia',
-          type: 'line',
-          data: calculatePaymentsByDayOfMonth.map((elem) => elem.value),
-        },
-      ]}
-      width="100%"
-      height="200px"
-    />
+          ]}
+        >
+          <BarPlot />
+          <LinePlot />
+          <ChartsTooltip />
+          <ChartsXAxis label="Dias" position="bottom" axisId="days" />
+          <ChartsYAxis label="Vendas (R$)" position="left" />
+          <ChartsYAxis label="Pagamentos (R$)" position="right" />
+        </ResponsiveChartContainer>
+      </Paper>
+    </Box>
   );
 };
 

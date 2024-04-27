@@ -63,7 +63,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
     setOpen(false);
   };
 
-  const { mutate: updatePlayerMutate, isLoading: updatePlayerIsLoading } = useMutation({
+  const { mutate: updatePlayerMutate, isPending: updatePlayerIsLoading } = useMutation({
     mutationFn: async ({ email, name }: UpdatePlayerDialogFormData) => {
       if (file) {
         const avatarImgUrl = await uploadImageInStorage(file);
@@ -79,9 +79,9 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
         });
       }
 
-      await queryClient.invalidateQueries(['usePlayers']);
+      await queryClient.invalidateQueries({ queryKey: ['usePlayers'] });
 
-      await queryClient.invalidateQueries(['usePlayer', playerToUpdate.id]);
+      await queryClient.invalidateQueries({ queryKey: ['usePlayer', playerToUpdate.id] });
     },
     onSuccess: () => {
       handleClose();

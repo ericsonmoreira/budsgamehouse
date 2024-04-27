@@ -4,12 +4,10 @@ import { firestore } from '../services/firebaseConfig';
 
 const path = 'players';
 
-const queryKey = 'usePlayer';
-
 function usePlayer(userId = '') {
-  return useQuery<Player>(
-    [queryKey, userId],
-    async () => {
+  return useQuery<Player>({
+    queryKey: ['usePlayer', userId],
+    queryFn: async () => {
       const playerDocRef = doc(firestore, path, userId);
 
       const playerDocSnap = await getDoc(playerDocRef);
@@ -20,10 +18,8 @@ function usePlayer(userId = '') {
 
       return { id, ...data } as Player;
     },
-    {
-      enabled: userId !== '',
-    }
-  );
+    enabled: userId !== '',
+  });
 }
 
 export default usePlayer;

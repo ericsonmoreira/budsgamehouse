@@ -1,4 +1,4 @@
-import { Box, Grid, MenuItem, TextField, Typography } from '@mui/material';
+import { Box, Chip, Grid, MenuItem, Stack, TextField, Typography } from '@mui/material';
 import { format } from 'date-fns';
 import React, { useMemo, useState } from 'react';
 import Page from '../../components/Page';
@@ -10,6 +10,7 @@ import ViewSaleDialog from '../../components/dialogs/sales/ViewSaleDialog';
 import useLastTwelveMonths from '../../hooks/useLastTwelveMonths';
 import usePaymentsPerMonth from '../../hooks/usePaymentsPerMonth';
 import useSalesPerMonth from '../../hooks/useSalesPerMonth';
+import { formatterCurrencyBRL } from '../../utils/formatters';
 
 const Sales: React.FC = () => {
   const [selectedMonth, setSelectedMonth] = useState(format(Date.now(), 'MM/yyyy'));
@@ -34,6 +35,29 @@ const Sales: React.FC = () => {
     setViewSaleDialogOpen(true);
   };
 
+  const totalSales = useMemo(() => {
+    if (sales) {
+      let total = 0;
+
+      for (const sale of sales) {
+        total += sale.products.reduce((acc, curr) => acc + curr.amount * curr.price, 0);
+        total += sale?.looseValue || 0;
+      }
+
+      return total;
+    }
+
+    return 0;
+  }, [sales]);
+
+  const totalPayments = useMemo(() => {
+    if (payments) {
+      return payments.reduce((acc, curr) => acc + curr.value, 0);
+    }
+
+    return 0;
+  }, [payments]);
+
   const isLoading = useMemo(
     () => isLoadingSalesPerMonth || isLoadingPaymentsPerMonth,
     [isLoadingSalesPerMonth, isLoadingPaymentsPerMonth]
@@ -44,23 +68,27 @@ const Sales: React.FC = () => {
       <PageHeader title="Vendas" />
       <Grid container component={Box} p={1} spacing={1}>
         <Grid item xs={12}>
-          <TextField
-            select
-            label="Mês"
-            variant="outlined"
-            size="small"
-            margin="normal"
-            value={selectedMonth}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setSelectedMonth(event.target.value);
-            }}
-          >
-            {lastTwelveMonths.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </TextField>
+          <Stack spacing={1} direction="row" alignItems="center">
+            <TextField
+              select
+              label="Mês"
+              variant="outlined"
+              size="small"
+              margin="normal"
+              value={selectedMonth}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setSelectedMonth(event.target.value);
+              }}
+            >
+              {lastTwelveMonths.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+            <Chip label={`Vendas: ${formatterCurrencyBRL.format(totalSales)}`} color="info" />
+            <Chip label={`Pagamentos: ${formatterCurrencyBRL.format(totalPayments)}`} color="primary" />
+          </Stack>
         </Grid>
         <Grid item xs={12}>
           <SalesAndPaymentsChartBar sales={sales} payments={payments} month={selectedMonth} />

@@ -17,7 +17,7 @@ function App() {
       <Toaster />
       <QueryClientProvider client={queryClient}>
         <AppRoutes />
-        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+        <ReactQueryDevtools initialIsOpen={false} position="bottom" />
       </QueryClientProvider>
     </ThemeProvider>
   );

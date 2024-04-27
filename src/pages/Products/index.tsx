@@ -45,13 +45,13 @@ const Products: React.FC = () => {
     setUpdatePproductDialogOpen(true);
   };
 
-  const { mutate: deleteProductMutate, isLoading: deleteProductMutateIsloading } = useMutation({
+  const { mutate: deleteProductMutate, isPending: deleteProductMutateIsloading } = useMutation({
     mutationFn: async () => {
       setDeleteDialogOpen(false);
 
       await deleteProduct(productToDeleteId);
 
-      await queryClient.invalidateQueries(['useProducts']);
+      await queryClient.invalidateQueries({ queryKey: ['useProducts'] });
     },
     onSuccess: async () => {
       toast.success('Produto removido com sucesso');

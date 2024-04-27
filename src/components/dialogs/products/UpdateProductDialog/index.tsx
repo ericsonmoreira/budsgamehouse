@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Backdrop,
   Button,
@@ -22,20 +22,13 @@ import { PRODUCT_CATEGORIES } from '../../../../utils/constants';
 import ImageDropZone from '../../../ImageDropZone';
 import ControlledCurrencyTextField from '../../../textfields/ControlledCurrencyTextField';
 import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema from './schema ';
+import schema, { UpdateProductDialogFormData } from './schema ';
 
 type UpdateProductDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   productToUpdate: Product;
-};
-
-type UpdateProductDialogFormData = {
-  name: string;
-  price: number;
-  category: string;
-  stock: number;
 };
 
 const UpdateProductDialog: React.FC<UpdateProductDialogProps & DialogProps> = ({
@@ -50,12 +43,12 @@ const UpdateProductDialog: React.FC<UpdateProductDialogProps & DialogProps> = ({
   const queryClient = useQueryClient();
 
   const { control, handleSubmit, reset } = useForm<UpdateProductDialogFormData>({
-    resolver: yupResolver(schema),
+    resolver: zodResolver(schema),
   });
 
   const [file, setFile] = useState<File | null>();
 
-  const { mutate: updateProductMutate, isLoading: updateProductMutateIsloading } = useMutation({
+  const { mutate: updateProductMutate, isPending: updateProductMutateIsloading } = useMutation({
     mutationFn: async ({ name, price, category, stock, imgUrl }: Omit<Product, 'id'>) => {
       if (file) {
         const newImgUrl = await uploadImageInStorage(file);
@@ -65,7 +58,7 @@ const UpdateProductDialog: React.FC<UpdateProductDialogProps & DialogProps> = ({
         await updateProduct({ id, name, price, category, stock, imgUrl });
       }
 
-      await queryClient.invalidateQueries(['useProducts']);
+      await queryClient.invalidateQueries({ queryKey: ['useProducts'] });
     },
     onSuccess: () => {
       handleClose();
