@@ -133,7 +133,7 @@ const MarketCard: React.FC = () => {
 
   const disabledConfirm = useMemo(() => totalToPay === 0, [totalToPay]);
 
-  const { mutate: confirmMutate, isLoading: confirmMutateIsloading } = useMutation({
+  const { mutate: confirmMutate, isPending: confirmMutateIsloading } = useMutation({
     mutationFn: async (data: MarketCardFormData) => {
       if (user) {
         const { looseValue } = data;
@@ -161,14 +161,14 @@ const MarketCard: React.FC = () => {
 
         const [mes, ano] = format(Date.now(), 'MM/yyyy').split('/');
 
-        await queryClient.invalidateQueries(['useProducts']);
+        await queryClient.invalidateQueries({ queryKey: ['useProducts'] });
 
-        await queryClient.invalidateQueries(['usePlayers']);
+        await queryClient.invalidateQueries({ queryKey: ['usePlayers'] });
 
-        await queryClient.invalidateQueries(['useSalesPerMonth', new Date(`${ano}-${mes}-01T00:00:00`)]);
+        await queryClient.invalidateQueries({ queryKey: ['useSalesPerMonth', new Date(`${ano}-${mes}-01T00:00:00`)] });
 
         if (selectedPlayer) {
-          await queryClient.invalidateQueries(['useSalesFromPlayer', selectedPlayer.id]);
+          await queryClient.invalidateQueries({ queryKey: ['useSalesFromPlayer', selectedPlayer.id] });
         }
       } else {
         throw new Error('Usuário não encontrado.');

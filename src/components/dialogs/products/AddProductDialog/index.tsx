@@ -52,7 +52,7 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title
 
   const queryClient = useQueryClient();
 
-  const { mutate: addProductMutate, isLoading: addProductMutateIsloading } = useMutation({
+  const { mutate: addProductMutate, isPending: addProductMutateIsloading } = useMutation({
     mutationFn: async ({ name, price, category }: Omit<Product, 'id' | 'stock'>) => {
       if (file) {
         const imgUrl = await uploadImageInStorage(file);
@@ -62,7 +62,7 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title
         await addProduct({ name, price, category, stock: 0 });
       }
 
-      await queryClient.invalidateQueries(['useProducts']);
+      await queryClient.invalidateQueries({ queryKey: ['useProducts'] });
     },
     onSuccess: () => {
       handleClose();

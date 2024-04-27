@@ -4,15 +4,16 @@ import { firestore } from '../services/firebaseConfig';
 
 const path = 'sales';
 
-const queryKey = 'usePayments';
-
 function usePayments() {
   const paymentsCollectionRef = collection(firestore, path);
 
-  return useQuery([queryKey], async () => {
-    const { docs } = await getDocs(paymentsCollectionRef);
+  return useQuery({
+    queryKey: ['usePayments'],
+    queryFn: async () => {
+      const { docs } = await getDocs(paymentsCollectionRef);
 
-    return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as Payment))];
+      return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as Payment))];
+    },
   });
 }
 

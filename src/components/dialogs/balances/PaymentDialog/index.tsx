@@ -65,7 +65,7 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({ title, subTitle, playerTo
     });
   };
 
-  const { mutate: paymentMutate, isLoading: paymentMutateIsloading } = useMutation({
+  const { mutate: paymentMutate, isPending: paymentMutateIsloading } = useMutation({
     mutationFn: async ({ paymentValue, description }: PaymentDialogFormData) => {
       if (user) {
         await updatePlayer({ ...playerToUpdate, balance: playerToUpdate.balance + paymentValue });
@@ -80,13 +80,13 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({ title, subTitle, playerTo
           userId: user.uid,
         });
 
-        await queryClient.invalidateQueries(['usePlayers']);
+        await queryClient.invalidateQueries({ queryKey: ['usePlayers'] });
 
-        await queryClient.invalidateQueries(['usePlayer', playerToUpdate.id]);
+        await queryClient.invalidateQueries({ queryKey: ['usePlayer', playerToUpdate.id] });
 
-        await queryClient.invalidateQueries(['usePayments']);
+        await queryClient.invalidateQueries({ queryKey: ['usePayments'] });
 
-        await queryClient.invalidateQueries(['usePaymentsFromPlayer', playerToUpdate.id]);
+        await queryClient.invalidateQueries({ queryKey: ['usePaymentsFromPlayer', playerToUpdate.id] });
       } else {
         throw new Error('Usuário não autenticado');
       }

@@ -109,7 +109,7 @@ const AddExpenseDialog: React.FC<AddExpenseDialogProps & DialogProps> = ({ title
     [remove]
   );
 
-  const { mutate: addExpenseMutate, isLoading: addExpenseMutateIsloading } = useMutation({
+  const { mutate: addExpenseMutate, isPending: addExpenseMutateIsloading } = useMutation({
     mutationFn: async ({ value, description, name, products }: AddExpenseDialogFormData) => {
       if (user) {
         await addExpense({
@@ -123,12 +123,14 @@ const AddExpenseDialog: React.FC<AddExpenseDialogProps & DialogProps> = ({ title
 
         await Promise.all(products.map(({ productId, amount }) => updateProductStock(productId, amount)));
 
-        await queryClient.invalidateQueries(['useProducts']);
+        await queryClient.invalidateQueries({ queryKey: ['useProducts'] });
 
         // Pegando mês e ano atual
         const [mes, ano] = format(Date.now(), 'MM/yyyy').split('/');
 
-        await queryClient.invalidateQueries(['useExpensesPerMonth', new Date(`${ano}-${mes}-01T00:00:00`)]);
+        await queryClient.invalidateQueries({
+          queryKey: ['useExpensesPerMonth', new Date(`${ano}-${mes}-01T00:00:00`)],
+        });
       } else {
         throw new Error('Usuário não encontrado');
       }

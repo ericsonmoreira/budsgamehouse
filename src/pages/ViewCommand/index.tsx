@@ -135,7 +135,7 @@ const ViewCommand: React.FC = () => {
     return shoppingCart.reduce((acc, curr) => acc + curr.price * curr.amount, 0);
   }, [shoppingCart]);
 
-  const { mutate: updateCommandMutate, isLoading: updateCommandMutateIsloading } = useMutation({
+  const { mutate: updateCommandMutate, isPending: updateCommandMutateIsloading } = useMutation({
     mutationFn: async () => {
       if (command) {
         await updateCommand({
@@ -148,9 +148,9 @@ const ViewCommand: React.FC = () => {
           })),
         });
 
-        await queryClient.invalidateQueries(['useCommands', 'open']);
+        await queryClient.invalidateQueries({ queryKey: ['useCommands', 'open'] });
 
-        await queryClient.invalidateQueries(['useCommand', id]);
+        await queryClient.invalidateQueries({ queryKey: ['useCommand', id] });
       }
     },
     onSuccess: () => {
@@ -161,7 +161,7 @@ const ViewCommand: React.FC = () => {
     },
   });
 
-  const { mutate: closeCommandMutate, isLoading: closeCommandMutateIsloading } = useMutation({
+  const { mutate: closeCommandMutate, isPending: closeCommandMutateIsloading } = useMutation({
     mutationFn: async () => {
       if (command && user) {
         await updateCommand({ ...command, status: 'closed' });
@@ -182,15 +182,15 @@ const ViewCommand: React.FC = () => {
           userId: user.uid,
         });
 
-        await queryClient.invalidateQueries(['useCommands', 'open']);
+        await queryClient.invalidateQueries({ queryKey: ['useCommands', 'open'] });
 
-        await queryClient.invalidateQueries(['useCommands', 'closed']);
+        await queryClient.invalidateQueries({ queryKey: ['useCommands', 'closed'] });
 
-        await queryClient.invalidateQueries(['useCommand', id]);
+        await queryClient.invalidateQueries({ queryKey: ['useCommand', id] });
 
-        await queryClient.invalidateQueries(['useProducts']);
+        await queryClient.invalidateQueries({ queryKey: ['useProducts'] });
 
-        await queryClient.invalidateQueries(['useSales']);
+        await queryClient.invalidateQueries({ queryKey: ['useSales'] });
       } else {
         throw new Error('Usuário não cadastrado');
       }
@@ -203,17 +203,17 @@ const ViewCommand: React.FC = () => {
     },
   });
 
-  const { mutate: cancelCommandMutate, isLoading: cancelCommandMutateIsloading } = useMutation({
+  const { mutate: cancelCommandMutate, isPending: cancelCommandMutateIsloading } = useMutation({
     mutationFn: async () => {
       if (command) {
         await updateCommand({ ...command, status: 'canceled' });
       }
 
-      await queryClient.invalidateQueries(['useCommands', 'open']);
+      await queryClient.invalidateQueries({ queryKey: ['useCommands', 'open'] });
 
-      await queryClient.invalidateQueries(['useCommands', 'canceled']);
+      await queryClient.invalidateQueries({ queryKey: ['useCommands', 'canceled'] });
 
-      await queryClient.invalidateQueries(['useCommand', id]);
+      await queryClient.invalidateQueries({ queryKey: ['useCommand', id] });
     },
     onSuccess: () => {
       toast.success('Comanda Cancelada com sucesso');

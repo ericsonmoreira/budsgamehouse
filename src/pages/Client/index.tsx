@@ -26,7 +26,7 @@ const Client: React.FC = () => {
     },
   });
 
-  const { mutate: signInAreaClientMutation, isLoading } = useMutation({
+  const { mutate: signInAreaClientMutation, isPending } = useMutation({
     mutationFn: async ({ email }: ClientFormData) => {
       const palyer = await findPlayerByEmail(email);
 
@@ -49,7 +49,7 @@ const Client: React.FC = () => {
   };
 
   return (
-    <Page loading={isLoading}>
+    <Page loading={isPending}>
       <PaperGlass>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Typography variant="h6" gutterBottom>

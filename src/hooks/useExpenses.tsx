@@ -9,10 +9,13 @@ const queryKey = 'useExpenses';
 function useExpenses() {
   const expensesCollectionRef = collection(firestore, path);
 
-  return useQuery([queryKey], async () => {
-    const { docs } = await getDocs(expensesCollectionRef);
+  return useQuery({
+    queryKey: [queryKey],
+    queryFn: async () => {
+      const { docs } = await getDocs(expensesCollectionRef);
 
-    return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as Expense))];
+      return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as Expense))];
+    },
   });
 }
 

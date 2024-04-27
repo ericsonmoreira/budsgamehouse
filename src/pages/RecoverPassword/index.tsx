@@ -27,7 +27,7 @@ const RecoverPassword: React.FC = () => {
 
   const [sendPasswordResetEmail, sending, error] = useSendPasswordResetEmail(auth);
 
-  const { mutate: sendPasswordResetEmailMutation, isLoading } = useMutation({
+  const { mutate: sendPasswordResetEmailMutation, isPending } = useMutation({
     mutationFn: async (email: string) => {
       await sendPasswordResetEmail(email);
     },
@@ -44,7 +44,7 @@ const RecoverPassword: React.FC = () => {
   };
 
   return (
-    <Page loading={isLoading}>
+    <Page loading={isPending}>
       <PaperGlass>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Typography variant="h6" gutterBottom>

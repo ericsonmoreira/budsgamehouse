@@ -44,7 +44,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({ title, setOpen, subTitl
 
   const [file, setFile] = useState<File | null>();
 
-  const { mutate: editUserMutate, isLoading: editUserIsLoading } = useMutation({
+  const { mutate: editUserMutate, isPending: editUserIsLoading } = useMutation({
     mutationFn: async ({ name }: EditUserDialogFormData) => {
       if (user) {
         if (file) {
@@ -67,7 +67,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({ title, setOpen, subTitl
         throw new Error('Usuário não encontrado');
       }
 
-      await queryClient.invalidateQueries(['usePlayers']);
+      await queryClient.invalidateQueries({ queryKey: ['usePlayers'] });
     },
     onSuccess: () => {
       handleClose();

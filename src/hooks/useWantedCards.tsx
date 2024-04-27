@@ -7,34 +7,43 @@ function useWantedCards() {
 
   const wantedCardsCollectionRef = collection(firestore, 'wanted-cards');
 
-  const { data: cards, ...rest } = useQuery(['useWantedCards'], async () => {
-    const { docs } = await getDocs(wantedCardsCollectionRef);
+  const { data: cards, ...rest } = useQuery({
+    queryKey: ['useWantedCards'],
+    queryFn: async () => {
+      const { docs } = await getDocs(wantedCardsCollectionRef);
 
-    return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as WantedCard))];
+      return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as WantedCard))];
+    },
   });
 
-  const { mutate: addWantedCard } = useMutation(async (newWantedCard: Omit<WantedCard, 'id'>) => {
-    const card = await addDoc(wantedCardsCollectionRef, newWantedCard);
+  const { mutate: addWantedCard } = useMutation({
+    mutationFn: async (newWantedCard: Omit<WantedCard, 'id'>) => {
+      const card = await addDoc(wantedCardsCollectionRef, newWantedCard);
 
-    await queryClient.invalidateQueries(['useWantedCards']);
+      await queryClient.invalidateQueries({ queryKey: ['useWantedCards'] });
 
-    return card;
+      return card;
+    },
   });
 
-  const { mutate: updateWantedCard } = useMutation(async ({ id, name, amount, imgUrl, priority }: WantedCard) => {
-    const cardDoc = doc(firestore, 'wanted-cards', id);
+  const { mutate: updateWantedCard } = useMutation({
+    mutationFn: async ({ id, name, amount, imgUrl, priority }: WantedCard) => {
+      const cardDoc = doc(firestore, 'wanted-cards', id);
 
-    await updateDoc(cardDoc, { name, amount, imgUrl, priority });
+      await updateDoc(cardDoc, { name, amount, imgUrl, priority });
 
-    await queryClient.invalidateQueries(['useWantedCards']);
+      await queryClient.invalidateQueries({ queryKey: ['useWantedCards'] });
+    },
   });
 
-  const { mutate: deleteWantedCard } = useMutation(async (id: string) => {
-    const cardDoc = doc(firestore, 'wanted-cards', id);
+  const { mutate: deleteWantedCard } = useMutation({
+    mutationFn: async (id: string) => {
+      const cardDoc = doc(firestore, 'wanted-cards', id);
 
-    await deleteDoc(cardDoc);
+      await deleteDoc(cardDoc);
 
-    await queryClient.invalidateQueries(['useWantedCards']);
+      await queryClient.invalidateQueries({ queryKey: ['useWantedCards'] });
+    },
   });
 
   return { cards, addWantedCard, updateWantedCard, deleteWantedCard, ...rest };

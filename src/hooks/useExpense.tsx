@@ -4,12 +4,10 @@ import { firestore } from '../services/firebaseConfig';
 
 const path = 'expenses';
 
-const queryKey = 'useExpense';
-
 function useExpense(expenseId = '') {
-  return useQuery<Expense>(
-    [queryKey, expenseId],
-    async () => {
+  return useQuery<Expense>({
+    queryKey: ['useExpense', expenseId],
+    queryFn: async () => {
       const expenseDocRef = doc(firestore, path, expenseId);
 
       const expenseDocSnap = await getDoc(expenseDocRef);
@@ -20,10 +18,8 @@ function useExpense(expenseId = '') {
 
       return { id, ...data } as Expense;
     },
-    {
-      enabled: expenseId !== '',
-    }
-  );
+    enabled: expenseId !== '',
+  });
 }
 
 export default useExpense;

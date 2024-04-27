@@ -1,8 +1,6 @@
 import { InputAdornment, TextField, TextFieldProps } from '@mui/material';
 import { FieldPath, FieldValues, UseControllerProps, useController } from 'react-hook-form';
-import { NumberFormatBase, NumberFormatBaseProps } from 'react-number-format';
-import { FormatInputValueFunction } from 'react-number-format/types/types';
-import { formatterDecimal } from '../../../utils/formatters';
+import { NumberFormatBaseProps, NumericFormat } from 'react-number-format';
 
 type ControlledCurrencyTextFieldProps<
   TextFieldValues extends FieldValues,
@@ -18,30 +16,22 @@ const ControlledCurrencyTextField = <
   const { control, name, ...rest } = props;
 
   const {
-    field: { ref, onChange, ...fieldRest },
+    field: { ref, ...fieldRest },
     fieldState: { error },
   } = useController({ control, name });
 
-  const format: FormatInputValueFunction = (numString) => {
-    const numSanitized = numString.replace(/[^0-9.]/g, '');
-
-    return formatterDecimal.format(Number(numSanitized || 0) / 100);
-  };
-
   return (
-    <NumberFormatBase
+    <NumericFormat
       {...rest}
       {...fieldRest}
-      value={null}
       getInputRef={ref}
       error={!!error}
+      fixedDecimalScale
+      decimalScale={2}
       helperText={error?.message}
       customInput={TextField}
-      format={format}
-      onValueChange={(values) => onChange((values.floatValue || 0) / 100)}
       InputProps={{
         startAdornment: <InputAdornment position="start">R$</InputAdornment>,
-        inputMode: 'numeric',
       }}
     />
   );

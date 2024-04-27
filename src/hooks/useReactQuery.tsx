@@ -10,10 +10,13 @@ type UseReactQueryData = {
 function useReactQuery<T>({ path, key }: UseReactQueryData) {
   const salesCollectionRef = collection(firestore, path);
 
-  return useQuery([key], async () => {
-    const { docs } = await getDocs(salesCollectionRef);
+  return useQuery({
+    queryKey: [key],
+    queryFn: async () => {
+      const { docs } = await getDocs(salesCollectionRef);
 
-    return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as T))];
+      return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as T))];
+    },
   });
 }
 
