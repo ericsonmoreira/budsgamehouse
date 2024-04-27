@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {
   Backdrop,
@@ -47,7 +47,7 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({ title, subTitle, playerTo
   const [user] = useAuthState(auth);
 
   const { control, handleSubmit, watch, reset } = useForm<PaymentDialogFormData>({
-    resolver: yupResolver(schema),
+    resolver: zodResolver(schema),
     defaultValues: {
       paymentValue: 0,
       description: '',
@@ -121,7 +121,8 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({ title, subTitle, playerTo
             <Stack direction="row" spacing={1} alignItems="center">
               <TypographyBalance variant="h5" balance={playerToUpdate.balance} />
               <ArrowForwardIcon fontSize="large" />
-              <TypographyBalance variant="h5" balance={playerToUpdate.balance + paymentValueWatch} />
+              <TypographyBalance variant="h5" balance={paymentValueWatch} />
+              <TypographyBalance variant="h5" balance={playerToUpdate.balance + Number(paymentValueWatch)} />
             </Stack>
           </Grid>
           <Grid item xs={12}>

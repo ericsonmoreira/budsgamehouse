@@ -1,8 +1,8 @@
-import * as yup from 'yup';
+import * as z from 'zod';
 
-const schema = yup.object().shape({
-  paymentValue: yup.number().required('Campo obrigatório'),
-  description: yup.string(),
+const schema = z.object({
+  paymentValue: z.coerce.number({ required_error: 'Campo obrigatório' }),
+  description: z.string(),
 });
 
 export default schema;
