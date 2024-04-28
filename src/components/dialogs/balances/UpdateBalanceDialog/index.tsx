@@ -40,6 +40,7 @@ import { formatterCurrencyBRL } from '../../../../utils/formatters';
 import AutocompleteProducts from '../../../AutocompleteProducts';
 import AvatarPlayer from '../../../AvatarPlayer';
 import TypographyBalance from '../../../TypographyBalance';
+import { PLAYER_LIMIT } from '../../../../utils/constants';
 
 type UpdateBalanceDialogProps = {
   title: string;
@@ -168,11 +169,18 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
     },
   });
 
+  const playerToUpdateIsExceededLimit = playerToUpdate.balance <= -PLAYER_LIMIT;
+
   return (
     <Dialog {...rest} fullScreen onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
+        {playerToUpdateIsExceededLimit && (
+          <Typography variant="h5" color="error">
+            Player com limite excedido. Não é possível efetuar uma venda para esse Player
+          </Typography>
+        )}
         <Grid container alignItems="center" spacing={1}>
           <Grid item>
             <Stack direction="row" spacing={1} alignItems="center">
@@ -194,6 +202,7 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
             selectedProduct={selectedProduct}
             setSelectedProduct={setSelectedProduct}
             onClickAddProductButton={handleAddProductToShoppingCart}
+            disabled={playerToUpdateIsExceededLimit}
           />
         </Stack>
         <TableContainer component={Paper}>
@@ -261,7 +270,7 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
         <Button color="secondary" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button disabled={totalToPay <= 0} onClick={() => updateFiadoMutate()}>
+        <Button disabled={totalToPay <= 0 || playerToUpdateIsExceededLimit} onClick={() => updateFiadoMutate()}>
           Confirmar
         </Button>
       </DialogActions>
