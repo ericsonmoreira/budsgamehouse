@@ -1,9 +1,7 @@
 import { Autocomplete, Box, Stack, TextField, TextFieldProps, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 
-type PlayerWithPriority = {
-  priority: number;
-} & Player;
+type PriorityPlayers = Record<string, number>;
 
 type AutocompletePlayersProps = {
   selectedPlayer: Player | null;
@@ -20,36 +18,27 @@ const AutocompletePlayers: React.FC<AutocompletePlayersProps> = ({
   disabled = false,
   textFieldProps,
 }) => {
-  const [validPlayersWithPriority, setValidPlayersWithPriority] = useState<PlayerWithPriority[]>(
-    () => validPlayers?.map((player) => ({ ...player, priority: 0 })) || []
-  );
+  const [priorityPlayers, setPriorityPlayers] = useState<PriorityPlayers>(() => {
+    return validPlayers.reduce((acc, curr) => ({ ...acc, [curr.id]: 0 }), {});
+  });
 
-  const validPlayersSorted = useMemo<Player[]>(
-    () =>
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      validPlayersWithPriority.sort((a, b) => b.priority - a.priority).map(({ priority, ...rest }) => ({ ...rest })),
-    [validPlayersWithPriority]
-  );
+  const validPlayersSortedPriority = useMemo<Player[]>(() => {
+    return validPlayers
+      .map((player) => ({ ...player, priority: priorityPlayers[player.id] }))
+      .sort((a, b) => b.priority - a.priority);
+  }, [validPlayers, priorityPlayers]);
 
   return (
     <Stack direction="row" spacing={1} width={1}>
       <Autocomplete
         disabled={disabled}
         value={selectedPlayer}
-        options={validPlayersSorted}
+        options={validPlayersSortedPriority}
         onChange={(_, newValue) => {
           setSelectedPlayer(newValue);
 
           if (newValue) {
-            setValidPlayersWithPriority((old) => {
-              const selectedPlayerIndex = old.findIndex((item) => item.id === newValue.id);
-
-              if (selectedPlayerIndex !== -1) {
-                old[selectedPlayerIndex].priority = old[selectedPlayerIndex].priority + 1;
-              }
-
-              return [...old];
-            });
+            setPriorityPlayers((old) => ({ ...old, [newValue.id]: old[newValue.id] + 1 }));
           }
         }}
         renderOption={(props, option) => (

@@ -32,15 +32,18 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import usePlayers from '../../hooks/usePlayers';
 import useProducts from '../../hooks/useProducts';
+import updatePlayer from '../../resources/players/updatePlayer';
 import updateProductStock from '../../resources/products/updateProductStock';
 import addSale from '../../resources/sales/addSale';
 import { auth } from '../../services/firebaseConfig';
+import { PLAYER_LIMIT } from '../../utils/constants';
 import { formatterCurrencyBRL } from '../../utils/formatters';
 import AutocompletePlayers from '../AutocompletePlayers';
 import AutocompleteProducts from '../AutocompleteProducts';
+import AvatarPlayer from '../AvatarPlayer';
+import TypographyBalance from '../TypographyBalance';
 import ControlledCurrencyTextField from '../textfields/ControlledCurrencyTextField';
 import schema from './schema';
-import updatePlayer from '../../resources/players/updatePlayer';
 
 type MarketCardCart = {
   id: string;
@@ -58,15 +61,9 @@ const MarketCard: React.FC = () => {
 
   const [user] = useAuthState(auth);
 
-  const {
-    data: players,
-    // isLoading: isLoadingPlayers
-  } = usePlayers();
+  const { data: players } = usePlayers();
 
-  const {
-    data: products,
-    // isLoading: isLoadingProducts
-  } = useProducts();
+  const { data: products } = useProducts();
 
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
@@ -81,7 +78,7 @@ const MarketCard: React.FC = () => {
     },
   });
 
-  const looseValueWatch = watch('looseValue');
+  const looseValueWatch = Number(watch('looseValue'));
 
   const validProdutos = useMemo(() => {
     if (products && shoppingCart) {
@@ -196,14 +193,7 @@ const MarketCard: React.FC = () => {
     confirmMutate(data);
   };
 
-  // limite para compra no sistema
-  const selectedPlayerIsExceededLimit = useMemo(() => {
-    if (selectedPlayer) {
-      return selectedPlayer.balance <= -200;
-    }
-
-    return false;
-  }, [selectedPlayer]);
+  const selectedPlayerIsExceededLimit = selectedPlayer ? selectedPlayer.balance <= -PLAYER_LIMIT : false;
 
   return (
     <Card>
@@ -222,6 +212,15 @@ const MarketCard: React.FC = () => {
                 }}
               />
             </Grid>
+            {selectedPlayer && (
+              <Grid item xs={12}>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <AvatarPlayer playerId={selectedPlayer.id} />
+                  <Typography>Saldo do Player</Typography>
+                  <TypographyBalance balance={selectedPlayer.balance} />
+                </Stack>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <AutocompleteProducts
                 validProdutos={validProdutos}
@@ -289,7 +288,7 @@ const MarketCard: React.FC = () => {
             <Grid item xs={12}>
               <Box display="flex" alignItems="center" flexDirection="row" justifyContent="space-between" width="100%">
                 <Typography variant="h5">Total</Typography>
-                <Typography variant="h5">{formatterCurrencyBRL.format(totalToPay)}</Typography>
+                <Typography variant="h5">{formatterCurrencyBRL.format(Number(totalToPay))}</Typography>
               </Box>
             </Grid>
           </Grid>
