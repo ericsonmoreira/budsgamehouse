@@ -1,8 +1,11 @@
-import * as yup from 'yup';
+import { z } from 'zod';
 
-const schema = yup.object().shape({
-  name: yup.string().required('Campo obrigatório'),
-  email: yup.string().required('Campo obrigatório').email('Email inválido'),
+const schema = z.object({
+  name: z.string({ required_error: 'Campo obrigatório' }),
+  phone: z.string(),
+  email: z.string({ required_error: 'Campo obrigatório' }).email('Email inválido'),
 });
+
+export type UpdatePlayerDialogFormData = z.infer<typeof schema>;
 
 export default schema;

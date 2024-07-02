@@ -160,6 +160,8 @@ const MarketCard: React.FC = () => {
 
         await queryClient.invalidateQueries({ queryKey: ['useProducts'] });
 
+        await queryClient.invalidateQueries({ queryKey: ['useSales'] });
+
         await queryClient.invalidateQueries({ queryKey: ['usePlayers'] });
 
         await queryClient.invalidateQueries({ queryKey: ['useSalesPerMonth', new Date(`${ano}-${mes}-01T00:00:00`)] });

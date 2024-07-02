@@ -6,7 +6,7 @@ import { PatternFormat, PatternFormatProps } from 'react-number-format';
 type ControlledPhoneTextFieldProps<
   TextFieldValues extends FieldValues,
   TextFieldName extends FieldPath<TextFieldValues>
-> = UseControllerProps<TextFieldValues, TextFieldName> & PatternFormatProps<TextFieldProps>;
+> = UseControllerProps<TextFieldValues, TextFieldName> & Omit<PatternFormatProps<TextFieldProps>, 'format'>;
 
 const ControlledPhoneTextField = <
   TextFieldValues extends FieldValues,

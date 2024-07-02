@@ -5,6 +5,7 @@ declare interface Player {
   name: string;
   email: string;
   avatarImgUrl?: string;
+  phone?: string;
   balance: number;
 }
 

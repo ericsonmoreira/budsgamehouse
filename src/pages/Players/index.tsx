@@ -66,8 +66,8 @@ const Players: React.FC = () => {
     },
   });
 
-  const handleUpdate = ({ id, name, email, avatarImgUrl, balance }: Player) => {
-    setPlayerToUpdate({ id, name, email, avatarImgUrl, balance });
+  const handleUpdate = ({ id, name, email, avatarImgUrl, balance, phone }: Player) => {
+    setPlayerToUpdate({ id, name, email, avatarImgUrl, balance, phone });
 
     setUpdatePlayerDialogOpen(true);
   };
