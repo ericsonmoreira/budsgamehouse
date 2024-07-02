@@ -30,6 +30,7 @@ const columns: GridColDef[] = [
     renderCell: ({ row }) => <AvatarPlayer playerId={row.id} sx={{ width: 24, height: 24 }} />,
   },
   { field: 'name', headerName: 'Nome', flex: 2 },
+  { field: 'phone', headerName: 'Telefone', flex: 1, sortable: false },
   { field: 'email', headerName: 'Email', flex: 1 },
   {
     field: 'actions',

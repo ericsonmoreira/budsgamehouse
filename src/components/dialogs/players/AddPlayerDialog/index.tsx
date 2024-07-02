@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Backdrop,
   Button,
@@ -18,8 +18,9 @@ import { toast } from 'react-hot-toast';
 import addPlayer from '../../../../resources/players/addPlayer';
 import uploadImageInStorage from '../../../../resources/uploadImageInStorage';
 import ImageDropZone from '../../../ImageDropZone';
+import ControlledPhoneTextField from '../../../textfields/ControlledPhoneTextField';
 import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema from './schema ';
+import schema, { AddPlayerDialogFormData } from './schema ';
 
 type AddPlayerDialogProps = {
   title: string;
@@ -27,32 +28,26 @@ type AddPlayerDialogProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-type AddPlayerDialogFormData = {
-  name: string;
-  email: string;
-};
-
 const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({ title, subTitle, setOpen, ...rest }) => {
   const queryClient = useQueryClient();
 
   const { control, handleSubmit, reset } = useForm<AddPlayerDialogFormData>({
-    resolver: yupResolver(schema),
+    resolver: zodResolver(schema),
     defaultValues: {
       name: '',
-      email: '',
     },
   });
 
   const [file, setFile] = useState<File | null>();
 
   const { mutate: addPlayerMutate, isPending: addPlayerIsLoading } = useMutation({
-    mutationFn: async ({ name, email }: AddPlayerDialogFormData) => {
+    mutationFn: async ({ name, email, phone }: AddPlayerDialogFormData) => {
       if (file) {
         const avatarImgUrl = await uploadImageInStorage(file);
 
-        await addPlayer({ name, balance: 0, email, avatarImgUrl });
+        await addPlayer({ name, balance: 0, email, avatarImgUrl, phone });
       } else {
-        await addPlayer({ name, balance: 0, email });
+        await addPlayer({ name, balance: 0, email, phone });
       }
 
       await queryClient.invalidateQueries({ queryKey: ['usePlayers'] });
@@ -75,6 +70,7 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({ title, 
     reset({
       email: '',
       name: '',
+      phone: '',
     });
 
     setFile(null);
@@ -97,6 +93,7 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({ title, 
         >
           <ImageDropZone file={file} setFile={setFile} />
           <ControlledTextField name="name" control={control} variant="outlined" size="small" label="Nome" />
+          <ControlledPhoneTextField name="phone" control={control} variant="outlined" size="small" label="Telefone" />
           <ControlledTextField name="email" control={control} variant="outlined" size="small" label="Email" />
         </Stack>
       </DialogContent>

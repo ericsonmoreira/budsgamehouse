@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Backdrop,
   Button,
@@ -19,18 +19,14 @@ import updatePlayer from '../../../../resources/players/updatePlayer';
 import uploadImageInStorage from '../../../../resources/uploadImageInStorage';
 import ImageDropZone from '../../../ImageDropZone';
 import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema from './schema ';
+import schema, { UpdatePlayerDialogFormData } from './schema ';
+import ControlledPhoneTextField from '../../../textfields/ControlledPhoneTextField';
 
 type UpdatePlayerDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   playerToUpdate: Player;
-};
-
-type UpdatePlayerDialogFormData = {
-  name: string;
-  email: string;
 };
 
 const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
@@ -45,7 +41,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
   const [file, setFile] = useState<File | null>();
 
   const { control, handleSubmit, reset } = useForm<UpdatePlayerDialogFormData>({
-    resolver: yupResolver(schema),
+    resolver: zodResolver(schema),
   });
 
   const handleConfirmAction = async (data: UpdatePlayerDialogFormData) => {
@@ -56,6 +52,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
     reset({
       name: '',
       email: '',
+      phone: '',
     });
 
     setFile(null);
@@ -64,11 +61,18 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
   };
 
   const { mutate: updatePlayerMutate, isPending: updatePlayerIsLoading } = useMutation({
-    mutationFn: async ({ email, name }: UpdatePlayerDialogFormData) => {
+    mutationFn: async ({ email, name, phone }: UpdatePlayerDialogFormData) => {
       if (file) {
         const avatarImgUrl = await uploadImageInStorage(file);
 
-        await updatePlayer({ id: playerToUpdate.id, name, email, balance: playerToUpdate.balance, avatarImgUrl });
+        await updatePlayer({
+          id: playerToUpdate.id,
+          name,
+          email,
+          balance: playerToUpdate.balance,
+          avatarImgUrl,
+          phone,
+        });
       } else {
         await updatePlayer({
           id: playerToUpdate.id,
@@ -76,6 +80,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
           email,
           balance: playerToUpdate.balance,
           avatarImgUrl: playerToUpdate.avatarImgUrl,
+          phone,
         });
       }
 
@@ -86,7 +91,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
     onSuccess: () => {
       handleClose();
 
-      toast.success('Produto adicionado com sucesso');
+      toast.success('Player atualizado com sucesso');
     },
     onError: (error: Error) => {
       toast.error(error.message);
@@ -97,6 +102,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
     reset({
       name: playerToUpdate.name,
       email: playerToUpdate.email,
+      phone: playerToUpdate.phone,
     });
   }, [playerToUpdate]);
 
@@ -115,6 +121,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
         >
           <ImageDropZone file={file} setFile={setFile} />
           <ControlledTextField name="name" control={control} variant="outlined" size="small" label="Nome" />
+          <ControlledPhoneTextField name="phone" control={control} variant="outlined" size="small" label="Telefone" />
           <ControlledTextField name="email" control={control} variant="outlined" size="small" label="Email" />
         </Stack>
       </DialogContent>
