@@ -1,8 +1,10 @@
-import CardsClubIcon from './CardsClubIcon';
-import CardsDiamondIcon from './CardsDiamondIcon';
-import CardsHeartIcon from './CardsHeartIcon';
-import CardsSpadeIcon from './CardsSpadeIcon';
-import ManaBIcon from './ManaBIcon';
-import ManaWIcon from './ManaWIcon';
+// Custom
+export { default as CardsClubIcon } from './CardsClubIcon';
+export { default as CardsDiamondIcon } from './CardsDiamondIcon';
+export { default as CardsHeartIcon } from './CardsHeartIcon';
+export { default as CardsSpadeIcon } from './CardsSpadeIcon';
+export { default as ManaBIcon } from './ManaBIcon';
+export { default as ManaWIcon } from './ManaWIcon';
 
-export { CardsClubIcon, CardsDiamondIcon, CardsHeartIcon, CardsSpadeIcon, ManaBIcon, ManaWIcon };
+// MUI
+export { default as PhoneIcon } from '@mui/icons-material/Phone';

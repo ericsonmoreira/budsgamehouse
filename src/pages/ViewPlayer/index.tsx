@@ -13,6 +13,7 @@ import TypographyBalance from '../../components/TypographyBalance';
 import PaymentDialog from '../../components/dialogs/balances/PaymentDialog';
 import usePlayer from '../../hooks/usePlayer';
 import routesNames from '../../routes/routesNames';
+import { PhoneIcon } from '../../icons';
 
 type ViewPlayerParams = {
   id: string;
@@ -52,6 +53,10 @@ const ViewPlayer: React.FC = () => {
                 <Stack direction="row" spacing={1} alignItems="center">
                   <EmailIcon fontSize="small" />
                   <Typography color="GrayText">{player.email}</Typography>
+                </Stack>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <PhoneIcon fontSize="small" />
+                  <Typography color="GrayText">{player.phone}</Typography>
                 </Stack>
               </CardContent>
               <CardActions
