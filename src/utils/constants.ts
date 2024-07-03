@@ -6,6 +6,6 @@ const PRODUCT_CATEGORIES = [
   'Magic The Gathering',
 ];
 
-const PLAYER_LIMIT = 100;
+const PLAYER_LIMIT = 0;
 
 export { PRODUCT_CATEGORIES, PLAYER_LIMIT };

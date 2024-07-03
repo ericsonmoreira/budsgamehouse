@@ -37,6 +37,7 @@ import AutocompleteProducts from '../../../AutocompleteProducts';
 import ControlledCurrencyTextField from '../../../textfields/ControlledCurrencyTextField';
 import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema from './schema';
+
 type AddExpenseDialogProps = {
   title: string;
   subTitle: string;
