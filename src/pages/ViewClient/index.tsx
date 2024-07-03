@@ -7,6 +7,7 @@ import Page from '../../components/Page';
 import PlayerExtract from '../../components/PlayerExtract';
 import TypographyBalance from '../../components/TypographyBalance';
 import usePlayer from '../../hooks/usePlayer';
+
 type ViewClientParams = {
   id: string;
 };

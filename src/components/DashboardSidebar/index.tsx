@@ -19,6 +19,7 @@ import { version } from '../../../package.json';
 import routesNames from '../../routes/routesNames';
 import { auth } from '../../services/firebaseConfig';
 import NavItem from '../NavItem';
+import { WorkspacePremiumIcon } from '../../icons';
 
 type AppDrawerItemData = {
   to: string;
@@ -86,6 +87,11 @@ const items: AppDrawerItemData[] = [
     icon: EmojiEventsIcon,
     to: routesNames.TOURNAMENT_PRIZES,
     title: 'Premiações',
+  },
+  {
+    icon: WorkspacePremiumIcon,
+    to: routesNames.LIGA_PODIUM,
+    title: 'Liga Buds',
   },
   {
     icon: SettingsIcon,

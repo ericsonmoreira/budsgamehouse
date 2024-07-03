@@ -17,6 +17,8 @@ const routesNames = {
   SCHEDULES: '/schedules',
   RECOVER_PASSWORD: '/recover-password',
   TOURNAMENT_PRIZES: '/tournament-prizes',
+  LIGA_PODIUM: '/liga-podium',
+  CLIENT_LIGA_PODIUM: '/client-liga-podium',
   SETTINGS: '/settings',
   NOT_FOUND: '*',
 };

@@ -24,6 +24,7 @@ import ViewPlayer from '../pages/ViewPlayer';
 import WantedCards from '../pages/WantedCards';
 import PrivateRoutes from './PrivateRoutes';
 import routesNames from './routesNames';
+import LigaPodium from '../pages/LigaPodium';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -45,6 +46,7 @@ const AppRoutes: React.FC = () => {
             <Route path={routesNames.SALES} element={<Sales />} />
             <Route path={routesNames.SCHEDULES} element={<Schedules />} />
             <Route path={routesNames.TOURNAMENT_PRIZES} element={<TournamentPrizes />} />
+            <Route path={routesNames.LIGA_PODIUM} element={<LigaPodium />} />
             <Route path={routesNames.SETTINGS} element={<Settings />} />
             <Route path={routesNames.NOT_FOUND} element={<NotFoundPage />} />
           </Route>
@@ -53,6 +55,7 @@ const AppRoutes: React.FC = () => {
           <Route path={routesNames.LOGIN} element={<Login />} />
           <Route path={routesNames.RECOVER_PASSWORD} element={<RecoverPassword />} />
           <Route path={routesNames.CLIENT} element={<Client />} />
+          <Route path={routesNames.CLIENT_LIGA_PODIUM} element={<LigaPodium />} />
         </Route>
         <Route element={<AreaClientLayout />}>
           <Route path={routesNames.VIEW_CLIENT} element={<ViewClient />} />
