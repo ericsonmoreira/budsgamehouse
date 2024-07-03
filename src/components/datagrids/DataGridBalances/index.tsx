@@ -32,6 +32,12 @@ const columns: GridColDef[] = [
     flex: 1,
   },
   {
+    field: 'phone',
+    headerName: 'Telefone',
+    flex: 1,
+    sortable: false,
+  },
+  {
     field: 'balance',
     headerName: 'Saldo',
     flex: 1,
