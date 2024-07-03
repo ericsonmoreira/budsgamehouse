@@ -48,6 +48,18 @@ const AvatarPlayer: React.FC<AvatarPlayerProps & AvatarProps> = ({ playerId, sx:
     return null;
   }
 
+  if (!player.name) {
+    return (
+      <Tooltip title="Desconhecido">
+        <IconButton onClick={() => navigate(routesNames.VIEW_PLAYER.replace(':id', player.id))}>
+          <Avatar sx={originalSx} {...rest}>
+            <Typography variant="inherit">?</Typography>
+          </Avatar>
+        </IconButton>
+      </Tooltip>
+    );
+  }
+
   return (
     <Tooltip title={player.name}>
       <IconButton onClick={() => navigate(routesNames.VIEW_PLAYER.replace(':id', player.id))}>
