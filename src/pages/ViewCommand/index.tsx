@@ -182,15 +182,13 @@ const ViewCommand: React.FC = () => {
           userId: user.uid,
         });
 
-        await queryClient.invalidateQueries({ queryKey: ['useCommands', 'open'] });
-
-        await queryClient.invalidateQueries({ queryKey: ['useCommands', 'closed'] });
-
-        await queryClient.invalidateQueries({ queryKey: ['useCommand', id] });
-
-        await queryClient.invalidateQueries({ queryKey: ['useProducts'] });
-
-        await queryClient.invalidateQueries({ queryKey: ['useSales'] });
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: ['useCommands', 'open'] }),
+          queryClient.invalidateQueries({ queryKey: ['useCommands', 'closed'] }),
+          queryClient.invalidateQueries({ queryKey: ['useCommand', id] }),
+          queryClient.invalidateQueries({ queryKey: ['useProducts'] }),
+          queryClient.invalidateQueries({ queryKey: ['useSales'] }),
+        ]);
       } else {
         throw new Error('Usuário não cadastrado');
       }
@@ -245,9 +243,16 @@ const ViewCommand: React.FC = () => {
       <Box m={1} height={1}>
         <Grid container spacing={1}>
           {command && (
-            <Grid item xs={12}>
-              <CommandTitleName command={command} />
-            </Grid>
+            <>
+              <Grid item xs={12}>
+                <Typography color="text.primary" variant="h5">
+                  Cliente: {command.displayName || 'Não Informado'}
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <CommandTitleName command={command} />
+              </Grid>
+            </>
           )}
           <Grid item xs={12}>
             <AutocompleteProducts

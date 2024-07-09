@@ -1,7 +1,10 @@
-import * as yup from 'yup';
+import { z } from 'zod';
 
-const schema = yup.object().shape({
-  name: yup.string().required('Campo obrigatório'),
+const schema = z.object({
+  name: z.string({ required_error: 'Campo obrigatório' }),
+  displayName: z.string().optional(),
 });
+
+export type AddCommandDialogFormData = z.infer<typeof schema>;
 
 export default schema;

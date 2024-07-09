@@ -5,8 +5,8 @@ const path = 'commands';
 
 const commandsCollectionRef = collection(firestore, path);
 
-const addCommand = async (playerActivity: Omit<Command, 'id'>) => {
-  const commandDoc = await addDoc(commandsCollectionRef, playerActivity);
+const addCommand = async (command: Omit<Command, 'id'>) => {
+  const commandDoc = await addDoc(commandsCollectionRef, command);
 
   return commandDoc;
 };

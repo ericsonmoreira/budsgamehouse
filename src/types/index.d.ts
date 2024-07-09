@@ -68,6 +68,7 @@ type CommandStatus = 'open' | 'closed' | 'canceled';
 declare interface Command {
   id: string;
   name: string;
+  displayName?: string;
   userId: string;
   products: {
     id: string;
