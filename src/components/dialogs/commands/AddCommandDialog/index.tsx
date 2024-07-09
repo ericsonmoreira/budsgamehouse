@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Backdrop,
   Button,
@@ -25,7 +25,7 @@ import { CardsClubIcon, CardsDiamondIcon, CardsHeartIcon, CardsSpadeIcon } from 
 import addCommand from '../../../../resources/commands/addCommand';
 import { auth } from '../../../../services/firebaseConfig';
 import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema from './schema';
+import schema, { AddCommandDialogFormData } from './schema';
 
 const cardNumbers = ['A', 'J', 'Q', 'K'];
 
@@ -42,10 +42,6 @@ type AddCommandDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-type AddCommandDialogFormData = {
-  name: string;
 };
 
 const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title, subTitle, setOpen, ...rest }) => {
@@ -72,14 +68,11 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title
   }, [commands]);
 
   const { handleSubmit, reset, control } = useForm<AddCommandDialogFormData>({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      name: '',
-    },
+    resolver: zodResolver(schema),
   });
 
   const { mutate: addCommandMutate, isPending: addCommandMutateIsloading } = useMutation({
-    mutationFn: async ({ name }: AddCommandDialogFormData) => {
+    mutationFn: async ({ name, displayName }: AddCommandDialogFormData) => {
       if (user) {
         await addCommand({
           createdAt: Date.now(),
@@ -87,6 +80,7 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title
           products: [],
           status: 'open',
           userId: user.uid,
+          displayName,
         });
 
         await queryClient.invalidateQueries({ queryKey: ['useCommands', 'open'] });
@@ -104,8 +98,8 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title
     },
   });
 
-  const handleConfirmAction = ({ name }: AddCommandDialogFormData) => {
-    addCommandMutate({ name });
+  const handleConfirmAction = ({ name, displayName }: AddCommandDialogFormData) => {
+    addCommandMutate({ name, displayName });
   };
 
   const handleClose = () => {
@@ -122,7 +116,7 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid item xs={4}>
             <ControlledTextField
               name="name"
               control={control}
@@ -148,6 +142,16 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title
                 );
               })}
             </ControlledTextField>
+          </Grid>
+          <Grid item xs={8}>
+            <ControlledTextField
+              name="displayName"
+              control={control}
+              variant="outlined"
+              label="Nome do Cliente"
+              size="small"
+              fullWidth
+            />
           </Grid>
         </Grid>
       </DialogContent>
