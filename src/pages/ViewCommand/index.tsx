@@ -148,9 +148,13 @@ const ViewCommand: React.FC = () => {
           })),
         });
 
-        await queryClient.invalidateQueries({ queryKey: ['useCommands', 'open'] });
-
-        await queryClient.invalidateQueries({ queryKey: ['useCommand', id] });
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: ['useCommands', 'open'] }),
+          queryClient.invalidateQueries({ queryKey: ['useCommands', 'closed'] }),
+          queryClient.invalidateQueries({ queryKey: ['useCommand', id] }),
+          queryClient.invalidateQueries({ queryKey: ['useProducts'] }),
+          queryClient.invalidateQueries({ queryKey: ['useSales'] }),
+        ]);
       }
     },
     onSuccess: () => {

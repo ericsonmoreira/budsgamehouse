@@ -1,10 +1,12 @@
-import { Grid, Tab, Tabs } from '@mui/material';
+import { Box, Grid, MenuItem, Tab, Tabs, TextField } from '@mui/material';
+import { format } from 'date-fns';
 import React, { useMemo, useState } from 'react';
 import CommandCard from '../../components/CommandCard';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
 import AddCommandDialog from '../../components/dialogs/commands/AddCommandDialog';
 import useCommands from '../../hooks/useCommands';
+import useLastTwelveMonths from '../../hooks/useLastTwelveMonths';
 
 type TabPanelProps = {
   children: React.ReactNode;
@@ -35,11 +37,26 @@ const Commands: React.FC = () => {
     setActiveTabValue(newValue);
   };
 
-  const { data: openedCommands, isLoading: openedCommandsIsLoading } = useCommands('open');
+  const lastTwelveMonths = useLastTwelveMonths(12);
 
-  const { data: closedCommands, isLoading: closedCommandsIsLoading } = useCommands('closed');
+  const [selectedMonth, setSelectedMonth] = useState(format(Date.now(), 'MM/yyyy'));
 
-  const { data: canceledCommands, isLoading: canceledCommandsIsLoading } = useCommands('canceled');
+  const [mes, ano] = selectedMonth.split('/');
+
+  const { data: openedCommands, isLoading: openedCommandsIsLoading } = useCommands(
+    'open',
+    new Date(`${ano}-${mes}-01T00:00:00`)
+  );
+
+  const { data: closedCommands, isLoading: closedCommandsIsLoading } = useCommands(
+    'closed',
+    new Date(`${ano}-${mes}-01T00:00:00`)
+  );
+
+  const { data: canceledCommands, isLoading: canceledCommandsIsLoading } = useCommands(
+    'canceled',
+    new Date(`${ano}-${mes}-01T00:00:00`)
+  );
 
   const isLoading = useMemo(
     () => openedCommandsIsLoading || closedCommandsIsLoading || canceledCommandsIsLoading,
@@ -49,6 +66,25 @@ const Commands: React.FC = () => {
   return (
     <Page loading={isLoading}>
       <PageHeader title="Comandas" onClickAddButton={() => setOpenAddCommandDialog(true)} />
+      <Box ml={1}>
+        <TextField
+          select
+          label="Mês"
+          variant="outlined"
+          size="small"
+          margin="normal"
+          value={selectedMonth}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setSelectedMonth(event.target.value);
+          }}
+        >
+          {lastTwelveMonths.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Box>
       <Tabs value={activeTabValue} onChange={handleChangeActiveTabValue} variant="fullWidth">
         <Tab label="Abertos" />
         <Tab label="Fechados" />
