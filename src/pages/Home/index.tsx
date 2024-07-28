@@ -2,13 +2,11 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 import CachedIcon from '@mui/icons-material/Cached';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import PersonIcon from '@mui/icons-material/Person';
-import SellIcon from '@mui/icons-material/Sell';
 import { Grid } from '@mui/material';
 import { useMemo } from 'react';
 import HomeCard, { HomeCardProps } from '../../components/HomeCard';
 import MarketCard from '../../components/MarketCard';
 import Page from '../../components/Page';
-import useCommands from '../../hooks/useCommands';
 import usePlayers from '../../hooks/usePlayers';
 import useProducts from '../../hooks/useProducts';
 import useTradingCards from '../../hooks/useTradingCards';
@@ -17,8 +15,6 @@ import routesNames from '../../routes/routesNames';
 
 const Home: React.FC = () => {
   const { data: players, isLoading: isLoadingPlayers } = usePlayers();
-
-  const { data: commands, isLoading: isLoadingCommands } = useCommands('open');
 
   const { cards: tradingCards, isLoading: isLoadingTradingCards } = useTradingCards();
 
@@ -35,14 +31,6 @@ const Home: React.FC = () => {
         icon: PersonIcon,
         to: routesNames.PLAYERS,
         isLoading: isLoadingPlayers,
-      },
-      {
-        title: 'Comandas',
-        subheader: 'Comandas abertas no momento',
-        amount: commands?.length,
-        icon: SellIcon,
-        to: routesNames.COMMANDS,
-        isLoading: isLoadingCommands,
       },
       {
         title: 'Produtos',
