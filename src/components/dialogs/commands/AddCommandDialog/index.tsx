@@ -16,6 +16,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { format } from 'date-fns';
 import { useMemo } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
@@ -47,7 +48,11 @@ type AddCommandDialogProps = {
 const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title, subTitle, setOpen, ...rest }) => {
   const queryClient = useQueryClient();
 
-  const { data: commands } = useCommands('open');
+  const month = format(Date.now(), 'MM/yyyy');
+
+  const [mes, ano] = month.split('/');
+
+  const { data: commands } = useCommands('open', new Date(`${ano}-${mes}-01T00:00:00`));
 
   const [user] = useAuthState(auth);
 
