@@ -2,6 +2,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PersonIcon from '@mui/icons-material/Person';
 import { Box, Chip, Grid, Tooltip } from '@mui/material';
 import React, { useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useDebounce } from 'usehooks-ts';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
@@ -21,6 +22,10 @@ type ContentCard = {
 };
 
 const Balances: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams({ searchTerm: '' });
+
+  const searchTerm = searchParams.get('searchTerm');
+
   const { data: players, isLoading } = usePlayers();
 
   const [updateFiadoDialogOpen, setUpdateFiadoDialogOpen] = useState(false);
@@ -31,13 +36,11 @@ const Balances: React.FC = () => {
 
   const [senderPlayerFransfer, setSenderPlayerFransfer] = useState<Player>({} as Player);
 
-  const [searchTerm, setSearchTerm] = useState('');
-
   const searchTermDebounced = useDebounce(searchTerm, 300);
 
   const searchedPlayers = useMemo(() => {
     if (players) {
-      return players.filter(({ name }) => name.toLowerCase().includes(searchTermDebounced.toLowerCase()));
+      return players.filter(({ name }) => name.toLowerCase().includes(searchTermDebounced?.toLowerCase() || ''));
     }
 
     return [];
@@ -143,7 +146,10 @@ const Balances: React.FC = () => {
         <SearchTextField
           autoFocus
           value={searchTerm}
-          setValue={setSearchTerm}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setSearchParams({ searchTerm: event.target.value });
+          }}
+          handleClearSearchTerm={() => setSearchParams({ searchTerm: '' })}
           placeholder="Buscar por nome..."
           size="small"
           fullWidth

@@ -2,6 +2,7 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, D
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useSearchParams } from 'react-router-dom';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
 import DataGridProducts from '../../components/datagrids/DataGridProducts';
@@ -13,6 +14,10 @@ import useProducts from '../../hooks/useProducts';
 import deleteProduct from '../../resources/products/deleteProduct';
 
 const Products: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams({ searchTerm: '' });
+
+  const searchTerm = searchParams.get('searchTerm');
+
   const [addProductDialogOpen, setAddProductDialogOpen] = useState(false);
 
   const queryClient = useQueryClient();
@@ -27,13 +32,11 @@ const Products: React.FC = () => {
 
   const [updateProductDialogOpen, setUpdatePproductDialogOpen] = useState(false);
 
-  const [searchTerm, setSearchTerm] = useState('');
-
   const searchTermDebounced = useDebounce(searchTerm, 300);
 
   const searchedProducts = useMemo(() => {
     if (products) {
-      return products.filter(({ name }) => name.toLowerCase().includes(searchTermDebounced.toLowerCase()));
+      return products.filter(({ name }) => name.toLowerCase().includes(searchTermDebounced?.toLowerCase() || ''));
     }
 
     return [];
@@ -73,7 +76,10 @@ const Products: React.FC = () => {
             <SearchTextField
               autoFocus
               value={searchTerm}
-              setValue={setSearchTerm}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setSearchParams({ searchTerm: event.target.value });
+              }}
+              handleClearSearchTerm={() => setSearchParams({ searchTerm: '' })}
               placeholder="Buscar por nome..."
               size="small"
               fullWidth
