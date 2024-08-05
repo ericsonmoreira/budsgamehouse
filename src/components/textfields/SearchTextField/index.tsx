@@ -1,23 +1,16 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton, InputAdornment, Stack, TextField, TextFieldProps } from '@mui/material';
-import React, { useCallback } from 'react';
+import React from 'react';
 
 type SearchTextFieldProps = {
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  handleClearSearchTerm: () => void;
 } & TextFieldProps;
 
-const SearchTextField: React.FC<SearchTextFieldProps> = ({ setValue, ...rest }) => {
-  const handleClearSearchTerm = useCallback(() => {
-    setValue('');
-  }, []);
-
+const SearchTextField: React.FC<SearchTextFieldProps> = ({ handleClearSearchTerm, ...rest }) => {
   return (
     <TextField
       {...rest}
-      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
-      }}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
