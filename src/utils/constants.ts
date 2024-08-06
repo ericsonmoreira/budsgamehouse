@@ -4,6 +4,7 @@ const PRODUCT_CATEGORIES = [
   'Bebida não Alcoólica',
   'Acessórios',
   'Magic The Gathering',
+  'Pokemon',
 ];
 
 const PLAYER_LIMIT = 0;
