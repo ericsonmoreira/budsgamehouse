@@ -21,6 +21,7 @@ import useCardByName from '../../../../hooks/useCardByName';
 import useDebounce from '../../../../hooks/useDebounce';
 import useTradingCards from '../../../../hooks/useTradingCards';
 import ImgCard from '../../../ImgCard';
+import { useMutation } from '@tanstack/react-query';
 
 type AddTradingCardDialogProps = {
   title: string;
@@ -54,9 +55,8 @@ const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = 
 
   const { card } = useCardByName(cardNameSelected);
 
-  // TODO: passar isso aqui pra uma mutation
-  const handleConfirmAction = () => {
-    try {
+  const { mutate: addTrandingCardMutation } = useMutation({
+    mutationFn: async () => {
       if (card) {
         const imgUrl =
           (card.card_faces.length === 2 ? card.card_faces[0].image_uris?.normal : card.image_uris?.normal) || '';
@@ -66,12 +66,15 @@ const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = 
           amount: Number(amount),
           imgUrl,
         });
-
-        toast.success('Card adicionado com sucesso');
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
+    },
+    onSuccess: () => {
+      toast.success('Card adicionado com sucesso');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onMutate: () => {
       resetField('searchTerm');
 
       setCardNameSelected('');
@@ -79,8 +82,8 @@ const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = 
       setAmount('1');
 
       setOpen(false);
-    }
-  };
+    },
+  });
 
   const handleCancelAction = () => {
     resetField('searchTerm');
@@ -147,7 +150,7 @@ const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = 
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancelAction}>Cancelar</Button>
-        <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>
+        <Button onClick={handleSubmit(() => addTrandingCardMutation())} autoFocus>
           Add
         </Button>
       </DialogActions>
