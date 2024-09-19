@@ -12,7 +12,7 @@ const DashboardLayout: React.FC = () => {
     display: 'flex',
     flex: '1 1 auto',
     maxWidth: '100%',
-    height: '100vh',
+    height: '100dvh',
     paddingTop: 64,
     backgroundColor: theme.palette.background.default,
     [theme.breakpoints.up('lg')]: {

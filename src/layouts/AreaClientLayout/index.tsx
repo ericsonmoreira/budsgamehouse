@@ -17,6 +17,7 @@ const AreaClientLayout: React.FC = () => {
         flex: '1 1 auto',
         flexDirection: 'column',
         width: '100%',
+        height: '100dvh',
         overflowY: 'auto',
       }}
     >

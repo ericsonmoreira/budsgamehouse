@@ -12,7 +12,7 @@ const BasicLayout: React.FC = () => {
     <Box
       sx={{
         display: 'flex',
-        height: '100vh',
+        height: '100dvh',
         backgroundImage: `url(${BackGroundLoginPageImg})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
@@ -23,14 +23,14 @@ const BasicLayout: React.FC = () => {
         sx={{
           display: 'flex',
           flexDirection: upMd ? 'row' : 'column',
-          height: '100vh',
+          height: '100dvh',
         }}
       >
         <Box
           sx={{
             padding: 1,
             display: 'flex',
-            flex: 1,
+            // flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
           }}
