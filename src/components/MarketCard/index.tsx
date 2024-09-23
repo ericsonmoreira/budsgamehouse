@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
@@ -43,7 +43,7 @@ import AutocompleteProducts from '../AutocompleteProducts';
 import AvatarPlayer from '../AvatarPlayer';
 import TypographyBalance from '../TypographyBalance';
 import ControlledCurrencyTextField from '../textfields/ControlledCurrencyTextField';
-import schema from './schema';
+import schema, { SchemaData } from './schema';
 
 type MarketCardCart = {
   id: string;
@@ -52,11 +52,7 @@ type MarketCardCart = {
   price: number;
 };
 
-type MarketCardFormData = {
-  looseValue: number;
-};
-
-const MarketCard: React.FC = () => {
+function MarketCard() {
   const queryClient = useQueryClient();
 
   const [user] = useAuthState(auth);
@@ -71,8 +67,8 @@ const MarketCard: React.FC = () => {
 
   const [shoppingCart, setShoppingCart] = useState<{ id: string; name: string; amount: number; price: number }[]>([]);
 
-  const { handleSubmit, control, watch, resetField } = useForm<MarketCardFormData>({
-    resolver: yupResolver(schema),
+  const { handleSubmit, control, watch, resetField } = useForm<SchemaData>({
+    resolver: zodResolver(schema),
     defaultValues: {
       looseValue: 0,
     },
@@ -131,7 +127,7 @@ const MarketCard: React.FC = () => {
   const disabledConfirm = useMemo(() => totalToPay === 0, [totalToPay]);
 
   const { mutate: confirmMutate, isPending: confirmMutateIsloading } = useMutation({
-    mutationFn: async (data: MarketCardFormData) => {
+    mutationFn: async (data: SchemaData) => {
       if (user) {
         const { looseValue } = data;
 
@@ -191,7 +187,7 @@ const MarketCard: React.FC = () => {
     setSelectedPlayer(null);
   }, [setShoppingCart, resetField, setSelectedPlayer]);
 
-  const handleConfirm = (data: MarketCardFormData) => {
+  const handleConfirm = (data: SchemaData) => {
     confirmMutate(data);
   };
 
@@ -314,6 +310,6 @@ const MarketCard: React.FC = () => {
       </Backdrop>
     </Card>
   );
-};
+}
 
 export default MarketCard;

@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
@@ -12,17 +12,13 @@ import PaperGlass from '../../components/PaperGlass';
 import ControlledTextField from '../../components/textfields/ControlledTextField';
 import { auth } from '../../services/firebaseConfig';
 import verifyFirebaseErroCode from '../../services/verifyFirebaseErroCode';
-import schema from './schema ';
-
-type RecoverPasswordData = {
-  email: string;
-};
+import schema, { SchemaData } from './schema ';
 
 const RecoverPassword: React.FC = () => {
   const navigate = useNavigate();
 
-  const { control, handleSubmit } = useForm<RecoverPasswordData>({
-    resolver: yupResolver(schema),
+  const { control, handleSubmit } = useForm<SchemaData>({
+    resolver: zodResolver(schema),
   });
 
   const [sendPasswordResetEmail, sending, error] = useSendPasswordResetEmail(auth);
@@ -39,7 +35,7 @@ const RecoverPassword: React.FC = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<RecoverPasswordData> = async ({ email }) => {
+  const onSubmit: SubmitHandler<SchemaData> = async ({ email }) => {
     sendPasswordResetEmailMutation(email);
   };
 

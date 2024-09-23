@@ -1,7 +1,9 @@
-import * as yup from 'yup';
+import { z } from 'zod';
 
-const schema = yup.object().shape({
-  looseValue: yup.number().min(0),
+const schema = z.object({
+  looseValue: z.number().min(0),
 });
+
+export type SchemaData = z.infer<typeof schema>;
 
 export default schema;

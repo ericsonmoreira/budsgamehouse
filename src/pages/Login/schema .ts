@@ -1,8 +1,14 @@
-import * as yup from 'yup';
+import { z } from 'zod';
 
-const schema = yup.object().shape({
-  email: yup.string().required('Campo obrigatório').email('Email inválido'),
-  password: yup.string().required('Campo obrigatório'),
+const schema = z.object({
+  email: z
+    .string({
+      required_error: 'Campo obrigatório',
+    })
+    .email('Email inválido'),
+  password: z.string({ required_error: 'Campo obrigatório' }),
 });
+
+export type SchemaData = z.infer<typeof schema>;
 
 export default schema;

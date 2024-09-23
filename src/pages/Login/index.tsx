@@ -1,7 +1,7 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import LoginIcon from '@mui/icons-material/Login';
 import PersonIcon from '@mui/icons-material/Person';
-import { Button, Grid, Typography } from '@mui/material';
+import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -13,24 +13,19 @@ import ControlledTextField from '../../components/textfields/ControlledTextField
 import routesNames from '../../routes/routesNames';
 import { auth } from '../../services/firebaseConfig';
 import verifyFirebaseErroCode from '../../services/verifyFirebaseErroCode';
-import schema from './schema ';
+import schema, { SchemaData } from './schema ';
 
-type LoginFormData = {
-  email: string;
-  password: string;
-};
-
-const Login: React.FC = () => {
+function Login() {
   const navigate = useNavigate();
 
   const [signInWithEmailAndPassword, user, loading, signError] = useSignInWithEmailAndPassword(auth);
 
-  const { control, handleSubmit } = useForm<LoginFormData>({
-    resolver: yupResolver(schema),
+  const { control, handleSubmit } = useForm<SchemaData>({
+    resolver: zodResolver(schema),
   });
 
   const { mutate: signInWithEmailAndPasswordMutation } = useMutation({
-    mutationFn: async ({ email, password }: LoginFormData) => {
+    mutationFn: async ({ email, password }: SchemaData) => {
       await signInWithEmailAndPassword(email, password);
     },
     onSuccess: () => {
@@ -38,12 +33,12 @@ const Login: React.FC = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<LoginFormData> = async ({ email, password }) => {
+  const onSubmit: SubmitHandler<SchemaData> = async ({ email, password }) => {
     signInWithEmailAndPasswordMutation({ email, password });
   };
 
   if (user) {
-    return <Navigate to="/" />;
+    return <Navigate to={routesNames.HOME} />;
   }
 
   return (
@@ -53,40 +48,34 @@ const Login: React.FC = () => {
           <Typography variant="h6" gutterBottom>
             Login
           </Typography>
-          <Grid container spacing={1}>
-            <Grid item xs={12}>
-              <ControlledTextField
-                autoFocus
-                name="email"
-                type="email"
-                control={control}
-                variant="outlined"
-                size="small"
-                label="Email"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <ControlledPasswordTextField
-                name="password"
-                control={control}
-                variant="outlined"
-                size="small"
-                label="Password"
-                fullWidth
-              />
-              {signError && (
-                <Typography sx={{ color: (theme) => theme.palette.error.dark }}>
-                  {verifyFirebaseErroCode(signError.code)}
-                </Typography>
-              )}
-            </Grid>
-            <Grid item xs={12}>
-              <Button disableElevation fullWidth type="submit" variant="contained" endIcon={<LoginIcon />}>
-                Login
-              </Button>
-            </Grid>
-          </Grid>
+          <Stack direction="column" spacing={1}>
+            <ControlledTextField
+              autoFocus
+              name="email"
+              type="email"
+              control={control}
+              variant="outlined"
+              size="small"
+              label="Email"
+              fullWidth
+            />
+            <ControlledPasswordTextField
+              name="password"
+              control={control}
+              variant="outlined"
+              size="small"
+              label="Password"
+              fullWidth
+            />
+            {signError && (
+              <Typography sx={{ color: (theme) => theme.palette.error.dark }}>
+                {verifyFirebaseErroCode(signError.code)}
+              </Typography>
+            )}
+            <Button disableElevation fullWidth type="submit" variant="contained" endIcon={<LoginIcon />}>
+              Login
+            </Button>
+          </Stack>
         </form>
         <Grid container mt={1} spacing={1}>
           <Grid item xs={12} sm={6}>
@@ -110,6 +99,6 @@ const Login: React.FC = () => {
       </PaperGlass>
     </Page>
   );
-};
+}
 
 export default Login;
