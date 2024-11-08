@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
@@ -10,24 +10,20 @@ import PaperGlass from '../../components/PaperGlass';
 import ControlledTextField from '../../components/textfields/ControlledTextField';
 import findPlayerByEmail from '../../resources/players/findPlayerByEmail';
 import routesNames from '../../routes/routesNames';
-import schema from './schema ';
-
-type ClientFormData = {
-  email: string;
-};
+import schema, { SchemaData } from './schema ';
 
 const Client: React.FC = () => {
   const navigate = useNavigate();
 
-  const { control, handleSubmit } = useForm<ClientFormData>({
-    resolver: yupResolver(schema),
+  const { control, handleSubmit } = useForm<SchemaData>({
+    resolver: zodResolver(schema),
     defaultValues: {
       email: '',
     },
   });
 
   const { mutate: signInAreaClientMutation, isPending } = useMutation({
-    mutationFn: async ({ email }: ClientFormData) => {
+    mutationFn: async ({ email }: SchemaData) => {
       const palyer = await findPlayerByEmail(email);
 
       if (palyer) {
@@ -44,7 +40,7 @@ const Client: React.FC = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<ClientFormData> = async ({ email }) => {
+  const onSubmit: SubmitHandler<SchemaData> = async ({ email }) => {
     signInAreaClientMutation({ email });
   };
 

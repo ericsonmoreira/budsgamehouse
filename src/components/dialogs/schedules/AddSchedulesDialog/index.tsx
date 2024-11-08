@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Backdrop,
   Button,
@@ -17,7 +17,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import addSchedule from '../../../../resources/schedules/addSchedule';
 import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema from './schema';
+import schema, { SchemaData } from './schema';
 
 type AddSchedulesDialogProps = {
   title: string;
@@ -25,18 +25,11 @@ type AddSchedulesDialogProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-type AddSchedulesDialogFormData = {
-  title: string;
-  description: string;
-  start: Date;
-  end: Date;
-};
-
 const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({ title, subTitle, setOpen, ...rest }) => {
   const queryClient = useQueryClient();
 
-  const { handleSubmit, reset, control } = useForm<AddSchedulesDialogFormData>({
-    resolver: yupResolver(schema),
+  const { handleSubmit, reset, control } = useForm<SchemaData>({
+    resolver: zodResolver(schema),
     defaultValues: {
       title: '',
       description: '',
@@ -46,7 +39,7 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({ t
   });
 
   const { mutate: addScheduleMutate, isPending: addScheduleMutateIsloading } = useMutation({
-    mutationFn: async ({ title, description, end, start }: AddSchedulesDialogFormData) => {
+    mutationFn: async ({ title, description, end, start }: SchemaData) => {
       addSchedule({
         title,
         description,
@@ -67,7 +60,7 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({ t
     },
   });
 
-  const handleConfirmAction = (data: AddSchedulesDialogFormData) => {
+  const handleConfirmAction = (data: SchemaData) => {
     addScheduleMutate(data);
   };
 

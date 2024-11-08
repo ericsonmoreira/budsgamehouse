@@ -1,17 +1,14 @@
-import * as yup from 'yup';
-import { formatterCurrencyBRL } from '../../../../utils/formatters';
+import { z } from 'zod';
 
-const schema = (senderPlayerBalance: number) =>
-  yup.object().shape({
-    value: yup
-      .number()
-      .required('Campo obrigatório.')
-      .positive('O valor tem que ser maior que R$ 0,00.')
-      .max(
-        senderPlayerBalance,
-        `O valor deve ser menor ou igual a ${formatterCurrencyBRL.format(senderPlayerBalance)}.`
-      ),
-    description: yup.string(),
-  });
+const schema = z.object({
+  value: z.coerce
+    .number({
+      required_error: 'Campo obrigatório.',
+    })
+    .positive('O valor tem que ser maior que R$ 0,00.'),
+  description: z.string(),
+});
+
+export type SchemaData = z.infer<typeof schema>;
 
 export default schema;

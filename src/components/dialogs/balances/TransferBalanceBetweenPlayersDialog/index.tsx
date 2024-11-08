@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import ForwardIcon from '@mui/icons-material/Forward';
 import {
   Backdrop,
@@ -32,7 +32,7 @@ import AvatarPlayer from '../../../AvatarPlayer';
 import TypographyBalance from '../../../TypographyBalance';
 import ControlledCurrencyTextField from '../../../textfields/ControlledCurrencyTextField';
 import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema from './schema';
+import schema, { SchemaData } from './schema';
 
 type TransferBalanceBetweenPlayersDialogProps = {
   title: string;
@@ -66,8 +66,8 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
 
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
-  const { handleSubmit, reset, control, watch } = useForm<TransferBalanceBetweenPlayersDialogFormData>({
-    resolver: yupResolver(schema(senderPlayer.balance)),
+  const { handleSubmit, reset, control, watch } = useForm<SchemaData>({
+    resolver: zodResolver(schema),
     defaultValues,
   });
 
@@ -177,7 +177,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
                     <Typography color="text.secondary" variant="caption">
                       Saldo Final
                     </Typography>
-                    <TypographyBalance balance={senderPlayer.balance - valueWatch} />
+                    <TypographyBalance balance={senderPlayer.balance - Number(valueWatch)} />
                   </Box>
                 </Box>
               </CardContent>
@@ -207,7 +207,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
                       <Typography color="text.secondary" variant="caption">
                         Saldo Final
                       </Typography>
-                      <TypographyBalance balance={selectedPlayer.balance + valueWatch} />
+                      <TypographyBalance balance={selectedPlayer.balance + Number(valueWatch)} />
                     </Box>
                   </Box>
                 </CardContent>

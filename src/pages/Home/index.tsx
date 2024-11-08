@@ -13,7 +13,7 @@ import useTradingCards from '../../hooks/useTradingCards';
 import useWantedCards from '../../hooks/useWantedCards';
 import routesNames from '../../routes/routesNames';
 
-const Home: React.FC = () => {
+function Home() {
   const { data: players, isLoading: isLoadingPlayers } = usePlayers();
 
   const { cards: tradingCards, isLoading: isLoadingTradingCards } = useTradingCards();
@@ -74,6 +74,6 @@ const Home: React.FC = () => {
       </Grid>
     </Page>
   );
-};
+}
 
 export default Home;

@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Backdrop,
   Button,
@@ -21,7 +21,7 @@ import uploadImageInStorage from '../../../../resources/uploadImageInStorage';
 import { auth } from '../../../../services/firebaseConfig';
 import ImageDropZone from '../../../ImageDropZone';
 import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema from './schema ';
+import schema, { SchemaData } from './schema ';
 
 type EditUserDialogProps = {
   title: string;
@@ -29,23 +29,19 @@ type EditUserDialogProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 } & DialogProps;
 
-type EditUserDialogFormData = {
-  name: string;
-};
-
 const EditUserDialog: React.FC<EditUserDialogProps> = ({ title, setOpen, subTitle, ...rest }) => {
   const queryClient = useQueryClient();
 
   const [user] = useAuthState(auth);
 
-  const { control, handleSubmit, setValue } = useForm<EditUserDialogFormData>({
-    resolver: yupResolver(schema),
+  const { control, handleSubmit, setValue } = useForm<SchemaData>({
+    resolver: zodResolver(schema),
   });
 
   const [file, setFile] = useState<File | null>();
 
   const { mutate: editUserMutate, isPending: editUserIsLoading } = useMutation({
-    mutationFn: async ({ name }: EditUserDialogFormData) => {
+    mutationFn: async ({ name }: SchemaData) => {
       if (user) {
         if (file) {
           const photoURL = await uploadImageInStorage(file);
@@ -79,7 +75,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({ title, setOpen, subTitl
     },
   });
 
-  const handleConfirmAction = (data: EditUserDialogFormData) => {
+  const handleConfirmAction = (data: SchemaData) => {
     editUserMutate(data);
   };
 

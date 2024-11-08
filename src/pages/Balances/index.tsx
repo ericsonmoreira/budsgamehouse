@@ -21,7 +21,7 @@ type ContentCard = {
   icon: React.ReactElement;
 };
 
-const Balances: React.FC = () => {
+function Balances() {
   const [searchParams, setSearchParams] = useSearchParams({ searchTerm: '' });
 
   const searchTerm = searchParams.get('searchTerm');
@@ -183,6 +183,6 @@ const Balances: React.FC = () => {
       />
     </Page>
   );
-};
+}
 
 export default Balances;

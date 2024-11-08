@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Backdrop,
+  Box,
   Button,
   CircularProgress,
   Dialog,
@@ -21,6 +22,7 @@ import ImageDropZone from '../../../ImageDropZone';
 import ControlledTextField from '../../../textfields/ControlledTextField';
 import schema, { UpdatePlayerDialogFormData } from './schema ';
 import ControlledPhoneTextField from '../../../textfields/ControlledPhoneTextField';
+import AvatarPlayer from '../../../AvatarPlayer';
 
 type UpdatePlayerDialogProps = {
   title: string;
@@ -111,6 +113,9 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{subTitle}</DialogContentText>
+        <Box display="flex" alignItems="center" justifyContent="center">
+          <AvatarPlayer sx={{ width: 64, height: 64 }} playerId={playerToUpdate.id} />
+        </Box>
         <Stack
           spacing={2}
           sx={{
