@@ -39,6 +39,7 @@ import addSale from '../../resources/sales/addSale';
 import routesNames from '../../routes/routesNames';
 import { auth } from '../../services/firebaseConfig';
 import { formatterCurrencyBRL } from '../../utils/formatters';
+import useConfirmation from '../../hooks/useConfirmation';
 
 type ViewCommandParams = {
   id: string;
@@ -53,6 +54,8 @@ type CommandItemShoppingCart = {
 
 const ViewCommand: React.FC = () => {
   const [user] = useAuthState(auth);
+
+  const { showDialog, confirmationDialog: ConfirmationDialog } = useConfirmation();
 
   const queryClient = useQueryClient();
 
@@ -166,7 +169,16 @@ const ViewCommand: React.FC = () => {
   });
 
   const { mutate: closeCommandMutate, isPending: closeCommandMutateIsloading } = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (): Promise<boolean> => {
+      const confirmation = await showDialog({
+        title: 'Confirmarção',
+        message: 'Deseja realmente FECHAR essa Comanda?',
+      });
+
+      if (!confirmation) {
+        return false;
+      }
+
       if (command && user) {
         await updateCommand({ ...command, status: 'closed' });
 
@@ -196,17 +208,32 @@ const ViewCommand: React.FC = () => {
       } else {
         throw new Error('Usuário não cadastrado');
       }
+
+      return true;
     },
-    onSuccess: () => {
-      toast.success('Comanda Fechada com sucesso');
+    onSuccess: (data) => {
+      if (data) {
+        toast.success('Comanda Fechada com sucesso');
+      }
     },
     onError: (error: Error) => {
       toast.error(error.message);
     },
   });
 
+  // TODO: ajustando aqui
+
   const { mutate: cancelCommandMutate, isPending: cancelCommandMutateIsloading } = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (): Promise<boolean> => {
+      const confirmation = await showDialog({
+        title: 'Confirmarção',
+        message: 'Deseja realmente CANCELAR essa Comanda?',
+      });
+
+      if (!confirmation) {
+        return false;
+      }
+
       if (command) {
         await updateCommand({ ...command, status: 'canceled' });
       }
@@ -216,9 +243,13 @@ const ViewCommand: React.FC = () => {
       await queryClient.invalidateQueries({ queryKey: ['useCommands', 'canceled'] });
 
       await queryClient.invalidateQueries({ queryKey: ['useCommand', id] });
+
+      return true;
     },
-    onSuccess: () => {
-      toast.success('Comanda Cancelada com sucesso');
+    onSuccess: (data) => {
+      if (data) {
+        toast.success('Comanda Cancelada com sucesso');
+      }
     },
     onError: (error: Error) => {
       toast.error(error.message);
@@ -341,7 +372,7 @@ const ViewCommand: React.FC = () => {
               variant="contained"
               startIcon={<DoneAllIcon />}
               disabled={isDisableCommandEdition}
-              onClick={() => closeCommandMutate()}
+              onClick={() => closeCommandMutate}
               fullWidth
             >
               Fechar Comanda
@@ -360,6 +391,7 @@ const ViewCommand: React.FC = () => {
           </Grid>
         </Grid>
       </Box>
+      <ConfirmationDialog />
     </Page>
   );
 };
