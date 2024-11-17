@@ -1,6 +1,6 @@
 import { Box, Chip, Stack, SvgIconProps, Typography } from '@mui/material';
-import React from 'react';
-import { CardsClubIcon, CardsDiamondIcon, CardsHeartIcon, CardsSpadeIcon } from '../../icons';
+import { differenceInHours } from 'date-fns';
+import { CardsClubIcon, CardsDiamondIcon, CardsHeartIcon, CardsSpadeIcon, WarningIcon } from '../../../icons';
 
 type CommandTitleName = {
   command: Command;
@@ -26,6 +26,15 @@ const CommandTitleName: React.FC<CommandTitleName> = ({ command }) => {
 
   const StatusComponent = cardsStatusMap[command.status];
 
+  // verifica se a comanda está aberta a mais de 24 horas
+  const checkDelay = (command: Command): boolean => {
+    const now = new Date();
+
+    const createdAtDate = new Date(Number(command.createdAt.toString()));
+
+    return command.status === 'open' && differenceInHours(now, createdAtDate) > 24;
+  };
+
   return (
     <Box display="flex" alignItems="center" justifyContent="space-between">
       <Stack
@@ -47,7 +56,10 @@ const CommandTitleName: React.FC<CommandTitleName> = ({ command }) => {
         </Typography>
         <IconComponent fontSize="medium" />
       </Stack>
-      <StatusComponent />
+      <Stack direction="row" spacing={1}>
+        <StatusComponent />
+        {checkDelay(command) && <WarningIcon fontSize="large" color="warning" />}
+      </Stack>
     </Box>
   );
 };

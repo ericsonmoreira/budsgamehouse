@@ -3,9 +3,8 @@ import { differenceInHours, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { WarningIcon } from '../../icons';
 import routesNames from '../../routes/routesNames';
-import CommandTitleName from '../CommandTitleName';
+import CommandTitleName from './CommandTitleName';
 import TypographyBalance from '../TypographyBalance';
 
 type CommandCardProps = {
@@ -45,12 +44,9 @@ const CommandCard: React.FC<CommandCardProps> = ({ data }) => {
           <CommandTitleName command={data} />
           <Typography variant="h6">Cliente: {data.displayName || 'Não Informado'}</Typography>
           <TypographyBalance variant="h4" balance={total} />
-          <Box gap={1} display="flex" alignItems="center" justifyContent="center">
-            <Typography variant="button" color="GrayText">
-              Aberto em {format(data.createdAt, 'PPPp', { locale: ptBR })}
-            </Typography>
-            {checkDelay(data) && <WarningIcon fontSize="large" color="warning" />}
-          </Box>
+          <Typography variant="button" color="GrayText">
+            Aberto em {format(data.createdAt, 'PPPp', { locale: ptBR })}
+          </Typography>
         </Box>
       </Paper>
     </ButtonBase>
