@@ -372,7 +372,7 @@ const ViewCommand: React.FC = () => {
               variant="contained"
               startIcon={<DoneAllIcon />}
               disabled={isDisableCommandEdition}
-              onClick={() => closeCommandMutate}
+              onClick={() => closeCommandMutate()}
               fullWidth
             >
               Fechar Comanda
