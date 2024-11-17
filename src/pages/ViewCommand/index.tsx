@@ -28,7 +28,7 @@ import toast from 'react-hot-toast';
 import { Navigate, useParams } from 'react-router-dom';
 import 'react-vertical-timeline-component/style.min.css';
 import AutocompleteProducts from '../../components/AutocompleteProducts';
-import CommandTitleName from '../../components/CommandTitleName';
+import CommandTitleName from '../../components/CommandCard/CommandTitleName';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
 import useCommand from '../../hooks/useCommand';
