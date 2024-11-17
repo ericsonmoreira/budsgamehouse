@@ -1,4 +1,4 @@
-import { Box, Chip, Stack, SvgIconProps, Typography } from '@mui/material';
+import { Box, Chip, Stack, SvgIconProps, Tooltip, Typography } from '@mui/material';
 import { differenceInHours } from 'date-fns';
 import { CardsClubIcon, CardsDiamondIcon, CardsHeartIcon, CardsSpadeIcon, WarningIcon } from '../../../icons';
 
@@ -58,7 +58,11 @@ const CommandTitleName: React.FC<CommandTitleName> = ({ command }) => {
       </Stack>
       <Stack direction="row" spacing={1}>
         <StatusComponent />
-        {checkDelay(command) && <WarningIcon fontSize="large" color="warning" />}
+        {checkDelay(command) && (
+          <Tooltip title="Comanda Aberta a mais de 24 horas">
+            <WarningIcon fontSize="large" color="warning" />
+          </Tooltip>
+        )}
       </Stack>
     </Box>
   );
