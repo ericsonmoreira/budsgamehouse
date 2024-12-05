@@ -1,52 +1,61 @@
-import { Box, Grid, MenuItem, TextField, styled } from '@mui/material';
-import { useState } from 'react';
-import PageHeader from '../../components/PageHeader';
-import DataGridWantedCards from '../../components/datagrids/DataGridWantedCards';
-import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
-import AddWantCardDialog from '../../components/dialogs/wantCards/AddWantCardDialog';
+import { Box, Grid, MenuItem, TextField, styled } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import PageHeader from "../../components/PageHeader";
+import DataGridWantedCards from "../../components/datagrids/DataGridWantedCards";
+import AddWantCardDialog from "../../components/dialogs/wantCards/AddWantCardDialog";
 import UpdateWantedCardDialog, {
   WantedCardUpdateData,
-} from '../../components/dialogs/wantCards/UpdateWantedCardDialog';
-import useWantedCards from '../../hooks/useWantedCards';
-type PreviewModeType = 'Tabela' | 'Visual';
+} from "../../components/dialogs/wantCards/UpdateWantedCardDialog";
+import useConfirmation from "../../hooks/useConfirmation";
+import useWantedCards from "../../hooks/useWantedCards";
+type PreviewModeType = "Tabela" | "Visual";
 
-const viewingModes: PreviewModeType[] = ['Tabela', 'Visual'];
+const viewingModes: PreviewModeType[] = ["Tabela", "Visual"];
 
 type PreviewModeImgProps = {
   amount: number;
 };
 
-const PreviewModeImg = styled('div')<PreviewModeImgProps>(({ amount }) => ({
-  position: 'relative',
+const PreviewModeImg = styled("div")<PreviewModeImgProps>(({ amount }) => ({
+  position: "relative",
 
-  ':after': {
+  ":after": {
     content: `"x ${String(amount)}"`, // Adiciona o conteúdo dinâmico entre aspas
-    position: 'absolute',
-    bottom: '10%',
-    right: '10%',
+    position: "absolute",
+    bottom: "10%",
+    right: "10%",
   },
 }));
 
-const WantedCards: React.FC = () => {
+function WantedCards() {
   const [addWantCardDialogOpen, setAddWantCardDialogOpen] = useState(false);
 
-  const [updateWantedCardDialogOpen, setUpdateWantedCardDialogOpen] = useState(false);
+  const { showDialog, confirmationDialog: ConfirmationDialog } =
+    useConfirmation();
 
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [updateWantedCardDialogOpen, setUpdateWantedCardDialogOpen] =
+    useState(false);
 
-  const [wantedCardToDeleteId, setWantedCardToDeleteId] = useState('');
+  const [previewMode, setPreviewMode] = useState<PreviewModeType>("Visual");
 
-  const [previewMode, setPreviewMode] = useState<PreviewModeType>('Visual');
+  const [wantedCardToUpdate, setWantedCardToUpdate] =
+    useState<WantedCardUpdateData>({
+      id: "",
+      name: "",
+      amount: "",
+      imgUrl: "",
+      priority: "medium",
+    });
 
-  const [wantedCardToUpdate, setWantedCardToUpdate] = useState<WantedCardUpdateData>({
-    id: '',
-    name: '',
-    amount: '',
-    imgUrl: '',
-    priority: 'medium',
-  });
-
-  const handleUpdate = ({ id, name, amount, imgUrl, priority }: WantedCardUpdateData) => {
+  const handleUpdate = ({
+    id,
+    name,
+    amount,
+    imgUrl,
+    priority,
+  }: WantedCardUpdateData) => {
     setWantedCardToUpdate({ id, name, amount, imgUrl, priority });
 
     setUpdateWantedCardDialogOpen(true);
@@ -54,11 +63,28 @@ const WantedCards: React.FC = () => {
 
   const { cards: wantedCards, isLoading, deleteWantedCard } = useWantedCards();
 
-  const handledelete = (id: string) => {
-    setWantedCardToDeleteId(id);
+  const { mutate: deleteWantedCardMutate } = useMutation({
+    mutationFn: async (id: string) => {
+      const confirmation = await showDialog({
+        title: "Remover Card",
+        message: "Deseja realmente remover esse Card",
+      });
 
-    setDeleteDialogOpen(true);
-  };
+      if (confirmation) {
+        deleteWantedCard(id);
+
+        return true;
+      }
+
+      return false;
+    },
+    onSuccess: (data) => {
+      if (data) {
+        toast.success("Card removido com sucesso");
+      }
+    },
+    onError: () => toast.error("Erro!"),
+  });
 
   return (
     <>
@@ -87,35 +113,41 @@ const WantedCards: React.FC = () => {
         </TextField>
       </Box>
       <Box sx={{ margin: 1, height: 1 }}>
-        {previewMode === 'Tabela' && (
+        {previewMode === "Tabela" && (
           <DataGridWantedCards
             loading={isLoading}
-            rows={wantedCards?.map(({ id, name, amount, imgUrl, priority }) => ({
-              id,
-              imgUrl,
-              name,
-              amount,
-              actions: {
-                handleUpdate: () =>
-                  handleUpdate({
-                    id,
-                    name,
-                    amount: String(amount),
-                    imgUrl,
-                    priority,
-                  }),
-                handledelete: () => handledelete(id),
-              },
-              priority,
-            }))}
+            rows={wantedCards?.map(
+              ({ id, name, amount, imgUrl, priority }) => ({
+                id,
+                imgUrl,
+                name,
+                amount,
+                actions: {
+                  handleUpdate: () =>
+                    handleUpdate({
+                      id,
+                      name,
+                      amount: String(amount),
+                      imgUrl,
+                      priority,
+                    }),
+                  handledelete: () => deleteWantedCardMutate(id),
+                },
+                priority,
+              }),
+            )}
           />
         )}
-        {previewMode === 'Visual' && (
+        {previewMode === "Visual" && (
           <Grid container>
             {wantedCards?.map(({ id, imgUrl, amount }) => (
               <Grid item xs={2} p={1} key={id}>
                 <PreviewModeImg amount={amount}>
-                  <img src={imgUrl} width="100%" style={{ borderRadius: '8px' }} />
+                  <img
+                    src={imgUrl}
+                    width="100%"
+                    style={{ borderRadius: "8px" }}
+                  />
                 </PreviewModeImg>
               </Grid>
             ))}
@@ -137,17 +169,9 @@ const WantedCards: React.FC = () => {
         onClose={() => setUpdateWantedCardDialogOpen(false)}
         tradingCardToUpdate={wantedCardToUpdate}
       />
-      <ConfirmActionDialog
-        title="Remover Card"
-        subTitle="Deseja realmente remover esse Card"
-        confirmationMesage="Card Removido com sucesso"
-        open={deleteDialogOpen}
-        setOpen={setDeleteDialogOpen}
-        onClose={() => setDeleteDialogOpen(false)}
-        handleConfirmAction={() => deleteWantedCard(wantedCardToDeleteId)}
-      />
+      <ConfirmationDialog />
     </>
   );
-};
+}
 
 export default WantedCards;

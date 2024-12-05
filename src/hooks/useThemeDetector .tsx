@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-const getCurrentTheme = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+const getCurrentTheme = () =>
+  window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-const useThemeDetector = (): 'dark' | 'light' => {
+const useThemeDetector = (): "dark" | "light" => {
   const [isDarkTheme, setIsDarkTheme] = useState(getCurrentTheme());
 
   const mqListener = (e: MediaQueryListEvent) => {
@@ -10,14 +11,14 @@ const useThemeDetector = (): 'dark' | 'light' => {
   };
 
   useEffect(() => {
-    const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
 
-    darkThemeMq.addEventListener('change', mqListener);
+    darkThemeMq.addEventListener("change", mqListener);
 
-    return () => darkThemeMq.removeEventListener('change', mqListener);
+    return () => darkThemeMq.removeEventListener("change", mqListener);
   }, []);
 
-  return isDarkTheme ? 'dark' : 'light';
+  return isDarkTheme ? "dark" : "light";
 };
 
 export default useThemeDetector;

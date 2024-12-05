@@ -1,13 +1,21 @@
-import { TextField, TextFieldProps } from '@mui/material';
-import { FieldPath, FieldValues, UseControllerProps, useController } from 'react-hook-form';
+import { TextField, TextFieldProps } from "@mui/material";
+import {
+  FieldPath,
+  FieldValues,
+  UseControllerProps,
+  useController,
+} from "react-hook-form";
 
 type ControlledTextFieldProps<
   TextFieldValues extends FieldValues,
-  TextFieldName extends FieldPath<TextFieldValues>
+  TextFieldName extends FieldPath<TextFieldValues>,
 > = UseControllerProps<TextFieldValues, TextFieldName> & TextFieldProps;
 
-const ControlledTextField = <TextFieldValues extends FieldValues, TextFieldName extends FieldPath<TextFieldValues>>(
-  props: ControlledTextFieldProps<TextFieldValues, TextFieldName>
+const ControlledTextField = <
+  TextFieldValues extends FieldValues,
+  TextFieldName extends FieldPath<TextFieldValues>,
+>(
+  props: ControlledTextFieldProps<TextFieldValues, TextFieldName>,
 ) => {
   const { control, name, ...rest } = props;
 
@@ -16,7 +24,15 @@ const ControlledTextField = <TextFieldValues extends FieldValues, TextFieldName 
     fieldState: { error },
   } = useController({ control, name });
 
-  return <TextField {...rest} {...fieldRest} inputRef={ref} error={!!error} helperText={error?.message} />;
+  return (
+    <TextField
+      {...rest}
+      {...fieldRest}
+      inputRef={ref}
+      error={!!error}
+      helperText={error?.message}
+    />
+  );
 };
 
 export default ControlledTextField;

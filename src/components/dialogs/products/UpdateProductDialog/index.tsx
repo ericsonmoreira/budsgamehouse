@@ -1,4 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod';
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Backdrop,
   Button,
@@ -11,18 +11,18 @@ import {
   DialogTitle,
   Grid,
   MenuItem,
-} from '@mui/material';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
-import updateProduct from '../../../../resources/products/updateProduct';
-import uploadImageInStorage from '../../../../resources/uploadImageInStorage';
-import { PRODUCT_CATEGORIES } from '../../../../utils/constants';
-import ImageDropZone from '../../../ImageDropZone';
-import ControlledCurrencyTextField from '../../../textfields/ControlledCurrencyTextField';
-import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema, { UpdateProductDialogFormData } from './schema ';
+} from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import updateProduct from "../../../../resources/products/updateProduct";
+import uploadImageInStorage from "../../../../resources/uploadImageInStorage";
+import { PRODUCT_CATEGORIES } from "../../../../utils/constants";
+import ImageDropZone from "../../../ImageDropZone";
+import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
+import ControlledTextField from "../../../textfields/ControlledTextField";
+import schema, { UpdateProductDialogFormData } from "./schema ";
 
 type UpdateProductDialogProps = {
   title: string;
@@ -42,28 +42,46 @@ const UpdateProductDialog: React.FC<UpdateProductDialogProps & DialogProps> = ({
 
   const queryClient = useQueryClient();
 
-  const { control, handleSubmit, reset } = useForm<UpdateProductDialogFormData>({
-    resolver: zodResolver(schema),
-  });
+  const { control, handleSubmit, reset } = useForm<UpdateProductDialogFormData>(
+    {
+      resolver: zodResolver(schema),
+    },
+  );
 
   const [file, setFile] = useState<File | null>();
 
-  const { mutate: updateProductMutate, isPending: updateProductMutateIsloading } = useMutation({
-    mutationFn: async ({ name, price, category, stock, imgUrl }: Omit<Product, 'id'>) => {
+  const {
+    mutate: updateProductMutate,
+    isPending: updateProductMutateIsloading,
+  } = useMutation({
+    mutationFn: async ({
+      name,
+      price,
+      category,
+      stock,
+      imgUrl,
+    }: Omit<Product, "id">) => {
       if (file) {
         const newImgUrl = await uploadImageInStorage(file);
 
-        await updateProduct({ id, name, price, category, stock, imgUrl: newImgUrl });
+        await updateProduct({
+          id,
+          name,
+          price,
+          category,
+          stock,
+          imgUrl: newImgUrl,
+        });
       } else {
         await updateProduct({ id, name, price, category, stock, imgUrl });
       }
 
-      await queryClient.invalidateQueries({ queryKey: ['useProducts'] });
+      await queryClient.invalidateQueries({ queryKey: ["useProducts"] });
     },
     onSuccess: () => {
       handleClose();
 
-      toast.success('Produto atualizado com sucesso');
+      toast.success("Produto atualizado com sucesso");
     },
     onError: (error: Error) => {
       toast.error(error.message);
@@ -76,8 +94,8 @@ const UpdateProductDialog: React.FC<UpdateProductDialogProps & DialogProps> = ({
 
   const handleClose = () => {
     reset({
-      name: '',
-      category: '',
+      name: "",
+      category: "",
       price: 0,
       stock: 0,
     });
@@ -167,7 +185,10 @@ const UpdateProductDialog: React.FC<UpdateProductDialogProps & DialogProps> = ({
           Confirmar
         </Button>
       </DialogActions>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={updateProductMutateIsloading}>
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={updateProductMutateIsloading}
+      >
         <CircularProgress color="primary" />
       </Backdrop>
     </Dialog>

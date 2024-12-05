@@ -1,31 +1,38 @@
-import { Box, MenuItem, TextField, Typography } from '@mui/material';
-import { format } from 'date-fns';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Page from '../../components/Page';
-import PageHeader from '../../components/PageHeader';
-import DataGridExpenses from '../../components/datagrids/DataGridExpenses';
-import AddExpenseDialog from '../../components/dialogs/expenses/AddExpenseDialog';
-import useExpensesPerMonth from '../../hooks/useExpensesPerMonth';
-import useLastTwelveMonths from '../../hooks/useLastTwelveMonths';
-import routesNames from '../../routes/routesNames';
+import { Box, MenuItem, TextField, Typography } from "@mui/material";
+import { format } from "date-fns";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Page from "../../components/Page";
+import PageHeader from "../../components/PageHeader";
+import DataGridExpenses from "../../components/datagrids/DataGridExpenses";
+import AddExpenseDialog from "../../components/dialogs/expenses/AddExpenseDialog";
+import useExpensesPerMonth from "../../hooks/useExpensesPerMonth";
+import useLastTwelveMonths from "../../hooks/useLastTwelveMonths";
+import routesNames from "../../routes/routesNames";
 
 const Expenses: React.FC = () => {
   const [openAddExpenseDialog, setOpenAddExpenseDialog] = useState(false);
 
   const navigate = useNavigate();
 
-  const [selectedMonth, setSelectedMonth] = useState(format(Date.now(), 'MM/yyyy'));
+  const [selectedMonth, setSelectedMonth] = useState(
+    format(Date.now(), "MM/yyyy"),
+  );
 
-  const [mes, ano] = selectedMonth.split('/');
+  const [mes, ano] = selectedMonth.split("/");
 
-  const { data: expenses, isLoading } = useExpensesPerMonth(new Date(`${ano}-${mes}-01T00:00:00`));
+  const { data: expenses, isLoading } = useExpensesPerMonth(
+    new Date(`${ano}-${mes}-01T00:00:00`),
+  );
 
   const lastTwelveMonths = useLastTwelveMonths(12);
 
   return (
     <Page>
-      <PageHeader title="Despesas" onClickAddButton={() => setOpenAddExpenseDialog(true)} />
+      <PageHeader
+        title="Despesas"
+        onClickAddButton={() => setOpenAddExpenseDialog(true)}
+      />
       <Box height={1} px={1} pb={1} flexDirection="column" display="flex">
         <TextField
           select
@@ -53,7 +60,8 @@ const Expenses: React.FC = () => {
             rows={expenses?.map((expense) => ({
               ...expense,
               actions: {
-                handleView: () => navigate(routesNames.VIEW_EXPENSE.replace(':id', expense.id)),
+                handleView: () =>
+                  navigate(routesNames.VIEW_EXPENSE.replace(":id", expense.id)),
               },
             }))}
           />

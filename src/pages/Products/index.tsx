@@ -1,22 +1,26 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid } from '@mui/material';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React, { useMemo, useState } from 'react';
-import toast from 'react-hot-toast';
-import { useSearchParams } from 'react-router-dom';
-import Page from '../../components/Page';
-import PageHeader from '../../components/PageHeader';
-import DataGridProducts from '../../components/datagrids/DataGridProducts';
-import AddProductDialog from '../../components/dialogs/products/AddProductDialog';
-import UpdateProductDialog from '../../components/dialogs/products/UpdateProductDialog';
-import SearchTextField from '../../components/textfields/SearchTextField';
-import useDebounce from '../../hooks/useDebounce';
-import useProducts from '../../hooks/useProducts';
-import deleteProduct from '../../resources/products/deleteProduct';
+import { Box, Grid } from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import React, { useMemo, useState } from "react";
+import toast from "react-hot-toast";
+import { useSearchParams } from "react-router-dom";
+import Page from "../../components/Page";
+import PageHeader from "../../components/PageHeader";
+import DataGridProducts from "../../components/datagrids/DataGridProducts";
+import AddProductDialog from "../../components/dialogs/products/AddProductDialog";
+import UpdateProductDialog from "../../components/dialogs/products/UpdateProductDialog";
+import SearchTextField from "../../components/textfields/SearchTextField";
+import useConfirmation from "../../hooks/useConfirmation";
+import useDebounce from "../../hooks/useDebounce";
+import useProducts from "../../hooks/useProducts";
+import deleteProduct from "../../resources/products/deleteProduct";
 
-const Products: React.FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams({ searchTerm: '' });
+function Products() {
+  const [searchParams, setSearchParams] = useSearchParams({ searchTerm: "" });
 
-  const searchTerm = searchParams.get('searchTerm');
+  const searchTerm = searchParams.get("searchTerm");
+
+  const { showDialog, confirmationDialog: ConfirmationDialog } =
+    useConfirmation();
 
   const [addProductDialogOpen, setAddProductDialogOpen] = useState(false);
 
@@ -24,19 +28,20 @@ const Products: React.FC = () => {
 
   const { data: products, isLoading } = useProducts();
 
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [productToUpdate, setProductToUpdate] = useState<Product>(
+    {} as Product,
+  );
 
-  const [productToDeleteId, setProductToDeleteId] = useState('');
-
-  const [productToUpdate, setProductToUpdate] = useState<Product>({} as Product);
-
-  const [updateProductDialogOpen, setUpdatePproductDialogOpen] = useState(false);
+  const [updateProductDialogOpen, setUpdatePproductDialogOpen] =
+    useState(false);
 
   const searchTermDebounced = useDebounce(searchTerm, 300);
 
   const searchedProducts = useMemo(() => {
     if (products) {
-      return products.filter(({ name }) => name.toLowerCase().includes(searchTermDebounced?.toLowerCase() || ''));
+      return products.filter(({ name }) =>
+        name.toLowerCase().includes(searchTermDebounced?.toLowerCase() || ""),
+      );
     }
 
     return [];
@@ -48,28 +53,37 @@ const Products: React.FC = () => {
     setUpdatePproductDialogOpen(true);
   };
 
-  const { mutate: deleteProductMutate, isPending: deleteProductMutateIsloading } = useMutation({
-    mutationFn: async () => {
-      setDeleteDialogOpen(false);
+  const {
+    mutate: deleteProductMutate,
+    isPending: deleteProductMutateIsloading,
+  } = useMutation({
+    mutationFn: async (product: Product) => {
+      await deleteProduct(product.id);
 
-      await deleteProduct(productToDeleteId);
-
-      await queryClient.invalidateQueries({ queryKey: ['useProducts'] });
+      await queryClient.invalidateQueries({ queryKey: ["useProducts"] });
     },
-    onSuccess: async () => {
-      toast.success('Produto removido com sucesso');
+    onSuccess: async (data, variables) => {
+      toast.success(`Produto ${variables.name} removido com sucesso`);
     },
   });
 
-  const handledelete = (id: string) => {
-    setProductToDeleteId(id);
+  const handledelete = async (product: Product) => {
+    const confirmation = await showDialog({
+      title: "Remover Produto",
+      message: `Deseja realmente remover o Produto ${product.name}?`,
+    });
 
-    setDeleteDialogOpen(true);
+    if (confirmation) {
+      deleteProductMutate(product);
+    }
   };
 
   return (
     <Page loading={deleteProductMutateIsloading}>
-      <PageHeader title="Produtos" onClickAddButton={() => setAddProductDialogOpen(true)} />
+      <PageHeader
+        title="Produtos"
+        onClickAddButton={() => setAddProductDialogOpen(true)}
+      />
       <Box mx={1}>
         <Grid container spacing={1}>
           <Grid item xs={12}>
@@ -79,7 +93,7 @@ const Products: React.FC = () => {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 setSearchParams({ searchTerm: event.target.value });
               }}
-              handleClearSearchTerm={() => setSearchParams({ searchTerm: '' })}
+              handleClearSearchTerm={() => setSearchParams({ searchTerm: "" })}
               placeholder="Buscar por nome..."
               size="small"
               fullWidth
@@ -93,8 +107,8 @@ const Products: React.FC = () => {
           rows={searchedProducts.map((product) => ({
             ...product,
             actions: {
-              handledelete: () => handledelete(product.id),
               handleUpdate: () => handleUpdate(product),
+              handledelete: () => handledelete(product),
             },
           }))}
         />
@@ -113,20 +127,9 @@ const Products: React.FC = () => {
         setOpen={setUpdatePproductDialogOpen}
         onClose={() => setUpdatePproductDialogOpen(false)}
       />
-      <Dialog fullWidth maxWidth="md" open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
-        <DialogTitle>Remover Produto</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Deseja realmente remover esse Produto</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" color="error" onClick={() => setDeleteDialogOpen(false)}>
-            Cancelar
-          </Button>
-          <Button onClick={() => deleteProductMutate()}>Confirmar</Button>
-        </DialogActions>
-      </Dialog>
+      <ConfirmationDialog />
     </Page>
   );
-};
+}
 
 export default Products;

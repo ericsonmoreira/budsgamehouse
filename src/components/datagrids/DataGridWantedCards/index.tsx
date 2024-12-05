@@ -1,10 +1,17 @@
-import { GridColDef, GridComparatorFn, GridRenderCellParams } from '@mui/x-data-grid';
-import ActionsCell from '../../cells/ActionsCell';
-import ImageCell from '../../cells/ImageCell';
-import PriorityCell from '../../cells/PriorityCell';
-import CustomDataGrid from '../CustomDataGrid';
+import {
+  GridColDef,
+  GridComparatorFn,
+  GridRenderCellParams,
+} from "@mui/x-data-grid";
+import ActionsCell from "../../cells/ActionsCell";
+import ImageCell from "../../cells/ImageCell";
+import PriorityCell from "../../cells/PriorityCell";
+import CustomDataGrid from "../CustomDataGrid";
 
-const priorityGridComparatorFn: GridComparatorFn<WantedCardPriority> = (a, b): number => {
+const priorityGridComparatorFn: GridComparatorFn<WantedCardPriority> = (
+  a,
+  b,
+): number => {
   const priorityValues: Record<WantedCardPriority, number> = {
     high: 3,
     medium: 2,
@@ -33,57 +40,65 @@ type DataGridWantedCardsProps = {
 
 const columns: GridColDef[] = [
   {
-    field: 'imgUrl',
-    headerName: '',
-    align: 'center',
+    field: "imgUrl",
+    headerName: "",
+    align: "center",
     width: 20,
     disableColumnMenu: true,
     sortable: false,
     renderCell: ({ value }) => <ImageCell value={value} />,
   },
-  { field: 'name', headerName: 'Nome', flex: 2 },
+  { field: "name", headerName: "Nome", flex: 2 },
   {
-    field: 'priority',
-    headerName: 'Prioridade',
-    headerAlign: 'center',
+    field: "priority",
+    headerName: "Prioridade",
+    headerAlign: "center",
     flex: 1,
     maxWidth: 150,
-    align: 'center',
+    align: "center",
     renderCell: ({ value }) => <PriorityCell value={value} />,
     sortComparator: priorityGridComparatorFn,
   },
   {
-    field: 'amount',
-    headerName: 'Quantidade',
+    field: "amount",
+    headerName: "Quantidade",
     maxWidth: 100,
     flex: 1,
-    align: 'right',
-    headerAlign: 'center',
+    align: "right",
+    headerAlign: "center",
   },
   {
-    field: 'actions',
-    headerName: '',
+    field: "actions",
+    headerName: "",
     width: 80,
-    align: 'right',
+    align: "right",
     disableColumnMenu: true,
     sortable: false,
     renderCell: (
       params: GridRenderCellParams<{
         handleUpdate(): void;
         handledelete(): void;
-      }>
-    ) => <ActionsCell handleUpdate={params.value?.handleUpdate} handledelete={params.value?.handledelete} />,
+      }>,
+    ) => (
+      <ActionsCell
+        handleUpdate={params.value?.handleUpdate}
+        handledelete={params.value?.handledelete}
+      />
+    ),
   },
 ];
 
-const DataGridWantedCards: React.FC<DataGridWantedCardsProps> = ({ rows = [], loading }) => {
+const DataGridWantedCards: React.FC<DataGridWantedCardsProps> = ({
+  rows = [],
+  loading,
+}) => {
   return (
     <CustomDataGrid
       columns={columns}
       rows={rows}
       initialState={{
         sorting: {
-          sortModel: [{ field: 'priority', sort: 'desc' }],
+          sortModel: [{ field: "priority", sort: "desc" }],
         },
       }}
       loading={loading}

@@ -1,9 +1,9 @@
-import EditIcon from '@mui/icons-material/Edit';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import EditIcon from "@mui/icons-material/Edit";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 
-import { Box, IconButton, Tooltip } from '@mui/material';
+import { Box, IconButton, Tooltip } from "@mui/material";
 
 type ActionsCellProps = {
   handleUpdate?: () => void;
@@ -12,7 +12,12 @@ type ActionsCellProps = {
   handleTransfer?: () => void;
 };
 
-const ActionsCell: React.FC<ActionsCellProps> = ({ handleUpdate, handledelete, handleView, handleTransfer }) => {
+const ActionsCell: React.FC<ActionsCellProps> = ({
+  handleUpdate,
+  handledelete,
+  handleView,
+  handleTransfer,
+}) => {
   return (
     <Box>
       {handledelete && (

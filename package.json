@@ -1,7 +1,7 @@
 {
   "name": "budsgamehouse",
   "private": true,
-  "version": "2.0.1",
+  "version": "2.1.1",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -49,6 +49,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@types/axios": "^0.14.0",
     "@types/firebase": "^3.2.1",
     "@types/image-blob-reduce": "^4.1.2",
@@ -60,8 +61,6 @@
     "@typescript-eslint/parser": "^5.56.0",
     "@vitejs/plugin-react": "^3.0.0",
     "@vitest/coverage-c8": "^0.28.5",
-    "eslint": "^8.36.0",
-    "eslint-plugin-react": "^7.32.2",
     "typescript": "^4.9.3",
     "vite": "^4.0.0",
     "vite-plugin-qrcode": "^0.2.3",

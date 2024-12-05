@@ -1,7 +1,13 @@
-import { Avatar, AvatarProps, Tooltip, Typography, IconButton } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import routesNames from '../../routes/routesNames';
-import usePlayer from '../../hooks/usePlayer';
+import {
+  Avatar,
+  AvatarProps,
+  Tooltip,
+  Typography,
+  IconButton,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import routesNames from "../../routes/routesNames";
+import usePlayer from "../../hooks/usePlayer";
 
 type AvatarPlayerProps = {
   playerId: string;
@@ -16,7 +22,7 @@ function stringToColor(string: string) {
     hash = string.charCodeAt(i) + ((hash << 5) - hash);
   }
 
-  let color = '#';
+  let color = "#";
 
   for (i = 0; i < 3; i += 1) {
     const value = (hash >> (i * 8)) & 0xff;
@@ -35,7 +41,11 @@ function stringAvatar(name: string) {
   };
 }
 
-const AvatarPlayer: React.FC<AvatarPlayerProps & AvatarProps> = ({ playerId, sx: originalSx, ...rest }) => {
+const AvatarPlayer: React.FC<AvatarPlayerProps & AvatarProps> = ({
+  playerId,
+  sx: originalSx,
+  ...rest
+}) => {
   const { data: player, isLoading, isError } = usePlayer(playerId);
 
   const navigate = useNavigate();
@@ -51,7 +61,11 @@ const AvatarPlayer: React.FC<AvatarPlayerProps & AvatarProps> = ({ playerId, sx:
   if (!player.name) {
     return (
       <Tooltip title="Desconhecido">
-        <IconButton onClick={() => navigate(routesNames.VIEW_PLAYER.replace(':id', player.id))}>
+        <IconButton
+          onClick={() =>
+            navigate(routesNames.VIEW_PLAYER.replace(":id", player.id))
+          }
+        >
           <Avatar sx={originalSx} {...rest}>
             <Typography variant="inherit">?</Typography>
           </Avatar>
@@ -62,11 +76,23 @@ const AvatarPlayer: React.FC<AvatarPlayerProps & AvatarProps> = ({ playerId, sx:
 
   return (
     <Tooltip title={player.name}>
-      <IconButton onClick={() => navigate(routesNames.VIEW_PLAYER.replace(':id', player.id))}>
+      <IconButton
+        onClick={() =>
+          navigate(routesNames.VIEW_PLAYER.replace(":id", player.id))
+        }
+      >
         {player.avatarImgUrl ? (
-          <Avatar sx={{ ...originalSx, ...stringAvatar(player.name).sx }} {...rest} src={player.avatarImgUrl} />
+          <Avatar
+            sx={{ ...originalSx, ...stringAvatar(player.name).sx }}
+            {...rest}
+            src={player.avatarImgUrl}
+          />
         ) : (
-          <Avatar sx={{ ...originalSx, ...stringAvatar(player.name).sx }} {...rest} src={player.avatarImgUrl}>
+          <Avatar
+            sx={{ ...originalSx, ...stringAvatar(player.name).sx }}
+            {...rest}
+            src={player.avatarImgUrl}
+          >
             <Typography variant="inherit" sx={{ fontSize: 10 }}>
               {stringAvatar(player.name).children}
             </Typography>

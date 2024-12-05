@@ -1,11 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
-import findCommand from '../resources/commands/findCommand';
+import { useQuery } from "@tanstack/react-query";
+import findCommand from "../resources/commands/findCommand";
 
-function useCommand(commandId = '') {
+function useCommand(commandId = "") {
   return useQuery({
-    queryKey: ['useCommand', commandId],
+    queryKey: ["useCommand", commandId],
     queryFn: async () => await findCommand(commandId),
-    enabled: commandId !== '',
+    enabled: commandId !== "",
   });
 }
 

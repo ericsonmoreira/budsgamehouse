@@ -1,4 +1,4 @@
-import { useTheme, SvgIcon, SvgIconProps } from '@mui/material';
+import { useTheme, SvgIcon, SvgIconProps } from "@mui/material";
 
 // Espada
 const CardsSpadeIcon: React.FC<SvgIconProps> = (props) => {

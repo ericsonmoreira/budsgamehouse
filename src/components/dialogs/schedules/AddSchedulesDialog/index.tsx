@@ -1,4 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod';
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Backdrop,
   Button,
@@ -10,14 +10,14 @@ import {
   DialogProps,
   DialogTitle,
   Grid,
-} from '@mui/material';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Timestamp } from 'firebase/firestore';
-import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
-import addSchedule from '../../../../resources/schedules/addSchedule';
-import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema, { SchemaData } from './schema';
+} from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Timestamp } from "firebase/firestore";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import addSchedule from "../../../../resources/schedules/addSchedule";
+import ControlledTextField from "../../../textfields/ControlledTextField";
+import schema, { SchemaData } from "./schema";
 
 type AddSchedulesDialogProps = {
   title: string;
@@ -25,40 +25,46 @@ type AddSchedulesDialogProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({ title, subTitle, setOpen, ...rest }) => {
+const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
+  title,
+  subTitle,
+  setOpen,
+  ...rest
+}) => {
   const queryClient = useQueryClient();
 
   const { handleSubmit, reset, control } = useForm<SchemaData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      title: '',
-      description: '',
+      title: "",
+      description: "",
       end: new Date(),
       start: new Date(),
     },
   });
 
-  const { mutate: addScheduleMutate, isPending: addScheduleMutateIsloading } = useMutation({
-    mutationFn: async ({ title, description, end, start }: SchemaData) => {
-      addSchedule({
-        title,
-        description,
-        end: Timestamp.fromDate(end),
-        start: Timestamp.fromDate(start),
-        createdAt: Timestamp.now(),
-      });
+  const { mutate: addScheduleMutate, isPending: addScheduleMutateIsloading } =
+    useMutation({
+      mutationFn: async ({ title, description, end, start }: SchemaData) => {
+        addSchedule({
+          title,
+          description,
+          end: Timestamp.fromDate(end),
+          start: Timestamp.fromDate(start),
+          createdAt: Timestamp.now(),
+        });
 
-      await queryClient.invalidateQueries({ queryKey: ['useSchedules'] });
-    },
-    onSuccess: () => {
-      handleClose();
+        await queryClient.invalidateQueries({ queryKey: ["useSchedules"] });
+      },
+      onSuccess: () => {
+        handleClose();
 
-      toast.success('Produto adicionado com sucesso');
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
-  });
+        toast.success("Produto adicionado com sucesso");
+      },
+      onError: (error: Error) => {
+        toast.error(error.message);
+      },
+    });
 
   const handleConfirmAction = (data: SchemaData) => {
     addScheduleMutate(data);
@@ -66,8 +72,8 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({ t
 
   const handleClose = () => {
     reset({
-      title: '',
-      description: '',
+      title: "",
+      description: "",
       end: new Date(),
       start: new Date(),
     });
@@ -135,7 +141,10 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({ t
           Confirmar
         </Button>
       </DialogActions>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={addScheduleMutateIsloading}>
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={addScheduleMutateIsloading}
+      >
         <CircularProgress color="primary" />
       </Backdrop>
     </Dialog>

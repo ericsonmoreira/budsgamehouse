@@ -11,10 +11,10 @@ import {
   DialogTitle,
   Stack,
   Typography,
-} from '@mui/material';
-import usePlayer from '../../../../hooks/usePlayer';
-import AvatarPlayer from '../../../AvatarPlayer';
-import SaleInformationsTable from '../../../SaleInformations';
+} from "@mui/material";
+import usePlayer from "../../../../hooks/usePlayer";
+import AvatarPlayer from "../../../AvatarPlayer";
+import SaleInformationsTable from "../../../SaleInformations";
 
 type ViewSaleDialogProps = {
   title: string;
@@ -61,7 +61,10 @@ const ViewSaleDialog: React.FC<ViewSaleDialogProps & DialogProps> = ({
           Fechar
         </Button>
       </DialogActions>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading && saleToview.playerId !== ''}>
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading && saleToview.playerId !== ""}
+      >
         <CircularProgress color="primary" />
       </Backdrop>
     </Dialog>

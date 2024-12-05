@@ -1,7 +1,7 @@
-import { Box } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { Outlet } from 'react-router-dom';
-import BackGroundLoginPageImg from '../../assets/bgLogin.jpg';
+import { Box } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { Outlet } from "react-router-dom";
+import BackGroundLoginPageImg from "../../assets/bgLogin.jpg";
 
 const AreaClientLayout: React.FC = () => {
   const { palette } = useTheme();
@@ -11,14 +11,14 @@ const AreaClientLayout: React.FC = () => {
       sx={{
         backgroundColor: palette.background.default,
         backgroundImage: `url(${BackGroundLoginPageImg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center center',
-        display: 'flex',
-        flex: '1 1 auto',
-        flexDirection: 'column',
-        width: '100%',
-        height: '100dvh',
-        overflowY: 'auto',
+        backgroundSize: "cover",
+        backgroundPosition: "center center",
+        display: "flex",
+        flex: "1 1 auto",
+        flexDirection: "column",
+        width: "100%",
+        height: "100dvh",
+        overflowY: "auto",
       }}
     >
       <Outlet />

@@ -1,7 +1,7 @@
-import { GridColDef } from '@mui/x-data-grid';
-import { useMemo } from 'react';
-import { formatterCurrencyBRL } from '../../../utils/formatters';
-import CustomDataGrid from '../CustomDataGrid';
+import { GridColDef } from "@mui/x-data-grid";
+import { useMemo } from "react";
+import { formatterCurrencyBRL } from "../../../utils/formatters";
+import CustomDataGrid from "../CustomDataGrid";
 
 type DataGridProductsSalesProps = {
   sales?: Sale[];
@@ -17,31 +17,34 @@ type DataGridProductsSalesRowData = {
 
 const columns: GridColDef[] = [
   {
-    field: 'name',
-    headerName: 'Produto',
+    field: "name",
+    headerName: "Produto",
     flex: 1,
   },
   {
-    field: 'amount',
-    headerName: 'Quant.',
+    field: "amount",
+    headerName: "Quant.",
     width: 100,
   },
   {
-    field: 'price',
-    headerName: 'Unid.',
+    field: "price",
+    headerName: "Unid.",
     width: 100,
     valueFormatter: ({ value }) => formatterCurrencyBRL.format(value),
   },
   {
-    field: 'total',
-    headerName: 'Total',
+    field: "total",
+    headerName: "Total",
     width: 100,
     valueGetter: ({ row }) => row.amount * row.price,
     valueFormatter: ({ value }) => formatterCurrencyBRL.format(value),
   },
 ];
 
-const DataGridProductsSales: React.FC<DataGridProductsSalesProps> = ({ sales = [], loading }) => {
+const DataGridProductsSales: React.FC<DataGridProductsSalesProps> = ({
+  sales = [],
+  loading,
+}) => {
   const rows = useMemo<DataGridProductsSalesRowData[]>(
     () =>
       sales.reduce((acc, curr) => {
@@ -62,14 +65,14 @@ const DataGridProductsSales: React.FC<DataGridProductsSalesProps> = ({ sales = [
 
         return acc;
       }, [] as DataGridProductsSalesRowData[]),
-    [sales]
+    [sales],
   );
 
   return (
     <CustomDataGrid
       columns={columns}
       initialState={{
-        sorting: { sortModel: [{ field: 'total', sort: 'desc' }] },
+        sorting: { sortModel: [{ field: "total", sort: "desc" }] },
       }}
       rows={rows}
       loading={loading}

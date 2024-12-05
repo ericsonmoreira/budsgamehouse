@@ -1,4 +1,4 @@
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import {
   Box,
   Paper,
@@ -11,18 +11,22 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from '@mui/material';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
-import React, { useMemo } from 'react';
-import { formatterCurrencyBRL } from '../../utils/formatters';
+} from "@mui/material";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import React, { useMemo } from "react";
+import { formatterCurrencyBRL } from "../../utils/formatters";
 
 type SaleInformationsProps = {
   data: Sale;
 };
 
 const SaleInformations: React.FC<SaleInformationsProps> = ({ data }) => {
-  const totalSum = useMemo(() => data.products.reduce((acc, curr) => acc + curr.amount * curr.price, 0), [data]);
+  const totalSum = useMemo(
+    () =>
+      data.products.reduce((acc, curr) => acc + curr.amount * curr.price, 0),
+    [data],
+  );
 
   const { products, createdAt, looseValue } = data;
 
@@ -34,7 +38,9 @@ const SaleInformations: React.FC<SaleInformationsProps> = ({ data }) => {
         </Typography>
         <Stack direction="row" spacing={1} alignItems="center" mb={1}>
           <CalendarMonthIcon fontSize="small" />
-          <Typography>{format(createdAt.toDate(), 'PPPp', { locale: ptBR })}</Typography>
+          <Typography>
+            {format(createdAt.toDate(), "PPPp", { locale: ptBR })}
+          </Typography>
         </Stack>
         <Typography component="section" gutterBottom>
           Produtos
@@ -54,28 +60,50 @@ const SaleInformations: React.FC<SaleInformationsProps> = ({ data }) => {
                 <TableRow key={product.id}>
                   <TableCell>{product.name}</TableCell>
                   <TableCell align="right">{product.amount}</TableCell>
-                  <TableCell align="right">{formatterCurrencyBRL.format(product.price)}</TableCell>
-                  <TableCell align="right">{formatterCurrencyBRL.format(product.price * product.amount)}</TableCell>
+                  <TableCell align="right">
+                    {formatterCurrencyBRL.format(product.price)}
+                  </TableCell>
+                  <TableCell align="right">
+                    {formatterCurrencyBRL.format(
+                      product.price * product.amount,
+                    )}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
             <TableFooter>
               <TableRow>
                 <TableCell colSpan={3}>Total</TableCell>
-                <TableCell align="right">{formatterCurrencyBRL.format(totalSum)}</TableCell>
+                <TableCell align="right">
+                  {formatterCurrencyBRL.format(totalSum)}
+                </TableCell>
               </TableRow>
             </TableFooter>
           </Table>
         </TableContainer>
         {looseValue && (
-          <Box display="flex" alignItems="center" justifyContent="space-between" width="100%" marginTop={1}>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            width="100%"
+            marginTop={1}
+          >
             <Typography>Valor em cartas avulsas</Typography>
             <Typography>{formatterCurrencyBRL.format(looseValue)}</Typography>
           </Box>
         )}
-        <Box display="flex" alignItems="center" justifyContent="space-between" width="100%" marginTop={1}>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          width="100%"
+          marginTop={1}
+        >
           <Typography variant="h5">Total</Typography>
-          <Typography variant="h5">{formatterCurrencyBRL.format(totalSum + (looseValue ?? 0))}</Typography>
+          <Typography variant="h5">
+            {formatterCurrencyBRL.format(totalSum + (looseValue ?? 0))}
+          </Typography>
         </Box>
       </Box>
     </Paper>

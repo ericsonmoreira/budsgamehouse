@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import { collection, getDocs } from 'firebase/firestore';
-import { firestore } from '../services/firebaseConfig';
+import { useQuery } from "@tanstack/react-query";
+import { collection, getDocs } from "firebase/firestore";
+import { firestore } from "../services/firebaseConfig";
 
 type UseReactQueryData = {
   path: string;
@@ -15,7 +15,7 @@ function useReactQuery<T>({ path, key }: UseReactQueryData) {
     queryFn: async () => {
       const { docs } = await getDocs(salesCollectionRef);
 
-      return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as T))];
+      return [...docs.map((doc) => ({ id: doc.id, ...doc.data() }) as T)];
     },
   });
 }

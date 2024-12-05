@@ -1,7 +1,14 @@
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Autocomplete, Box, IconButton, Stack, TextField, Typography } from '@mui/material';
-import React, { useMemo, useState } from 'react';
-import { formatterCurrencyBRL } from '../../utils/formatters';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import {
+  Autocomplete,
+  Box,
+  IconButton,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useMemo, useState } from "react";
+import { formatterCurrencyBRL } from "../../utils/formatters";
 
 type ProductWithPriority = {
   priority: number;
@@ -22,15 +29,17 @@ const AutocompleteProducts: React.FC<AutocompleteProductsProps> = ({
   onClickAddProductButton,
   disabled = false,
 }) => {
-  const [validProductsWithPriority, setValidProductsWithPriority] = useState<ProductWithPriority[]>(
-    () => validProdutos?.map((item) => ({ ...item, priority: 0 })) || []
-  );
+  const [validProductsWithPriority, setValidProductsWithPriority] = useState<
+    ProductWithPriority[]
+  >(() => validProdutos?.map((item) => ({ ...item, priority: 0 })) || []);
 
   const validProductsSorted = useMemo<Product[]>(
     () =>
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      validProductsWithPriority.sort((a, b) => b.priority - a.priority).map(({ priority, ...rest }) => ({ ...rest })),
-    [validProductsWithPriority]
+      validProductsWithPriority
+        .sort((a, b) => b.priority - a.priority)
+        .map(({ priority, ...rest }) => ({ ...rest })),
+    [validProductsWithPriority],
   );
 
   return (
@@ -44,10 +53,13 @@ const AutocompleteProducts: React.FC<AutocompleteProductsProps> = ({
 
           if (newValue) {
             setValidProductsWithPriority((old) => {
-              const selectedProductIndex = old.findIndex((item) => item.id === newValue.id);
+              const selectedProductIndex = old.findIndex(
+                (item) => item.id === newValue.id,
+              );
 
               if (selectedProductIndex !== -1) {
-                old[selectedProductIndex].priority = old[selectedProductIndex].priority + 1;
+                old[selectedProductIndex].priority =
+                  old[selectedProductIndex].priority + 1;
               }
 
               return [...old];
@@ -57,18 +69,34 @@ const AutocompleteProducts: React.FC<AutocompleteProductsProps> = ({
         renderOption={(props, option) => (
           <Box component="li" {...props}>
             {option.imgUrl && (
-              <img src={option.imgUrl} style={{ width: 20, height: 20, borderRadius: '50%', marginRight: 4 }} />
+              <img
+                src={option.imgUrl}
+                style={{
+                  width: 20,
+                  height: 20,
+                  borderRadius: "50%",
+                  marginRight: 4,
+                }}
+              />
             )}
             <Typography flexGrow={1}>{option.name}</Typography>
-            <Typography color="GrayText">{formatterCurrencyBRL.format(option.price)}</Typography>
+            <Typography color="GrayText">
+              {formatterCurrencyBRL.format(option.price)}
+            </Typography>
           </Box>
         )}
         isOptionEqualToValue={(option, value) => option.id === value.id}
         getOptionLabel={(option) => option.name}
         fullWidth
-        renderInput={(params) => <TextField {...params} ref={null} size="small" label="Produtos" />}
+        renderInput={(params) => (
+          <TextField {...params} ref={null} size="small" label="Produtos" />
+        )}
       />
-      <IconButton color="success" disabled={!selectedProduct} onClick={onClickAddProductButton}>
+      <IconButton
+        color="success"
+        disabled={!selectedProduct}
+        onClick={onClickAddProductButton}
+      >
         <AddCircleIcon />
       </IconButton>
     </Stack>

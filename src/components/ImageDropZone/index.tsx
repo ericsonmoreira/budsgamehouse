@@ -1,8 +1,8 @@
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Button, Paper, Stack, Typography, useTheme } from '@mui/material';
-import React from 'react';
-import { useDropzone } from 'react-dropzone';
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, Button, Paper, Stack, Typography, useTheme } from "@mui/material";
+import React from "react";
+import { useDropzone } from "react-dropzone";
 
 type ImageDropZoneProps = {
   file?: File | null;
@@ -20,7 +20,7 @@ const ImageDropZone: React.FC<ImageDropZoneProps> = ({ file, setFile }) => {
     onDrop,
     multiple: false,
     accept: {
-      'application/img': ['.png', '.jpg', '.webp'],
+      "application/img": [".png", ".jpg", ".webp"],
     },
   });
 
@@ -29,32 +29,38 @@ const ImageDropZone: React.FC<ImageDropZoneProps> = ({ file, setFile }) => {
       elevation={0}
       sx={{
         borderRadius: 2,
-        borderStyle: 'solid',
-        borderColor: isDragActive ? palette.secondary.main : palette.primary.main,
-        width: '100%',
-        overflow: 'hidden',
+        borderStyle: "solid",
+        borderColor: isDragActive
+          ? palette.secondary.main
+          : palette.primary.main,
+        width: "100%",
+        overflow: "hidden",
       }}
     >
       {file ? (
         <Box
           sx={{
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <Stack margin={2} spacing={1}>
             <img
               style={{
-                display: 'inline-flex',
+                display: "inline-flex",
                 width: 200,
                 height: 200,
-                boxSizing: 'border-box',
+                boxSizing: "border-box",
               }}
               src={URL.createObjectURL(file)}
             />
-            <Button color="primary" startIcon={<DeleteIcon />} onClick={() => setFile(null)}>
+            <Button
+              color="primary"
+              startIcon={<DeleteIcon />}
+              onClick={() => setFile(null)}
+            >
               Remover Arquivo
             </Button>
           </Stack>
@@ -63,8 +69,9 @@ const ImageDropZone: React.FC<ImageDropZoneProps> = ({ file, setFile }) => {
         <Stack margin={2} spacing={1} alignItems="center" {...getRootProps()}>
           <input {...getInputProps()} />
           <CloudUploadIcon fontSize="large" />
-          <Typography variant="body1" style={{ textAlign: 'center' }}>
-            Arraste e solte algum arquivo aqui ou clique para selecionar um arquivo...
+          <Typography variant="body1" style={{ textAlign: "center" }}>
+            Arraste e solte algum arquivo aqui ou clique para selecionar um
+            arquivo...
           </Typography>
         </Stack>
       )}

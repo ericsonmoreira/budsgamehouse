@@ -1,46 +1,81 @@
-import { Box } from '@mui/material';
-import { useState } from 'react';
-import Page from '../../components/Page';
-import PageHeader from '../../components/PageHeader';
-import DataGridTradingCards from '../../components/datagrids/DataGridTradingCards';
-import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
-import AddTradingCardDialog from '../../components/dialogs/tradingCards/AddTradingCardDialog';
+import { Box } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import Page from "../../components/Page";
+import PageHeader from "../../components/PageHeader";
+import DataGridTradingCards from "../../components/datagrids/DataGridTradingCards";
+import AddTradingCardDialog from "../../components/dialogs/tradingCards/AddTradingCardDialog";
 import UpdateTradingCardDialog, {
   TradingCardUpdateData,
-} from '../../components/dialogs/tradingCards/UpdateTradingCardDialog';
-import useTradingCards from '../../hooks/useTradingCards';
+} from "../../components/dialogs/tradingCards/UpdateTradingCardDialog";
+import useConfirmation from "../../hooks/useConfirmation";
+import useTradingCards from "../../hooks/useTradingCards";
 
-const TradingCards: React.FC = () => {
-  const [addTradingCardDialogOpen, setAddTradingCardDialogOpen] = useState(false);
+function TradingCards() {
+  const [addTradingCardDialogOpen, setAddTradingCardDialogOpen] =
+    useState(false);
 
-  const [updateTradingCardDialogOpen, setUpdateTradingCardDialogOpen] = useState(false);
+  const { showDialog, confirmationDialog: ConfirmationDialog } =
+    useConfirmation();
 
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [updateTradingCardDialogOpen, setUpdateTradingCardDialogOpen] =
+    useState(false);
 
-  const [tradingCardToDeleteId, setTradingCardToDeleteId] = useState('');
+  const [tradingCardToUpdate, setTradingCardToUpdate] =
+    useState<TradingCardUpdateData>({
+      id: "",
+      name: "",
+      amount: "",
+      imgUrl: "",
+    });
 
-  const [tradingCardToUpdate, setTradingCardToUpdate] = useState<TradingCardUpdateData>({
-    id: '',
-    name: '',
-    amount: '',
-    imgUrl: '',
-  });
-
-  const handleUpdate = ({ id, name, amount, imgUrl }: TradingCardUpdateData) => {
+  const handleUpdate = ({
+    id,
+    name,
+    amount,
+    imgUrl,
+  }: TradingCardUpdateData) => {
     setTradingCardToUpdate({ id, name, amount, imgUrl });
+
     setUpdateTradingCardDialogOpen(true);
   };
 
-  const { cards: tradingCards, isLoading, deleteTradingCard } = useTradingCards();
+  const {
+    cards: tradingCards,
+    isLoading,
+    deleteTradingCard,
+  } = useTradingCards();
 
-  const handledelete = (id: string) => {
-    setTradingCardToDeleteId(id);
-    setDeleteDialogOpen(true);
-  };
+  const { mutate: deleteTradingCardMutate } = useMutation({
+    mutationFn: async (id: string) => {
+      const confirmation = await showDialog({
+        title: "Remover Card",
+        message: "Deseja realmente remover esse Card",
+      });
+
+      if (confirmation) {
+        deleteTradingCard(id);
+
+        return true;
+      }
+
+      return false;
+    },
+    onSuccess: (data) => {
+      if (data) {
+        toast.success("Card removido com sucesso");
+      }
+    },
+    onError: () => toast.error("Erro!"),
+  });
 
   return (
     <Page>
-      <PageHeader title="Cartas de Troca" onClickAddButton={() => setAddTradingCardDialogOpen(true)} />
+      <PageHeader
+        title="Cartas de Troca"
+        onClickAddButton={() => setAddTradingCardDialogOpen(true)}
+      />
       <Box height={1} m={1}>
         <DataGridTradingCards
           loading={isLoading}
@@ -50,8 +85,9 @@ const TradingCards: React.FC = () => {
             name,
             amount,
             actions: {
-              handleUpdate: () => handleUpdate({ id, name, amount: String(amount), imgUrl }),
-              handledelete: () => handledelete(id),
+              handleUpdate: () =>
+                handleUpdate({ id, name, amount: String(amount), imgUrl }),
+              handledelete: () => deleteTradingCardMutate(id),
             },
           }))}
         />
@@ -71,17 +107,9 @@ const TradingCards: React.FC = () => {
         onClose={() => setUpdateTradingCardDialogOpen(false)}
         tradingCardToUpdate={tradingCardToUpdate}
       />
-      <ConfirmActionDialog
-        title="Remover Card"
-        subTitle="Deseja realmente remover esse Card"
-        confirmationMesage="Card Removido com sucesso"
-        open={deleteDialogOpen}
-        setOpen={setDeleteDialogOpen}
-        onClose={() => setDeleteDialogOpen(false)}
-        handleConfirmAction={() => deleteTradingCard(tradingCardToDeleteId)}
-      />
+      <ConfirmationDialog />
     </Page>
   );
-};
+}
 
 export default TradingCards;

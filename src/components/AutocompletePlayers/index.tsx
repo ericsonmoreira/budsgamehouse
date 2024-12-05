@@ -1,5 +1,12 @@
-import { Autocomplete, Box, Stack, TextField, TextFieldProps, Typography } from '@mui/material';
-import { useMemo, useState } from 'react';
+import {
+  Autocomplete,
+  Box,
+  Stack,
+  TextField,
+  type TextFieldProps,
+  Typography,
+} from "@mui/material";
+import { useMemo, useState } from "react";
 
 type PriorityPlayers = Record<string, number>;
 
@@ -18,9 +25,11 @@ const AutocompletePlayers: React.FC<AutocompletePlayersProps> = ({
   disabled = false,
   textFieldProps,
 }) => {
-  const [priorityPlayers, setPriorityPlayers] = useState<PriorityPlayers>(() => {
-    return validPlayers.reduce((acc, curr) => ({ ...acc, [curr.id]: 0 }), {});
-  });
+  const [priorityPlayers, setPriorityPlayers] = useState<PriorityPlayers>(
+    () => {
+      return validPlayers.reduce((acc, curr) => ({ ...acc, [curr.id]: 0 }), {});
+    },
+  );
 
   const validPlayersSortedPriority = useMemo<Player[]>(() => {
     return validPlayers
@@ -38,13 +47,25 @@ const AutocompletePlayers: React.FC<AutocompletePlayersProps> = ({
           setSelectedPlayer(newValue);
 
           if (newValue) {
-            setPriorityPlayers((old) => ({ ...old, [newValue.id]: old[newValue.id] + 1 }));
+            setPriorityPlayers((old) => ({
+              ...old,
+              [newValue.id]: old[newValue.id] + 1,
+            }));
           }
         }}
         renderOption={(props, option) => (
           <Box component="li" {...props}>
             {option.avatarImgUrl && (
-              <img src={option.avatarImgUrl} style={{ width: 20, height: 20, borderRadius: '50%', marginRight: 4 }} />
+              <img
+                alt="avatar-image"
+                src={option.avatarImgUrl}
+                style={{
+                  width: 20,
+                  height: 20,
+                  borderRadius: "50%",
+                  marginRight: 4,
+                }}
+              />
             )}
             <Typography flexGrow={1}>{option.name}</Typography>
           </Box>
@@ -52,7 +73,15 @@ const AutocompletePlayers: React.FC<AutocompletePlayersProps> = ({
         isOptionEqualToValue={(option, value) => option.id === value.id}
         getOptionLabel={(option) => option.name}
         fullWidth
-        renderInput={(params) => <TextField {...params} ref={null} size="small" label="Player" {...textFieldProps} />}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            ref={null}
+            size="small"
+            label="Player"
+            {...textFieldProps}
+          />
+        )}
       />
     </Stack>
   );

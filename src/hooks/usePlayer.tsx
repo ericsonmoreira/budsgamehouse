@@ -1,12 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
-import { doc, getDoc } from 'firebase/firestore';
-import { firestore } from '../services/firebaseConfig';
+import { useQuery } from "@tanstack/react-query";
+import { doc, getDoc } from "firebase/firestore";
+import { firestore } from "../services/firebaseConfig";
 
-const path = 'players';
+const path = "players";
 
-function usePlayer(userId = '') {
+function usePlayer(userId = "") {
   return useQuery<Player>({
-    queryKey: ['usePlayer', userId],
+    queryKey: ["usePlayer", userId],
     queryFn: async () => {
       const playerDocRef = doc(firestore, path, userId);
 
@@ -18,7 +18,7 @@ function usePlayer(userId = '') {
 
       return { id, ...data } as Player;
     },
-    enabled: userId !== '',
+    enabled: userId !== "",
   });
 }
 

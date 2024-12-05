@@ -1,27 +1,38 @@
-import { Box, Chip, Grid, MenuItem, Stack, TextField, Typography } from '@mui/material';
-import { format } from 'date-fns';
-import React, { useMemo, useState } from 'react';
-import Page from '../../components/Page';
-import PageHeader from '../../components/PageHeader';
-import SalesAndPaymentsChartBar from '../../components/charts/SalesAndPaymentsChartBar';
-import DataGridProductsSales from '../../components/datagrids/DataGridProductsSales';
-import DataGridSales from '../../components/datagrids/DataGridSales';
-import ViewSaleDialog from '../../components/dialogs/sales/ViewSaleDialog';
-import useLastTwelveMonths from '../../hooks/useLastTwelveMonths';
-import usePaymentsPerMonth from '../../hooks/usePaymentsPerMonth';
-import useSalesPerMonth from '../../hooks/useSalesPerMonth';
-import { formatterCurrencyBRL } from '../../utils/formatters';
+import {
+  Box,
+  Chip,
+  Grid,
+  MenuItem,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { format } from "date-fns";
+import React, { useMemo, useState } from "react";
+import Page from "../../components/Page";
+import PageHeader from "../../components/PageHeader";
+import SalesAndPaymentsChartBar from "../../components/charts/SalesAndPaymentsChartBar";
+import DataGridProductsSales from "../../components/datagrids/DataGridProductsSales";
+import DataGridSales from "../../components/datagrids/DataGridSales";
+import ViewSaleDialog from "../../components/dialogs/sales/ViewSaleDialog";
+import useLastTwelveMonths from "../../hooks/useLastTwelveMonths";
+import usePaymentsPerMonth from "../../hooks/usePaymentsPerMonth";
+import useSalesPerMonth from "../../hooks/useSalesPerMonth";
+import { formatterCurrencyBRL } from "../../utils/formatters";
 
 const Sales: React.FC = () => {
-  const [selectedMonth, setSelectedMonth] = useState(format(Date.now(), 'MM/yyyy'));
-
-  const [mes, ano] = selectedMonth.split('/');
-
-  const { data: sales, isLoading: isLoadingSalesPerMonth } = useSalesPerMonth(new Date(`${ano}-${mes}-01T00:00:00`));
-
-  const { data: payments, isLoading: isLoadingPaymentsPerMonth } = usePaymentsPerMonth(
-    new Date(`${ano}-${mes}-01T00:00:00`)
+  const [selectedMonth, setSelectedMonth] = useState(
+    format(Date.now(), "MM/yyyy"),
   );
+
+  const [mes, ano] = selectedMonth.split("/");
+
+  const { data: sales, isLoading: isLoadingSalesPerMonth } = useSalesPerMonth(
+    new Date(`${ano}-${mes}-01T00:00:00`),
+  );
+
+  const { data: payments, isLoading: isLoadingPaymentsPerMonth } =
+    usePaymentsPerMonth(new Date(`${ano}-${mes}-01T00:00:00`));
 
   const [viewSaleDialogOpen, setViewSaleDialogOpen] = useState(false);
 
@@ -40,7 +51,10 @@ const Sales: React.FC = () => {
       let total = 0;
 
       for (const sale of sales) {
-        total += sale.products.reduce((acc, curr) => acc + curr.amount * curr.price, 0);
+        total += sale.products.reduce(
+          (acc, curr) => acc + curr.amount * curr.price,
+          0,
+        );
         total += sale?.looseValue || 0;
       }
 
@@ -60,7 +74,7 @@ const Sales: React.FC = () => {
 
   const isLoading = useMemo(
     () => isLoadingSalesPerMonth || isLoadingPaymentsPerMonth,
-    [isLoadingSalesPerMonth, isLoadingPaymentsPerMonth]
+    [isLoadingSalesPerMonth, isLoadingPaymentsPerMonth],
   );
 
   return (
@@ -86,12 +100,22 @@ const Sales: React.FC = () => {
                 </MenuItem>
               ))}
             </TextField>
-            <Chip label={`Vendas: ${formatterCurrencyBRL.format(totalSales)}`} color="info" />
-            <Chip label={`Pagamentos: ${formatterCurrencyBRL.format(totalPayments)}`} color="primary" />
+            <Chip
+              label={`Vendas: ${formatterCurrencyBRL.format(totalSales)}`}
+              color="info"
+            />
+            <Chip
+              label={`Pagamentos: ${formatterCurrencyBRL.format(totalPayments)}`}
+              color="primary"
+            />
           </Stack>
         </Grid>
         <Grid item xs={12}>
-          <SalesAndPaymentsChartBar sales={sales} payments={payments} month={selectedMonth} />
+          <SalesAndPaymentsChartBar
+            sales={sales}
+            payments={payments}
+            month={selectedMonth}
+          />
         </Grid>
         <Grid item xs={12} md={6}>
           <Typography color="text.secondary" gutterBottom>
@@ -107,7 +131,10 @@ const Sales: React.FC = () => {
           </Typography>
           <Box sx={{ height: 500 }}>
             <DataGridSales
-              rows={sales?.map((sale) => ({ ...sale, actions: { handleView: () => handleView(sale) } }))}
+              rows={sales?.map((sale) => ({
+                ...sale,
+                actions: { handleView: () => handleView(sale) },
+              }))}
               loading={isLoading}
             />
           </Box>

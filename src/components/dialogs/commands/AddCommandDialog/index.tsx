@@ -1,4 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod';
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Backdrop,
   Button,
@@ -14,25 +14,33 @@ import {
   Stack,
   SvgIconProps,
   Typography,
-} from '@mui/material';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { format } from 'date-fns';
-import { useMemo } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import useCommands from '../../../../hooks/useCommands';
-import { CardsClubIcon, CardsDiamondIcon, CardsHeartIcon, CardsSpadeIcon } from '../../../../icons';
-import addCommand from '../../../../resources/commands/addCommand';
-import { auth } from '../../../../services/firebaseConfig';
-import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema, { AddCommandDialogFormData } from './schema';
+} from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { format } from "date-fns";
+import { useMemo } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import useCommands from "../../../../hooks/useCommands";
+import {
+  CardsClubIcon,
+  CardsDiamondIcon,
+  CardsHeartIcon,
+  CardsSpadeIcon,
+} from "../../../../icons";
+import addCommand from "../../../../resources/commands/addCommand";
+import { auth } from "../../../../services/firebaseConfig";
+import ControlledTextField from "../../../textfields/ControlledTextField";
+import schema, { AddCommandDialogFormData } from "./schema";
 
-const cardNumbers = ['A', 'J', 'Q', 'K'];
+const cardNumbers = ["A", "J", "Q", "K"];
 
-const cardSuities = ['club', 'diamond', 'heart', 'spade'];
+const cardSuities = ["club", "diamond", "heart", "spade"];
 
-const cardsSuitiesMap: Record<'club' | 'diamond' | 'heart' | 'spade', React.FC<SvgIconProps>> = {
+const cardsSuitiesMap: Record<
+  "club" | "diamond" | "heart" | "spade",
+  React.FC<SvgIconProps>
+> = {
   club: CardsClubIcon,
   diamond: CardsDiamondIcon,
   heart: CardsHeartIcon,
@@ -45,14 +53,22 @@ type AddCommandDialogProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title, subTitle, setOpen, ...rest }) => {
+const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({
+  title,
+  subTitle,
+  setOpen,
+  ...rest
+}) => {
   const queryClient = useQueryClient();
 
-  const month = format(Date.now(), 'MM/yyyy');
+  const month = format(Date.now(), "MM/yyyy");
 
-  const [mes, ano] = month.split('/');
+  const [mes, ano] = month.split("/");
 
-  const { data: commands } = useCommands('open', new Date(`${ano}-${mes}-01T00:00:00`));
+  const { data: commands } = useCommands(
+    "open",
+    new Date(`${ano}-${mes}-01T00:00:00`),
+  );
 
   const [user] = useAuthState(auth);
 
@@ -66,7 +82,9 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title
     }
 
     if (commands) {
-      return names.filter((name) => !commands.some((command) => command.name === name));
+      return names.filter(
+        (name) => !commands.some((command) => command.name === name),
+      );
     } else {
       return names;
     }
@@ -76,34 +94,40 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title
     resolver: zodResolver(schema),
   });
 
-  const { mutate: addCommandMutate, isPending: addCommandMutateIsloading } = useMutation({
-    mutationFn: async ({ name, displayName }: AddCommandDialogFormData) => {
-      if (user) {
-        await addCommand({
-          createdAt: Date.now(),
-          name,
-          products: [],
-          status: 'open',
-          userId: user.uid,
-          displayName,
-        });
+  const { mutate: addCommandMutate, isPending: addCommandMutateIsloading } =
+    useMutation({
+      mutationFn: async ({ name, displayName }: AddCommandDialogFormData) => {
+        if (user) {
+          await addCommand({
+            createdAt: Date.now(),
+            name,
+            products: [],
+            status: "open",
+            userId: user.uid,
+            displayName,
+          });
 
-        await queryClient.invalidateQueries({ queryKey: ['useCommands', 'open'] });
-      } else {
-        throw new Error('Usuário não autenticado');
-      }
-    },
-    onSuccess: () => {
-      handleClose();
+          await queryClient.invalidateQueries({
+            queryKey: ["useCommands", "open"],
+          });
+        } else {
+          throw new Error("Usuário não autenticado");
+        }
+      },
+      onSuccess: () => {
+        handleClose();
 
-      toast.success('Comanda adicionado com sucesso');
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
-  });
+        toast.success("Comanda adicionado com sucesso");
+      },
+      onError: (error: Error) => {
+        toast.error(error.message);
+      },
+    });
 
-  const handleConfirmAction = ({ name, displayName }: AddCommandDialogFormData) => {
+  const handleConfirmAction = ({
+    name,
+    displayName,
+  }: AddCommandDialogFormData) => {
     addCommandMutate({ name, displayName });
   };
 
@@ -133,9 +157,12 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title
               select
             >
               {possibleCommandsNames.map((commandName) => {
-                const [num, suite] = commandName.split('|');
+                const [num, suite] = commandName.split("|");
 
-                const IconComponent = cardsSuitiesMap[suite as 'club' | 'diamond' | 'heart' | 'spade'];
+                const IconComponent =
+                  cardsSuitiesMap[
+                    suite as "club" | "diamond" | "heart" | "spade"
+                  ];
 
                 return (
                   <MenuItem key={commandName} value={commandName}>
@@ -168,7 +195,10 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({ title
           Confirmar
         </Button>
       </DialogActions>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={addCommandMutateIsloading}>
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={addCommandMutateIsloading}
+      >
         <CircularProgress color="primary" />
       </Backdrop>
     </Dialog>

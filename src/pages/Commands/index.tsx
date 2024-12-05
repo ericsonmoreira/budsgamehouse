@@ -1,12 +1,12 @@
-import { Box, Grid, MenuItem, Tab, Tabs, TextField } from '@mui/material';
-import { format } from 'date-fns';
-import React, { useMemo, useState } from 'react';
-import CommandCard from '../../components/CommandCard';
-import Page from '../../components/Page';
-import PageHeader from '../../components/PageHeader';
-import AddCommandDialog from '../../components/dialogs/commands/AddCommandDialog';
-import useCommands from '../../hooks/useCommands';
-import useLastTwelveMonths from '../../hooks/useLastTwelveMonths';
+import { Box, Grid, MenuItem, Tab, Tabs, TextField } from "@mui/material";
+import { format } from "date-fns";
+import React, { useMemo, useState } from "react";
+import CommandCard from "../../components/CommandCard";
+import Page from "../../components/Page";
+import PageHeader from "../../components/PageHeader";
+import AddCommandDialog from "../../components/dialogs/commands/AddCommandDialog";
+import useCommands from "../../hooks/useCommands";
+import useLastTwelveMonths from "../../hooks/useLastTwelveMonths";
 
 type TabPanelProps = {
   children: React.ReactNode;
@@ -14,7 +14,12 @@ type TabPanelProps = {
   value: number;
 };
 
-const TabPanel: React.FC<TabPanelProps> = ({ children, index, value, ...rest }) => {
+const TabPanel: React.FC<TabPanelProps> = ({
+  children,
+  index,
+  value,
+  ...rest
+}) => {
   return (
     <div
       role="tabpanel"
@@ -33,39 +38,48 @@ const Commands: React.FC = () => {
 
   const [activeTabValue, setActiveTabValue] = useState(0);
 
-  const handleChangeActiveTabValue = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChangeActiveTabValue = (
+    event: React.SyntheticEvent,
+    newValue: number,
+  ) => {
     setActiveTabValue(newValue);
   };
 
   const lastTwelveMonths = useLastTwelveMonths(12);
 
-  const [selectedMonth, setSelectedMonth] = useState(format(Date.now(), 'MM/yyyy'));
-
-  const [mes, ano] = selectedMonth.split('/');
-
-  const { data: openedCommands, isLoading: openedCommandsIsLoading } = useCommands(
-    'open',
-    new Date(`${ano}-${mes}-01T00:00:00`)
+  const [selectedMonth, setSelectedMonth] = useState(
+    format(Date.now(), "MM/yyyy"),
   );
 
-  const { data: closedCommands, isLoading: closedCommandsIsLoading } = useCommands(
-    'closed',
-    new Date(`${ano}-${mes}-01T00:00:00`)
-  );
+  const [mes, ano] = selectedMonth.split("/");
 
-  const { data: canceledCommands, isLoading: canceledCommandsIsLoading } = useCommands(
-    'canceled',
-    new Date(`${ano}-${mes}-01T00:00:00`)
-  );
+  const { data: openedCommands, isLoading: openedCommandsIsLoading } =
+    useCommands("open", new Date(`${ano}-${mes}-01T00:00:00`));
+
+  const { data: closedCommands, isLoading: closedCommandsIsLoading } =
+    useCommands("closed", new Date(`${ano}-${mes}-01T00:00:00`));
+
+  const { data: canceledCommands, isLoading: canceledCommandsIsLoading } =
+    useCommands("canceled", new Date(`${ano}-${mes}-01T00:00:00`));
 
   const isLoading = useMemo(
-    () => openedCommandsIsLoading || closedCommandsIsLoading || canceledCommandsIsLoading,
-    [openedCommandsIsLoading, closedCommandsIsLoading, canceledCommandsIsLoading]
+    () =>
+      openedCommandsIsLoading ||
+      closedCommandsIsLoading ||
+      canceledCommandsIsLoading,
+    [
+      openedCommandsIsLoading,
+      closedCommandsIsLoading,
+      canceledCommandsIsLoading,
+    ],
   );
 
   return (
     <Page loading={isLoading}>
-      <PageHeader title="Comandas" onClickAddButton={() => setOpenAddCommandDialog(true)} />
+      <PageHeader
+        title="Comandas"
+        onClickAddButton={() => setOpenAddCommandDialog(true)}
+      />
       <Box ml={1}>
         <TextField
           select
@@ -85,7 +99,11 @@ const Commands: React.FC = () => {
           ))}
         </TextField>
       </Box>
-      <Tabs value={activeTabValue} onChange={handleChangeActiveTabValue} variant="fullWidth">
+      <Tabs
+        value={activeTabValue}
+        onChange={handleChangeActiveTabValue}
+        variant="fullWidth"
+      >
         <Tab label="Abertos" />
         <Tab label="Fechados" />
         <Tab label="Cancelados" />

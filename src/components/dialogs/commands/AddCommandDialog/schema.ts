@@ -1,7 +1,7 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 const schema = z.object({
-  name: z.string({ required_error: 'Campo obrigatório' }),
+  name: z.string({ required_error: "Campo obrigatório" }),
   displayName: z.string().optional(),
 });
 

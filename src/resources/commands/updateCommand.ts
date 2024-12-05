@@ -1,7 +1,7 @@
-import { doc, updateDoc } from 'firebase/firestore';
-import { firestore } from '../../services/firebaseConfig';
+import { doc, updateDoc } from "firebase/firestore";
+import { firestore } from "../../services/firebaseConfig";
 
-const path = 'commands';
+const path = "commands";
 
 const updateCommand = async ({ id, ...rest }: Command) => {
   const comandDoc = doc(firestore, path, id);

@@ -8,8 +8,8 @@ import {
   getDoc,
   getDocs,
   updateDoc,
-} from 'firebase/firestore';
-import { firestore } from '../services/firebaseConfig';
+} from "firebase/firestore";
+import { firestore } from "../services/firebaseConfig";
 
 // TODO: melhorar isso aqui
 interface ControllerData {
@@ -25,7 +25,7 @@ class Controller<T extends ControllerData> {
     this.collectionRef = collection(firestore, path);
   }
 
-  async add(data: Omit<T, 'id'>): Promise<void> {
+  async add(data: Omit<T, "id">): Promise<void> {
     await addDoc(this.collectionRef, data);
   }
 
@@ -44,7 +44,7 @@ class Controller<T extends ControllerData> {
   async findAll(): Promise<T[]> {
     const { docs } = await getDocs(this.collectionRef);
 
-    return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as T))];
+    return [...docs.map((doc) => ({ id: doc.id, ...doc.data() }) as T)];
   }
 
   async update(data: T): Promise<void> {

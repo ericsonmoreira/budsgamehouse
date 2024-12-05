@@ -1,7 +1,7 @@
-import { doc, getDoc } from 'firebase/firestore';
-import { firestore } from '../../services/firebaseConfig';
+import { doc, getDoc } from "firebase/firestore";
+import { firestore } from "../../services/firebaseConfig";
 
-const path = 'commands';
+const path = "commands";
 
 const findCommand = async (commandId: string) => {
   const commandDocRef = doc(firestore, path, commandId);
