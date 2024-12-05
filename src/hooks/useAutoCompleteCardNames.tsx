@@ -1,10 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
-import { Cards } from 'scryfall-sdk';
+import { useQuery } from "@tanstack/react-query";
+import { Cards } from "scryfall-sdk";
 
 // retorna uma lista de nomes de cartas de acordo com o nome passado na busca
 function useAutoCompleteCardNames(value: string) {
   const { data: cardNames, ...rest } = useQuery({
-    queryKey: ['useAutoCompleteCardNames', value],
+    queryKey: ["useAutoCompleteCardNames", value],
     queryFn: async ({ queryKey }: { queryKey: string[] }) => {
       const cardName = queryKey[1] as string;
 

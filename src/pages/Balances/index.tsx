@@ -1,30 +1,37 @@
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import PersonIcon from '@mui/icons-material/Person';
-import { Box, Chip, Grid, Tooltip } from '@mui/material';
-import React, { useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useDebounce } from 'usehooks-ts';
-import Page from '../../components/Page';
-import PageHeader from '../../components/PageHeader';
-import DataGridBalances from '../../components/datagrids/DataGridBalances';
-import TransferBalanceBetweenPlayersDialog from '../../components/dialogs/balances/TransferBalanceBetweenPlayersDialog';
-import UpdateBalanceDialog from '../../components/dialogs/balances/UpdateBalanceDialog';
-import SearchTextField from '../../components/textfields/SearchTextField';
-import usePlayers from '../../hooks/usePlayers';
-import { formatterCurrencyBRL } from '../../utils/formatters';
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import PersonIcon from "@mui/icons-material/Person";
+import { Box, Chip, Grid, Tooltip } from "@mui/material";
+import React, { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useDebounce } from "usehooks-ts";
+import Page from "../../components/Page";
+import PageHeader from "../../components/PageHeader";
+import DataGridBalances from "../../components/datagrids/DataGridBalances";
+import TransferBalanceBetweenPlayersDialog from "../../components/dialogs/balances/TransferBalanceBetweenPlayersDialog";
+import UpdateBalanceDialog from "../../components/dialogs/balances/UpdateBalanceDialog";
+import SearchTextField from "../../components/textfields/SearchTextField";
+import usePlayers from "../../hooks/usePlayers";
+import { formatterCurrencyBRL } from "../../utils/formatters";
 
 type ContentCard = {
   title: string;
   tooltipTitle: string;
   value: string | number;
-  color: 'success' | 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'warning';
+  color:
+    | "success"
+    | "default"
+    | "primary"
+    | "secondary"
+    | "error"
+    | "info"
+    | "warning";
   icon: React.ReactElement;
 };
 
 function Balances() {
-  const [searchParams, setSearchParams] = useSearchParams({ searchTerm: '' });
+  const [searchParams, setSearchParams] = useSearchParams({ searchTerm: "" });
 
-  const searchTerm = searchParams.get('searchTerm');
+  const searchTerm = searchParams.get("searchTerm");
 
   const { data: players, isLoading } = usePlayers();
 
@@ -34,13 +41,17 @@ function Balances() {
 
   const [playerToUpdate, setPlayerToUpdate] = useState<Player>({} as Player);
 
-  const [senderPlayerFransfer, setSenderPlayerFransfer] = useState<Player>({} as Player);
+  const [senderPlayerFransfer, setSenderPlayerFransfer] = useState<Player>(
+    {} as Player,
+  );
 
   const searchTermDebounced = useDebounce(searchTerm, 300);
 
   const searchedPlayers = useMemo(() => {
     if (players) {
-      return players.filter(({ name }) => name.toLowerCase().includes(searchTermDebounced?.toLowerCase() || ''));
+      return players.filter(({ name }) =>
+        name.toLowerCase().includes(searchTermDebounced?.toLowerCase() || ""),
+      );
     }
 
     return [];
@@ -64,7 +75,9 @@ function Balances() {
 
   const totalPositiveBaleances = useMemo(() => {
     if (players) {
-      return players.filter((player) => player.balance > 0).reduce((acc, curr) => acc + curr.balance, 0);
+      return players
+        .filter((player) => player.balance > 0)
+        .reduce((acc, curr) => acc + curr.balance, 0);
     }
 
     return 0;
@@ -72,7 +85,9 @@ function Balances() {
 
   const totalNegativeBaleances = useMemo(() => {
     if (players) {
-      return players.filter((player) => player.balance < 0).reduce((acc, curr) => acc + curr.balance, 0);
+      return players
+        .filter((player) => player.balance < 0)
+        .reduce((acc, curr) => acc + curr.balance, 0);
     }
 
     return 0;
@@ -80,38 +95,40 @@ function Balances() {
 
   const contentCards: ContentCard[] = [
     {
-      title: 'Jogadores em Débito',
-      tooltipTitle: 'Total de jogadores com saldo negativo',
+      title: "Jogadores em Débito",
+      tooltipTitle: "Total de jogadores com saldo negativo",
       value: totalPlayersNegativeBaleance,
-      color: 'error',
+      color: "error",
       icon: <PersonIcon />,
     },
     {
-      title: 'Jogadores com Saldo',
-      tooltipTitle: 'Total de jogadores com saldo positivo',
+      title: "Jogadores com Saldo",
+      tooltipTitle: "Total de jogadores com saldo positivo",
       value: totalPlayersPositiveBalance,
-      color: 'success',
+      color: "success",
       icon: <PersonIcon />,
     },
     {
-      title: 'Total de Fiados',
-      tooltipTitle: 'Somatório dos saldos negatvios dos jogadores',
+      title: "Total de Fiados",
+      tooltipTitle: "Somatório dos saldos negatvios dos jogadores",
       value: formatterCurrencyBRL.format(totalNegativeBaleances),
-      color: 'error',
+      color: "error",
       icon: <AttachMoneyIcon />,
     },
     {
-      title: 'Total de Saldos',
-      tooltipTitle: 'Somatório dos saldos positivos dos jogadores',
+      title: "Total de Saldos",
+      tooltipTitle: "Somatório dos saldos positivos dos jogadores",
       value: formatterCurrencyBRL.format(totalPositiveBaleances),
-      color: 'success',
+      color: "success",
       icon: <AttachMoneyIcon />,
     },
     {
-      title: 'Balanço Geral',
-      tooltipTitle: 'Somatório dos saldos positivos dos jogadores',
-      value: formatterCurrencyBRL.format(totalPositiveBaleances + totalNegativeBaleances),
-      color: 'secondary',
+      title: "Balanço Geral",
+      tooltipTitle: "Somatório dos saldos positivos dos jogadores",
+      value: formatterCurrencyBRL.format(
+        totalPositiveBaleances + totalNegativeBaleances,
+      ),
+      color: "secondary",
       icon: <AttachMoneyIcon />,
     },
   ];
@@ -136,7 +153,13 @@ function Balances() {
           {contentCards.map(({ tooltipTitle, icon, color, title, value }) => (
             <Grid item key={title}>
               <Tooltip title={tooltipTitle}>
-                <Chip size="small" icon={icon} color={color} variant="outlined" label={`${title}: ${value}`} />
+                <Chip
+                  size="small"
+                  icon={icon}
+                  color={color}
+                  variant="outlined"
+                  label={`${title}: ${value}`}
+                />
               </Tooltip>
             </Grid>
           ))}
@@ -149,7 +172,7 @@ function Balances() {
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setSearchParams({ searchTerm: event.target.value });
           }}
-          handleClearSearchTerm={() => setSearchParams({ searchTerm: '' })}
+          handleClearSearchTerm={() => setSearchParams({ searchTerm: "" })}
           placeholder="Buscar por nome..."
           size="small"
           fullWidth

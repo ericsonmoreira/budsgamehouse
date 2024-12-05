@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Backdrop,
   Button,
@@ -11,18 +11,18 @@ import {
   DialogTitle,
   Grid,
   MenuItem,
-} from '@mui/material';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import addProduct from '../../../../resources/products/addProduct';
-import uploadImageInStorage from '../../../../resources/uploadImageInStorage';
-import { PRODUCT_CATEGORIES } from '../../../../utils/constants';
-import ImageDropZone from '../../../ImageDropZone';
-import ControlledCurrencyTextField from '../../../textfields/ControlledCurrencyTextField';
-import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema from './schema';
+} from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import addProduct from "../../../../resources/products/addProduct";
+import uploadImageInStorage from "../../../../resources/uploadImageInStorage";
+import { PRODUCT_CATEGORIES } from "../../../../utils/constants";
+import ImageDropZone from "../../../ImageDropZone";
+import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
+import ControlledTextField from "../../../textfields/ControlledTextField";
+import schema from "./schema";
 
 type AddProductDialogProps = {
   title: string;
@@ -37,12 +37,17 @@ type AddProductDialogFormData = {
 };
 
 const defaultValues: AddProductDialogFormData = {
-  name: '',
+  name: "",
   category: PRODUCT_CATEGORIES[0],
   price: 0,
 };
 
-const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title, subTitle, setOpen, ...rest }) => {
+const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({
+  title,
+  subTitle,
+  setOpen,
+  ...rest
+}) => {
   const { handleSubmit, reset, control } = useForm<AddProductDialogFormData>({
     resolver: yupResolver(schema),
     defaultValues,
@@ -52,27 +57,32 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title
 
   const queryClient = useQueryClient();
 
-  const { mutate: addProductMutate, isPending: addProductMutateIsloading } = useMutation({
-    mutationFn: async ({ name, price, category }: Omit<Product, 'id' | 'stock'>) => {
-      if (file) {
-        const imgUrl = await uploadImageInStorage(file);
+  const { mutate: addProductMutate, isPending: addProductMutateIsloading } =
+    useMutation({
+      mutationFn: async ({
+        name,
+        price,
+        category,
+      }: Omit<Product, "id" | "stock">) => {
+        if (file) {
+          const imgUrl = await uploadImageInStorage(file);
 
-        await addProduct({ name, price, category, stock: 0, imgUrl });
-      } else {
-        await addProduct({ name, price, category, stock: 0 });
-      }
+          await addProduct({ name, price, category, stock: 0, imgUrl });
+        } else {
+          await addProduct({ name, price, category, stock: 0 });
+        }
 
-      await queryClient.invalidateQueries({ queryKey: ['useProducts'] });
-    },
-    onSuccess: () => {
-      handleClose();
+        await queryClient.invalidateQueries({ queryKey: ["useProducts"] });
+      },
+      onSuccess: () => {
+        handleClose();
 
-      toast.success('Produto adicionado com sucesso');
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
-  });
+        toast.success("Produto adicionado com sucesso");
+      },
+      onError: (error: Error) => {
+        toast.error(error.message);
+      },
+    });
 
   const handleConfirmAction = (data: AddProductDialogFormData) => {
     addProductMutate(data);
@@ -142,7 +152,10 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({ title
           Confirmar
         </Button>
       </DialogActions>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={addProductMutateIsloading}>
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={addProductMutateIsloading}
+      >
         <CircularProgress color="primary" />
       </Backdrop>
     </Dialog>

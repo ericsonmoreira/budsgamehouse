@@ -1,10 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
-import { collection, getDocs } from 'firebase/firestore';
-import { firestore } from '../services/firebaseConfig';
+import { useQuery } from "@tanstack/react-query";
+import { collection, getDocs } from "firebase/firestore";
+import { firestore } from "../services/firebaseConfig";
 
-const path = 'expenses';
+const path = "expenses";
 
-const queryKey = 'useExpenses';
+const queryKey = "useExpenses";
 
 function useExpenses() {
   const expensesCollectionRef = collection(firestore, path);
@@ -14,7 +14,7 @@ function useExpenses() {
     queryFn: async () => {
       const { docs } = await getDocs(expensesCollectionRef);
 
-      return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as Expense))];
+      return [...docs.map((doc) => ({ id: doc.id, ...doc.data() }) as Expense)];
     },
   });
 }

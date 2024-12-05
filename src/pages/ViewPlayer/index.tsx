@@ -1,19 +1,28 @@
-import EmailIcon from '@mui/icons-material/Email';
-import PaidIcon from '@mui/icons-material/Paid';
-import PaymentIcon from '@mui/icons-material/Payment';
-import { Box, Button, Card, CardActions, CardContent, CardHeader, Stack, Typography } from '@mui/material';
-import { useState } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
-import 'react-vertical-timeline-component/style.min.css';
-import AvatarPlayer from '../../components/AvatarPlayer';
-import Page from '../../components/Page';
-import PageHeader from '../../components/PageHeader';
-import PlayerExtract from '../../components/PlayerExtract';
-import TypographyBalance from '../../components/TypographyBalance';
-import PaymentDialog from '../../components/dialogs/balances/PaymentDialog';
-import usePlayer from '../../hooks/usePlayer';
-import routesNames from '../../routes/routesNames';
-import { PhoneIcon } from '../../icons';
+import EmailIcon from "@mui/icons-material/Email";
+import PaidIcon from "@mui/icons-material/Paid";
+import PaymentIcon from "@mui/icons-material/Payment";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { useState } from "react";
+import { Navigate, useParams } from "react-router-dom";
+import "react-vertical-timeline-component/style.min.css";
+import AvatarPlayer from "../../components/AvatarPlayer";
+import Page from "../../components/Page";
+import PageHeader from "../../components/PageHeader";
+import PlayerExtract from "../../components/PlayerExtract";
+import TypographyBalance from "../../components/TypographyBalance";
+import PaymentDialog from "../../components/dialogs/balances/PaymentDialog";
+import usePlayer from "../../hooks/usePlayer";
+import routesNames from "../../routes/routesNames";
+import { PhoneIcon } from "../../icons";
 
 type ViewPlayerParams = {
   id: string;
@@ -24,7 +33,11 @@ const ViewPlayer: React.FC = () => {
 
   const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
 
-  const { data: player, isLoading: playerIsLoading, error: playerError } = usePlayer(id);
+  const {
+    data: player,
+    isLoading: playerIsLoading,
+    error: playerError,
+  } = usePlayer(id);
 
   if (playerError) {
     return <Navigate to={routesNames.NOT_FOUND} />;
@@ -39,12 +52,21 @@ const ViewPlayer: React.FC = () => {
             <Card sx={{ minWidth: 257 }}>
               <CardHeader
                 avatar={<AvatarPlayer playerId={player.id} />}
-                titleTypographyProps={{ variant: 'h5' }}
+                titleTypographyProps={{ variant: "h5" }}
                 title={player.name}
               />
               <CardContent>
-                <Box display="flex" alignItems="center" justifyContent="space-between">
-                  <Stack direction="row" alignItems="center" spacing={1} justifyContent="center">
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={1}
+                    justifyContent="center"
+                  >
                     <PaidIcon />
                     <Typography variant="h6">Saldo</Typography>
                   </Stack>

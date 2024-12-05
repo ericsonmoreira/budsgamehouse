@@ -1,4 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod';
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Backdrop,
   Box,
@@ -11,18 +11,18 @@ import {
   DialogProps,
   DialogTitle,
   Stack,
-} from '@mui/material';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import updatePlayer from '../../../../resources/players/updatePlayer';
-import uploadImageInStorage from '../../../../resources/uploadImageInStorage';
-import ImageDropZone from '../../../ImageDropZone';
-import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema, { UpdatePlayerDialogFormData } from './schema ';
-import ControlledPhoneTextField from '../../../textfields/ControlledPhoneTextField';
-import AvatarPlayer from '../../../AvatarPlayer';
+} from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import updatePlayer from "../../../../resources/players/updatePlayer";
+import uploadImageInStorage from "../../../../resources/uploadImageInStorage";
+import ImageDropZone from "../../../ImageDropZone";
+import ControlledTextField from "../../../textfields/ControlledTextField";
+import schema, { UpdatePlayerDialogFormData } from "./schema ";
+import ControlledPhoneTextField from "../../../textfields/ControlledPhoneTextField";
+import AvatarPlayer from "../../../AvatarPlayer";
 
 type UpdatePlayerDialogProps = {
   title: string;
@@ -52,9 +52,9 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
 
   const handleClose = () => {
     reset({
-      name: '',
-      email: '',
-      phone: '',
+      name: "",
+      email: "",
+      phone: "",
     });
 
     setFile(null);
@@ -62,43 +62,50 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
     setOpen(false);
   };
 
-  const { mutate: updatePlayerMutate, isPending: updatePlayerIsLoading } = useMutation({
-    mutationFn: async ({ email, name, phone }: UpdatePlayerDialogFormData) => {
-      if (file) {
-        const avatarImgUrl = await uploadImageInStorage(file);
+  const { mutate: updatePlayerMutate, isPending: updatePlayerIsLoading } =
+    useMutation({
+      mutationFn: async ({
+        email,
+        name,
+        phone,
+      }: UpdatePlayerDialogFormData) => {
+        if (file) {
+          const avatarImgUrl = await uploadImageInStorage(file);
 
-        await updatePlayer({
-          id: playerToUpdate.id,
-          name,
-          email,
-          balance: playerToUpdate.balance,
-          avatarImgUrl,
-          phone,
+          await updatePlayer({
+            id: playerToUpdate.id,
+            name,
+            email,
+            balance: playerToUpdate.balance,
+            avatarImgUrl,
+            phone,
+          });
+        } else {
+          await updatePlayer({
+            id: playerToUpdate.id,
+            name,
+            email,
+            balance: playerToUpdate.balance,
+            avatarImgUrl: playerToUpdate.avatarImgUrl,
+            phone,
+          });
+        }
+
+        await queryClient.invalidateQueries({ queryKey: ["usePlayers"] });
+
+        await queryClient.invalidateQueries({
+          queryKey: ["usePlayer", playerToUpdate.id],
         });
-      } else {
-        await updatePlayer({
-          id: playerToUpdate.id,
-          name,
-          email,
-          balance: playerToUpdate.balance,
-          avatarImgUrl: playerToUpdate.avatarImgUrl,
-          phone,
-        });
-      }
+      },
+      onSuccess: () => {
+        handleClose();
 
-      await queryClient.invalidateQueries({ queryKey: ['usePlayers'] });
-
-      await queryClient.invalidateQueries({ queryKey: ['usePlayer', playerToUpdate.id] });
-    },
-    onSuccess: () => {
-      handleClose();
-
-      toast.success('Player atualizado com sucesso');
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
-  });
+        toast.success("Player atualizado com sucesso");
+      },
+      onError: (error: Error) => {
+        toast.error(error.message);
+      },
+    });
 
   useEffect(() => {
     reset({
@@ -114,31 +121,60 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
       <DialogContent>
         <DialogContentText>{subTitle}</DialogContentText>
         <Box display="flex" alignItems="center" justifyContent="center">
-          <AvatarPlayer sx={{ width: 64, height: 64 }} playerId={playerToUpdate.id} />
+          <AvatarPlayer
+            sx={{ width: 64, height: 64 }}
+            playerId={playerToUpdate.id}
+          />
         </Box>
         <Stack
           spacing={2}
           sx={{
-            display: 'flex',
+            display: "flex",
             flex: 1,
             marginY: 2,
           }}
         >
           <ImageDropZone file={file} setFile={setFile} />
-          <ControlledTextField name="name" control={control} variant="outlined" size="small" label="Nome" />
-          <ControlledPhoneTextField name="phone" control={control} variant="outlined" size="small" label="Telefone" />
-          <ControlledTextField name="email" control={control} variant="outlined" size="small" label="Email" />
+          <ControlledTextField
+            name="name"
+            control={control}
+            variant="outlined"
+            size="small"
+            label="Nome"
+          />
+          <ControlledPhoneTextField
+            name="phone"
+            control={control}
+            variant="outlined"
+            size="small"
+            label="Telefone"
+          />
+          <ControlledTextField
+            name="email"
+            control={control}
+            variant="outlined"
+            size="small"
+            label="Email"
+          />
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="error" disableElevation onClick={handleClose}>
+        <Button
+          variant="contained"
+          color="error"
+          disableElevation
+          onClick={handleClose}
+        >
           Cancelar
         </Button>
         <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>
           Confirmar
         </Button>
       </DialogActions>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={updatePlayerIsLoading}>
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={updatePlayerIsLoading}
+      >
         <CircularProgress color="primary" />
       </Backdrop>
     </Dialog>

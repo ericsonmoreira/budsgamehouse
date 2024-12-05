@@ -1,4 +1,4 @@
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Box,
   Button,
@@ -12,16 +12,16 @@ import {
   DialogTitle,
   InputAdornment,
   TextField,
-} from '@mui/material';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import useAutoCompleteCardNames from '../../../../hooks/useAutoCompleteCardNames';
-import useCardByName from '../../../../hooks/useCardByName';
-import useDebounce from '../../../../hooks/useDebounce';
-import useTradingCards from '../../../../hooks/useTradingCards';
-import ImgCard from '../../../ImgCard';
-import { useMutation } from '@tanstack/react-query';
+} from "@mui/material";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import useAutoCompleteCardNames from "../../../../hooks/useAutoCompleteCardNames";
+import useCardByName from "../../../../hooks/useCardByName";
+import useDebounce from "../../../../hooks/useDebounce";
+import useTradingCards from "../../../../hooks/useTradingCards";
+import ImgCard from "../../../ImgCard";
+import { useMutation } from "@tanstack/react-query";
 
 type AddTradingCardDialogProps = {
   title: string;
@@ -33,25 +33,25 @@ type AddTradingCardDialogFormData = {
   searchTerm: string;
 };
 
-const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = ({
-  title,
-  subTitle,
-  setOpen,
-  ...rest
-}) => {
-  const { register, handleSubmit, watch, resetField } = useForm<AddTradingCardDialogFormData>({});
+const AddTradingCardDialog: React.FC<
+  AddTradingCardDialogProps & DialogProps
+> = ({ title, subTitle, setOpen, ...rest }) => {
+  const { register, handleSubmit, watch, resetField } =
+    useForm<AddTradingCardDialogFormData>({});
 
-  const [cardNameSelected, setCardNameSelected] = useState<string>('');
+  const [cardNameSelected, setCardNameSelected] = useState<string>("");
 
-  const [amount, setAmount] = useState('1');
+  const [amount, setAmount] = useState("1");
 
   const { addTradingCard } = useTradingCards();
 
-  const searchTermWatch = watch('searchTerm');
+  const searchTermWatch = watch("searchTerm");
 
   const searchTermWatchDebounce = useDebounce(searchTermWatch, 500);
 
-  const { cardNames, isLoading } = useAutoCompleteCardNames(searchTermWatchDebounce);
+  const { cardNames, isLoading } = useAutoCompleteCardNames(
+    searchTermWatchDebounce,
+  );
 
   const { card } = useCardByName(cardNameSelected);
 
@@ -59,7 +59,9 @@ const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = 
     mutationFn: async () => {
       if (card) {
         const imgUrl =
-          (card.card_faces.length === 2 ? card.card_faces[0].image_uris?.normal : card.image_uris?.normal) || '';
+          (card.card_faces.length === 2
+            ? card.card_faces[0].image_uris?.normal
+            : card.image_uris?.normal) || "";
 
         addTradingCard({
           name: card.name,
@@ -69,26 +71,26 @@ const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = 
       }
     },
     onSuccess: () => {
-      toast.success('Card adicionado com sucesso');
+      toast.success("Card adicionado com sucesso");
     },
     onError: (error) => {
       toast.error(error.message);
     },
     onMutate: () => {
-      resetField('searchTerm');
+      resetField("searchTerm");
 
-      setCardNameSelected('');
+      setCardNameSelected("");
 
-      setAmount('1');
+      setAmount("1");
 
       setOpen(false);
     },
   });
 
   const handleCancelAction = () => {
-    resetField('searchTerm');
+    resetField("searchTerm");
 
-    setCardNameSelected('');
+    setCardNameSelected("");
 
     setOpen(false);
   };
@@ -98,7 +100,7 @@ const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = 
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{subTitle}</DialogContentText>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
           <TextField
             sx={{ marginRight: 1 }}
             variant="outlined"
@@ -111,10 +113,12 @@ const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = 
                 </InputAdornment>
               ),
               endAdornment: (
-                <InputAdornment position="end">{isLoading && <CircularProgress size={16} />}</InputAdornment>
+                <InputAdornment position="end">
+                  {isLoading && <CircularProgress size={16} />}
+                </InputAdornment>
               ),
             }}
-            {...register('searchTerm')}
+            {...register("searchTerm")}
           />
           <TextField
             type="number"
@@ -122,7 +126,9 @@ const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = 
             label="Quantidade"
             variant="outlined"
             value={amount}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setAmount(e.target.value)
+            }
             inputProps={{ min: 1 }}
           />
         </Box>
@@ -140,9 +146,9 @@ const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = 
         </Box>
         <Box
           sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: 'column',
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
           }}
         >
           <ImgCard card={card} isLoading={isLoading} />
@@ -150,7 +156,10 @@ const AddTradingCardDialog: React.FC<AddTradingCardDialogProps & DialogProps> = 
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancelAction}>Cancelar</Button>
-        <Button onClick={handleSubmit(() => addTrandingCardMutation())} autoFocus>
+        <Button
+          onClick={handleSubmit(() => addTrandingCardMutation())}
+          autoFocus
+        >
           Add
         </Button>
       </DialogActions>

@@ -1,25 +1,32 @@
-import AddCardIcon from '@mui/icons-material/AddCard';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import CachedIcon from '@mui/icons-material/Cached';
-import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import HomeIcon from '@mui/icons-material/Home';
-import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
-import LogoutIcon from '@mui/icons-material/Logout';
-import PersonIcon from '@mui/icons-material/Person';
-import PriceCheckIcon from '@mui/icons-material/PriceCheck';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import SellIcon from '@mui/icons-material/Sell';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { Box, Button, Divider, Drawer, Typography, useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { useSignOut } from 'react-firebase-hooks/auth';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { version } from '../../../package.json';
-import routesNames from '../../routes/routesNames';
-import { auth } from '../../services/firebaseConfig';
-import NavItem from '../NavItem';
-import { WorkspacePremiumIcon } from '../../icons';
+import AddCardIcon from "@mui/icons-material/AddCard";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import CachedIcon from "@mui/icons-material/Cached";
+import CalendarViewMonthIcon from "@mui/icons-material/CalendarViewMonth";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import HomeIcon from "@mui/icons-material/Home";
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
+import LogoutIcon from "@mui/icons-material/Logout";
+import PersonIcon from "@mui/icons-material/Person";
+import PriceCheckIcon from "@mui/icons-material/PriceCheck";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import SellIcon from "@mui/icons-material/Sell";
+import SettingsIcon from "@mui/icons-material/Settings";
+import {
+  Box,
+  Button,
+  Divider,
+  Drawer,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { useSignOut } from "react-firebase-hooks/auth";
+import { useLocation, useNavigate } from "react-router-dom";
+import { version } from "../../../package.json";
+import routesNames from "../../routes/routesNames";
+import { auth } from "../../services/firebaseConfig";
+import NavItem from "../NavItem";
+import { WorkspacePremiumIcon } from "../../icons";
 
 type AppDrawerItemData = {
   to: string;
@@ -36,71 +43,74 @@ const items: AppDrawerItemData[] = [
   {
     icon: HomeIcon,
     to: routesNames.HOME,
-    title: 'Home',
+    title: "Home",
   },
   {
     icon: SellIcon,
     to: routesNames.COMMANDS,
-    title: 'Comandas',
+    title: "Comandas",
   },
   {
     icon: CachedIcon,
     to: routesNames.TRANDING_CARDS,
-    title: 'Cartas de Troca',
+    title: "Cartas de Troca",
   },
   {
     icon: AddCardIcon,
     to: routesNames.WANTED_CARDS,
-    title: 'Want List',
+    title: "Want List",
   },
   {
     icon: PersonIcon,
     to: routesNames.PLAYERS,
-    title: 'Players',
+    title: "Players",
   },
   {
     icon: LocalGroceryStoreIcon,
     to: routesNames.PRODUCTS,
-    title: 'Produtos',
+    title: "Produtos",
   },
   {
     icon: PriceCheckIcon,
     to: routesNames.BALANCES,
-    title: 'Saldos',
+    title: "Saldos",
   },
   {
     icon: AttachMoneyIcon,
     to: routesNames.SALES,
-    title: 'Vendas',
+    title: "Vendas",
   },
   {
     icon: ReceiptIcon,
     to: routesNames.EXPENSES,
-    title: 'Despesas',
+    title: "Despesas",
   },
   {
     icon: CalendarViewMonthIcon,
     to: routesNames.SCHEDULES,
-    title: 'Programações',
+    title: "Programações",
   },
   {
     icon: EmojiEventsIcon,
     to: routesNames.TOURNAMENT_PRIZES,
-    title: 'Premiações',
+    title: "Premiações",
   },
   {
     icon: WorkspacePremiumIcon,
     to: routesNames.LIGA_PODIUM,
-    title: 'Liga Buds',
+    title: "Liga Buds",
   },
   {
     icon: SettingsIcon,
     to: routesNames.SETTINGS,
-    title: 'Settings',
+    title: "Settings",
   },
 ];
 
-const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ open, onClose }) => {
+const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
+  open,
+  onClose,
+}) => {
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -109,10 +119,12 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ open, onClose }) =>
 
   const theme = useTheme();
 
-  const upLg = useMediaQuery(theme.breakpoints.up('lg'));
+  const upLg = useMediaQuery(theme.breakpoints.up("lg"));
 
   const isNavItemActive = (to: string): boolean =>
-    to === routesNames.HOME ? to === location.pathname : location.pathname.includes(to);
+    to === routesNames.HOME
+      ? to === location.pathname
+      : location.pathname.includes(to);
 
   const handleSignOut = async () => {
     await signOut();
@@ -123,9 +135,9 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ open, onClose }) =>
   const content = (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
       }}
     >
       <Box flexGrow={1} py={2}>
@@ -147,7 +159,13 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ open, onClose }) =>
       </Box>
       <Divider />
       <Box padding={1}>
-        <Button fullWidth color="error" variant="outlined" endIcon={<LogoutIcon />} onClick={handleSignOut}>
+        <Button
+          fullWidth
+          color="error"
+          variant="outlined"
+          endIcon={<LogoutIcon />}
+          onClick={handleSignOut}
+        >
           Logout
         </Button>
       </Box>
@@ -163,7 +181,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ open, onClose }) =>
           sx: {
             top: 65,
             width: 180,
-            height: 'calc(100% - 65px)',
+            height: "calc(100% - 65px)",
           },
         }}
         variant="permanent"

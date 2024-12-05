@@ -1,5 +1,5 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import ForwardIcon from '@mui/icons-material/Forward';
+import { zodResolver } from "@hookform/resolvers/zod";
+import ForwardIcon from "@mui/icons-material/Forward";
 import {
   Backdrop,
   Box,
@@ -16,23 +16,23 @@ import {
   Grid,
   Stack,
   Typography,
-} from '@mui/material';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Timestamp } from 'firebase/firestore';
-import { useMemo, useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
-import usePlayers from '../../../../hooks/usePlayers';
-import updatePlayer from '../../../../resources/players/updatePlayer';
-import addTransfer from '../../../../resources/transfers/addTransfer';
-import { auth } from '../../../../services/firebaseConfig';
-import AutocompletePlayers from '../../../AutocompletePlayers';
-import AvatarPlayer from '../../../AvatarPlayer';
-import TypographyBalance from '../../../TypographyBalance';
-import ControlledCurrencyTextField from '../../../textfields/ControlledCurrencyTextField';
-import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema, { SchemaData } from './schema';
+} from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Timestamp } from "firebase/firestore";
+import { useMemo, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import usePlayers from "../../../../hooks/usePlayers";
+import updatePlayer from "../../../../resources/players/updatePlayer";
+import addTransfer from "../../../../resources/transfers/addTransfer";
+import { auth } from "../../../../services/firebaseConfig";
+import AutocompletePlayers from "../../../AutocompletePlayers";
+import AvatarPlayer from "../../../AvatarPlayer";
+import TypographyBalance from "../../../TypographyBalance";
+import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
+import ControlledTextField from "../../../textfields/ControlledTextField";
+import schema, { SchemaData } from "./schema";
 
 type TransferBalanceBetweenPlayersDialogProps = {
   title: string;
@@ -48,16 +48,12 @@ type TransferBalanceBetweenPlayersDialogFormData = {
 
 const defaultValues: TransferBalanceBetweenPlayersDialogFormData = {
   value: 0,
-  description: '',
+  description: "",
 };
 
-const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayersDialogProps & DialogProps> = ({
-  title,
-  subTitle,
-  senderPlayer,
-  setOpen,
-  ...rest
-}) => {
+const TransferBalanceBetweenPlayersDialog: React.FC<
+  TransferBalanceBetweenPlayersDialogProps & DialogProps
+> = ({ title, subTitle, senderPlayer, setOpen, ...rest }) => {
   const queryClient = useQueryClient();
 
   const [user] = useAuthState(auth);
@@ -71,7 +67,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
     defaultValues,
   });
 
-  const valueWatch = watch('value');
+  const valueWatch = watch("value");
 
   const disableTransfer = useMemo(() => {
     return senderPlayer.balance <= 0;
@@ -93,50 +89,61 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
     setOpen(false);
   };
 
-  const { mutate: transferMutate, isPending: transferMutateIsloading } = useMutation({
-    mutationFn: async ({ value, description }: TransferBalanceBetweenPlayersDialogFormData) => {
-      if (user && selectedPlayer) {
-        await addTransfer({
-          userId: user.uid,
-          sendingPlayerId: senderPlayer.id,
-          receiverPlayerId: selectedPlayer.id,
-          createdAt: Timestamp.now(),
-          value,
-          description,
-        });
+  const { mutate: transferMutate, isPending: transferMutateIsloading } =
+    useMutation({
+      mutationFn: async ({
+        value,
+        description,
+      }: TransferBalanceBetweenPlayersDialogFormData) => {
+        if (user && selectedPlayer) {
+          await addTransfer({
+            userId: user.uid,
+            sendingPlayerId: senderPlayer.id,
+            receiverPlayerId: selectedPlayer.id,
+            createdAt: Timestamp.now(),
+            value,
+            description,
+          });
 
-        await updatePlayer({
-          ...senderPlayer,
-          balance: senderPlayer.balance - value,
-        });
+          await updatePlayer({
+            ...senderPlayer,
+            balance: senderPlayer.balance - value,
+          });
 
-        await updatePlayer({
-          ...selectedPlayer,
-          balance: selectedPlayer.balance + value,
-        });
+          await updatePlayer({
+            ...selectedPlayer,
+            balance: selectedPlayer.balance + value,
+          });
 
-        await queryClient.invalidateQueries({ queryKey: ['useTransfers'] });
+          await queryClient.invalidateQueries({ queryKey: ["useTransfers"] });
 
-        await queryClient.invalidateQueries({ queryKey: ['usePlayers'] });
+          await queryClient.invalidateQueries({ queryKey: ["usePlayers"] });
 
-        await queryClient.invalidateQueries({ queryKey: ['usePlayer', senderPlayer.id] });
+          await queryClient.invalidateQueries({
+            queryKey: ["usePlayer", senderPlayer.id],
+          });
 
-        await queryClient.invalidateQueries({ queryKey: ['usePlayer', selectedPlayer.id] });
-      } else {
-        throw new Error('Usuário não encontrado.');
-      }
-    },
-    onSuccess: () => {
-      handleClose();
+          await queryClient.invalidateQueries({
+            queryKey: ["usePlayer", selectedPlayer.id],
+          });
+        } else {
+          throw new Error("Usuário não encontrado.");
+        }
+      },
+      onSuccess: () => {
+        handleClose();
 
-      toast.success('Transferência realizada com sucesso.');
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
-  });
+        toast.success("Transferência realizada com sucesso.");
+      },
+      onError: (error: Error) => {
+        toast.error(error.message);
+      },
+    });
 
-  const handleConfirmAction = ({ value, description }: TransferBalanceBetweenPlayersDialogFormData) => {
+  const handleConfirmAction = ({
+    value,
+    description,
+  }: TransferBalanceBetweenPlayersDialogFormData) => {
     transferMutate({ value, description });
   };
 
@@ -166,7 +173,11 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
                   <AvatarPlayer playerId={senderPlayer.id} />
                   <Typography variant="h6">{senderPlayer.name}</Typography>
                 </Stack>
-                <Box display="flex" alignItems="center" justifyContent="space-between">
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
                   <Box>
                     <Typography color="text.secondary" variant="caption">
                       Saldo Atual
@@ -177,14 +188,21 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
                     <Typography color="text.secondary" variant="caption">
                       Saldo Final
                     </Typography>
-                    <TypographyBalance balance={senderPlayer.balance - Number(valueWatch)} />
+                    <TypographyBalance
+                      balance={senderPlayer.balance - Number(valueWatch)}
+                    />
                   </Box>
                 </Box>
               </CardContent>
             </Card>
           </Grid>
           <Grid item xs={2}>
-            <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              flexDirection="column"
+            >
               <ForwardIcon fontSize="large" />
             </Box>
           </Grid>
@@ -196,7 +214,11 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
                     <AvatarPlayer playerId={selectedPlayer.id} />
                     <Typography variant="h6">{selectedPlayer.name}</Typography>
                   </Stack>
-                  <Box display="flex" alignItems="center" justifyContent="space-between">
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
                     <Box>
                       <Typography color="text.secondary" variant="caption">
                         Saldo Atual
@@ -207,7 +229,9 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
                       <Typography color="text.secondary" variant="caption">
                         Saldo Final
                       </Typography>
-                      <TypographyBalance balance={selectedPlayer.balance + Number(valueWatch)} />
+                      <TypographyBalance
+                        balance={selectedPlayer.balance + Number(valueWatch)}
+                      />
                     </Box>
                   </Box>
                 </CardContent>
@@ -244,11 +268,17 @@ const TransferBalanceBetweenPlayersDialog: React.FC<TransferBalanceBetweenPlayer
         <Button color="secondary" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button onClick={handleSubmit(handleConfirmAction)} disabled={!selectedPlayer || disableTransfer}>
+        <Button
+          onClick={handleSubmit(handleConfirmAction)}
+          disabled={!selectedPlayer || disableTransfer}
+        >
           Confirmar
         </Button>
       </DialogActions>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={transferMutateIsloading}>
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={transferMutateIsloading}
+      >
         <CircularProgress color="primary" />
       </Backdrop>
     </Dialog>

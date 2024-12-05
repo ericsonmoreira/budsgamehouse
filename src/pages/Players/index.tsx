@@ -1,40 +1,39 @@
-import { Box } from '@mui/material';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
-import toast from 'react-hot-toast';
-import { useSearchParams } from 'react-router-dom';
-import { useDebounce } from 'usehooks-ts';
-import Page from '../../components/Page';
-import PageHeader from '../../components/PageHeader';
-import DataGridPlaysers from '../../components/datagrids/DataGridPlaysers';
-import ConfirmActionDialog from '../../components/dialogs/ConfirmActionDialog';
-import AddPlayerDialog from '../../components/dialogs/players/AddPlayerDialog';
-import UpdatePlayerDialog from '../../components/dialogs/players/UpdatePlayerDialog';
-import SearchTextField from '../../components/textfields/SearchTextField';
-import usePlayers from '../../hooks/usePlayers';
-import deletePlayer from '../../resources/players/deletePlayer';
+import { Box } from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMemo, useState } from "react";
+import toast from "react-hot-toast";
+import { useSearchParams } from "react-router-dom";
+import { useDebounce } from "usehooks-ts";
+import Page from "../../components/Page";
+import PageHeader from "../../components/PageHeader";
+import DataGridPlaysers from "../../components/datagrids/DataGridPlaysers";
+import AddPlayerDialog from "../../components/dialogs/players/AddPlayerDialog";
+import UpdatePlayerDialog from "../../components/dialogs/players/UpdatePlayerDialog";
+import SearchTextField from "../../components/textfields/SearchTextField";
+import useConfirmation from "../../hooks/useConfirmation";
+import usePlayers from "../../hooks/usePlayers";
+import deletePlayer from "../../resources/players/deletePlayer";
 
-const Players: React.FC = () => {
+function Players() {
   const queryClient = useQueryClient();
 
-  const [searchParams, setSearchParams] = useSearchParams({ searchTerm: '' });
+  const { showDialog, confirmationDialog: ConfirmationDialog } =
+    useConfirmation();
 
-  const searchTerm = searchParams.get('searchTerm');
+  const [searchParams, setSearchParams] = useSearchParams({ searchTerm: "" });
+
+  const searchTerm = searchParams.get("searchTerm");
 
   const [addPlayerDialogOpen, setAddPlayerDialogOpen] = useState(false);
 
   const [updatePlayerDialogOpen, setUpdatePlayerDialogOpen] = useState(false);
 
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-
   const { data: players, isLoading } = usePlayers();
 
-  const [playerToDeleteId, setPlayerToDeleteId] = useState('');
-
   const [playerToUpdate, setPlayerToUpdate] = useState<Player>({
-    id: '',
-    name: '',
-    email: '',
+    id: "",
+    name: "",
+    email: "",
     balance: 0,
   });
 
@@ -42,44 +41,69 @@ const Players: React.FC = () => {
 
   const searchedPlayers = useMemo(() => {
     if (players) {
-      return players.filter(({ name }) => name.toLowerCase().includes(searchTermDebounced?.toLowerCase() || ''));
+      return players.filter(({ name }) =>
+        name.toLowerCase().includes(searchTermDebounced?.toLowerCase() || ""),
+      );
     }
 
     return [];
   }, [players, searchTermDebounced]);
 
-  const { mutate: deletePlayerMutate, isPending: deletePlayerMutateIsloading } = useMutation({
-    mutationFn: async (playerId: string) => {
-      await deletePlayer(playerId);
+  const { mutate: deletePlayerMutate, isPending: deletePlayerMutateIsloading } =
+    useMutation({
+      mutationFn: async (playerId: string) => {
+        await deletePlayer(playerId);
 
-      await queryClient.invalidateQueries({ queryKey: ['usePlayers'] });
+        await queryClient.invalidateQueries({ queryKey: ["usePlayers"] });
 
-      await queryClient.invalidateQueries({ queryKey: ['usePlayer', playerToUpdate.id] });
+        await queryClient.invalidateQueries({
+          queryKey: ["usePlayer", playerToUpdate.id],
+        });
 
-      await queryClient.invalidateQueries({ queryKey: ['usePayments'] });
+        await queryClient.invalidateQueries({ queryKey: ["usePayments"] });
 
-      await queryClient.invalidateQueries({ queryKey: ['usePaymentsFromPlayer', playerToUpdate.id] });
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
-  });
+        await queryClient.invalidateQueries({
+          queryKey: ["usePaymentsFromPlayer", playerToUpdate.id],
+        });
+      },
+      onSuccess: () => {
+        toast.success("Jogador Removido com Sucesso.");
+      },
+      onError: (error: Error) => {
+        toast.error(error.message);
+      },
+    });
 
-  const handleUpdate = ({ id, name, email, avatarImgUrl, balance, phone }: Player) => {
+  const handleUpdate = ({
+    id,
+    name,
+    email,
+    avatarImgUrl,
+    balance,
+    phone,
+  }: Player) => {
     setPlayerToUpdate({ id, name, email, avatarImgUrl, balance, phone });
 
     setUpdatePlayerDialogOpen(true);
   };
 
-  const handledelete = (id: string) => {
-    setPlayerToDeleteId(id);
+  const handledelete = async (id: string) => {
+    const confirmation = await showDialog({
+      title: "Remover Player",
+      message: "Deseja realmente remover esse Jogador?",
+    });
 
-    setDeleteDialogOpen(true);
+    if (confirmation) {
+      deletePlayerMutate(id);
+    }
   };
 
   return (
     <Page loading={deletePlayerMutateIsloading}>
-      <PageHeader title="Payers" onClickAddButton={() => setAddPlayerDialogOpen(true)} />
+      <PageHeader
+        title="Payers"
+        onClickAddButton={() => setAddPlayerDialogOpen(true)}
+      />
       <Box mx={1}>
         <SearchTextField
           autoFocus
@@ -87,7 +111,7 @@ const Players: React.FC = () => {
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setSearchParams({ searchTerm: event.target.value });
           }}
-          handleClearSearchTerm={() => setSearchParams({ searchTerm: '' })}
+          handleClearSearchTerm={() => setSearchParams({ searchTerm: "" })}
           placeholder="Buscar por nome..."
           size="small"
           fullWidth
@@ -118,17 +142,9 @@ const Players: React.FC = () => {
         setOpen={setUpdatePlayerDialogOpen}
         playerToUpdate={playerToUpdate}
       />
-      <ConfirmActionDialog
-        title="Remover Player"
-        subTitle="Deseja realmente remover esse Jogador?"
-        confirmationMesage="Player removido com sucesso."
-        open={deleteDialogOpen}
-        setOpen={setDeleteDialogOpen}
-        onClose={() => setDeleteDialogOpen(false)}
-        handleConfirmAction={() => deletePlayerMutate(playerToDeleteId)}
-      />
+      <ConfirmationDialog />
     </Page>
   );
-};
+}
 
 export default Players;

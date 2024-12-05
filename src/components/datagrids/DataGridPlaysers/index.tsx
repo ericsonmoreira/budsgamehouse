@@ -1,7 +1,7 @@
-import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import AvatarPlayer from '../../AvatarPlayer';
-import ActionsCell from '../../cells/ActionsCell';
-import CustomDataGrid from '../CustomDataGrid';
+import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import AvatarPlayer from "../../AvatarPlayer";
+import ActionsCell from "../../cells/ActionsCell";
+import CustomDataGrid from "../CustomDataGrid";
 
 type DataGridPlaysersRowData = {
   id: string;
@@ -21,40 +21,50 @@ type DataGridPlaysersProps = {
 
 const columns: GridColDef[] = [
   {
-    field: 'avatar',
-    headerName: '',
+    field: "avatar",
+    headerName: "",
     width: 20,
-    align: 'center',
+    align: "center",
     disableColumnMenu: true,
     sortable: false,
-    renderCell: ({ row }) => <AvatarPlayer playerId={row.id} sx={{ width: 24, height: 24 }} />,
+    renderCell: ({ row }) => (
+      <AvatarPlayer playerId={row.id} sx={{ width: 24, height: 24 }} />
+    ),
   },
-  { field: 'name', headerName: 'Nome', flex: 2 },
-  { field: 'phone', headerName: 'Telefone', flex: 1, sortable: false },
-  { field: 'email', headerName: 'Email', flex: 1 },
+  { field: "name", headerName: "Nome", flex: 2 },
+  { field: "phone", headerName: "Telefone", flex: 1, sortable: false },
+  { field: "email", headerName: "Email", flex: 1 },
   {
-    field: 'actions',
-    headerName: '',
+    field: "actions",
+    headerName: "",
     width: 80,
-    align: 'right',
+    align: "right",
     disableColumnMenu: true,
     sortable: false,
     renderCell: (
       params: GridRenderCellParams<{
         handleUpdate(): void;
         handledelete(): void;
-      }>
-    ) => <ActionsCell handleUpdate={params.value?.handleUpdate} handledelete={params.value?.handledelete} />,
+      }>,
+    ) => (
+      <ActionsCell
+        handleUpdate={params.value?.handleUpdate}
+        handledelete={params.value?.handledelete}
+      />
+    ),
   },
 ];
 
-const DataGridPlaysers: React.FC<DataGridPlaysersProps> = ({ rows = [], loading }) => {
+const DataGridPlaysers: React.FC<DataGridPlaysersProps> = ({
+  rows = [],
+  loading,
+}) => {
   return (
     <CustomDataGrid
       columns={columns}
       rows={rows}
       initialState={{
-        sorting: { sortModel: [{ field: 'name', sort: 'asc' }] },
+        sorting: { sortModel: [{ field: "name", sort: "asc" }] },
       }}
       loading={loading}
     />

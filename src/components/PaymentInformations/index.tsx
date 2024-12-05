@@ -1,4 +1,4 @@
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import {
   Box,
   Paper,
@@ -10,11 +10,11 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from '@mui/material';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
-import React from 'react';
-import TypographyBalance from '../TypographyBalance';
+} from "@mui/material";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import React from "react";
+import TypographyBalance from "../TypographyBalance";
 
 type PaymentInformationsProps = {
   data: Payment;
@@ -29,7 +29,9 @@ const PaymentInformations: React.FC<PaymentInformationsProps> = ({ data }) => {
         </Typography>
         <Stack direction="row" spacing={1} alignItems="center" mb={1}>
           <CalendarMonthIcon fontSize="small" />
-          <Typography>{format(data.createdAt.toDate(), 'PPPp', { locale: ptBR })}</Typography>
+          <Typography>
+            {format(data.createdAt.toDate(), "PPPp", { locale: ptBR })}
+          </Typography>
         </Stack>
         <TableContainer component={Paper} variant="outlined">
           <Table size="small">
@@ -43,13 +45,19 @@ const PaymentInformations: React.FC<PaymentInformationsProps> = ({ data }) => {
             <TableBody>
               <TableRow>
                 <TableCell>
-                  <TypographyBalance component="section" balance={data.previousPlayerBalance} />
+                  <TypographyBalance
+                    component="section"
+                    balance={data.previousPlayerBalance}
+                  />
                 </TableCell>
                 <TableCell align="right">
                   <TypographyBalance component="section" balance={data.value} />
                 </TableCell>
                 <TableCell align="right">
-                  <TypographyBalance component="section" balance={data.currentPlayerBalance} />
+                  <TypographyBalance
+                    component="section"
+                    balance={data.currentPlayerBalance}
+                  />
                 </TableCell>
               </TableRow>
             </TableBody>

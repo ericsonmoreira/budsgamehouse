@@ -1,4 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod';
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Backdrop,
   Button,
@@ -10,18 +10,18 @@ import {
   DialogProps,
   DialogTitle,
   Stack,
-} from '@mui/material';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateProfile } from 'firebase/auth';
-import { useEffect, useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
-import uploadImageInStorage from '../../../../resources/uploadImageInStorage';
-import { auth } from '../../../../services/firebaseConfig';
-import ImageDropZone from '../../../ImageDropZone';
-import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema, { SchemaData } from './schema ';
+} from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateProfile } from "firebase/auth";
+import { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import uploadImageInStorage from "../../../../resources/uploadImageInStorage";
+import { auth } from "../../../../services/firebaseConfig";
+import ImageDropZone from "../../../ImageDropZone";
+import ControlledTextField from "../../../textfields/ControlledTextField";
+import schema, { SchemaData } from "./schema ";
 
 type EditUserDialogProps = {
   title: string;
@@ -29,7 +29,12 @@ type EditUserDialogProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 } & DialogProps;
 
-const EditUserDialog: React.FC<EditUserDialogProps> = ({ title, setOpen, subTitle, ...rest }) => {
+const EditUserDialog: React.FC<EditUserDialogProps> = ({
+  title,
+  setOpen,
+  subTitle,
+  ...rest
+}) => {
   const queryClient = useQueryClient();
 
   const [user] = useAuthState(auth);
@@ -60,15 +65,15 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({ title, setOpen, subTitl
           displayName: name,
         });
       } else {
-        throw new Error('Usuário não encontrado');
+        throw new Error("Usuário não encontrado");
       }
 
-      await queryClient.invalidateQueries({ queryKey: ['usePlayers'] });
+      await queryClient.invalidateQueries({ queryKey: ["usePlayers"] });
     },
     onSuccess: () => {
       handleClose();
 
-      toast.success('Produto adicionado com sucesso');
+      toast.success("Produto adicionado com sucesso");
     },
     onError: (error: Error) => {
       toast.error(error.message);
@@ -85,7 +90,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({ title, setOpen, subTitl
 
   useEffect(() => {
     if (user) {
-      setValue('name', user.displayName ?? '');
+      setValue("name", user.displayName ?? "");
     }
   }, [user]);
 
@@ -97,20 +102,29 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({ title, setOpen, subTitl
         <Stack
           spacing={2}
           sx={{
-            display: 'flex',
+            display: "flex",
             flex: 1,
             marginTop: 1,
           }}
         >
           <ImageDropZone file={file} setFile={setFile} />
-          <ControlledTextField name="name" control={control} variant="outlined" size="small" label="Nome" />
+          <ControlledTextField
+            name="name"
+            control={control}
+            variant="outlined"
+            size="small"
+            label="Nome"
+          />
         </Stack>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancelar</Button>
         <Button onClick={handleSubmit(handleConfirmAction)}>Confirmar</Button>
       </DialogActions>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={editUserIsLoading}>
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={editUserIsLoading}
+      >
         <CircularProgress color="primary" />
       </Backdrop>
     </Dialog>

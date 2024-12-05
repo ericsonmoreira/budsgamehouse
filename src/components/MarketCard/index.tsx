@@ -1,7 +1,7 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import DeleteIcon from '@mui/icons-material/Delete';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import { zodResolver } from "@hookform/resolvers/zod";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import {
   Backdrop,
   Box,
@@ -22,28 +22,28 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from '@mui/material';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { format } from 'date-fns';
-import { Timestamp } from 'firebase/firestore';
-import { useCallback, useMemo, useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
-import usePlayers from '../../hooks/usePlayers';
-import useProducts from '../../hooks/useProducts';
-import updatePlayer from '../../resources/players/updatePlayer';
-import updateProductStock from '../../resources/products/updateProductStock';
-import addSale from '../../resources/sales/addSale';
-import { auth } from '../../services/firebaseConfig';
-import { PLAYER_LIMIT } from '../../utils/constants';
-import { formatterCurrencyBRL } from '../../utils/formatters';
-import AutocompletePlayers from '../AutocompletePlayers';
-import AutocompleteProducts from '../AutocompleteProducts';
-import AvatarPlayer from '../AvatarPlayer';
-import TypographyBalance from '../TypographyBalance';
-import ControlledCurrencyTextField from '../textfields/ControlledCurrencyTextField';
-import schema, { SchemaData } from './schema';
+} from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { format } from "date-fns";
+import { Timestamp } from "firebase/firestore";
+import { useCallback, useMemo, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import usePlayers from "../../hooks/usePlayers";
+import useProducts from "../../hooks/useProducts";
+import updatePlayer from "../../resources/players/updatePlayer";
+import updateProductStock from "../../resources/products/updateProductStock";
+import addSale from "../../resources/sales/addSale";
+import { auth } from "../../services/firebaseConfig";
+import { PLAYER_LIMIT } from "../../utils/constants";
+import { formatterCurrencyBRL } from "../../utils/formatters";
+import AutocompletePlayers from "../AutocompletePlayers";
+import AutocompleteProducts from "../AutocompleteProducts";
+import AvatarPlayer from "../AvatarPlayer";
+import TypographyBalance from "../TypographyBalance";
+import ControlledCurrencyTextField from "../textfields/ControlledCurrencyTextField";
+import schema, { SchemaData } from "./schema";
 
 type MarketCardCart = {
   id: string;
@@ -65,7 +65,9 @@ function MarketCard() {
 
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const [shoppingCart, setShoppingCart] = useState<{ id: string; name: string; amount: number; price: number }[]>([]);
+  const [shoppingCart, setShoppingCart] = useState<
+    { id: string; name: string; amount: number; price: number }[]
+  >([]);
 
   const { handleSubmit, control, watch, resetField } = useForm<SchemaData>({
     resolver: zodResolver(schema),
@@ -74,11 +76,13 @@ function MarketCard() {
     },
   });
 
-  const looseValueWatch = Number(watch('looseValue'));
+  const looseValueWatch = Number(watch("looseValue"));
 
   const validProdutos = useMemo(() => {
     if (products && shoppingCart) {
-      return products.filter((product) => !shoppingCart.some((elem) => elem.id === product.id));
+      return products.filter(
+        (product) => !shoppingCart.some((elem) => elem.id === product.id),
+      );
     }
 
     return [];
@@ -121,68 +125,86 @@ function MarketCard() {
   };
 
   const totalToPay = useMemo(() => {
-    return shoppingCart.reduce((acc, curr) => acc + curr.price * curr.amount, 0) + looseValueWatch;
+    return (
+      shoppingCart.reduce((acc, curr) => acc + curr.price * curr.amount, 0) +
+      looseValueWatch
+    );
   }, [shoppingCart, looseValueWatch]);
 
   const disabledConfirm = useMemo(() => totalToPay === 0, [totalToPay]);
 
-  const { mutate: confirmMutate, isPending: confirmMutateIsloading } = useMutation({
-    mutationFn: async (data: SchemaData) => {
-      if (user) {
-        const { looseValue } = data;
+  const { mutate: confirmMutate, isPending: confirmMutateIsloading } =
+    useMutation({
+      mutationFn: async (data: SchemaData) => {
+        if (user) {
+          const { looseValue } = data;
 
-        if (selectedPlayer) {
-          await updatePlayer({ ...selectedPlayer, balance: selectedPlayer.balance - totalToPay });
+          if (selectedPlayer) {
+            await updatePlayer({
+              ...selectedPlayer,
+              balance: selectedPlayer.balance - totalToPay,
+            });
+          }
+
+          // Atualiza todos os produtos de acorodo com a quantidade para remover do estoque
+          await Promise.all(
+            shoppingCart.map(({ id, amount }) =>
+              updateProductStock(id, -amount),
+            ),
+          );
+
+          // // Criando uma nova compra
+          await addSale({
+            createdAt: Timestamp.now(),
+            playerId: selectedPlayer?.id || "",
+            products: shoppingCart.map(({ id, name, amount, price }) => ({
+              id,
+              name,
+              amount,
+              price,
+            })),
+            userId: user.uid,
+            looseValue,
+          });
+
+          const [mes, ano] = format(Date.now(), "MM/yyyy").split("/");
+
+          await queryClient.invalidateQueries({ queryKey: ["useProducts"] });
+
+          await queryClient.invalidateQueries({ queryKey: ["useSales"] });
+
+          await queryClient.invalidateQueries({ queryKey: ["usePlayers"] });
+
+          await queryClient.invalidateQueries({
+            queryKey: [
+              "useSalesPerMonth",
+              new Date(`${ano}-${mes}-01T00:00:00`),
+            ],
+          });
+
+          if (selectedPlayer) {
+            await queryClient.invalidateQueries({
+              queryKey: ["useSalesFromPlayer", selectedPlayer.id],
+            });
+          }
+        } else {
+          throw new Error("Usuário não encontrado.");
         }
+      },
+      onSuccess: () => {
+        handleClearFields();
 
-        // Atualiza todos os produtos de acorodo com a quantidade para remover do estoque
-        await Promise.all(shoppingCart.map(({ id, amount }) => updateProductStock(id, -amount)));
-
-        // // Criando uma nova compra
-        await addSale({
-          createdAt: Timestamp.now(),
-          playerId: selectedPlayer?.id || '',
-          products: shoppingCart.map(({ id, name, amount, price }) => ({
-            id,
-            name,
-            amount,
-            price,
-          })),
-          userId: user.uid,
-          looseValue,
-        });
-
-        const [mes, ano] = format(Date.now(), 'MM/yyyy').split('/');
-
-        await queryClient.invalidateQueries({ queryKey: ['useProducts'] });
-
-        await queryClient.invalidateQueries({ queryKey: ['useSales'] });
-
-        await queryClient.invalidateQueries({ queryKey: ['usePlayers'] });
-
-        await queryClient.invalidateQueries({ queryKey: ['useSalesPerMonth', new Date(`${ano}-${mes}-01T00:00:00`)] });
-
-        if (selectedPlayer) {
-          await queryClient.invalidateQueries({ queryKey: ['useSalesFromPlayer', selectedPlayer.id] });
-        }
-      } else {
-        throw new Error('Usuário não encontrado.');
-      }
-    },
-    onSuccess: () => {
-      handleClearFields();
-
-      toast.success('Venda realizada com Sucesso');
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
-  });
+        toast.success("Venda realizada com Sucesso");
+      },
+      onError: (error: Error) => {
+        toast.error(error.message);
+      },
+    });
 
   const handleClearFields = useCallback(() => {
     setShoppingCart([]);
 
-    resetField('looseValue');
+    resetField("looseValue");
 
     setSelectedPlayer(null);
   }, [setShoppingCart, resetField, setSelectedPlayer]);
@@ -191,11 +213,16 @@ function MarketCard() {
     confirmMutate(data);
   };
 
-  const selectedPlayerIsExceededLimit = selectedPlayer ? selectedPlayer.balance <= -PLAYER_LIMIT : false;
+  const selectedPlayerIsExceededLimit = selectedPlayer
+    ? selectedPlayer.balance <= -PLAYER_LIMIT
+    : false;
 
   return (
     <Card>
-      <CardHeader title="Caixa Aberto" subheader="Criar uma venda associada ou não a um Player" />
+      <CardHeader
+        title="Caixa Aberto"
+        subheader="Criar uma venda associada ou não a um Player"
+      />
       {players && products && (
         <CardContent>
           <Grid container spacing={2}>
@@ -205,7 +232,9 @@ function MarketCard() {
                 selectedPlayer={selectedPlayer}
                 setSelectedPlayer={setSelectedPlayer}
                 textFieldProps={{
-                  helperText: selectedPlayerIsExceededLimit ? 'Jogador com limite de saldo negativo' : null,
+                  helperText: selectedPlayerIsExceededLimit
+                    ? "Jogador com limite de saldo negativo"
+                    : null,
                   error: selectedPlayerIsExceededLimit,
                 }}
               />
@@ -259,24 +288,57 @@ function MarketCard() {
                       .map((row) => (
                         <TableRow key={row.name}>
                           <TableCell align="right">
-                            <Box display="flex" alignItems="center" justifyContent="space-between">
-                              <Typography variant="inherit">{row.name}</Typography>
+                            <Box
+                              display="flex"
+                              alignItems="center"
+                              justifyContent="space-between"
+                            >
+                              <Typography variant="inherit">
+                                {row.name}
+                              </Typography>
                               <Stack direction="row">
-                                <IconButton onClick={() => handlePlusOneProductInShoppingCart(row)}>
-                                  <AddCircleIcon fontSize="inherit" color="success" />
+                                <IconButton
+                                  onClick={() =>
+                                    handlePlusOneProductInShoppingCart(row)
+                                  }
+                                >
+                                  <AddCircleIcon
+                                    fontSize="inherit"
+                                    color="success"
+                                  />
                                 </IconButton>
-                                <IconButton onClick={() => handleMinusOneProductInShoppingCart(row)}>
-                                  <RemoveCircleIcon fontSize="inherit" color="error" />
+                                <IconButton
+                                  onClick={() =>
+                                    handleMinusOneProductInShoppingCart(row)
+                                  }
+                                >
+                                  <RemoveCircleIcon
+                                    fontSize="inherit"
+                                    color="error"
+                                  />
                                 </IconButton>
-                                <IconButton onClick={() => handleRemoveProductInShoppingCart(row)}>
-                                  <DeleteIcon fontSize="inherit" color="error" />
+                                <IconButton
+                                  onClick={() =>
+                                    handleRemoveProductInShoppingCart(row)
+                                  }
+                                >
+                                  <DeleteIcon
+                                    fontSize="inherit"
+                                    color="error"
+                                  />
                                 </IconButton>
                               </Stack>
                             </Box>
                           </TableCell>
                           <TableCell align="right">{row.amount}</TableCell>
-                          <TableCell align="right">{formatterCurrencyBRL.format(row.price)}</TableCell>
-                          <TableCell align="right">{formatterCurrencyBRL.format(row.amount * row.price)}</TableCell>
+                          <TableCell align="right">
+                            {formatterCurrencyBRL.format(row.price)}
+                          </TableCell>
+                          <TableCell align="right">
+                            {formatterCurrencyBRL.format(
+                              row.amount * row.price,
+                            )}
+                          </TableCell>
                         </TableRow>
                       ))}
                   </TableBody>
@@ -284,9 +346,17 @@ function MarketCard() {
               </TableContainer>
             </Grid>
             <Grid item xs={12}>
-              <Box display="flex" alignItems="center" flexDirection="row" justifyContent="space-between" width="100%">
+              <Box
+                display="flex"
+                alignItems="center"
+                flexDirection="row"
+                justifyContent="space-between"
+                width="100%"
+              >
                 <Typography variant="h5">Total</Typography>
-                <Typography variant="h5">{formatterCurrencyBRL.format(Number(totalToPay))}</Typography>
+                <Typography variant="h5">
+                  {formatterCurrencyBRL.format(Number(totalToPay))}
+                </Typography>
               </Box>
             </Grid>
           </Grid>
@@ -305,7 +375,10 @@ function MarketCard() {
           Finalizar Pedido
         </Button>
       </CardActions>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={confirmMutateIsloading}>
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={confirmMutateIsloading}
+      >
         <CircularProgress color="primary" />
       </Backdrop>
     </Card>

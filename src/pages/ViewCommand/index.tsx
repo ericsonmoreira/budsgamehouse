@@ -1,9 +1,9 @@
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import BlockIcon from '@mui/icons-material/Block';
-import DeleteIcon from '@mui/icons-material/Delete';
-import DoneAllIcon from '@mui/icons-material/DoneAll';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import SaveIcon from '@mui/icons-material/Save';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import BlockIcon from "@mui/icons-material/Block";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import SaveIcon from "@mui/icons-material/Save";
 import {
   Box,
   Button,
@@ -19,27 +19,27 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from '@mui/material';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Timestamp } from 'firebase/firestore';
-import { useEffect, useMemo, useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import toast from 'react-hot-toast';
-import { Navigate, useParams } from 'react-router-dom';
-import 'react-vertical-timeline-component/style.min.css';
-import AutocompleteProducts from '../../components/AutocompleteProducts';
-import CommandTitleName from '../../components/CommandCard/CommandTitleName';
-import Page from '../../components/Page';
-import PageHeader from '../../components/PageHeader';
-import useCommand from '../../hooks/useCommand';
-import useProducts from '../../hooks/useProducts';
-import updateCommand from '../../resources/commands/updateCommand';
-import updateProductStock from '../../resources/products/updateProductStock';
-import addSale from '../../resources/sales/addSale';
-import routesNames from '../../routes/routesNames';
-import { auth } from '../../services/firebaseConfig';
-import { formatterCurrencyBRL } from '../../utils/formatters';
-import useConfirmation from '../../hooks/useConfirmation';
+} from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Timestamp } from "firebase/firestore";
+import { useEffect, useMemo, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import toast from "react-hot-toast";
+import { Navigate, useParams } from "react-router-dom";
+import "react-vertical-timeline-component/style.min.css";
+import AutocompleteProducts from "../../components/AutocompleteProducts";
+import CommandTitleName from "../../components/CommandCard/CommandTitleName";
+import Page from "../../components/Page";
+import PageHeader from "../../components/PageHeader";
+import useCommand from "../../hooks/useCommand";
+import useProducts from "../../hooks/useProducts";
+import updateCommand from "../../resources/commands/updateCommand";
+import updateProductStock from "../../resources/products/updateProductStock";
+import addSale from "../../resources/sales/addSale";
+import routesNames from "../../routes/routesNames";
+import { auth } from "../../services/firebaseConfig";
+import { formatterCurrencyBRL } from "../../utils/formatters";
+import useConfirmation from "../../hooks/useConfirmation";
 
 type ViewCommandParams = {
   id: string;
@@ -55,23 +55,30 @@ type CommandItemShoppingCart = {
 const ViewCommand: React.FC = () => {
   const [user] = useAuthState(auth);
 
-  const { showDialog, confirmationDialog: ConfirmationDialog } = useConfirmation();
+  const { showDialog, confirmationDialog: ConfirmationDialog } =
+    useConfirmation();
 
   const queryClient = useQueryClient();
 
   const { id } = useParams<ViewCommandParams>();
 
-  const { data: command, isLoading: commandIsLoading, error: commandError } = useCommand(id);
+  const {
+    data: command,
+    isLoading: commandIsLoading,
+    error: commandError,
+  } = useCommand(id);
 
   const { data: produtos } = useProducts();
 
-  const [shoppingCart, setShoppingCart] = useState<{ id: string; name: string; amount: number; price: number }[]>([]);
+  const [shoppingCart, setShoppingCart] = useState<
+    { id: string; name: string; amount: number; price: number }[]
+  >([]);
 
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const commandIsClosed = useMemo(() => {
     if (command) {
-      return command.status === 'closed';
+      return command.status === "closed";
     }
 
     return false;
@@ -79,7 +86,7 @@ const ViewCommand: React.FC = () => {
 
   const commandIsCanceled = useMemo(() => {
     if (command) {
-      return command.status === 'canceled';
+      return command.status === "canceled";
     }
 
     return false;
@@ -87,12 +94,14 @@ const ViewCommand: React.FC = () => {
 
   const isDisableCommandEdition = useMemo(
     () => commandIsClosed || commandIsCanceled,
-    [commandIsClosed, commandIsCanceled]
+    [commandIsClosed, commandIsCanceled],
   );
 
   const validProdutos = useMemo(() => {
     if (produtos && shoppingCart) {
-      return produtos.filter((product) => !shoppingCart.some((elem) => elem.id === product.id));
+      return produtos.filter(
+        (product) => !shoppingCart.some((elem) => elem.id === product.id),
+      );
     }
 
     return [];
@@ -118,7 +127,9 @@ const ViewCommand: React.FC = () => {
     }
   };
 
-  const handleMinusOneProductInShoppingCart = (row: CommandItemShoppingCart) => {
+  const handleMinusOneProductInShoppingCart = (
+    row: CommandItemShoppingCart,
+  ) => {
     const index = shoppingCart.findIndex((elem) => elem.id === row.id);
 
     if (index >= 0) {
@@ -135,10 +146,16 @@ const ViewCommand: React.FC = () => {
   };
 
   const totalToPay = useMemo(() => {
-    return shoppingCart.reduce((acc, curr) => acc + curr.price * curr.amount, 0);
+    return shoppingCart.reduce(
+      (acc, curr) => acc + curr.price * curr.amount,
+      0,
+    );
   }, [shoppingCart]);
 
-  const { mutate: updateCommandMutate, isPending: updateCommandMutateIsloading } = useMutation({
+  const {
+    mutate: updateCommandMutate,
+    isPending: updateCommandMutateIsloading,
+  } = useMutation({
     mutationFn: async () => {
       if (command) {
         await updateCommand({
@@ -152,82 +169,96 @@ const ViewCommand: React.FC = () => {
         });
 
         await Promise.all([
-          queryClient.invalidateQueries({ queryKey: ['useCommands', 'open'] }),
-          queryClient.invalidateQueries({ queryKey: ['useCommands', 'closed'] }),
-          queryClient.invalidateQueries({ queryKey: ['useCommand', id] }),
-          queryClient.invalidateQueries({ queryKey: ['useProducts'] }),
-          queryClient.invalidateQueries({ queryKey: ['useSales'] }),
+          queryClient.invalidateQueries({ queryKey: ["useCommands", "open"] }),
+          queryClient.invalidateQueries({
+            queryKey: ["useCommands", "closed"],
+          }),
+          queryClient.invalidateQueries({ queryKey: ["useCommand", id] }),
+          queryClient.invalidateQueries({ queryKey: ["useProducts"] }),
+          queryClient.invalidateQueries({ queryKey: ["useSales"] }),
         ]);
       }
     },
     onSuccess: () => {
-      toast.success('Comanda Salva com sucesso');
+      toast.success("Comanda Salva com sucesso");
     },
     onError: (error: Error) => {
       toast.error(error.message);
     },
   });
 
-  const { mutate: closeCommandMutate, isPending: closeCommandMutateIsloading } = useMutation({
-    mutationFn: async (): Promise<boolean> => {
-      const confirmation = await showDialog({
-        title: 'Confirmarção',
-        message: 'Deseja realmente FECHAR essa Comanda?',
-      });
-
-      if (!confirmation) {
-        return false;
-      }
-
-      if (command && user) {
-        await updateCommand({ ...command, status: 'closed' });
-
-        // Atualiza todos os produtos de acorodo com a quantidade para remover do estoque
-        await Promise.all(shoppingCart.map(({ id, amount }) => updateProductStock(id, -amount)));
-
-        // // Criando uma nova compra
-        await addSale({
-          createdAt: Timestamp.now(),
-          playerId: '',
-          products: shoppingCart.map(({ id, name, amount, price }) => ({
-            id,
-            name,
-            amount,
-            price,
-          })),
-          userId: user.uid,
+  const { mutate: closeCommandMutate, isPending: closeCommandMutateIsloading } =
+    useMutation({
+      mutationFn: async (): Promise<boolean> => {
+        const confirmation = await showDialog({
+          title: "Confirmarção",
+          message: "Deseja realmente FECHAR essa Comanda?",
         });
 
-        await Promise.all([
-          queryClient.invalidateQueries({ queryKey: ['useCommands', 'open'] }),
-          queryClient.invalidateQueries({ queryKey: ['useCommands', 'closed'] }),
-          queryClient.invalidateQueries({ queryKey: ['useCommand', id] }),
-          queryClient.invalidateQueries({ queryKey: ['useProducts'] }),
-          queryClient.invalidateQueries({ queryKey: ['useSales'] }),
-        ]);
-      } else {
-        throw new Error('Usuário não cadastrado');
-      }
+        if (!confirmation) {
+          return false;
+        }
 
-      return true;
-    },
-    onSuccess: (data) => {
-      if (data) {
-        toast.success('Comanda Fechada com sucesso');
-      }
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
-  });
+        if (command && user) {
+          await updateCommand({ ...command, status: "closed" });
+
+          // Atualiza todos os produtos de acorodo com a quantidade para remover do estoque
+          await Promise.all(
+            shoppingCart.map(({ id, amount }) =>
+              updateProductStock(id, -amount),
+            ),
+          );
+
+          // // Criando uma nova compra
+          await addSale({
+            createdAt: Timestamp.now(),
+            playerId: "",
+            products: shoppingCart.map(({ id, name, amount, price }) => ({
+              id,
+              name,
+              amount,
+              price,
+            })),
+            userId: user.uid,
+          });
+
+          await Promise.all([
+            queryClient.invalidateQueries({
+              queryKey: ["useCommands", "open"],
+            }),
+            queryClient.invalidateQueries({
+              queryKey: ["useCommands", "closed"],
+            }),
+            queryClient.invalidateQueries({ queryKey: ["useCommand", id] }),
+            queryClient.invalidateQueries({ queryKey: ["useProducts"] }),
+            queryClient.invalidateQueries({ queryKey: ["useSales"] }),
+          ]);
+        } else {
+          throw new Error("Usuário não cadastrado");
+        }
+
+        return true;
+      },
+      onSuccess: (data) => {
+        if (data) {
+          toast.success("Comanda Fechada com sucesso");
+        }
+      },
+      onError: (error: Error) => {
+        toast.error(error.message);
+      },
+    });
 
   // TODO: ajustando aqui
 
-  const { mutate: cancelCommandMutate, isPending: cancelCommandMutateIsloading } = useMutation({
+  const {
+    mutate: cancelCommandMutate,
+    isPending: cancelCommandMutateIsloading,
+  } = useMutation({
     mutationFn: async (): Promise<boolean> => {
       const confirmation = await showDialog({
-        title: 'Confirmarção',
-        message: 'Deseja realmente CANCELAR essa Comanda?',
+        title: "Confirmarção",
+        message: "Deseja realmente CANCELAR essa Comanda?",
       });
 
       if (!confirmation) {
@@ -235,20 +266,24 @@ const ViewCommand: React.FC = () => {
       }
 
       if (command) {
-        await updateCommand({ ...command, status: 'canceled' });
+        await updateCommand({ ...command, status: "canceled" });
       }
 
-      await queryClient.invalidateQueries({ queryKey: ['useCommands', 'open'] });
+      await queryClient.invalidateQueries({
+        queryKey: ["useCommands", "open"],
+      });
 
-      await queryClient.invalidateQueries({ queryKey: ['useCommands', 'canceled'] });
+      await queryClient.invalidateQueries({
+        queryKey: ["useCommands", "canceled"],
+      });
 
-      await queryClient.invalidateQueries({ queryKey: ['useCommand', id] });
+      await queryClient.invalidateQueries({ queryKey: ["useCommand", id] });
 
       return true;
     },
     onSuccess: (data) => {
       if (data) {
-        toast.success('Comanda Cancelada com sucesso');
+        toast.success("Comanda Cancelada com sucesso");
       }
     },
     onError: (error: Error) => {
@@ -258,8 +293,15 @@ const ViewCommand: React.FC = () => {
 
   const isLoading = useMemo(
     () =>
-      commandIsLoading || updateCommandMutateIsloading || closeCommandMutateIsloading || cancelCommandMutateIsloading,
-    [commandIsLoading, updateCommandMutateIsloading, closeCommandMutateIsloading || cancelCommandMutateIsloading]
+      commandIsLoading ||
+      updateCommandMutateIsloading ||
+      closeCommandMutateIsloading ||
+      cancelCommandMutateIsloading,
+    [
+      commandIsLoading,
+      updateCommandMutateIsloading,
+      closeCommandMutateIsloading || cancelCommandMutateIsloading,
+    ],
   );
 
   useEffect(() => {
@@ -281,7 +323,7 @@ const ViewCommand: React.FC = () => {
             <>
               <Grid item xs={12}>
                 <Typography color="text.primary" variant="h5">
-                  Cliente: {command.displayName || 'Não Informado'}
+                  Cliente: {command.displayName || "Não Informado"}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
@@ -317,33 +359,68 @@ const ViewCommand: React.FC = () => {
                     .map((row) => (
                       <TableRow key={row.name}>
                         <TableCell align="right">
-                          <Box display="flex" alignItems="center" justifyContent="space-between">
-                            <Typography variant="inherit">{row.name}</Typography>
+                          <Box
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="space-between"
+                          >
+                            <Typography variant="inherit">
+                              {row.name}
+                            </Typography>
                             {!isDisableCommandEdition && (
                               <Stack direction="row">
-                                <IconButton onClick={() => handlePlusOneProductInShoppingCart(row)}>
-                                  <AddCircleIcon fontSize="inherit" color="success" />
+                                <IconButton
+                                  onClick={() =>
+                                    handlePlusOneProductInShoppingCart(row)
+                                  }
+                                >
+                                  <AddCircleIcon
+                                    fontSize="inherit"
+                                    color="success"
+                                  />
                                 </IconButton>
-                                <IconButton onClick={() => handleMinusOneProductInShoppingCart(row)}>
-                                  <RemoveCircleIcon fontSize="inherit" color="error" />
+                                <IconButton
+                                  onClick={() =>
+                                    handleMinusOneProductInShoppingCart(row)
+                                  }
+                                >
+                                  <RemoveCircleIcon
+                                    fontSize="inherit"
+                                    color="error"
+                                  />
                                 </IconButton>
-                                <IconButton onClick={() => handleRemoveProductInShoppingCart(row)}>
-                                  <DeleteIcon fontSize="inherit" color="error" />
+                                <IconButton
+                                  onClick={() =>
+                                    handleRemoveProductInShoppingCart(row)
+                                  }
+                                >
+                                  <DeleteIcon
+                                    fontSize="inherit"
+                                    color="error"
+                                  />
                                 </IconButton>
                               </Stack>
                             )}
                           </Box>
                         </TableCell>
                         <TableCell align="right">{row.amount}</TableCell>
-                        <TableCell align="right">{formatterCurrencyBRL.format(row.price)}</TableCell>
-                        <TableCell align="right">{formatterCurrencyBRL.format(row.amount * row.price)}</TableCell>
+                        <TableCell align="right">
+                          {formatterCurrencyBRL.format(row.price)}
+                        </TableCell>
+                        <TableCell align="right">
+                          {formatterCurrencyBRL.format(row.amount * row.price)}
+                        </TableCell>
                       </TableRow>
                     ))}
                 </TableBody>
                 <TableFooter>
                   <TableRow>
                     <TableCell colSpan={4}>
-                      <Box display="flex" alignItems="center" justifyContent="space-between">
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
                         <Typography variant="h6">Total a Pagar</Typography>
                         <Typography variant="h6" color="error">
                           {formatterCurrencyBRL.format(totalToPay)}

@@ -1,28 +1,45 @@
-import { Box, Chip, Stack, SvgIconProps, Tooltip, Typography } from '@mui/material';
-import { differenceInHours } from 'date-fns';
-import { CardsClubIcon, CardsDiamondIcon, CardsHeartIcon, CardsSpadeIcon, WarningIcon } from '../../../icons';
+import {
+  Box,
+  Chip,
+  Stack,
+  SvgIconProps,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { differenceInHours } from "date-fns";
+import {
+  CardsClubIcon,
+  CardsDiamondIcon,
+  CardsHeartIcon,
+  CardsSpadeIcon,
+  WarningIcon,
+} from "../../../icons";
 
 type CommandTitleName = {
   command: Command;
 };
 
-const cardsSuitiesMap: Record<'club' | 'diamond' | 'heart' | 'spade', React.FC<SvgIconProps>> = {
+const cardsSuitiesMap: Record<
+  "club" | "diamond" | "heart" | "spade",
+  React.FC<SvgIconProps>
+> = {
   club: CardsClubIcon,
   diamond: CardsDiamondIcon,
   heart: CardsHeartIcon,
   spade: CardsSpadeIcon,
 };
 
-const cardsStatusMap: Record<'open' | 'closed' | 'canceled', React.FC> = {
+const cardsStatusMap: Record<"open" | "closed" | "canceled", React.FC> = {
   open: () => <Chip label="ABERTA" color="success" />,
   closed: () => <Chip label="FECHADA" color="error" />,
   canceled: () => <Chip label="CANCELADA" color="warning" />,
 };
 
 const CommandTitleName: React.FC<CommandTitleName> = ({ command }) => {
-  const [num, suite] = command.name.split('|');
+  const [num, suite] = command.name.split("|");
 
-  const IconComponent = cardsSuitiesMap[suite as 'club' | 'diamond' | 'heart' | 'spade'];
+  const IconComponent =
+    cardsSuitiesMap[suite as "club" | "diamond" | "heart" | "spade"];
 
   const StatusComponent = cardsStatusMap[command.status];
 
@@ -32,7 +49,9 @@ const CommandTitleName: React.FC<CommandTitleName> = ({ command }) => {
 
     const createdAtDate = new Date(Number(command.createdAt.toString()));
 
-    return command.status === 'open' && differenceInHours(now, createdAtDate) > 24;
+    return (
+      command.status === "open" && differenceInHours(now, createdAtDate) > 24
+    );
   };
 
   return (
@@ -46,7 +65,7 @@ const CommandTitleName: React.FC<CommandTitleName> = ({ command }) => {
         sx={({ palette, spacing }) => ({
           backgroundColor: palette.common.white,
           borderRadius: spacing(0.5),
-          borderStyle: 'solid',
+          borderStyle: "solid",
           borderWidth: 1,
           borderColor: palette.common.black,
         })}

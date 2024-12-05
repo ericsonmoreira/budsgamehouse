@@ -1,11 +1,14 @@
-import { addDoc, collection } from 'firebase/firestore';
-import { firestore } from '../../services/firebaseConfig';
+import { addDoc, collection } from "firebase/firestore";
+import { firestore } from "../../services/firebaseConfig";
 
-const path = 'players';
+const path = "players";
 
 const playersCollectionRef = collection(firestore, path);
 
-const addPlayer = async ({ avatarImgUrl = '', ...rest }: Omit<Player, 'id'>) => {
+const addPlayer = async ({
+  avatarImgUrl = "",
+  ...rest
+}: Omit<Player, "id">) => {
   const card = await addDoc(playersCollectionRef, {
     avatarImgUrl,
     ...rest,

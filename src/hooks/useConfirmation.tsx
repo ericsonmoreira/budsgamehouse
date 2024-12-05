@@ -6,8 +6,8 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
-} from '@mui/material';
-import { useState } from 'react';
+} from "@mui/material";
+import { useState } from "react";
 
 interface DialogOptions {
   title: string;
@@ -48,9 +48,13 @@ const ConfirmationDialog = ({
 const useConfirmation = () => {
   const [open, setOpen] = useState(false);
 
-  const [dialogOptions, setDialogOptions] = useState<DialogOptions>({ title: '', message: '' });
+  const [dialogOptions, setDialogOptions] = useState<DialogOptions>({
+    title: "",
+    message: "",
+  });
 
-  const [resolveCallback, setResolveCallback] = useState<(value: boolean) => void>();
+  const [resolveCallback, setResolveCallback] =
+    useState<(value: boolean) => void>();
 
   const showDialog = (dialogOptions: DialogOptions) => {
     setDialogOptions(dialogOptions);
@@ -74,7 +78,7 @@ const useConfirmation = () => {
 
   return {
     showDialog,
-    confirmationDialog: (props: Omit<DialogProps, 'open' | 'close'>) => (
+    confirmationDialog: (props: Omit<DialogProps, "open" | "close">) => (
       <ConfirmationDialog
         open={open}
         handleConfirm={handleConfirm}

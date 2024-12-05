@@ -1,12 +1,12 @@
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { firestore } from '../../services/firebaseConfig';
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { firestore } from "../../services/firebaseConfig";
 
-const path = 'players';
+const path = "players";
 
 const playersCollectionRef = collection(firestore, path);
 
 const findPlayerByEmail = async (playerEmail: string) => {
-  const q = query(playersCollectionRef, where('email', '==', playerEmail));
+  const q = query(playersCollectionRef, where("email", "==", playerEmail));
 
   const { docs } = await getDocs(q);
 

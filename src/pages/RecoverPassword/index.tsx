@@ -1,18 +1,18 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Button, Grid, Stack, Typography } from '@mui/material';
-import { useMutation } from '@tanstack/react-query';
-import { AuthError } from 'firebase/auth';
-import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import Page from '../../components/Page';
-import PaperGlass from '../../components/PaperGlass';
-import ControlledTextField from '../../components/textfields/ControlledTextField';
-import { auth } from '../../services/firebaseConfig';
-import verifyFirebaseErroCode from '../../services/verifyFirebaseErroCode';
-import schema, { SchemaData } from './schema ';
+import { zodResolver } from "@hookform/resolvers/zod";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Button, Grid, Stack, Typography } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import { AuthError } from "firebase/auth";
+import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import Page from "../../components/Page";
+import PaperGlass from "../../components/PaperGlass";
+import ControlledTextField from "../../components/textfields/ControlledTextField";
+import { auth } from "../../services/firebaseConfig";
+import verifyFirebaseErroCode from "../../services/verifyFirebaseErroCode";
+import schema, { SchemaData } from "./schema ";
 
 const RecoverPassword: React.FC = () => {
   const navigate = useNavigate();
@@ -21,14 +21,15 @@ const RecoverPassword: React.FC = () => {
     resolver: zodResolver(schema),
   });
 
-  const [sendPasswordResetEmail, sending, error] = useSendPasswordResetEmail(auth);
+  const [sendPasswordResetEmail, sending, error] =
+    useSendPasswordResetEmail(auth);
 
   const { mutate: sendPasswordResetEmailMutation, isPending } = useMutation({
     mutationFn: async (email: string) => {
       await sendPasswordResetEmail(email);
     },
     onSuccess: () => {
-      toast.success('Email enviado com sucesso');
+      toast.success("Email enviado com sucesso");
     },
     onError: (e: Error) => {
       toast.error(e.message);

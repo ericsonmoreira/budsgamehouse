@@ -1,44 +1,47 @@
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import { useTheme } from '@mui/material';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
-import React, { useMemo } from 'react';
-import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
-import usePaymentsFromPlayer from '../../hooks/usePaymentsFromPlayer';
-import useSalesFromPlayer from '../../hooks/useSalesFromPlayer';
-import useTransfersFromPlayer from '../../hooks/useTransfersFromPlayer';
-import PaymentInformations from '../PaymentInformations';
-import SaleInformations from '../SaleInformations';
-import TransferInformations from '../TransferInformations';
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import { useTheme } from "@mui/material";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import React, { useMemo } from "react";
+import {
+  VerticalTimeline,
+  VerticalTimelineElement,
+} from "react-vertical-timeline-component";
+import usePaymentsFromPlayer from "../../hooks/usePaymentsFromPlayer";
+import useSalesFromPlayer from "../../hooks/useSalesFromPlayer";
+import useTransfersFromPlayer from "../../hooks/useTransfersFromPlayer";
+import PaymentInformations from "../PaymentInformations";
+import SaleInformations from "../SaleInformations";
+import TransferInformations from "../TransferInformations";
 
 type PlayerActivitiesTimeLineProps = {
   data: Player;
 };
 
-type PlayerActiviteType = 'sale' | 'payment' | 'transfer';
+type PlayerActiviteType = "sale" | "payment" | "transfer";
 
 const isSale = (obj: object): boolean => {
-  return 'products' in obj;
+  return "products" in obj;
 };
 
 const isPayment = (obj: object): boolean => {
-  return 'previousPlayerBalance' in obj || 'currentPlayerBalance' in obj;
+  return "previousPlayerBalance" in obj || "currentPlayerBalance" in obj;
 };
 
 const isTransfer = (obj: object): boolean => {
-  return 'sendingPlayerId' in obj && 'receiverPlayerId' in obj;
+  return "sendingPlayerId" in obj && "receiverPlayerId" in obj;
 };
 
 const getObjectType = (obj: object): PlayerActiviteType | undefined => {
   if (isSale(obj)) {
-    return 'sale';
+    return "sale";
   } else if (isPayment(obj)) {
-    return 'payment';
+    return "payment";
   } else if (isTransfer(obj)) {
-    return 'transfer';
+    return "transfer";
   }
 };
 
@@ -51,7 +54,11 @@ const iconRender = (obj: object) => {
 
   const playerActiviteType = getObjectType(obj);
 
-  return playerActiviteType ? iconRenderMap[playerActiviteType] : <QuestionMarkIcon />;
+  return playerActiviteType ? (
+    iconRenderMap[playerActiviteType]
+  ) : (
+    <QuestionMarkIcon />
+  );
 };
 
 const contentRender = (obj: object) => {
@@ -63,10 +70,16 @@ const contentRender = (obj: object) => {
 
   const playerActiviteType = getObjectType(obj);
 
-  return playerActiviteType ? iconRenderMap[playerActiviteType] : <QuestionMarkIcon />;
+  return playerActiviteType ? (
+    iconRenderMap[playerActiviteType]
+  ) : (
+    <QuestionMarkIcon />
+  );
 };
 
-const PlayerActivitiesTimeLine: React.FC<PlayerActivitiesTimeLineProps> = ({ data }) => {
+const PlayerActivitiesTimeLine: React.FC<PlayerActivitiesTimeLineProps> = ({
+  data,
+}) => {
   const { palette, spacing } = useTheme();
 
   const { id } = data;
@@ -105,19 +118,19 @@ const PlayerActivitiesTimeLine: React.FC<PlayerActivitiesTimeLineProps> = ({ dat
     const iconRenderMap: Record<PlayerActiviteType, React.CSSProperties> = {
       payment: {
         backgroundColor: palette.success.main,
-        boxShadow: 'none',
+        boxShadow: "none",
         color: palette.text.primary,
         padding: spacing(0.5),
       },
       sale: {
         backgroundColor: palette.primary.main,
-        boxShadow: 'none',
+        boxShadow: "none",
         color: palette.text.primary,
         padding: spacing(0.5),
       },
       transfer: {
         backgroundColor: palette.warning.main,
-        boxShadow: 'none',
+        boxShadow: "none",
         color: palette.text.primary,
         padding: spacing(0.5),
       },
@@ -128,7 +141,9 @@ const PlayerActivitiesTimeLine: React.FC<PlayerActivitiesTimeLineProps> = ({ dat
     return playerActiviteType ? iconRenderMap[playerActiviteType] : undefined;
   };
 
-  const getContentArrowStyle = (obj: object): React.CSSProperties | undefined => {
+  const getContentArrowStyle = (
+    obj: object,
+  ): React.CSSProperties | undefined => {
     const iconRenderMap: Record<PlayerActiviteType, React.CSSProperties> = {
       payment: {
         borderRightColor: palette.success.main,
@@ -148,7 +163,9 @@ const PlayerActivitiesTimeLine: React.FC<PlayerActivitiesTimeLineProps> = ({ dat
 
   const playerActivities = useMemo<Array<Sale | Payment | Transfer>>(() => {
     if (sales && payments && transfers) {
-      return [...sales, ...payments, ...transfers].sort((a, b) => b.createdAt - a.createdAt);
+      return [...sales, ...payments, ...transfers].sort(
+        (a, b) => b.createdAt - a.createdAt,
+      );
     }
 
     return [];
@@ -159,7 +176,7 @@ const PlayerActivitiesTimeLine: React.FC<PlayerActivitiesTimeLineProps> = ({ dat
       {playerActivities.map((activite, index) => (
         <VerticalTimelineElement
           key={index}
-          date={format(activite.createdAt.toDate(), 'PPPp', { locale: ptBR })}
+          date={format(activite.createdAt.toDate(), "PPPp", { locale: ptBR })}
           contentArrowStyle={getContentArrowStyle(activite)}
           icon={iconRender(activite)}
           iconStyle={getIconStyle(activite)}

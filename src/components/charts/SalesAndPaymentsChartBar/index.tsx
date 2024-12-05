@@ -1,4 +1,4 @@
-import { Box, Paper } from '@mui/material';
+import { Box, Paper } from "@mui/material";
 import {
   AllSeriesType,
   BarPlot,
@@ -7,10 +7,10 @@ import {
   ChartsYAxis,
   LinePlot,
   ResponsiveChartContainer,
-} from '@mui/x-charts';
-import { eachDayOfInterval, endOfMonth, format, startOfMonth } from 'date-fns';
-import React, { useMemo } from 'react';
-import { formatterCurrencyBRL } from '../../../utils/formatters';
+} from "@mui/x-charts";
+import { eachDayOfInterval, endOfMonth, format, startOfMonth } from "date-fns";
+import React, { useMemo } from "react";
+import { formatterCurrencyBRL } from "../../../utils/formatters";
 
 type SalesAndPaymentsChartBarProps = {
   sales: Sale[] | undefined;
@@ -18,28 +18,44 @@ type SalesAndPaymentsChartBarProps = {
   month: string;
 };
 
-const SalesAndPaymentsChartBar: React.FC<SalesAndPaymentsChartBarProps> = ({ sales, payments, month }) => {
-  const [mes, ano] = month.split('/');
+const SalesAndPaymentsChartBar: React.FC<SalesAndPaymentsChartBarProps> = ({
+  sales,
+  payments,
+  month,
+}) => {
+  const [mes, ano] = month.split("/");
 
   const primeiroDia = startOfMonth(new Date(Number(ano), Number(mes) - 1));
 
   const ultimoDia = endOfMonth(new Date(Number(ano), Number(mes) - 1));
 
-  const todasAsDatasDoMes = eachDayOfInterval({ start: primeiroDia, end: ultimoDia });
+  const todasAsDatasDoMes = eachDayOfInterval({
+    start: primeiroDia,
+    end: ultimoDia,
+  });
 
-  const calculateSalesByDayOfMonth = useMemo<{ day: string; value: number }[]>(() => {
-    const salesByDayOfMonth: { day: string; value: number }[] = todasAsDatasDoMes.map((date) => ({
-      day: format(date, 'dd/MM'),
-      value: 0,
-    }));
+  const calculateSalesByDayOfMonth = useMemo<
+    { day: string; value: number }[]
+  >(() => {
+    const salesByDayOfMonth: { day: string; value: number }[] =
+      todasAsDatasDoMes.map((date) => ({
+        day: format(date, "dd/MM"),
+        value: 0,
+      }));
 
     if (sales) {
       for (const sale of sales) {
-        const day = format(sale.createdAt.toDate(), 'dd/MM');
+        const day = format(sale.createdAt.toDate(), "dd/MM");
 
-        const value = sale.products.reduce((acc, curr) => acc + curr.amount * curr.price, 0) + (sale?.looseValue || 0);
+        const value =
+          sale.products.reduce(
+            (acc, curr) => acc + curr.amount * curr.price,
+            0,
+          ) + (sale?.looseValue || 0);
 
-        const existingDayIndex = salesByDayOfMonth.findIndex((item) => item.day === day);
+        const existingDayIndex = salesByDayOfMonth.findIndex(
+          (item) => item.day === day,
+        );
 
         if (existingDayIndex >= 0) {
           salesByDayOfMonth[existingDayIndex].value += value;
@@ -51,18 +67,21 @@ const SalesAndPaymentsChartBar: React.FC<SalesAndPaymentsChartBarProps> = ({ sal
   }, [sales, todasAsDatasDoMes]);
 
   const calculatePaymentsByDayOfMonth = useMemo(() => {
-    const paymentsByDayOfMonth: { day: string; value: number }[] = todasAsDatasDoMes.map((date) => ({
-      day: format(date, 'dd/MM'),
-      value: 0,
-    }));
+    const paymentsByDayOfMonth: { day: string; value: number }[] =
+      todasAsDatasDoMes.map((date) => ({
+        day: format(date, "dd/MM"),
+        value: 0,
+      }));
 
     if (payments) {
       for (const payment of payments) {
-        const day = format(payment.createdAt.toDate(), 'dd/MM');
+        const day = format(payment.createdAt.toDate(), "dd/MM");
 
         const value = payment.value;
 
-        const existingDayIndex = paymentsByDayOfMonth.findIndex((item) => item.day === day);
+        const existingDayIndex = paymentsByDayOfMonth.findIndex(
+          (item) => item.day === day,
+        );
 
         if (existingDayIndex >= 0) {
           paymentsByDayOfMonth[existingDayIndex].value += value;
@@ -78,33 +97,33 @@ const SalesAndPaymentsChartBar: React.FC<SalesAndPaymentsChartBarProps> = ({ sal
   const series = useMemo<AllSeriesType[]>(
     () => [
       {
-        type: 'bar',
-        label: 'Venda',
+        type: "bar",
+        label: "Venda",
         data: calculateSalesByDayOfMonth.map((elem) => elem.value),
         valueFormatter: (value) => formatterCurrencyBRL.format(value),
       },
       {
-        type: 'line',
-        label: 'Pagamento',
+        type: "line",
+        label: "Pagamento",
         data: calculatePaymentsByDayOfMonth.map((elem) => elem.value),
         valueFormatter: (value) => formatterCurrencyBRL.format(value),
       },
     ],
-    [calculateSalesByDayOfMonth, calculatePaymentsByDayOfMonth]
+    [calculateSalesByDayOfMonth, calculatePaymentsByDayOfMonth],
   );
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', height: 300 }} variant="outlined">
+    <Box sx={{ width: "100%" }}>
+      <Paper sx={{ width: "100%", height: 300 }} variant="outlined">
         <ResponsiveChartContainer
           title="Vendas & Pagamentos por dia"
           series={series}
           xAxis={[
             {
-              id: 'days',
+              id: "days",
               data: todasAsDatasDoMes,
-              scaleType: 'band',
-              valueFormatter: (date: Date) => format(date, 'dd/MM'),
+              scaleType: "band",
+              valueFormatter: (date: Date) => format(date, "dd/MM"),
             },
           ]}
         >

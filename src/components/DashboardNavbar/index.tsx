@@ -1,12 +1,22 @@
-import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, AppBarProps, Avatar, Badge, Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { useMemo, useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useLocalStorage } from 'usehooks-ts';
-import { ManaBIcon, ManaWIcon } from '../../icons';
-import { auth } from '../../services/firebaseConfig';
-import ViewUserDialog from '../dialogs/users/ViewUserDialog';
+import MenuIcon from "@mui/icons-material/Menu";
+import {
+  AppBar,
+  AppBarProps,
+  Avatar,
+  Badge,
+  Box,
+  IconButton,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { useMemo, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useLocalStorage } from "usehooks-ts";
+import { ManaBIcon, ManaWIcon } from "../../icons";
+import { auth } from "../../services/firebaseConfig";
+import ViewUserDialog from "../dialogs/users/ViewUserDialog";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -17,10 +27,13 @@ type DashboardNavbarProps = {
   onSidebarOpen(): void;
 };
 
-const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSidebarOpen, ...rest }) => {
+const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
+  onSidebarOpen,
+  ...rest
+}) => {
   const [viewUserDialogOpen, setViewUserDialogOpen] = useState(false);
 
-  const [isDarkTheme, setIsDarkTheme] = useLocalStorage('darkTheme', true);
+  const [isDarkTheme, setIsDarkTheme] = useLocalStorage("darkTheme", true);
 
   const [user] = useAuthState(auth);
 
@@ -57,8 +70,8 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSideb
           onClick={onSidebarOpen}
           sx={{
             display: {
-              xs: 'inline-flex',
-              lg: 'none',
+              xs: "inline-flex",
+              lg: "none",
             },
             marginRight: 2,
           }}
@@ -68,12 +81,17 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSideb
         </IconButton>
         <Box
           sx={{
-            display: 'flex',
+            display: "flex",
           }}
         >
-          <img src="/buds-logo.png" alt="Buds Logo" style={{ width: '4rem' }} />
+          <img src="/buds-logo.png" alt="Buds Logo" style={{ width: "4rem" }} />
         </Box>
-        <Box flexGrow={1} display="flex" alignItems="center" justifyContent={'center'}>
+        <Box
+          flexGrow={1}
+          display="flex"
+          alignItems="center"
+          justifyContent={"center"}
+        >
           <Typography variant="h5" color="text.primary" fontWeight={900}>
             Buds Game House
           </Typography>
@@ -86,10 +104,20 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSideb
           </Tooltip>
           {user && (
             <Tooltip title="Usuário">
-              <IconButton size="small" onClick={() => setViewUserDialogOpen(true)}>
-                <Badge badgeContent={1} color="primary" invisible={registrationCompleted}>
+              <IconButton
+                size="small"
+                onClick={() => setViewUserDialogOpen(true)}
+              >
+                <Badge
+                  badgeContent={1}
+                  color="primary"
+                  invisible={registrationCompleted}
+                >
                   <Avatar
-                    sx={({ spacing }) => ({ width: spacing(4), height: spacing(4) })}
+                    sx={({ spacing }) => ({
+                      width: spacing(4),
+                      height: spacing(4),
+                    })}
                     alt={user.displayName ?? undefined}
                     src={user.photoURL ?? undefined}
                   />
@@ -99,7 +127,10 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({ onSideb
           )}
         </Box>
       </Toolbar>
-      <ViewUserDialog open={viewUserDialogOpen} setOpen={setViewUserDialogOpen} />
+      <ViewUserDialog
+        open={viewUserDialogOpen}
+        setOpen={setViewUserDialogOpen}
+      />
     </DashboardNavbarRoot>
   );
 };

@@ -1,18 +1,24 @@
-import { InputAdornment, TextField, TextFieldProps } from '@mui/material';
-import { FieldPath, FieldValues, UseControllerProps, useController } from 'react-hook-form';
-import { PatternFormat, PatternFormatProps } from 'react-number-format';
-import { PhoneIcon } from '../../../icons';
+import { InputAdornment, TextField, TextFieldProps } from "@mui/material";
+import {
+  FieldPath,
+  FieldValues,
+  UseControllerProps,
+  useController,
+} from "react-hook-form";
+import { PatternFormat, PatternFormatProps } from "react-number-format";
+import { PhoneIcon } from "../../../icons";
 
 type ControlledPhoneTextFieldProps<
   TextFieldValues extends FieldValues,
-  TextFieldName extends FieldPath<TextFieldValues>
-> = UseControllerProps<TextFieldValues, TextFieldName> & Omit<PatternFormatProps<TextFieldProps>, 'format'>;
+  TextFieldName extends FieldPath<TextFieldValues>,
+> = UseControllerProps<TextFieldValues, TextFieldName> &
+  Omit<PatternFormatProps<TextFieldProps>, "format">;
 
 const ControlledPhoneTextField = <
   TextFieldValues extends FieldValues,
-  TextFieldName extends FieldPath<TextFieldValues>
+  TextFieldName extends FieldPath<TextFieldValues>,
 >(
-  props: ControlledPhoneTextFieldProps<TextFieldValues, TextFieldName>
+  props: ControlledPhoneTextFieldProps<TextFieldValues, TextFieldName>,
 ) => {
   const { control, name, ...rest } = props;
 
@@ -36,7 +42,7 @@ const ControlledPhoneTextField = <
             <PhoneIcon />
           </InputAdornment>
         ),
-        inputMode: 'tel',
+        inputMode: "tel",
       }}
     />
   );

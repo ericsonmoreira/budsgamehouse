@@ -1,7 +1,16 @@
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { Box, Button, Card, CardActions, CardContent, CardHeader, Skeleton, SvgIcon, Typography } from '@mui/material';
-
-import { useNavigate } from 'react-router-dom';
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Skeleton,
+  SvgIcon,
+  Typography,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export type HomeCardProps = {
   title: string;
@@ -12,7 +21,14 @@ export type HomeCardProps = {
   isLoading?: boolean;
 };
 
-const HomeCard: React.FC<HomeCardProps> = ({ title, subheader, amount, icon: Icon, to, isLoading }) => {
+const HomeCard: React.FC<HomeCardProps> = ({
+  title,
+  subheader,
+  amount,
+  icon: Icon,
+  to,
+  isLoading,
+}) => {
   const navigate = useNavigate();
 
   return (
@@ -21,15 +37,17 @@ const HomeCard: React.FC<HomeCardProps> = ({ title, subheader, amount, icon: Ico
       <CardContent>
         <Box
           sx={{
-            display: 'flex',
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            display: "flex",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "space-between",
             fontSize: 50,
           }}
         >
           <Icon fontSize="inherit" color="secondary" />
-          <Typography fontSize="inherit">{isLoading ? <Skeleton variant="text" width={50} /> : amount}</Typography>
+          <Typography fontSize="inherit">
+            {isLoading ? <Skeleton variant="text" width={50} /> : amount}
+          </Typography>
         </Box>
       </CardContent>
       <CardActions
@@ -37,10 +55,14 @@ const HomeCard: React.FC<HomeCardProps> = ({ title, subheader, amount, icon: Ico
         sx={({ palette }) => ({
           borderTop: 1,
           borderTopColor: palette.divider,
-          justifyContent: 'flex-end',
+          justifyContent: "flex-end",
         })}
       >
-        <Button variant="text" endIcon={<ArrowForwardIcon />} onClick={() => navigate(to)}>
+        <Button
+          variant="text"
+          endIcon={<ArrowForwardIcon />}
+          onClick={() => navigate(to)}
+        >
           Acessar
         </Button>
       </CardActions>

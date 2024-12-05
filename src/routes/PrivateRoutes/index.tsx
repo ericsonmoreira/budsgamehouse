@@ -1,7 +1,7 @@
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { Navigate, Outlet } from 'react-router-dom';
-import LoadingTransition from '../../components/LoadingTransition';
-import { auth } from '../../services/firebaseConfig';
+import { useAuthState } from "react-firebase-hooks/auth";
+import { Navigate, Outlet } from "react-router-dom";
+import LoadingTransition from "../../components/LoadingTransition";
+import { auth } from "../../services/firebaseConfig";
 
 const PrivateRoutes: React.FC = () => {
   const [user, loading] = useAuthState(auth);

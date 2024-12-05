@@ -1,6 +1,13 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
-import { firestore } from '../services/firebaseConfig';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
+import { firestore } from "../services/firebaseConfig";
 
 type TradingCardsData = {
   id: string;
@@ -18,14 +25,18 @@ type AddTradingCardsData = {
 function useTradingCards() {
   const queryClient = useQueryClient();
 
-  const tradingCardsCollectionRef = collection(firestore, 'trading-cards');
+  const tradingCardsCollectionRef = collection(firestore, "trading-cards");
 
   const { data: cards, ...rest } = useQuery({
-    queryKey: ['useTradingCards'],
+    queryKey: ["useTradingCards"],
     queryFn: async () => {
       const { docs } = await getDocs(tradingCardsCollectionRef);
 
-      return [...docs.map((doc) => ({ id: doc.id, ...doc.data() } as TradingCardsData))];
+      return [
+        ...docs.map(
+          (doc) => ({ id: doc.id, ...doc.data() }) as TradingCardsData,
+        ),
+      ];
     },
   });
 
@@ -37,7 +48,7 @@ function useTradingCards() {
         imgUrl,
       });
 
-      await queryClient.invalidateQueries({ queryKey: ['useTradingCards'] });
+      await queryClient.invalidateQueries({ queryKey: ["useTradingCards"] });
 
       return card;
     },
@@ -45,21 +56,21 @@ function useTradingCards() {
 
   const { mutate: updateTradingCard } = useMutation({
     mutationFn: async ({ id, name, amount, imgUrl }: TradingCardsData) => {
-      const cardDoc = doc(firestore, 'trading-cards', id);
+      const cardDoc = doc(firestore, "trading-cards", id);
 
       await updateDoc(cardDoc, { name, amount, imgUrl });
 
-      await queryClient.invalidateQueries({ queryKey: ['useTradingCards'] });
+      await queryClient.invalidateQueries({ queryKey: ["useTradingCards"] });
     },
   });
 
   const { mutate: deleteTradingCard } = useMutation({
     mutationFn: async (id: string) => {
-      const cardDoc = doc(firestore, 'trading-cards', id);
+      const cardDoc = doc(firestore, "trading-cards", id);
 
       await deleteDoc(cardDoc);
 
-      await queryClient.invalidateQueries({ queryKey: ['useTradingCards'] });
+      await queryClient.invalidateQueries({ queryKey: ["useTradingCards"] });
     },
   });
 

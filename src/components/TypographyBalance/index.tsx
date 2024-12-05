@@ -1,6 +1,6 @@
-import { Typography, TypographyProps } from '@mui/material';
-import React from 'react';
-import { formatterCurrencyBRL } from '../../utils/formatters';
+import { Typography, TypographyProps } from "@mui/material";
+import React from "react";
+import { formatterCurrencyBRL } from "../../utils/formatters";
 
 type TypographyBalanceProps = {
   balance: number;
@@ -8,15 +8,18 @@ type TypographyBalanceProps = {
 
 const getColor = (balenace: number) => {
   if (balenace > 0) {
-    return 'green';
+    return "green";
   } else if (balenace < 0) {
-    return 'error';
+    return "error";
   } else {
-    return 'inherit';
+    return "inherit";
   }
 };
 
-const TypographyBalance: React.FC<TypographyBalanceProps> = ({ balance, ...rest }) => {
+const TypographyBalance: React.FC<TypographyBalanceProps> = ({
+  balance,
+  ...rest
+}) => {
   return (
     <Typography fontWeight={700} color={getColor(balance)} {...rest}>
       {formatterCurrencyBRL.format(balance)}

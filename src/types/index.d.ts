@@ -1,4 +1,4 @@
-declare type WantedCardPriority = 'high' | 'medium' | 'low';
+declare type WantedCardPriority = "high" | "medium" | "low";
 
 declare interface Player {
   id: string;
@@ -63,7 +63,7 @@ declare interface Payment {
   createdAt: Timestamp;
 }
 
-type CommandStatus = 'open' | 'closed' | 'canceled';
+type CommandStatus = "open" | "closed" | "canceled";
 
 declare interface Command {
   id: string;

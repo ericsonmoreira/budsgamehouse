@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Box,
   Button,
@@ -9,13 +9,13 @@ import {
   DialogProps,
   DialogTitle,
   Stack,
-} from '@mui/material';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import useTradingCards from '../../../../hooks/useTradingCards';
-import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema from './schema ';
+} from "@mui/material";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import useTradingCards from "../../../../hooks/useTradingCards";
+import ControlledTextField from "../../../textfields/ControlledTextField";
+import schema from "./schema ";
 
 export type TradingCardUpdateData = {
   id: string;
@@ -37,25 +37,26 @@ type UpdateTradingCardDialogFormData = {
   amount: string;
 };
 
-const UpdateTradingCardDialog: React.FC<UpdateTradingCardDialogProps & DialogProps> = ({
-  title,
-  subTitle,
-  setOpen,
-  tradingCardToUpdate,
-  ...rest
-}) => {
+const UpdateTradingCardDialog: React.FC<
+  UpdateTradingCardDialogProps & DialogProps
+> = ({ title, subTitle, setOpen, tradingCardToUpdate, ...rest }) => {
   const { id, name, imgUrl, amount } = tradingCardToUpdate;
 
   const { updateTradingCard } = useTradingCards();
 
-  const { control, handleSubmit, setValue } = useForm<UpdateTradingCardDialogFormData>({
-    resolver: yupResolver(schema),
-  });
+  const { control, handleSubmit, setValue } =
+    useForm<UpdateTradingCardDialogFormData>({
+      resolver: yupResolver(schema),
+    });
 
-  const handleConfirmAction = ({ name, amount, imgUrl }: UpdateTradingCardDialogFormData) => {
+  const handleConfirmAction = ({
+    name,
+    amount,
+    imgUrl,
+  }: UpdateTradingCardDialogFormData) => {
     updateTradingCard({ id, name, amount: Number(amount), imgUrl });
 
-    toast.success('Card Atualizado com sucesso!');
+    toast.success("Card Atualizado com sucesso!");
 
     setOpen(false);
   };
@@ -65,9 +66,9 @@ const UpdateTradingCardDialog: React.FC<UpdateTradingCardDialogProps & DialogPro
   };
 
   useEffect(() => {
-    setValue('name', name);
-    setValue('amount', amount);
-    setValue('imgUrl', imgUrl);
+    setValue("name", name);
+    setValue("amount", amount);
+    setValue("imgUrl", imgUrl);
   }, [tradingCardToUpdate]);
 
   return (
@@ -77,7 +78,7 @@ const UpdateTradingCardDialog: React.FC<UpdateTradingCardDialogProps & DialogPro
         <DialogContentText>{subTitle}</DialogContentText>
         <Box
           sx={{
-            display: 'flex',
+            display: "flex",
             marginTop: 2,
           }}
         >
@@ -85,12 +86,19 @@ const UpdateTradingCardDialog: React.FC<UpdateTradingCardDialogProps & DialogPro
           <Stack
             spacing={2}
             sx={{
-              display: 'flex',
+              display: "flex",
               flex: 1,
               marginLeft: 2,
             }}
           >
-            <ControlledTextField name="name" control={control} variant="outlined" size="small" label="Nome" disabled />
+            <ControlledTextField
+              name="name"
+              control={control}
+              variant="outlined"
+              size="small"
+              label="Nome"
+              disabled
+            />
             <ControlledTextField
               name="amount"
               control={control}
@@ -104,7 +112,12 @@ const UpdateTradingCardDialog: React.FC<UpdateTradingCardDialogProps & DialogPro
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="error" disableElevation onClick={handleCancelAction}>
+        <Button
+          variant="contained"
+          color="error"
+          disableElevation
+          onClick={handleCancelAction}
+        >
           Cancelar
         </Button>
         <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>

@@ -1,7 +1,7 @@
-import * as z from 'zod';
+import * as z from "zod";
 
 const schema = z.object({
-  paymentValue: z.coerce.number({ required_error: 'Campo obrigatório' }),
+  paymentValue: z.coerce.number({ required_error: "Campo obrigatório" }),
   description: z.string(),
 });
 

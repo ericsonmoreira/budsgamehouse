@@ -1,17 +1,23 @@
-import { InputAdornment, TextField, TextFieldProps } from '@mui/material';
-import { FieldPath, FieldValues, UseControllerProps, useController } from 'react-hook-form';
-import { NumberFormatBaseProps, NumericFormat } from 'react-number-format';
+import { InputAdornment, TextField, TextFieldProps } from "@mui/material";
+import {
+  FieldPath,
+  FieldValues,
+  UseControllerProps,
+  useController,
+} from "react-hook-form";
+import { NumberFormatBaseProps, NumericFormat } from "react-number-format";
 
 type ControlledCurrencyTextFieldProps<
   TextFieldValues extends FieldValues,
-  TextFieldName extends FieldPath<TextFieldValues>
-> = UseControllerProps<TextFieldValues, TextFieldName> & NumberFormatBaseProps<TextFieldProps>;
+  TextFieldName extends FieldPath<TextFieldValues>,
+> = UseControllerProps<TextFieldValues, TextFieldName> &
+  NumberFormatBaseProps<TextFieldProps>;
 
 const ControlledCurrencyTextField = <
   TextFieldValues extends FieldValues,
-  TextFieldName extends FieldPath<TextFieldValues>
+  TextFieldName extends FieldPath<TextFieldValues>,
 >(
-  props: ControlledCurrencyTextFieldProps<TextFieldValues, TextFieldName>
+  props: ControlledCurrencyTextFieldProps<TextFieldValues, TextFieldName>,
 ) => {
   const { control, name, ...rest } = props;
 

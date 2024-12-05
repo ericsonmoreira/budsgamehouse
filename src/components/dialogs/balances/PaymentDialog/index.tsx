@@ -1,5 +1,5 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { zodResolver } from "@hookform/resolvers/zod";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {
   Backdrop,
   Button,
@@ -13,21 +13,21 @@ import {
   Grid,
   Stack,
   Typography,
-} from '@mui/material';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Timestamp } from 'firebase/firestore';
-import React from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
-import addPayment from '../../../../resources/payments/addPayment';
-import updatePlayer from '../../../../resources/players/updatePlayer';
-import { auth } from '../../../../services/firebaseConfig';
-import AvatarPlayer from '../../../AvatarPlayer';
-import TypographyBalance from '../../../TypographyBalance';
-import ControlledCurrencyTextField from '../../../textfields/ControlledCurrencyTextField';
-import ControlledTextField from '../../../textfields/ControlledTextField';
-import schema from './schema ';
+} from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Timestamp } from "firebase/firestore";
+import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import addPayment from "../../../../resources/payments/addPayment";
+import updatePlayer from "../../../../resources/players/updatePlayer";
+import { auth } from "../../../../services/firebaseConfig";
+import AvatarPlayer from "../../../AvatarPlayer";
+import TypographyBalance from "../../../TypographyBalance";
+import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
+import ControlledTextField from "../../../textfields/ControlledTextField";
+import schema from "./schema ";
 
 type PaymentDialogProps = {
   title: string;
@@ -41,65 +41,83 @@ type PaymentDialogFormData = {
   description: string;
 };
 
-const PaymentDialog: React.FC<PaymentDialogProps> = ({ title, subTitle, playerToUpdate, setOpen, ...rest }) => {
+const PaymentDialog: React.FC<PaymentDialogProps> = ({
+  title,
+  subTitle,
+  playerToUpdate,
+  setOpen,
+  ...rest
+}) => {
   const queryClient = useQueryClient();
 
   const [user] = useAuthState(auth);
 
-  const { control, handleSubmit, watch, reset } = useForm<PaymentDialogFormData>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      paymentValue: 0,
-      description: '',
-    },
-  });
+  const { control, handleSubmit, watch, reset } =
+    useForm<PaymentDialogFormData>({
+      resolver: zodResolver(schema),
+      defaultValues: {
+        paymentValue: 0,
+        description: "",
+      },
+    });
 
-  const paymentValueWatch = watch('paymentValue');
+  const paymentValueWatch = watch("paymentValue");
 
   const handleClose = () => {
     setOpen(false);
 
     reset({
       paymentValue: 0,
-      description: '',
+      description: "",
     });
   };
 
-  const { mutate: paymentMutate, isPending: paymentMutateIsloading } = useMutation({
-    mutationFn: async ({ paymentValue, description }: PaymentDialogFormData) => {
-      if (user) {
-        await updatePlayer({ ...playerToUpdate, balance: playerToUpdate.balance + paymentValue });
+  const { mutate: paymentMutate, isPending: paymentMutateIsloading } =
+    useMutation({
+      mutationFn: async ({
+        paymentValue,
+        description,
+      }: PaymentDialogFormData) => {
+        if (user) {
+          await updatePlayer({
+            ...playerToUpdate,
+            balance: playerToUpdate.balance + paymentValue,
+          });
 
-        await addPayment({
-          previousPlayerBalance: playerToUpdate.balance,
-          currentPlayerBalance: playerToUpdate.balance + paymentValue,
-          value: paymentValue,
-          description,
-          createdAt: Timestamp.now(),
-          playerId: playerToUpdate.id,
-          userId: user.uid,
-        });
+          await addPayment({
+            previousPlayerBalance: playerToUpdate.balance,
+            currentPlayerBalance: playerToUpdate.balance + paymentValue,
+            value: paymentValue,
+            description,
+            createdAt: Timestamp.now(),
+            playerId: playerToUpdate.id,
+            userId: user.uid,
+          });
 
-        await queryClient.invalidateQueries({ queryKey: ['usePlayers'] });
+          await queryClient.invalidateQueries({ queryKey: ["usePlayers"] });
 
-        await queryClient.invalidateQueries({ queryKey: ['usePlayer', playerToUpdate.id] });
+          await queryClient.invalidateQueries({
+            queryKey: ["usePlayer", playerToUpdate.id],
+          });
 
-        await queryClient.invalidateQueries({ queryKey: ['usePayments'] });
+          await queryClient.invalidateQueries({ queryKey: ["usePayments"] });
 
-        await queryClient.invalidateQueries({ queryKey: ['usePaymentsFromPlayer', playerToUpdate.id] });
-      } else {
-        throw new Error('Usuário não autenticado');
-      }
-    },
-    onSuccess: () => {
-      handleClose();
+          await queryClient.invalidateQueries({
+            queryKey: ["usePaymentsFromPlayer", playerToUpdate.id],
+          });
+        } else {
+          throw new Error("Usuário não autenticado");
+        }
+      },
+      onSuccess: () => {
+        handleClose();
 
-      toast.success('Pagamento efetuado com sucesso');
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
-  });
+        toast.success("Pagamento efetuado com sucesso");
+      },
+      onError: (error: Error) => {
+        toast.error(error.message);
+      },
+    });
 
   const handleConfirm = (data: PaymentDialogFormData) => {
     paymentMutate(data);
@@ -119,10 +137,16 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({ title, subTitle, playerTo
           </Grid>
           <Grid item xs={12} md={8} display="flex" alignItems="center">
             <Stack direction="row" spacing={1} alignItems="center">
-              <TypographyBalance variant="h5" balance={playerToUpdate.balance} />
+              <TypographyBalance
+                variant="h5"
+                balance={playerToUpdate.balance}
+              />
               <ArrowForwardIcon fontSize="large" />
               <TypographyBalance variant="h5" balance={paymentValueWatch} />
-              <TypographyBalance variant="h5" balance={playerToUpdate.balance + Number(paymentValueWatch)} />
+              <TypographyBalance
+                variant="h5"
+                balance={playerToUpdate.balance + Number(paymentValueWatch)}
+              />
             </Stack>
           </Grid>
           <Grid item xs={12}>
@@ -154,7 +178,10 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({ title, subTitle, playerTo
         </Button>
         <Button onClick={handleSubmit(handleConfirm)}>Confirmar</Button>
       </DialogActions>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={paymentMutateIsloading}>
+      <Backdrop
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={paymentMutateIsloading}
+      >
         <CircularProgress color="primary" />
       </Backdrop>
     </Dialog>

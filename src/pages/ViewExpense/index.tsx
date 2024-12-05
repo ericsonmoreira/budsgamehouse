@@ -10,12 +10,12 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from '@mui/material';
-import { useParams } from 'react-router-dom';
-import Page from '../../components/Page';
-import PageHeader from '../../components/PageHeader';
-import TypographyBalance from '../../components/TypographyBalance';
-import useExpense from '../../hooks/useExpense';
+} from "@mui/material";
+import { useParams } from "react-router-dom";
+import Page from "../../components/Page";
+import PageHeader from "../../components/PageHeader";
+import TypographyBalance from "../../components/TypographyBalance";
+import useExpense from "../../hooks/useExpense";
 
 type ViewExpenseParams = {
   id: string;
@@ -36,7 +36,9 @@ const ViewExpense: React.FC = () => {
               <Typography variant="h6" gutterBottom>
                 {expense.name}
               </Typography>
-              <Typography color="text.secondary">{expense.description}</Typography>
+              <Typography color="text.secondary">
+                {expense.description}
+              </Typography>
               <TypographyBalance balance={-expense.value} />
               <Box mt={1}>
                 <Typography gutterBottom>Produtos</Typography>
@@ -46,7 +48,11 @@ const ViewExpense: React.FC = () => {
                   <TableHead>
                     <TableRow>
                       <TableCell style={{ flex: 1 }}>Produto</TableCell>
-                      <TableCell width="20%" style={{ minWidth: 100 }} align="right">
+                      <TableCell
+                        width="20%"
+                        style={{ minWidth: 100 }}
+                        align="right"
+                      >
                         Quantidade
                       </TableCell>
                     </TableRow>
@@ -60,7 +66,9 @@ const ViewExpense: React.FC = () => {
                     ))}
                     {expense.products.length === 0 && (
                       <TableRow>
-                        <TableCell colSpan={2}>Nenhum Produto Selecionado</TableCell>
+                        <TableCell colSpan={2}>
+                          Nenhum Produto Selecionado
+                        </TableCell>
                       </TableRow>
                     )}
                   </TableBody>

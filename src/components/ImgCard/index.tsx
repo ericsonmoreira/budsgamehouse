@@ -1,15 +1,17 @@
-import { Box, Skeleton } from '@mui/material';
-import React, { ImgHTMLAttributes, useState } from 'react';
-import ReactCardFlip from 'react-card-flip';
-import { Card } from 'scryfall-sdk';
-import NoCardImg from '../../assets/nocard.jpg';
+import { Box, Skeleton } from "@mui/material";
+import { ImgHTMLAttributes, useState } from "react";
+import ReactCardFlip from "react-card-flip";
+import { Card } from "scryfall-sdk";
+import NoCardImg from "../../assets/nocard.jpg";
 
 type ImgCardProps = {
   card?: Card | null;
   isLoading: boolean;
 };
 
-const ImgCard: React.FC<ImgCardProps & ImgHTMLAttributes<HTMLImageElement>> = (props) => {
+const ImgCard: React.FC<ImgCardProps & ImgHTMLAttributes<HTMLImageElement>> = (
+  props,
+) => {
   const { card, isLoading, ...rest } = props;
 
   const [isFlipped, setIsFlipped] = useState(false);
@@ -20,15 +22,21 @@ const ImgCard: React.FC<ImgCardProps & ImgHTMLAttributes<HTMLImageElement>> = (p
 
   if (card.card_faces?.length > 1) {
     return (
-      <Box sx={{ display: 'flex' }}>
-        <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal" infinite>
+      <Box sx={{ display: "flex" }}>
+        <ReactCardFlip
+          isFlipped={isFlipped}
+          flipDirection="horizontal"
+          infinite
+        >
           <img
+            alt="card-image"
             src={card.card_faces[0].image_uris?.normal || NoCardImg}
             {...rest}
             width={100}
             onClick={() => setIsFlipped((old) => !old)}
           />
           <img
+            alt="card-image"
             src={card.card_faces[1].image_uris?.normal || NoCardImg}
             {...rest}
             width={100}
@@ -39,7 +47,14 @@ const ImgCard: React.FC<ImgCardProps & ImgHTMLAttributes<HTMLImageElement>> = (p
     );
   }
 
-  return <img src={card.image_uris?.normal || NoCardImg} {...rest} width={100} />;
+  return (
+    <img
+      alt="image-card"
+      src={card.image_uris?.normal || NoCardImg}
+      {...rest}
+      width={100}
+    />
+  );
 };
 
 export default ImgCard;

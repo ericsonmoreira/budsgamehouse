@@ -1,17 +1,22 @@
-import { TextFieldProps } from '@mui/material';
-import { FieldPath, FieldValues, useController, UseControllerProps } from 'react-hook-form';
-import PasswordTextField from '../../PasswordTextField';
+import { TextFieldProps } from "@mui/material";
+import {
+  FieldPath,
+  FieldValues,
+  useController,
+  UseControllerProps,
+} from "react-hook-form";
+import PasswordTextField from "../../PasswordTextField";
 
 type ControlledPasswordTextFieldProps<
   TextFieldValues extends FieldValues,
-  TextFieldName extends FieldPath<TextFieldValues>
+  TextFieldName extends FieldPath<TextFieldValues>,
 > = UseControllerProps<TextFieldValues, TextFieldName> & TextFieldProps;
 
 const ControlledPasswordTextField = <
   TextFieldValues extends FieldValues,
-  TextFieldName extends FieldPath<TextFieldValues>
+  TextFieldName extends FieldPath<TextFieldValues>,
 >(
-  props: ControlledPasswordTextFieldProps<TextFieldValues, TextFieldName>
+  props: ControlledPasswordTextFieldProps<TextFieldValues, TextFieldName>,
 ) => {
   const { control, name, ...rest } = props;
 
@@ -28,7 +33,7 @@ const ControlledPasswordTextField = <
       error={!!error}
       helperText={error?.message}
       InputProps={{
-        inputMode: 'email',
+        inputMode: "email",
       }}
     />
   );

@@ -1,18 +1,20 @@
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import ForwardIcon from '@mui/icons-material/Forward';
-import { Box, Grid, Paper, Stack, Typography } from '@mui/material';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
-import React from 'react';
-import usePlayer from '../../hooks/usePlayer';
-import AvatarPlayer from '../AvatarPlayer';
-import TypographyBalance from '../TypographyBalance';
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import ForwardIcon from "@mui/icons-material/Forward";
+import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import React from "react";
+import usePlayer from "../../hooks/usePlayer";
+import AvatarPlayer from "../AvatarPlayer";
+import TypographyBalance from "../TypographyBalance";
 
 type TransferInformationsProps = {
   data: Transfer;
 };
 
-const TransferInformations: React.FC<TransferInformationsProps> = ({ data }) => {
+const TransferInformations: React.FC<TransferInformationsProps> = ({
+  data,
+}) => {
   const { receiverPlayerId, sendingPlayerId, value, description } = data;
 
   const { data: receiverPlayer } = usePlayer(receiverPlayerId);
@@ -27,7 +29,9 @@ const TransferInformations: React.FC<TransferInformationsProps> = ({ data }) => 
         </Typography>
         <Stack direction="row" spacing={1} alignItems="center" mb={1}>
           <CalendarMonthIcon fontSize="small" />
-          <Typography>{format(data.createdAt.toDate(), 'PPPp', { locale: ptBR })}</Typography>
+          <Typography>
+            {format(data.createdAt.toDate(), "PPPp", { locale: ptBR })}
+          </Typography>
         </Stack>
         {sendingPlayer && receiverPlayer && (
           <Grid container alignItems="center" spacing={1}>
@@ -38,13 +42,23 @@ const TransferInformations: React.FC<TransferInformationsProps> = ({ data }) => 
               </Stack>
             </Grid>
             <Grid item xs={12} sm={2}>
-              <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                flexDirection="column"
+              >
                 <TypographyBalance balance={value} />
                 <ForwardIcon />
               </Box>
             </Grid>
             <Grid item xs={12} sm={5}>
-              <Stack direction="row" spacing={1} alignItems="center" justifyContent="flex-end">
+              <Stack
+                direction="row"
+                spacing={1}
+                alignItems="center"
+                justifyContent="flex-end"
+              >
                 <AvatarPlayer playerId={receiverPlayer.id} />
                 <Typography variant="h6">{receiverPlayer.name}</Typography>
               </Stack>

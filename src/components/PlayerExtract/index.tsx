@@ -1,8 +1,8 @@
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import {
   Button,
   CircularProgress,
@@ -20,43 +20,43 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from '@mui/material';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
-import React, { useCallback, useMemo, useState } from 'react';
-import usePaymentsFromPlayer from '../../hooks/usePaymentsFromPlayer';
-import useSalesFromPlayer from '../../hooks/useSalesFromPlayer';
-import useTransfersFromPlayer from '../../hooks/useTransfersFromPlayer';
-import PaymentInformations from '../PaymentInformations';
-import SaleInformations from '../SaleInformations';
-import TransferInformations from '../TransferInformations';
-import TypographyBalance from '../TypographyBalance';
+} from "@mui/material";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import React, { useCallback, useMemo, useState } from "react";
+import usePaymentsFromPlayer from "../../hooks/usePaymentsFromPlayer";
+import useSalesFromPlayer from "../../hooks/useSalesFromPlayer";
+import useTransfersFromPlayer from "../../hooks/useTransfersFromPlayer";
+import PaymentInformations from "../PaymentInformations";
+import SaleInformations from "../SaleInformations";
+import TransferInformations from "../TransferInformations";
+import TypographyBalance from "../TypographyBalance";
 
 type PlayerExtractProps = {
   player: Player;
 };
 
-type PlayerActiviteType = 'sale' | 'payment' | 'transfer';
+type PlayerActiviteType = "sale" | "payment" | "transfer";
 
 const isSale = (obj: object): boolean => {
-  return 'products' in obj;
+  return "products" in obj;
 };
 
 const isPayment = (obj: object): boolean => {
-  return 'previousPlayerBalance' in obj || 'currentPlayerBalance' in obj;
+  return "previousPlayerBalance" in obj || "currentPlayerBalance" in obj;
 };
 
 const isTransfer = (obj: object): boolean => {
-  return 'sendingPlayerId' in obj && 'receiverPlayerId' in obj;
+  return "sendingPlayerId" in obj && "receiverPlayerId" in obj;
 };
 
 const getObjectType = (obj: object): PlayerActiviteType | undefined => {
   if (isSale(obj)) {
-    return 'sale';
+    return "sale";
   } else if (isPayment(obj)) {
-    return 'payment';
+    return "payment";
   } else if (isTransfer(obj)) {
-    return 'transfer';
+    return "transfer";
   }
 };
 
@@ -69,19 +69,23 @@ const iconRender = (obj: object) => {
 
   const playerActiviteType = getObjectType(obj);
 
-  return playerActiviteType ? iconRenderMap[playerActiviteType] : <QuestionMarkIcon />;
+  return playerActiviteType ? (
+    iconRenderMap[playerActiviteType]
+  ) : (
+    <QuestionMarkIcon />
+  );
 };
 
 const getObjectTypeName = (obj: object) => {
   const typeNameMap: Record<PlayerActiviteType, string> = {
-    payment: 'Pagamento',
-    sale: 'Compra',
-    transfer: 'Transferência',
+    payment: "Pagamento",
+    sale: "Compra",
+    transfer: "Transferência",
   };
 
   const playerActiviteType = getObjectType(obj);
 
-  return playerActiviteType ? typeNameMap[playerActiviteType] : 'Outro';
+  return playerActiviteType ? typeNameMap[playerActiviteType] : "Outro";
 };
 
 const contentRender = (obj: object) => {
@@ -93,7 +97,11 @@ const contentRender = (obj: object) => {
 
   const playerActiviteType = getObjectType(obj);
 
-  return playerActiviteType ? iconRenderMap[playerActiviteType] : <QuestionMarkIcon />;
+  return playerActiviteType ? (
+    iconRenderMap[playerActiviteType]
+  ) : (
+    <QuestionMarkIcon />
+  );
 };
 
 const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
@@ -103,9 +111,11 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
 
   const { data: sales, isLoading: salesIsLoading } = useSalesFromPlayer(id);
 
-  const { data: payments, isLoading: paymentsIsLoading } = usePaymentsFromPlayer(id);
+  const { data: payments, isLoading: paymentsIsLoading } =
+    usePaymentsFromPlayer(id);
 
-  const { data: transfers, isLoading: transfersIsLoading } = useTransfersFromPlayer(id);
+  const { data: transfers, isLoading: transfersIsLoading } =
+    useTransfersFromPlayer(id);
 
   const [selectedActive, setSelectedActive] = useState<object | null>(null);
 
@@ -115,7 +125,7 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
 
       setOpenDialog(true);
     },
-    [setSelectedActive, setOpenDialog]
+    [setSelectedActive, setOpenDialog],
   );
 
   const handleClose = useCallback(() => {
@@ -126,12 +136,14 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
 
   const isLoading = useMemo(
     () => salesIsLoading || paymentsIsLoading || transfersIsLoading,
-    [salesIsLoading, paymentsIsLoading, transfersIsLoading]
+    [salesIsLoading, paymentsIsLoading, transfersIsLoading],
   );
 
   const playerActivities = useMemo<Array<Sale | Payment | Transfer>>(() => {
     if (sales && payments && transfers) {
-      return [...sales, ...payments, ...transfers].sort((a, b) => b.createdAt - a.createdAt);
+      return [...sales, ...payments, ...transfers].sort(
+        (a, b) => b.createdAt - a.createdAt,
+      );
     }
 
     return [];
@@ -149,13 +161,18 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
           const activite = obj as Sale;
 
           return (
-            -activite.products.reduce((acc, curr) => acc + curr.price * curr.amount, 0) - (activite?.looseValue || 0)
+            -activite.products.reduce(
+              (acc, curr) => acc + curr.price * curr.amount,
+              0,
+            ) - (activite?.looseValue || 0)
           );
         },
         transfer: (obj: object) => {
           const activite = obj as Transfer;
 
-          return id === activite.receiverPlayerId ? activite.value : -activite.value;
+          return id === activite.receiverPlayerId
+            ? activite.value
+            : -activite.value;
         },
       };
 
@@ -163,7 +180,7 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
 
       return playerActiviteType ? balanceMap[playerActiviteType](obj) : 0;
     },
-    [id]
+    [id],
   );
 
   if (isLoading) {
@@ -189,7 +206,11 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
             {playerActivities &&
               playerActivities.map((activite) => (
                 <TableRow key={activite.id}>
-                  <TableCell>{format(activite.createdAt.toDate(), 'dd/LL', { locale: ptBR })}</TableCell>
+                  <TableCell>
+                    {format(activite.createdAt.toDate(), "dd/LL", {
+                      locale: ptBR,
+                    })}
+                  </TableCell>
                   <TableCell>
                     <Stack alignItems="center" direction="row" spacing={1}>
                       <Typography color="primary" variant="inherit">
@@ -201,7 +222,10 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
                     </Stack>
                   </TableCell>
                   <TableCell align="right">
-                    <TypographyBalance variant="inherit" balance={getObjectTypeBalance(activite)} />
+                    <TypographyBalance
+                      variant="inherit"
+                      balance={getObjectTypeBalance(activite)}
+                    />
                   </TableCell>
                   <TableCell align="center">
                     <IconButton onClick={() => handleViewActivite(activite)}>
@@ -215,7 +239,9 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
       </TableContainer>
       <Dialog fullScreen open={openDialog} onClose={handleClose}>
         <DialogTitle>Detalhamento</DialogTitle>
-        {selectedActive && <DialogContent>{contentRender(selectedActive)}</DialogContent>}
+        {selectedActive && (
+          <DialogContent>{contentRender(selectedActive)}</DialogContent>
+        )}
         <DialogActions>
           <Button color="secondary" onClick={handleClose}>
             Fechar
