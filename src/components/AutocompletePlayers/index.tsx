@@ -18,13 +18,13 @@ type AutocompletePlayersProps = {
   textFieldProps?: TextFieldProps;
 };
 
-const AutocompletePlayers: React.FC<AutocompletePlayersProps> = ({
+function AutocompletePlayers({
   selectedPlayer,
   setSelectedPlayer,
   validPlayers,
   disabled = false,
   textFieldProps,
-}) => {
+}: AutocompletePlayersProps) {
   const [priorityPlayers, setPriorityPlayers] = useState<PriorityPlayers>(
     () => {
       return validPlayers.reduce((acc, curr) => ({ ...acc, [curr.id]: 0 }), {});
@@ -85,6 +85,6 @@ const AutocompletePlayers: React.FC<AutocompletePlayersProps> = ({
       />
     </Stack>
   );
-};
+}
 
 export default AutocompletePlayers;

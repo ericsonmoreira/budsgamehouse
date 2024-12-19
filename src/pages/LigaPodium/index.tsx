@@ -1,9 +1,11 @@
 import React from "react";
 import Page from "../../components/Page";
 
-const LigaPodium: React.FC = () => {
+function LigaPodium() {
   return (
     <Page>
+      {/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
+      {/* biome-ignore lint/a11y/useIframeTitle: <explanation> */}
       <iframe
         height="100%"
         width="100%"
@@ -11,6 +13,6 @@ const LigaPodium: React.FC = () => {
       ></iframe>
     </Page>
   );
-};
+}
 
 export default LigaPodium;

@@ -28,9 +28,9 @@ const Client: React.FC = () => {
 
       if (palyer) {
         return palyer.id;
-      } else {
-        throw new Error("Usuário não encontrado");
       }
+
+      throw new Error("Usuário não encontrado");
     },
     onSuccess: (id: string) => {
       navigate(routesNames.VIEW_CLIENT.replace(":id", id));

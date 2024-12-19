@@ -88,10 +88,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-const DataGridWantedCards: React.FC<DataGridWantedCardsProps> = ({
-  rows = [],
-  loading,
-}) => {
+function DataGridWantedCards({ rows = [], loading }: DataGridWantedCardsProps) {
   return (
     <CustomDataGrid
       columns={columns}
@@ -104,6 +101,6 @@ const DataGridWantedCards: React.FC<DataGridWantedCardsProps> = ({
       loading={loading}
     />
   );
-};
+}
 
 export default DataGridWantedCards;

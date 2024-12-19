@@ -28,7 +28,7 @@ type ViewPlayerParams = {
   id: string;
 };
 
-const ViewPlayer: React.FC = () => {
+function ViewPlayer() {
   const { id } = useParams<ViewPlayerParams>();
 
   const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
@@ -113,6 +113,6 @@ const ViewPlayer: React.FC = () => {
       </Box>
     </Page>
   );
-};
+}
 
 export default ViewPlayer;

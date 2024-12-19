@@ -50,10 +50,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-const DataGridExpenses: React.FC<DataGridExpensesProps> = ({
-  rows = [],
-  loading,
-}) => {
+function DataGridExpenses({ rows = [], loading }: DataGridExpensesProps) {
   return (
     <CustomDataGrid
       columns={columns}
@@ -64,6 +61,6 @@ const DataGridExpenses: React.FC<DataGridExpensesProps> = ({
       loading={loading}
     />
   );
-};
+}
 
 export default DataGridExpenses;

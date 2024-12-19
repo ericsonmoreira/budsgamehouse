@@ -11,7 +11,7 @@ type CommandCardProps = {
   data: Command;
 };
 
-const CommandCard: React.FC<CommandCardProps> = ({ data }) => {
+function CommandCard({ data }: CommandCardProps) {
   const navigate = useNavigate();
 
   const total = useMemo(() => {
@@ -60,6 +60,6 @@ const CommandCard: React.FC<CommandCardProps> = ({ data }) => {
       </Paper>
     </ButtonBase>
   );
-};
+}
 
 export default CommandCard;

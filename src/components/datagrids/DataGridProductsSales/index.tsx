@@ -41,10 +41,10 @@ const columns: GridColDef[] = [
   },
 ];
 
-const DataGridProductsSales: React.FC<DataGridProductsSalesProps> = ({
+function DataGridProductsSales({
   sales = [],
   loading,
-}) => {
+}: DataGridProductsSalesProps) {
   const rows = useMemo<DataGridProductsSalesRowData[]>(
     () =>
       sales.reduce((acc, curr) => {
@@ -78,6 +78,6 @@ const DataGridProductsSales: React.FC<DataGridProductsSalesProps> = ({
       loading={loading}
     />
   );
-};
+}
 
 export default DataGridProductsSales;

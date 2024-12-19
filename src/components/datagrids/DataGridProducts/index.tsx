@@ -68,10 +68,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-const DataGridProducts: React.FC<DataGridProductsProps> = ({
-  rows = [],
-  loading,
-}) => {
+function DataGridProducts({ rows = [], loading }: DataGridProductsProps) {
   return (
     <CustomDataGrid
       rows={rows}
@@ -82,6 +79,6 @@ const DataGridProducts: React.FC<DataGridProductsProps> = ({
       loading={loading}
     />
   );
-};
+}
 
 export default DataGridProducts;

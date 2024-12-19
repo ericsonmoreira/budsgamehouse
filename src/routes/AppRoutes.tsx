@@ -25,6 +25,7 @@ import WantedCards from "../pages/WantedCards";
 import PrivateRoutes from "./PrivateRoutes";
 import routesNames from "./routesNames";
 import LigaPodium from "../pages/LigaPodium";
+import ViewSchedle from "../pages/ViewSchedle";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -48,6 +49,7 @@ const AppRoutes: React.FC = () => {
             <Route path={routesNames.PRODUCTS} element={<Products />} />
             <Route path={routesNames.SALES} element={<Sales />} />
             <Route path={routesNames.SCHEDULES} element={<Schedules />} />
+            <Route path={routesNames.VIEW_SCHEDLE} element={<ViewSchedle />} />
             <Route
               path={routesNames.TOURNAMENT_PRIZES}
               element={<TournamentPrizes />}

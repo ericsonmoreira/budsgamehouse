@@ -66,10 +66,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-const DataGridBalances: React.FC<DataGridBalancesProps> = ({
-  rows = [],
-  loading,
-}) => {
+function DataGridBalances({ rows = [], loading }: DataGridBalancesProps) {
   return (
     <CustomDataGrid
       columns={columns}
@@ -80,6 +77,6 @@ const DataGridBalances: React.FC<DataGridBalancesProps> = ({
       loading={loading}
     />
   );
-};
+}
 
 export default DataGridBalances;

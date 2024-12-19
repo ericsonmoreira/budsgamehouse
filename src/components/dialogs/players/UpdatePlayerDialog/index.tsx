@@ -18,26 +18,26 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import updatePlayer from "../../../../resources/players/updatePlayer";
 import uploadImageInStorage from "../../../../resources/uploadImageInStorage";
+import AvatarPlayer from "../../../AvatarPlayer";
 import ImageDropZone from "../../../ImageDropZone";
+import ControlledPhoneTextField from "../../../textfields/ControlledPhoneTextField";
 import ControlledTextField from "../../../textfields/ControlledTextField";
 import schema, { UpdatePlayerDialogFormData } from "./schema ";
-import ControlledPhoneTextField from "../../../textfields/ControlledPhoneTextField";
-import AvatarPlayer from "../../../AvatarPlayer";
 
 type UpdatePlayerDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   playerToUpdate: Player;
-};
+} & DialogProps;
 
-const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
+function UpdatePlayerDialog({
   title,
   subTitle,
   setOpen,
   playerToUpdate,
   ...rest
-}) => {
+}: UpdatePlayerDialogProps) {
   const queryClient = useQueryClient();
 
   const [file, setFile] = useState<File | null>();
@@ -113,7 +113,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
       email: playerToUpdate.email,
       phone: playerToUpdate.phone,
     });
-  }, [playerToUpdate]);
+  }, [playerToUpdate, reset]);
 
   return (
     <Dialog {...rest} fullScreen onClose={handleClose}>
@@ -146,6 +146,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
             name="phone"
             control={control}
             variant="outlined"
+            type="tel"
             size="small"
             label="Telefone"
           />
@@ -153,6 +154,7 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
             name="email"
             control={control}
             variant="outlined"
+            type="email"
             size="small"
             label="Email"
           />
@@ -179,6 +181,6 @@ const UpdatePlayerDialog: React.FC<UpdatePlayerDialogProps & DialogProps> = ({
       </Backdrop>
     </Dialog>
   );
-};
+}
 
 export default UpdatePlayerDialog;

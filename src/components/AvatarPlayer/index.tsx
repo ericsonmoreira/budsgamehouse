@@ -15,7 +15,7 @@ type AvatarPlayerProps = {
 
 function stringToColor(string: string) {
   let hash = 0;
-  let i;
+  let i: number;
 
   /* eslint-disable no-bitwise */
   for (i = 0; i < string.length; i += 1) {
@@ -41,11 +41,11 @@ function stringAvatar(name: string) {
   };
 }
 
-const AvatarPlayer: React.FC<AvatarPlayerProps & AvatarProps> = ({
+function AvatarPlayer({
   playerId,
   sx: originalSx,
   ...rest
-}) => {
+}: AvatarPlayerProps & AvatarProps) {
   const { data: player, isLoading, isError } = usePlayer(playerId);
 
   const navigate = useNavigate();
@@ -101,6 +101,6 @@ const AvatarPlayer: React.FC<AvatarPlayerProps & AvatarProps> = ({
       </IconButton>
     </Tooltip>
   );
-};
+}
 
 export default AvatarPlayer;

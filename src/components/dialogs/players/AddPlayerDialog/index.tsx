@@ -26,14 +26,14 @@ type AddPlayerDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+} & DialogProps;
 
-const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
+function AddPlayerDialog({
   title,
   subTitle,
   setOpen,
   ...rest
-}) => {
+}: AddPlayerDialogProps) {
   const queryClient = useQueryClient();
 
   const { control, handleSubmit, reset } = useForm<AddPlayerDialogFormData>({
@@ -109,6 +109,7 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
             name="phone"
             control={control}
             variant="outlined"
+            type="tel"
             size="small"
             label="Telefone"
           />
@@ -116,6 +117,7 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
             name="email"
             control={control}
             variant="outlined"
+            type="email"
             size="small"
             label="Email"
           />
@@ -133,6 +135,6 @@ const AddPlayerDialog: React.FC<AddPlayerDialogProps & DialogProps> = ({
       </Backdrop>
     </Dialog>
   );
-};
+}
 
 export default AddPlayerDialog;

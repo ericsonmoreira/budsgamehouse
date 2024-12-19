@@ -21,7 +21,7 @@ type ViewExpenseParams = {
   id: string;
 };
 
-const ViewExpense: React.FC = () => {
+function ViewExpense() {
   const { id } = useParams<ViewExpenseParams>();
 
   const { data: expense, isLoading } = useExpense(id);
@@ -80,6 +80,6 @@ const ViewExpense: React.FC = () => {
       </Box>
     </Page>
   );
-};
+}
 
 export default ViewExpense;

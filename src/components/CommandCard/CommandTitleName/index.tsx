@@ -35,7 +35,7 @@ const cardsStatusMap: Record<"open" | "closed" | "canceled", React.FC> = {
   canceled: () => <Chip label="CANCELADA" color="warning" />,
 };
 
-const CommandTitleName: React.FC<CommandTitleName> = ({ command }) => {
+function CommandTitleName({ command }: CommandTitleName) {
   const [num, suite] = command.name.split("|");
 
   const IconComponent =
@@ -85,6 +85,6 @@ const CommandTitleName: React.FC<CommandTitleName> = ({ command }) => {
       </Stack>
     </Box>
   );
-};
+}
 
 export default CommandTitleName;

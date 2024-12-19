@@ -4,7 +4,7 @@ type ImageCellProps = {
   value: string;
 };
 
-const ImageCell: React.FC<ImageCellProps> = ({ value }) => {
+function ImageCell({ value }: ImageCellProps) {
   return (
     <Tooltip
       arrow
@@ -15,6 +15,6 @@ const ImageCell: React.FC<ImageCellProps> = ({ value }) => {
       <img src={value} style={{ height: "2rem" }} />
     </Tooltip>
   );
-};
+}
 
 export default ImageCell;

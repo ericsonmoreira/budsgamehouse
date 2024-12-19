@@ -3,7 +3,7 @@ import { useTheme } from "@mui/material/styles";
 import { Outlet } from "react-router-dom";
 import BackGroundLoginPageImg from "../../assets/bgLogin.jpg";
 
-const AreaClientLayout: React.FC = () => {
+function AreaClientLayout() {
   const { palette } = useTheme();
 
   return (
@@ -24,6 +24,6 @@ const AreaClientLayout: React.FC = () => {
       <Outlet />
     </Box>
   );
-};
+}
 
 export default AreaClientLayout;

@@ -22,13 +22,13 @@ type AutocompleteProductsProps = {
   disabled?: boolean;
 };
 
-const AutocompleteProducts: React.FC<AutocompleteProductsProps> = ({
+function AutocompleteProducts({
   selectedProduct,
   setSelectedProduct,
   validProdutos,
   onClickAddProductButton,
   disabled = false,
-}) => {
+}: AutocompleteProductsProps) {
   const [validProductsWithPriority, setValidProductsWithPriority] = useState<
     ProductWithPriority[]
   >(() => validProdutos?.map((item) => ({ ...item, priority: 0 })) || []);
@@ -101,6 +101,6 @@ const AutocompleteProducts: React.FC<AutocompleteProductsProps> = ({
       </IconButton>
     </Stack>
   );
-};
+}
 
 export default AutocompleteProducts;

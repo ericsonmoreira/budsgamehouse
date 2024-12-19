@@ -21,7 +21,7 @@ type ViewClientParams = {
   id: string;
 };
 
-const ViewClient: React.FC = () => {
+function ViewClient() {
   const { id } = useParams<ViewClientParams>();
 
   const navigate = useNavigate();
@@ -81,6 +81,6 @@ const ViewClient: React.FC = () => {
       </Box>
     </Page>
   );
-};
+}
 
 export default ViewClient;

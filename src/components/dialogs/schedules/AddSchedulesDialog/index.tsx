@@ -10,20 +10,41 @@ import {
   DialogProps,
   DialogTitle,
   Grid,
+  MenuItem,
+  Paper,
+  Typography,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Highlight from "@tiptap/extension-highlight";
+import TypographyTiptap from "@tiptap/extension-typography";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import { Timestamp } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import addSchedule from "../../../../resources/schedules/addSchedule";
 import ControlledTextField from "../../../textfields/ControlledTextField";
 import schema, { SchemaData } from "./schema";
+import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
 
 type AddSchedulesDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
+const formats: MTGFormat[] = [
+  "Standard",
+  "Modern",
+  "Pioneer",
+  "Legacy",
+  "Vintage",
+  "Commander",
+  "Brawl",
+  "Pauper",
+  "Draft",
+  "Sealed",
+];
 
 const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
   title,
@@ -33,26 +54,35 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
 }) => {
   const queryClient = useQueryClient();
 
+  const editor = useEditor({
+    extensions: [StarterKit, Highlight, TypographyTiptap],
+    content: "teste",
+  });
+
   const { handleSubmit, reset, control } = useForm<SchemaData>({
     resolver: zodResolver(schema),
     defaultValues: {
       title: "",
       description: "",
-      end: new Date(),
       start: new Date(),
+      price: 0,
+      format: "Pioneer",
     },
   });
 
   const { mutate: addScheduleMutate, isPending: addScheduleMutateIsloading } =
     useMutation({
-      mutationFn: async ({ title, description, end, start }: SchemaData) => {
-        addSchedule({
-          title,
-          description,
-          end: Timestamp.fromDate(end),
-          start: Timestamp.fromDate(start),
-          createdAt: Timestamp.now(),
-        });
+      mutationFn: async ({ title, start, price }: SchemaData) => {
+        if (editor) {
+          await addSchedule({
+            title,
+            format: "Pioneer",
+            price,
+            description: editor.getHTML(),
+            start: Timestamp.fromDate(start),
+            createdAt: Timestamp.now(),
+          });
+        }
 
         await queryClient.invalidateQueries({ queryKey: ["useSchedules"] });
       },
@@ -74,7 +104,6 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
     reset({
       title: "",
       description: "",
-      end: new Date(),
       start: new Date(),
     });
 
@@ -86,7 +115,7 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
           <Grid item xs={12}>
             <ControlledTextField
               name="title"
@@ -97,7 +126,7 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <ControlledTextField
               name="start"
               type="datetime-local"
@@ -108,28 +137,46 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
-            <ControlledTextField
-              name="end"
-              type="datetime-local"
+          <Grid item xs={4}>
+            <ControlledCurrencyTextField
+              name="price"
               control={control}
               variant="outlined"
               size="small"
-              label="Fim"
+              label="Valor Inscrição"
               fullWidth
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={4}>
             <ControlledTextField
-              name="description"
+              name="format"
               control={control}
               variant="outlined"
               size="small"
-              label="Descrição"
+              label="Formato"
+              defaultValue="Pioneer"
+              select
               fullWidth
-              multiline
-              rows={4}
-            />
+            >
+              {formats.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </ControlledTextField>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h6" sx={{ mb: 1 }}>
+              Descrição
+            </Typography>
+            <Paper
+              variant="outlined"
+              sx={{
+                px: 2,
+              }}
+            >
+              <EditorContent editor={editor} />
+            </Paper>
           </Grid>
         </Grid>
       </DialogContent>

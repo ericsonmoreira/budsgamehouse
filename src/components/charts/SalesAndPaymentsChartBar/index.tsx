@@ -18,11 +18,11 @@ type SalesAndPaymentsChartBarProps = {
   month: string;
 };
 
-const SalesAndPaymentsChartBar: React.FC<SalesAndPaymentsChartBarProps> = ({
+function SalesAndPaymentsChartBar({
   sales,
   payments,
   month,
-}) => {
+}: SalesAndPaymentsChartBarProps) {
   const [mes, ano] = month.split("/");
 
   const primeiroDia = startOfMonth(new Date(Number(ano), Number(mes) - 1));
@@ -66,6 +66,7 @@ const SalesAndPaymentsChartBar: React.FC<SalesAndPaymentsChartBarProps> = ({
     return salesByDayOfMonth;
   }, [sales, todasAsDatasDoMes]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const calculatePaymentsByDayOfMonth = useMemo(() => {
     const paymentsByDayOfMonth: { day: string; value: number }[] =
       todasAsDatasDoMes.map((date) => ({
@@ -137,6 +138,6 @@ const SalesAndPaymentsChartBar: React.FC<SalesAndPaymentsChartBarProps> = ({
       </Paper>
     </Box>
   );
-};
+}
 
 export default SalesAndPaymentsChartBar;
