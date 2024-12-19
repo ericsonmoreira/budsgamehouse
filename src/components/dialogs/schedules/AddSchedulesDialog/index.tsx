@@ -10,8 +10,13 @@ import {
   DialogProps,
   DialogTitle,
   Grid,
+  Paper,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Highlight from "@tiptap/extension-highlight";
+import Typography from "@tiptap/extension-typography";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import { Timestamp } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -33,26 +38,33 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
 }) => {
   const queryClient = useQueryClient();
 
+  const editor = useEditor({
+    extensions: [StarterKit, Highlight, Typography],
+    content: "teste",
+  });
+
   const { handleSubmit, reset, control } = useForm<SchemaData>({
     resolver: zodResolver(schema),
     defaultValues: {
       title: "",
       description: "",
-      end: new Date(),
       start: new Date(),
     },
   });
 
   const { mutate: addScheduleMutate, isPending: addScheduleMutateIsloading } =
     useMutation({
-      mutationFn: async ({ title, description, end, start }: SchemaData) => {
-        addSchedule({
-          title,
-          description,
-          end: Timestamp.fromDate(end),
-          start: Timestamp.fromDate(start),
-          createdAt: Timestamp.now(),
-        });
+      mutationFn: async ({ title, start }: SchemaData) => {
+        if (editor) {
+          await addSchedule({
+            title,
+            format: "Pioneer",
+            price: 0,
+            description: editor.getHTML(),
+            start: Timestamp.fromDate(start),
+            createdAt: Timestamp.now(),
+          });
+        }
 
         await queryClient.invalidateQueries({ queryKey: ["useSchedules"] });
       },
@@ -74,7 +86,6 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
     reset({
       title: "",
       description: "",
-      end: new Date(),
       start: new Date(),
     });
 
@@ -108,28 +119,15 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
-            <ControlledTextField
-              name="end"
-              type="datetime-local"
-              control={control}
-              variant="outlined"
-              size="small"
-              label="Fim"
-              fullWidth
-            />
-          </Grid>
           <Grid item xs={12}>
-            <ControlledTextField
-              name="description"
-              control={control}
+            <Paper
               variant="outlined"
-              size="small"
-              label="Descrição"
-              fullWidth
-              multiline
-              rows={4}
-            />
+              sx={{
+                px: 2,
+              }}
+            >
+              <EditorContent editor={editor} placeholder="Teste" />
+            </Paper>
           </Grid>
         </Grid>
       </DialogContent>

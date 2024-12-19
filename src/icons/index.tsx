@@ -8,5 +8,7 @@ export { default as ManaBIcon } from "./ManaBIcon";
 export { default as ManaWIcon } from "./ManaWIcon";
 
 // MUI
+export { default as ArrowForwardIcon } from "@mui/icons-material/ArrowForward";
+export { default as EditIcon } from "@mui/icons-material/Edit";
 export { default as PhoneIcon } from "@mui/icons-material/Phone";
 export { default as WarningIcon } from "@mui/icons-material/Warning";

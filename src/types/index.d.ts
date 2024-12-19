@@ -111,11 +111,24 @@ declare interface UserApp {
   email: string;
 }
 
+declare type MTGFormat =
+  | "Standard" // Formato rotativo para cartas mais recentes
+  | "Modern" // Inclui cartas desde 8ª edição
+  | "Pioneer" // Inclui cartas desde Retorno a Ravnica
+  | "Legacy" // Formato eternal com banlist
+  | "Vintage" // Formato eternal com restrições, permite quase todas as cartas
+  | "Commander" // Formato casual com 100 cartas singleton
+  | "Brawl" // Versão reduzida do Commander
+  | "Pauper" // Apenas cartas comuns são permitidas
+  | "Draft" // Formato limitado, com construção de deck em tempo real
+  | "Sealed"; // Formato limitado, com boosters pré-abertos
+
 declare interface Schedule {
   id: string;
   title: string;
+  format: MTGFormat;
   description: string;
   start: Timestamp;
-  end: Timestamp;
+  price: number;
   createdAt: Timestamp;
 }
