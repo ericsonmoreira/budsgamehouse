@@ -14,7 +14,7 @@ function Schedules() {
   return (
     <Page loading={isLoading}>
       <PageHeader
-        title="Programação"
+        title="Programações"
         onClickAddButton={() => setAddScheduleDialogOpen(true)}
       />
       <Paper

@@ -15,6 +15,7 @@ const routesNames = {
   SALES: "/sales",
   LOGIN: "/login",
   SCHEDULES: "/schedules",
+  VIEW_SCHEDLE: "/schedules/:id",
   RECOVER_PASSWORD: "/recover-password",
   TOURNAMENT_PRIZES: "/tournament-prizes",
   LIGA_PODIUM: "/liga-podium",
