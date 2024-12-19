@@ -20,7 +20,7 @@ import usePaymentsPerMonth from "../../hooks/usePaymentsPerMonth";
 import useSalesPerMonth from "../../hooks/useSalesPerMonth";
 import { formatterCurrencyBRL } from "../../utils/formatters";
 
-const Sales: React.FC = () => {
+function Sales() {
   const [selectedMonth, setSelectedMonth] = useState(
     format(Date.now(), "MM/yyyy"),
   );
@@ -149,6 +149,6 @@ const Sales: React.FC = () => {
       />
     </Page>
   );
-};
+}
 
 export default Sales;

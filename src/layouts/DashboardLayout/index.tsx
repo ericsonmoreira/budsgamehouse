@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 import DashboardNavbar from "../../components/DashboardNavbar";
 import DashboardSidebar from "../../components/DashboardSidebar";
 
-const DashboardLayout: React.FC = () => {
+function DashboardLayout() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const DashboardLayoutRoot = styled("div")(({ theme }) => ({
@@ -40,6 +40,6 @@ const DashboardLayout: React.FC = () => {
       />
     </DashboardLayoutRoot>
   );
-};
+}
 
 export default DashboardLayout;

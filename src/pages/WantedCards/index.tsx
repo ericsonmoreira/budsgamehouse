@@ -10,6 +10,7 @@ import UpdateWantedCardDialog, {
 } from "../../components/dialogs/wantCards/UpdateWantedCardDialog";
 import useConfirmation from "../../hooks/useConfirmation";
 import useWantedCards from "../../hooks/useWantedCards";
+import Page from "../../components/Page";
 type PreviewModeType = "Tabela" | "Visual";
 
 const viewingModes: PreviewModeType[] = ["Tabela", "Visual"];
@@ -87,7 +88,7 @@ function WantedCards() {
   });
 
   return (
-    <>
+    <Page loading={isLoading}>
       <PageHeader
         title="Want List - Lista de cartas para aquisição"
         onClickAddButton={() => setAddWantCardDialogOpen(true)}
@@ -170,7 +171,7 @@ function WantedCards() {
         tradingCardToUpdate={wantedCardToUpdate}
       />
       <ConfirmationDialog />
-    </>
+    </Page>
   );
 }
 

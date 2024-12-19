@@ -3,7 +3,7 @@ import { useTheme } from "@mui/material/styles";
 import { Outlet } from "react-router-dom";
 import BackGroundLoginPageImg from "../../assets/bgLogin.jpg";
 
-const BasicLayout: React.FC = () => {
+function BasicLayout() {
   const theme = useTheme();
 
   const upMd = useMediaQuery(theme.breakpoints.up("md"));
@@ -55,6 +55,6 @@ const BasicLayout: React.FC = () => {
       </Container>
     </Box>
   );
-};
+}
 
 export default BasicLayout;

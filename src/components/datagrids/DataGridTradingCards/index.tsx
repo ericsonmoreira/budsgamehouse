@@ -58,10 +58,10 @@ const columns: GridColDef[] = [
   },
 ];
 
-const DataGridTradingCards: React.FC<DataGridTradingCardsProps> = ({
+function DataGridTradingCards({
   rows = [],
   loading,
-}) => {
+}: DataGridTradingCardsProps) {
   return (
     <CustomDataGrid
       columns={columns}
@@ -72,6 +72,6 @@ const DataGridTradingCards: React.FC<DataGridTradingCardsProps> = ({
       loading={loading}
     />
   );
-};
+}
 
 export default DataGridTradingCards;

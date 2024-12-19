@@ -1,9 +1,10 @@
-import React from "react";
 import Page from "../../components/Page";
 
 const TournamentPrizes: React.FC = () => {
   return (
     <Page>
+      {/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
+      {/* biome-ignore lint/a11y/useIframeTitle: <explanation> */}
       <iframe
         height="100%"
         width="100%"

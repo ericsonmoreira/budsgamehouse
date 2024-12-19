@@ -14,7 +14,7 @@ import { auth } from "../../services/firebaseConfig";
 import verifyFirebaseErroCode from "../../services/verifyFirebaseErroCode";
 import schema, { SchemaData } from "./schema ";
 
-const RecoverPassword: React.FC = () => {
+function RecoverPassword() {
   const navigate = useNavigate();
 
   const { control, handleSubmit } = useForm<SchemaData>({
@@ -92,6 +92,6 @@ const RecoverPassword: React.FC = () => {
       </PaperGlass>
     </Page>
   );
-};
+}
 
 export default RecoverPassword;

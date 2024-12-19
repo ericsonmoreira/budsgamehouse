@@ -27,7 +27,7 @@ type AddWantCardDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+} & DialogProps;
 
 type AddWantCardDialogFormData = {
   searchTerm: string;
@@ -39,12 +39,12 @@ const priorityMapValues: { value: WantedCardPriority; label: string }[] = [
   { value: "low", label: "Baixo" },
 ];
 
-const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
+function AddWantCardDialog({
   title,
   subTitle,
   setOpen,
   ...rest
-}) => {
+}: AddWantCardDialogProps) {
   const { register, handleSubmit, watch, resetField } =
     useForm<AddWantCardDialogFormData>();
 
@@ -197,6 +197,6 @@ const AddWantCardDialog: React.FC<AddWantCardDialogProps & DialogProps> = ({
       </DialogActions>
     </Dialog>
   );
-};
+}
 
 export default AddWantCardDialog;

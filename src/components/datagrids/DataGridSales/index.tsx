@@ -68,10 +68,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-const DataGridSales: React.FC<DataGridSalesProps> = ({
-  rows = [],
-  loading,
-}) => {
+function DataGridSales({ rows = [], loading }: DataGridSalesProps) {
   return (
     <CustomDataGrid
       columns={columns}
@@ -82,6 +79,6 @@ const DataGridSales: React.FC<DataGridSalesProps> = ({
       loading={loading}
     />
   );
-};
+}
 
 export default DataGridSales;

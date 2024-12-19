@@ -17,6 +17,7 @@ import { toast } from "react-hot-toast";
 import useWantedCards from "../../../../hooks/useWantedCards";
 import ControlledTextField from "../../../textfields/ControlledTextField";
 import schema from "./schema ";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const priorityMapValues: { value: WantedCardPriority; label: string }[] = [
   { value: "high", label: "Alto" },
@@ -37,7 +38,7 @@ type UpdateWantedCardDialogProps = {
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   tradingCardToUpdate: WantedCardUpdateData;
-};
+} & DialogProps;
 
 type UpdateWantedCardDialogFormData = {
   name: string;
@@ -46,16 +47,21 @@ type UpdateWantedCardDialogFormData = {
   priority: WantedCardPriority;
 };
 
-const UpdateWantedCardDialog: React.FC<
-  UpdateWantedCardDialogProps & DialogProps
-> = ({ title, subTitle, setOpen, tradingCardToUpdate, ...rest }) => {
+// TODO: ajustar esse component depois
+function UpdateWantedCardDialog({
+  title,
+  subTitle,
+  setOpen,
+  tradingCardToUpdate,
+  ...rest
+}: UpdateWantedCardDialogProps) {
   const { id, name, imgUrl, amount, priority } = tradingCardToUpdate;
 
   const { updateWantedCard } = useWantedCards();
 
   const { control, handleSubmit, setValue } =
     useForm<UpdateWantedCardDialogFormData>({
-      resolver: yupResolver(schema),
+      resolver: zodResolver(schema),
     });
 
   const handleConfirmAction = ({
@@ -75,6 +81,7 @@ const UpdateWantedCardDialog: React.FC<
     setOpen(false);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setValue("name", name);
     setValue("amount", amount);
@@ -151,6 +158,6 @@ const UpdateWantedCardDialog: React.FC<
       </DialogActions>
     </Dialog>
   );
-};
+}
 
 export default UpdateWantedCardDialog;

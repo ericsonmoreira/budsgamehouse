@@ -92,7 +92,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
     if (user) {
       setValue("name", user.displayName ?? "");
     }
-  }, [user]);
+  }, [user, setValue]);
 
   return (
     <Dialog {...rest} fullScreen onClose={handleClose}>

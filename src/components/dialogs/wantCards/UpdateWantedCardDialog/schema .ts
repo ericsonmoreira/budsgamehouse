@@ -1,8 +1,10 @@
-import * as yup from "yup";
+import { z } from "zod";
 
-const schema = yup.object().shape({
-  name: yup.string().required("Campo obrigatório"),
-  amount: yup.number().required("Campo obrigatório").min(1, "Mínimo 1"),
+const schema = z.object({
+  name: z.string({ required_error: "Campo obrigatório" }),
+  amount: z.number({ required_error: "Campo obrigatório" }).min(1, "Mínimo 1"),
 });
+
+export type SchemaData = z.infer<typeof schema>;
 
 export default schema;

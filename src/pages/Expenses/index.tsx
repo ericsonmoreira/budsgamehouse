@@ -10,7 +10,7 @@ import useExpensesPerMonth from "../../hooks/useExpensesPerMonth";
 import useLastTwelveMonths from "../../hooks/useLastTwelveMonths";
 import routesNames from "../../routes/routesNames";
 
-const Expenses: React.FC = () => {
+function Expenses() {
   const [openAddExpenseDialog, setOpenAddExpenseDialog] = useState(false);
 
   const navigate = useNavigate();
@@ -75,6 +75,6 @@ const Expenses: React.FC = () => {
       />
     </Page>
   );
-};
+}
 
 export default Expenses;

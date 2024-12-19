@@ -7,14 +7,14 @@ import {
   CardActions,
   CardHeader,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Page from "../../components/Page";
 import PageHeader from "../../components/PageHeader";
 import EditUserDialog from "../../components/dialogs/users/EditUserDialog";
 import { auth } from "../../services/firebaseConfig";
 
-const Settings: React.FC = () => {
+function Settings() {
   const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);
 
   const [user] = useAuthState(auth);
@@ -57,6 +57,6 @@ const Settings: React.FC = () => {
       />
     </Page>
   );
-};
+}
 
 export default Settings;

@@ -21,7 +21,7 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-const Schedules: React.FC = () => {
+function Schedules() {
   const { data: schedules, isLoading } = useSchedules();
 
   const [addScheduleDialogOpen, setAddScheduleDialogOpen] = useState(false);
@@ -54,6 +54,6 @@ const Schedules: React.FC = () => {
       />
     </Page>
   );
-};
+}
 
 export default Schedules;

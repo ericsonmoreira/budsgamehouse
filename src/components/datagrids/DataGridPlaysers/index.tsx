@@ -55,10 +55,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-const DataGridPlaysers: React.FC<DataGridPlaysersProps> = ({
-  rows = [],
-  loading,
-}) => {
+function DataGridPlaysers({ rows = [], loading }: DataGridPlaysersProps) {
   return (
     <CustomDataGrid
       columns={columns}
@@ -69,6 +66,6 @@ const DataGridPlaysers: React.FC<DataGridPlaysersProps> = ({
       loading={loading}
     />
   );
-};
+}
 
 export default DataGridPlaysers;

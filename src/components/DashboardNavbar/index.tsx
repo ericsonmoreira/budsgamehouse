@@ -27,10 +27,10 @@ type DashboardNavbarProps = {
   onSidebarOpen(): void;
 };
 
-const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
+function DashboardNavbar({
   onSidebarOpen,
   ...rest
-}) => {
+}: DashboardNavbarProps & AppBarProps) {
   const [viewUserDialogOpen, setViewUserDialogOpen] = useState(false);
 
   const [isDarkTheme, setIsDarkTheme] = useLocalStorage("darkTheme", true);
@@ -133,6 +133,6 @@ const DashboardNavbar: React.FC<DashboardNavbarProps & AppBarProps> = ({
       />
     </DashboardNavbarRoot>
   );
-};
+}
 
 export default DashboardNavbar;

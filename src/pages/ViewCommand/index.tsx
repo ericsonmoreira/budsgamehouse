@@ -291,6 +291,7 @@ const ViewCommand: React.FC = () => {
     },
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const isLoading = useMemo(
     () =>
       commandIsLoading ||

@@ -107,10 +107,7 @@ const items: AppDrawerItemData[] = [
   },
 ];
 
-const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
-  open,
-  onClose,
-}) => {
+function DashboardSidebar({ open, onClose }: DashboardSidebarProps) {
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -202,6 +199,6 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
       {content}
     </Drawer>
   );
-};
+}
 
 export default DashboardSidebar;

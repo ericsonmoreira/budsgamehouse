@@ -1,6 +1,5 @@
 import { alpha, styled } from "@mui/material";
 import { DataGrid, DataGridProps, gridClasses } from "@mui/x-data-grid";
-import React from "react";
 import NoDataOverlay from "../../NoDataOverlay";
 
 const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
@@ -24,7 +23,7 @@ const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
   },
 }));
 
-const CustomDataGrid: React.FC<DataGridProps> = (props) => {
+function CustomDataGrid(props: DataGridProps) {
   return (
     <StripedDataGrid
       {...props}
@@ -39,6 +38,6 @@ const CustomDataGrid: React.FC<DataGridProps> = (props) => {
       sx={{ backgroundColor: (theme) => theme.palette.background.paper }}
     />
   );
-};
+}
 
 export default CustomDataGrid;

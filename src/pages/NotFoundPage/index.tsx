@@ -5,7 +5,7 @@ import NotFoundAnimation from "../../assets/lotties/404.json";
 import Page from "../../components/Page";
 import PageHeader from "../../components/PageHeader";
 
-const NotFoundPage: React.FC = () => {
+function NotFoundPage() {
   return (
     <Page>
       <PageHeader title="Opss..." containsBackButton />
@@ -21,6 +21,6 @@ const NotFoundPage: React.FC = () => {
       </Box>
     </Page>
   );
-};
+}
 
 export default NotFoundPage;
