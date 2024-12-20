@@ -26,6 +26,7 @@ import addSchedule from "../../../../resources/schedules/addSchedule";
 import ControlledTextField from "../../../textfields/ControlledTextField";
 import schema, { SchemaData } from "./schema";
 import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
+import { format } from "date-fns";
 
 type AddSchedulesDialogProps = {
   title: string;
@@ -63,8 +64,7 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
     resolver: zodResolver(schema),
     defaultValues: {
       title: "",
-      description: "",
-      start: new Date(),
+      start: format(new Date(), "yyyy-MM-dd'T'HH:mm"),
       price: 0,
       format: "Pioneer",
     },
@@ -79,7 +79,7 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
             format: "Pioneer",
             price,
             description: editor.getHTML(),
-            start: Timestamp.fromDate(start),
+            start: Timestamp.fromDate(new Date(start)),
             createdAt: Timestamp.now(),
           });
         }
@@ -103,8 +103,9 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
   const handleClose = () => {
     reset({
       title: "",
-      description: "",
-      start: new Date(),
+      format: "Pioneer",
+      price: 0,
+      start: format(new Date(), "yyyy-MM-dd'T'HH:mm"),
     });
 
     setOpen(false);

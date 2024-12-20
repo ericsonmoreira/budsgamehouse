@@ -34,7 +34,7 @@ function ViewSchedle() {
 
   return (
     <Page>
-      <PageHeader title="Programação" />
+      <PageHeader title="Programação" containsBackButton />
       <Box padding={1}>
         {data && (
           <Paper sx={{ padding: 1 }}>
