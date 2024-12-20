@@ -12,29 +12,29 @@ import { format } from "date-fns";
 import { ArrowForwardIcon, EditIcon } from "../../icons";
 import { formatterCurrencyBRL } from "../../utils/formatters";
 import routesNames from "../../routes/routesNames";
+import { useNavigate } from "react-router-dom";
 
 type SchedleCardProps = {
   schedule: Schedule;
 };
 
 function SchedleCard({ schedule }: SchedleCardProps) {
+  const navigate = useNavigate();
+
   return (
     <Card variant="outlined">
       <CardHeader
         action={
-          <IconButton aria-label="settings">
+          <IconButton
+            aria-label="edit-schedule"
+            onClick={() =>
+              navigate(routesNames.EDIT_SCHEDLE.replace(":id", schedule.id))
+            }
+          >
             <EditIcon />
           </IconButton>
         }
         title={schedule.title}
-        titleTypographyProps={{
-          sx: {
-            whiteSpace: "nowrap", // Garante que o texto não quebra para a próxima linha
-            overflow: "hidden", // Esconde o texto excedente
-            textOverflow: "ellipsis", // Adiciona os três pontos ao final do texto
-            maxWidth: "90%",
-          },
-        }}
         subheader={format(schedule.start.toDate(), "dd/MM/yy HH:mm")}
       />
       <CardContent>

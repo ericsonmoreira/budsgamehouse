@@ -5,8 +5,10 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import Balances from "../pages/Balances";
 import Client from "../pages/Client";
 import Commands from "../pages/Commands";
+import EditSchedle from "../pages/EditSchedle";
 import Expenses from "../pages/Expenses";
 import Home from "../pages/Home";
+import LigaPodium from "../pages/LigaPodium";
 import Login from "../pages/Login";
 import NotFoundPage from "../pages/NotFoundPage";
 import Players from "../pages/Players";
@@ -21,13 +23,12 @@ import ViewClient from "../pages/ViewClient";
 import ViewCommand from "../pages/ViewCommand";
 import ViewExpense from "../pages/ViewExpense";
 import ViewPlayer from "../pages/ViewPlayer";
+import ViewSchedle from "../pages/ViewSchedle";
 import WantedCards from "../pages/WantedCards";
 import PrivateRoutes from "./PrivateRoutes";
 import routesNames from "./routesNames";
-import LigaPodium from "../pages/LigaPodium";
-import ViewSchedle from "../pages/ViewSchedle";
 
-const AppRoutes: React.FC = () => {
+function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
@@ -50,6 +51,7 @@ const AppRoutes: React.FC = () => {
             <Route path={routesNames.SALES} element={<Sales />} />
             <Route path={routesNames.SCHEDULES} element={<Schedules />} />
             <Route path={routesNames.VIEW_SCHEDLE} element={<ViewSchedle />} />
+            <Route path={routesNames.EDIT_SCHEDLE} element={<EditSchedle />} />
             <Route
               path={routesNames.TOURNAMENT_PRIZES}
               element={<TournamentPrizes />}
@@ -77,6 +79,6 @@ const AppRoutes: React.FC = () => {
       </Routes>
     </BrowserRouter>
   );
-};
+}
 
 export default AppRoutes;

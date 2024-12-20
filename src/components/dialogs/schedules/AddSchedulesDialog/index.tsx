@@ -11,21 +11,19 @@ import {
   DialogTitle,
   Grid,
   MenuItem,
-  Paper,
   Typography,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Highlight from "@tiptap/extension-highlight";
-import TypographyTiptap from "@tiptap/extension-typography";
-import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import { format } from "date-fns";
 import { Timestamp } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import useRickTextEditor from "../../../../hooks/useRickTextEditor";
 import addSchedule from "../../../../resources/schedules/addSchedule";
+import RichTextEditor from "../../../RichTextEditor";
+import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
 import ControlledTextField from "../../../textfields/ControlledTextField";
 import schema, { SchemaData } from "./schema";
-import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
 
 type AddSchedulesDialogProps = {
   title: string;
@@ -54,17 +52,35 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
 }) => {
   const queryClient = useQueryClient();
 
-  const editor = useEditor({
-    extensions: [StarterKit, Highlight, TypographyTiptap],
-    content: "teste",
+  const editor = useRickTextEditor({
+    content: `
+      <h1>Guia Rápido de Markdown</h1>
+      <p>Markdown é uma linguagem de marcação simples para formatar textos. Aqui estão alguns exemplos básicos:</p>
+      <h2>Títulos</h2>
+      <p>Use <code>#</code> para criar títulos. Quanto mais <code>#</code>, menor o nível do título.</p>
+      <h2>Listas</h2>
+      <ul>
+        <li>Use <code>-</code> ou <code>*</code> para listas não ordenadas.</li>
+      </ul>
+      <ol>
+        <li>Use números para listas ordenadas.</li>
+      </ol>
+      <h2>Ênfase</h2>
+      <ul>
+        <li><em>Itálico</em>: Use <code>*texto*</code> ou <code>_texto_</code>.</li>
+        <li><strong>Negrito</strong>: Use <code>**texto**</code> ou <code>__texto__</code>.</li>
+      </ul>
+      <h2>Links</h2>
+      <p>Crie links assim: <code>[texto](url)</code>.</p>
+      <p>Experimente agora!</p>
+    `,
   });
 
   const { handleSubmit, reset, control } = useForm<SchemaData>({
     resolver: zodResolver(schema),
     defaultValues: {
       title: "",
-      description: "",
-      start: new Date(),
+      start: format(new Date(), "yyyy-MM-dd'T'HH:mm"),
       price: 0,
       format: "Pioneer",
     },
@@ -79,7 +95,7 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
             format: "Pioneer",
             price,
             description: editor.getHTML(),
-            start: Timestamp.fromDate(start),
+            start: Timestamp.fromDate(new Date(start)),
             createdAt: Timestamp.now(),
           });
         }
@@ -103,8 +119,9 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
   const handleClose = () => {
     reset({
       title: "",
-      description: "",
-      start: new Date(),
+      format: "Pioneer",
+      price: 0,
+      start: format(new Date(), "yyyy-MM-dd'T'HH:mm"),
     });
 
     setOpen(false);
@@ -169,14 +186,7 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
             <Typography variant="h6" sx={{ mb: 1 }}>
               Descrição
             </Typography>
-            <Paper
-              variant="outlined"
-              sx={{
-                px: 2,
-              }}
-            >
-              <EditorContent editor={editor} />
-            </Paper>
+            <RichTextEditor editor={editor} />
           </Grid>
         </Grid>
       </DialogContent>
