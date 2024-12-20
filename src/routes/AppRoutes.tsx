@@ -28,7 +28,7 @@ import WantedCards from "../pages/WantedCards";
 import PrivateRoutes from "./PrivateRoutes";
 import routesNames from "./routesNames";
 
-const AppRoutes: React.FC = () => {
+function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
@@ -79,6 +79,6 @@ const AppRoutes: React.FC = () => {
       </Routes>
     </BrowserRouter>
   );
-};
+}
 
 export default AppRoutes;

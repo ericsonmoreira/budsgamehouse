@@ -1,13 +1,11 @@
 import { Box, Divider, Paper, Stack, Typography } from "@mui/material";
-import Highlight from "@tiptap/extension-highlight";
-import TypographyTiptap from "@tiptap/extension-typography";
-import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import { EditorContent } from "@tiptap/react";
 import { format } from "date-fns";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Page from "../../components/Page";
 import PageHeader from "../../components/PageHeader";
+import useRickTextEditor from "../../hooks/useRickTextEditor";
 import useSchedle from "../../hooks/useSchedle";
 import { CalendarMonthIcon, PixIcon, VideogameAssetIcon } from "../../icons";
 import { formatterCurrencyBRL } from "../../utils/formatters";
@@ -21,8 +19,7 @@ function ViewSchedle() {
 
   const { data } = useSchedle(id);
 
-  const editor = useEditor({
-    extensions: [StarterKit, Highlight, TypographyTiptap],
+  const editor = useRickTextEditor({
     editable: false,
   });
 
