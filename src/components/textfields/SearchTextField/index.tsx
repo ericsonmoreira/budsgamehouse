@@ -1,5 +1,3 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import SearchIcon from "@mui/icons-material/Search";
 import {
   IconButton,
   InputAdornment,
@@ -7,16 +5,16 @@ import {
   TextField,
   TextFieldProps,
 } from "@mui/material";
-import React from "react";
+import { DeleteIcon, SearchIcon } from "../../../icons";
 
 type SearchTextFieldProps = {
   handleClearSearchTerm: () => void;
 } & TextFieldProps;
 
-const SearchTextField: React.FC<SearchTextFieldProps> = ({
+function SearchTextField({
   handleClearSearchTerm,
   ...rest
-}) => {
+}: SearchTextFieldProps) {
   return (
     <TextField
       {...rest}
@@ -39,6 +37,6 @@ const SearchTextField: React.FC<SearchTextFieldProps> = ({
       }}
     />
   );
-};
+}
 
 export default SearchTextField;

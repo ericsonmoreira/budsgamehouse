@@ -1,9 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import Lottie from "lottie-react";
-import React from "react";
 import NotDataAnimation from "../../assets/lotties/noData.json";
 
-const NoDataOverlay: React.FC = () => {
+function NoDataOverlay() {
   return (
     <Box
       display="flex"
@@ -18,6 +17,6 @@ const NoDataOverlay: React.FC = () => {
       <Lottie animationData={NotDataAnimation} />
     </Box>
   );
-};
+}
 
 export default NoDataOverlay;

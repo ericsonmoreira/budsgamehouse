@@ -1,7 +1,7 @@
 import { SvgIcon, SvgIconProps, useTheme } from "@mui/material";
 
 // Paus
-const CardsClubIcon: React.FC<SvgIconProps> = (props) => {
+function CardsClubIcon(props: SvgIconProps) {
   const { palette } = useTheme();
 
   return (
@@ -12,6 +12,6 @@ const CardsClubIcon: React.FC<SvgIconProps> = (props) => {
       </svg>
     </SvgIcon>
   );
-};
+}
 
 export default CardsClubIcon;

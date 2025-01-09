@@ -14,14 +14,14 @@ import {
 } from "@mui/material";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { formatterCurrencyBRL } from "../../utils/formatters";
 
 type SaleInformationsProps = {
   data: Sale;
 };
 
-const SaleInformations: React.FC<SaleInformationsProps> = ({ data }) => {
+function SaleInformations({ data }: SaleInformationsProps) {
   const totalSum = useMemo(
     () =>
       data.products.reduce((acc, curr) => acc + curr.amount * curr.price, 0),
@@ -108,6 +108,6 @@ const SaleInformations: React.FC<SaleInformationsProps> = ({ data }) => {
       </Box>
     </Paper>
   );
-};
+}
 
 export default SaleInformations;

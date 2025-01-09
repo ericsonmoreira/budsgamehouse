@@ -1,8 +1,3 @@
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import {
   Button,
   CircularProgress,
@@ -27,6 +22,13 @@ import React, { useCallback, useMemo, useState } from "react";
 import usePaymentsFromPlayer from "../../hooks/usePaymentsFromPlayer";
 import useSalesFromPlayer from "../../hooks/useSalesFromPlayer";
 import useTransfersFromPlayer from "../../hooks/useTransfersFromPlayer";
+import {
+  AttachMoneyIcon,
+  QuestionMarkIcon,
+  ShoppingCartIcon,
+  SwapHorizIcon,
+  VisibilityIcon,
+} from "../../icons";
 import PaymentInformations from "../PaymentInformations";
 import SaleInformations from "../SaleInformations";
 import TransferInformations from "../TransferInformations";
@@ -53,9 +55,13 @@ const isTransfer = (obj: object): boolean => {
 const getObjectType = (obj: object): PlayerActiviteType | undefined => {
   if (isSale(obj)) {
     return "sale";
-  } else if (isPayment(obj)) {
+  }
+
+  if (isPayment(obj)) {
     return "payment";
-  } else if (isTransfer(obj)) {
+  }
+
+  if (isTransfer(obj)) {
     return "transfer";
   }
 };
@@ -104,7 +110,7 @@ const contentRender = (obj: object) => {
   );
 };
 
-const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
+function PlayerExtract({ player }: PlayerExtractProps) {
   const { id } = player;
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -119,26 +125,24 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
 
   const [selectedActive, setSelectedActive] = useState<object | null>(null);
 
-  const handleViewActivite = useCallback(
-    (obj: object) => {
-      setSelectedActive(obj);
+  const handleViewActivite = (obj: object) => {
+    setSelectedActive(obj);
 
-      setOpenDialog(true);
-    },
-    [setSelectedActive, setOpenDialog],
-  );
+    setOpenDialog(true);
+  };
 
-  const handleClose = useCallback(() => {
+  const handleClose = () => {
     setOpenDialog(false);
 
     setSelectedActive(null);
-  }, [setSelectedActive, setOpenDialog]);
+  };
 
   const isLoading = useMemo(
     () => salesIsLoading || paymentsIsLoading || transfersIsLoading,
     [salesIsLoading, paymentsIsLoading, transfersIsLoading],
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const playerActivities = useMemo<Array<Sale | Payment | Transfer>>(() => {
     if (sales && payments && transfers) {
       return [...sales, ...payments, ...transfers].sort(
@@ -199,41 +203,40 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
               <TableCell width={50}>Data</TableCell>
               <TableCell width={100}>Tipo</TableCell>
               <TableCell align="right">R$</TableCell>
-              <TableCell width={24} align="center"></TableCell>
+              <TableCell width={24} align="center" />
             </TableRow>
           </TableHead>
           <TableBody>
-            {playerActivities &&
-              playerActivities.map((activite) => (
-                <TableRow key={activite.id}>
-                  <TableCell>
-                    {format(activite.createdAt.toDate(), "dd/LL", {
-                      locale: ptBR,
-                    })}
-                  </TableCell>
-                  <TableCell>
-                    <Stack alignItems="center" direction="row" spacing={1}>
-                      <Typography color="primary" variant="inherit">
-                        {iconRender(activite)}
-                      </Typography>
-                      <Typography color="primary" variant="inherit">
-                        {getObjectTypeName(activite)}
-                      </Typography>
-                    </Stack>
-                  </TableCell>
-                  <TableCell align="right">
-                    <TypographyBalance
-                      variant="inherit"
-                      balance={getObjectTypeBalance(activite)}
-                    />
-                  </TableCell>
-                  <TableCell align="center">
-                    <IconButton onClick={() => handleViewActivite(activite)}>
-                      <VisibilityIcon fontSize="small" />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
+            {playerActivities?.map((activite) => (
+              <TableRow key={activite.id}>
+                <TableCell>
+                  {format(activite.createdAt.toDate(), "dd/LL", {
+                    locale: ptBR,
+                  })}
+                </TableCell>
+                <TableCell>
+                  <Stack alignItems="center" direction="row" spacing={1}>
+                    <Typography color="primary" variant="inherit">
+                      {iconRender(activite)}
+                    </Typography>
+                    <Typography color="primary" variant="inherit">
+                      {getObjectTypeName(activite)}
+                    </Typography>
+                  </Stack>
+                </TableCell>
+                <TableCell align="right">
+                  <TypographyBalance
+                    variant="inherit"
+                    balance={getObjectTypeBalance(activite)}
+                  />
+                </TableCell>
+                <TableCell align="center">
+                  <IconButton onClick={() => handleViewActivite(activite)}>
+                    <VisibilityIcon fontSize="small" />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -250,6 +253,6 @@ const PlayerExtract: React.FC<PlayerExtractProps> = ({ player }) => {
       </Dialog>
     </>
   );
-};
+}
 
 export default PlayerExtract;

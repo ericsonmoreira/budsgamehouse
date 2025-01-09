@@ -1,7 +1,7 @@
 import { useTheme, SvgIcon, SvgIconProps } from "@mui/material";
 
 // Espada
-const CardsSpadeIcon: React.FC<SvgIconProps> = (props) => {
+function CardsSpadeIcon(props: SvgIconProps) {
   const { palette } = useTheme();
 
   return (
@@ -12,6 +12,6 @@ const CardsSpadeIcon: React.FC<SvgIconProps> = (props) => {
       </svg>
     </SvgIcon>
   );
-};
+}
 
 export default CardsSpadeIcon;

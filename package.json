@@ -1,7 +1,7 @@
 {
   "name": "budsgamehouse",
   "private": true,
-  "version": "2.1.2",
+  "version": "2.1.3",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -36,7 +36,7 @@
     "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
     "react": "^18.2.0",
-    "react-card-flip": "^1.2.2",
+    "react-card-flip": "^1.2.3",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-firebase-hooks": "^5.1.1",

@@ -13,14 +13,13 @@ import {
 } from "@mui/material";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import React from "react";
 import TypographyBalance from "../TypographyBalance";
 
 type PaymentInformationsProps = {
   data: Payment;
 };
 
-const PaymentInformations: React.FC<PaymentInformationsProps> = ({ data }) => {
+function PaymentInformations({ data }: PaymentInformationsProps) {
   return (
     <Paper>
       <Box p={1}>
@@ -76,6 +75,6 @@ const PaymentInformations: React.FC<PaymentInformationsProps> = ({ data }) => {
       </Box>
     </Paper>
   );
-};
+}
 
 export default PaymentInformations;

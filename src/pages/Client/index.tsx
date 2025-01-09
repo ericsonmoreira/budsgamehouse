@@ -12,7 +12,7 @@ import findPlayerByEmail from "../../resources/players/findPlayerByEmail";
 import routesNames from "../../routes/routesNames";
 import schema, { SchemaData } from "./schema ";
 
-const Client: React.FC = () => {
+function Client() {
   const navigate = useNavigate();
 
   const { control, handleSubmit } = useForm<SchemaData>({
@@ -89,6 +89,6 @@ const Client: React.FC = () => {
       </PaperGlass>
     </Page>
   );
-};
+}
 
 export default Client;

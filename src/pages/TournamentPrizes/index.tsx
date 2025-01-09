@@ -1,6 +1,6 @@
 import Page from "../../components/Page";
 
-const TournamentPrizes: React.FC = () => {
+function TournamentPrizes() {
   return (
     <Page>
       {/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
@@ -12,6 +12,6 @@ const TournamentPrizes: React.FC = () => {
       ></iframe>
     </Page>
   );
-};
+}
 
 export default TournamentPrizes;

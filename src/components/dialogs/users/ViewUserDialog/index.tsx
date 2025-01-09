@@ -19,10 +19,7 @@ type ViewUserDialogProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 } & DialogProps;
 
-const ViewUserDialog: React.FC<ViewUserDialogProps> = ({
-  setOpen,
-  ...rest
-}) => {
+function ViewUserDialog({ setOpen, ...rest }: ViewUserDialogProps) {
   const [user] = useAuthState(auth);
 
   const navigate = useNavigate();
@@ -70,6 +67,6 @@ const ViewUserDialog: React.FC<ViewUserDialogProps> = ({
       </DialogContent>
     </Dialog>
   );
-};
+}
 
 export default ViewUserDialog;

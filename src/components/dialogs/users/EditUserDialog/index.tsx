@@ -29,12 +29,12 @@ type EditUserDialogProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 } & DialogProps;
 
-const EditUserDialog: React.FC<EditUserDialogProps> = ({
+function EditUserDialog({
   title,
   setOpen,
   subTitle,
   ...rest
-}) => {
+}: EditUserDialogProps) {
   const queryClient = useQueryClient();
 
   const [user] = useAuthState(auth);
@@ -129,6 +129,6 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
       </Backdrop>
     </Dialog>
   );
-};
+}
 
 export default EditUserDialog;

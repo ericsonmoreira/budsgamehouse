@@ -38,9 +38,13 @@ const isTransfer = (obj: object): boolean => {
 const getObjectType = (obj: object): PlayerActiviteType | undefined => {
   if (isSale(obj)) {
     return "sale";
-  } else if (isPayment(obj)) {
+  }
+
+  if (isPayment(obj)) {
     return "payment";
-  } else if (isTransfer(obj)) {
+  }
+
+  if (isTransfer(obj)) {
     return "transfer";
   }
 };
@@ -77,9 +81,7 @@ const contentRender = (obj: object) => {
   );
 };
 
-const PlayerActivitiesTimeLine: React.FC<PlayerActivitiesTimeLineProps> = ({
-  data,
-}) => {
+function PlayerActivitiesTimeLine({ data }: PlayerActivitiesTimeLineProps) {
   const { palette, spacing } = useTheme();
 
   const { id } = data;
@@ -161,6 +163,7 @@ const PlayerActivitiesTimeLine: React.FC<PlayerActivitiesTimeLineProps> = ({
     return playerActiviteType ? iconRenderMap[playerActiviteType] : undefined;
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const playerActivities = useMemo<Array<Sale | Payment | Transfer>>(() => {
     if (sales && payments && transfers) {
       return [...sales, ...payments, ...transfers].sort(
@@ -173,9 +176,9 @@ const PlayerActivitiesTimeLine: React.FC<PlayerActivitiesTimeLineProps> = ({
 
   return (
     <VerticalTimeline lineColor={palette.text.secondary} layout="1-column">
-      {playerActivities.map((activite, index) => (
+      {playerActivities.map((activite) => (
         <VerticalTimelineElement
-          key={index}
+          key={`vertical-timeline-element-${activite}`}
           date={format(activite.createdAt.toDate(), "PPPp", { locale: ptBR })}
           contentArrowStyle={getContentArrowStyle(activite)}
           icon={iconRender(activite)}
@@ -187,6 +190,6 @@ const PlayerActivitiesTimeLine: React.FC<PlayerActivitiesTimeLineProps> = ({
       ))}
     </VerticalTimeline>
   );
-};
+}
 
 export default PlayerActivitiesTimeLine;

@@ -19,6 +19,10 @@ function useSchedle(schedleId = "") {
       return { id, ...data } as Schedule;
     },
     enabled: schedleId !== "",
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchInterval: false,
   });
 }
 

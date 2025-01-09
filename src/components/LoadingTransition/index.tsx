@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import Lottie from "lottie-react";
 import LoadingAnimation from "../../assets/lotties/loading.json";
 
-const LoadingTransition: React.FC = () => {
+function LoadingTransition() {
   return (
     <Box
       sx={{
@@ -20,6 +20,6 @@ const LoadingTransition: React.FC = () => {
       />
     </Box>
   );
-};
+}
 
 export default LoadingTransition;

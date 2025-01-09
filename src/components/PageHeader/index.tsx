@@ -9,11 +9,11 @@ type PageHeaderProps = {
   containsBackButton?: boolean;
 };
 
-const PageHeader: React.FC<PageHeaderProps> = ({
+function PageHeader({
   title,
   onClickAddButton,
   containsBackButton,
-}) => {
+}: PageHeaderProps) {
   const navigate = useNavigate();
 
   return (
@@ -42,6 +42,6 @@ const PageHeader: React.FC<PageHeaderProps> = ({
       )}
     </Box>
   );
-};
+}
 
 export default PageHeader;

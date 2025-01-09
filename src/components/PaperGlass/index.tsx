@@ -1,6 +1,6 @@
 import { Paper, PaperProps } from "@mui/material";
 
-const PaperGlass: React.FC<PaperProps> = (props) => {
+function PaperGlass(props: PaperProps) {
   return (
     <Paper
       {...props}
@@ -14,6 +14,6 @@ const PaperGlass: React.FC<PaperProps> = (props) => {
       }}
     />
   );
-};
+}
 
 export default PaperGlass;

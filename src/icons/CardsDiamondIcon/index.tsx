@@ -1,7 +1,7 @@
 import { SvgIcon, SvgIconProps, useTheme } from "@mui/material";
 
 // Ouro
-const CardsDiamondIcon: React.FC<SvgIconProps> = (props) => {
+function CardsDiamondIcon(props: SvgIconProps) {
   const { palette } = useTheme();
 
   return (
@@ -12,6 +12,6 @@ const CardsDiamondIcon: React.FC<SvgIconProps> = (props) => {
       </svg>
     </SvgIcon>
   );
-};
+}
 
 export default CardsDiamondIcon;
