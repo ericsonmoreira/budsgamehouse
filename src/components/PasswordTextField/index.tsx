@@ -4,7 +4,7 @@ import { IconButton, TextField, TextFieldProps } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment/InputAdornment";
 import { useState } from "react";
 
-const PasswordTextField: React.FC<TextFieldProps> = (props) => {
+function PasswordTextField(props: TextFieldProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   return (
@@ -26,6 +26,6 @@ const PasswordTextField: React.FC<TextFieldProps> = (props) => {
       }}
     />
   );
-};
+}
 
 export default PasswordTextField;

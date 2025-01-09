@@ -1,7 +1,7 @@
-import { useTheme, SvgIcon, SvgIconProps } from "@mui/material";
+import { SvgIcon, SvgIconProps, useTheme } from "@mui/material";
 
 // Copas
-const CardsHeartIcon: React.FC<SvgIconProps> = (props) => {
+function CardsHeartIcon(props: SvgIconProps) {
   const { palette } = useTheme();
 
   return (
@@ -12,6 +12,6 @@ const CardsHeartIcon: React.FC<SvgIconProps> = (props) => {
       </svg>
     </SvgIcon>
   );
-};
+}
 
 export default CardsHeartIcon;

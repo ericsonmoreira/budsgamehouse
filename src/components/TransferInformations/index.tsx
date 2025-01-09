@@ -3,7 +3,6 @@ import ForwardIcon from "@mui/icons-material/Forward";
 import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import React from "react";
 import usePlayer from "../../hooks/usePlayer";
 import AvatarPlayer from "../AvatarPlayer";
 import TypographyBalance from "../TypographyBalance";
@@ -12,9 +11,7 @@ type TransferInformationsProps = {
   data: Transfer;
 };
 
-const TransferInformations: React.FC<TransferInformationsProps> = ({
-  data,
-}) => {
+function TransferInformations({ data }: TransferInformationsProps) {
   const { receiverPlayerId, sendingPlayerId, value, description } = data;
 
   const { data: receiverPlayer } = usePlayer(receiverPlayerId);
@@ -74,6 +71,6 @@ const TransferInformations: React.FC<TransferInformationsProps> = ({
       </Box>
     </Paper>
   );
-};
+}
 
 export default TransferInformations;

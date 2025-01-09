@@ -9,7 +9,7 @@ type ImageDropZoneProps = {
   setFile: React.Dispatch<React.SetStateAction<File | null | undefined>>;
 };
 
-const ImageDropZone: React.FC<ImageDropZoneProps> = ({ file, setFile }) => {
+function ImageDropZone({ file, setFile }: ImageDropZoneProps) {
   const { palette } = useTheme();
 
   const onDrop = (acceptedFiles: File[]) => {
@@ -77,6 +77,6 @@ const ImageDropZone: React.FC<ImageDropZoneProps> = ({ file, setFile }) => {
       )}
     </Paper>
   );
-};
+}
 
 export default ImageDropZone;

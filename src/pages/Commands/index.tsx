@@ -14,12 +14,7 @@ type TabPanelProps = {
   value: number;
 };
 
-const TabPanel: React.FC<TabPanelProps> = ({
-  children,
-  index,
-  value,
-  ...rest
-}) => {
+function TabPanel({ children, index, value, ...rest }: TabPanelProps) {
   return (
     <div
       role="tabpanel"
@@ -31,9 +26,9 @@ const TabPanel: React.FC<TabPanelProps> = ({
       {value === index && children}
     </div>
   );
-};
+}
 
-const Commands: React.FC = () => {
+function Commands() {
   const [openAddCommandDialog, setOpenAddCommandDialog] = useState(false);
 
   const [activeTabValue, setActiveTabValue] = useState(0);
@@ -146,6 +141,6 @@ const Commands: React.FC = () => {
       />
     </Page>
   );
-};
+}
 
 export default Commands;

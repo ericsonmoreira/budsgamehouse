@@ -9,16 +9,14 @@ type ImgCardProps = {
   isLoading: boolean;
 };
 
-const ImgCard: React.FC<ImgCardProps & ImgHTMLAttributes<HTMLImageElement>> = (
-  props,
-) => {
+function ImgCard(props: ImgCardProps & ImgHTMLAttributes<HTMLImageElement>) {
   const { card, isLoading, ...rest } = props;
 
   const [isFlipped, setIsFlipped] = useState(false);
 
-  if (!card) return null;
-
   if (isLoading) return <Skeleton variant="rounded" width={100} height={200} />;
+
+  if (!card) return null;
 
   if (card.card_faces?.length > 1) {
     return (
@@ -55,6 +53,6 @@ const ImgCard: React.FC<ImgCardProps & ImgHTMLAttributes<HTMLImageElement>> = (
       width={100}
     />
   );
-};
+}
 
 export default ImgCard;

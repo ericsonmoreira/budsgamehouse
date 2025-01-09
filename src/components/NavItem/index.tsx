@@ -8,13 +8,13 @@ export type NavItemProps = {
   active: boolean;
 };
 
-const NavItem: React.FC<NavItemProps & ListItemProps> = ({
+function NavItem({
   to,
   icon: Icon,
   title,
   active,
   ...rest
-}) => {
+}: NavItemProps & ListItemProps) {
   return (
     <ListItem
       disableGutters
@@ -55,6 +55,6 @@ const NavItem: React.FC<NavItemProps & ListItemProps> = ({
       </NavLink>
     </ListItem>
   );
-};
+}
 
 export default NavItem;

@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Grid, MenuItem, Paper, Typography } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { EditorContent } from "@tiptap/react";
 import { format } from "date-fns";
 import { Timestamp } from "firebase/firestore";
 import { useEffect } from "react";
@@ -10,14 +9,14 @@ import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import Page from "../../components/Page";
 import PageHeader from "../../components/PageHeader";
+import RichTextEditor from "../../components/RichTextEditor";
 import ControlledCurrencyTextField from "../../components/textfields/ControlledCurrencyTextField";
 import ControlledTextField from "../../components/textfields/ControlledTextField";
 import useRickTextEditor from "../../hooks/useRickTextEditor";
 import useSchedle from "../../hooks/useSchedle";
+import { SaveIcon } from "../../icons";
 import updateSchedule from "../../resources/schedules/updateSchedule";
 import schema, { SchemaData } from "./schema";
-import RichTextEditor from "../../components/RichTextEditor";
-import { SaveIcon } from "../../icons";
 
 type EditSchedleParams = {
   id: string;

@@ -52,7 +52,7 @@ type CommandItemShoppingCart = {
   price: number;
 };
 
-const ViewCommand: React.FC = () => {
+function ViewCommand() {
   const [user] = useAuthState(auth);
 
   const { showDialog, confirmationDialog: ConfirmationDialog } =
@@ -472,6 +472,6 @@ const ViewCommand: React.FC = () => {
       <ConfirmationDialog />
     </Page>
   );
-};
+}
 
 export default ViewCommand;

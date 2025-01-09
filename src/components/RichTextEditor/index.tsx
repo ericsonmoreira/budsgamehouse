@@ -70,7 +70,7 @@ const MenuBar = ({ editor }: MenuBarProps) => {
             editor
               .chain()
               .focus()
-              .setMark("highlight", { backgroundColor: "#ff0" })
+              .setMark("highlight", { backgroundColor: "#cccc0e" })
               .run()
           }
           color={editor.isActive("highlight") ? "primary" : "default"}
@@ -79,7 +79,7 @@ const MenuBar = ({ editor }: MenuBarProps) => {
         </IconButton>
       </Tooltip>
       {titleLeveis.map((level) => (
-        <Tooltip key={`menuoption-h${level}`} title={`Título H${level}`}>
+        <Tooltip key={`menu-option-h${level}`} title={`Título H${level}`}>
           <IconButton
             onClick={() =>
               editor.chain().focus().toggleHeading({ level }).run()

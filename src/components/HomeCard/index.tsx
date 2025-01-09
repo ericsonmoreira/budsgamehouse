@@ -21,14 +21,14 @@ export type HomeCardProps = {
   isLoading?: boolean;
 };
 
-const HomeCard: React.FC<HomeCardProps> = ({
+function HomeCard({
   title,
   subheader,
   amount,
   icon: Icon,
   to,
   isLoading,
-}) => {
+}: HomeCardProps) {
   const navigate = useNavigate();
 
   return (
@@ -68,6 +68,6 @@ const HomeCard: React.FC<HomeCardProps> = ({
       </CardActions>
     </Card>
   );
-};
+}
 
 export default HomeCard;

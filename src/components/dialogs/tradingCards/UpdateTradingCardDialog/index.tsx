@@ -37,9 +37,13 @@ type UpdateTradingCardDialogFormData = {
   amount: string;
 };
 
-const UpdateTradingCardDialog: React.FC<
-  UpdateTradingCardDialogProps & DialogProps
-> = ({ title, subTitle, setOpen, tradingCardToUpdate, ...rest }) => {
+function UpdateTradingCardDialog({
+  title,
+  subTitle,
+  setOpen,
+  tradingCardToUpdate,
+  ...rest
+}: UpdateTradingCardDialogProps & DialogProps) {
   const { id, name, imgUrl, amount } = tradingCardToUpdate;
 
   const { updateTradingCard } = useTradingCards();
@@ -65,11 +69,12 @@ const UpdateTradingCardDialog: React.FC<
     setOpen(false);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setValue("name", name);
     setValue("amount", amount);
     setValue("imgUrl", imgUrl);
-  }, [tradingCardToUpdate]);
+  }, [tradingCardToUpdate, setValue]);
 
   return (
     <Dialog fullWidth maxWidth="md" {...rest}>
@@ -126,6 +131,6 @@ const UpdateTradingCardDialog: React.FC<
       </DialogActions>
     </Dialog>
   );
-};
+}
 
 export default UpdateTradingCardDialog;

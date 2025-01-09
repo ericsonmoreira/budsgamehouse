@@ -6,7 +6,7 @@ type PageProps = {
   children: React.ReactNode;
 };
 
-const Page: React.FC<PageProps> = ({ children, loading = false }) => {
+function Page({ children, loading = false }: PageProps) {
   return (
     <>
       {children}
@@ -18,6 +18,6 @@ const Page: React.FC<PageProps> = ({ children, loading = false }) => {
       </Backdrop>
     </>
   );
-};
+}
 
 export default Page;
