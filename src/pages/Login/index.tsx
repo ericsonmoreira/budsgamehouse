@@ -3,6 +3,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import PersonIcon from "@mui/icons-material/Person";
 import { Button, Grid, Stack, Typography } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
+import { getAuth } from "firebase/auth";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -11,9 +12,9 @@ import PaperGlass from "../../components/PaperGlass";
 import ControlledPasswordTextField from "../../components/textfields/ControlledPasswordTextField";
 import ControlledTextField from "../../components/textfields/ControlledTextField";
 import routesNames from "../../routes/routesNames";
-import { auth } from "../../services/firebaseConfig";
 import verifyFirebaseErroCode from "../../services/verifyFirebaseErroCode";
 import schema, { SchemaData } from "./schema ";
+import { auth } from "../../services/firebaseConfig";
 
 function Login() {
   const navigate = useNavigate();
