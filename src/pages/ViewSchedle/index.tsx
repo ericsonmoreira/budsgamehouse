@@ -30,7 +30,7 @@ function ViewSchedle() {
     editable: false,
   });
 
-  const [copiedText, copy] = useCopyToClipboard();
+  const [_, copy] = useCopyToClipboard();
 
   const handleCopy = async () => {
     if (editor) {
