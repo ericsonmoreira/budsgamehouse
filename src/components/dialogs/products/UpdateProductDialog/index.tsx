@@ -109,6 +109,7 @@ const UpdateProductDialog: React.FC<UpdateProductDialogProps & DialogProps> = ({
     setOpen(false);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     reset({
       name,
