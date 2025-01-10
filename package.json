@@ -4,7 +4,7 @@
   "version": "2.1.4",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
@@ -60,7 +60,6 @@
     "@vitest/coverage-v8": "2.1.8",
     "typescript": "^5.7.3",
     "vite": "^6.0.7",
-    "vite-plugin-qrcode": "^0.2.4",
     "vitest": "^2.1.8"
   }
 }
