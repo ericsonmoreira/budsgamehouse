@@ -1,5 +1,4 @@
 import AddCardIcon from "@mui/icons-material/AddCard";
-import CachedIcon from "@mui/icons-material/Cached";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import PersonIcon from "@mui/icons-material/Person";
 import { Grid } from "@mui/material";
@@ -8,15 +7,11 @@ import MarketCard from "../../components/MarketCard";
 import Page from "../../components/Page";
 import usePlayers from "../../hooks/usePlayers";
 import useProducts from "../../hooks/useProducts";
-import useTradingCards from "../../hooks/useTradingCards";
 import useWantedCards from "../../hooks/useWantedCards";
 import routesNames from "../../routes/routesNames";
 
 function Home() {
   const { data: players, isLoading: isLoadingPlayers } = usePlayers();
-
-  const { cards: tradingCards, isLoading: isLoadingTradingCards } =
-    useTradingCards();
 
   const { cards: wantedCards, isLoading: isLoadingWantedCards } =
     useWantedCards();
@@ -26,7 +21,7 @@ function Home() {
   const items: HomeCardProps[] = [
     {
       title: "Players",
-      subheader: "Jogadores cadastrados",
+      subheader: "Jogadores Cadastrados",
       amount: players?.length,
       icon: PersonIcon,
       to: routesNames.PLAYERS,
@@ -34,19 +29,11 @@ function Home() {
     },
     {
       title: "Produtos",
-      subheader: "Produtos cadastrados",
+      subheader: "Produtos Cadastrados",
       amount: products?.length,
       icon: LocalGroceryStoreIcon,
       to: routesNames.PRODUCTS,
       isLoading: isLoadingProducts,
-    },
-    {
-      title: "Troca",
-      subheader: "Cards para troca",
-      amount: tradingCards?.length,
-      icon: CachedIcon,
-      to: routesNames.TRANDING_CARDS,
-      isLoading: isLoadingTradingCards,
     },
     {
       title: "Want",

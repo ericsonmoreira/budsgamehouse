@@ -51,11 +51,6 @@ const items: AppDrawerItemData[] = [
     title: "Comandas",
   },
   {
-    icon: CachedIcon,
-    to: routesNames.TRANDING_CARDS,
-    title: "Cartas de Troca",
-  },
-  {
     icon: AddCardIcon,
     to: routesNames.WANTED_CARDS,
     title: "Want List",

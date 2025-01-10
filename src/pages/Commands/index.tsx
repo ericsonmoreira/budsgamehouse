@@ -105,32 +105,29 @@ function Commands() {
       </Tabs>
       <TabPanel value={activeTabValue} index={0}>
         <Grid container padding={1} spacing={1}>
-          {openedCommands &&
-            openedCommands.map((command) => (
-              <Grid item key={command.id} xs={12} sm={6} md={4} lg={3}>
-                <CommandCard data={command} key={command.id} />
-              </Grid>
-            ))}
+          {openedCommands?.map((command) => (
+            <Grid item key={command.id} xs={12} sm={6} md={4} lg={3}>
+              <CommandCard data={command} key={command.id} />
+            </Grid>
+          ))}
         </Grid>
       </TabPanel>
       <TabPanel value={activeTabValue} index={1}>
         <Grid container padding={1} spacing={1}>
-          {closedCommands &&
-            closedCommands.map((command) => (
-              <Grid item key={command.id} xs={12} sm={6} md={4} lg={3}>
-                <CommandCard data={command} key={command.id} />
-              </Grid>
-            ))}
+          {closedCommands?.map((command) => (
+            <Grid item key={command.id} xs={12} sm={6} md={4} lg={3}>
+              <CommandCard data={command} key={command.id} />
+            </Grid>
+          ))}
         </Grid>
       </TabPanel>
       <TabPanel value={activeTabValue} index={2}>
         <Grid container padding={1} spacing={1}>
-          {canceledCommands &&
-            canceledCommands.map((command) => (
-              <Grid item key={command.id} xs={12} sm={6} md={4} lg={3}>
-                <CommandCard data={command} key={command.id} />
-              </Grid>
-            ))}
+          {canceledCommands?.map((command) => (
+            <Grid item key={command.id} xs={12} sm={6} md={4} lg={3}>
+              <CommandCard data={command} key={command.id} />
+            </Grid>
+          ))}
         </Grid>
       </TabPanel>
       <AddCommandDialog

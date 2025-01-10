@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Backdrop,
   Button,
@@ -22,18 +22,12 @@ import { PRODUCT_CATEGORIES } from "../../../../utils/constants";
 import ImageDropZone from "../../../ImageDropZone";
 import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
 import ControlledTextField from "../../../textfields/ControlledTextField";
-import schema from "./schema";
+import schema, { AddProductDialogFormData } from "./schema";
 
 type AddProductDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-type AddProductDialogFormData = {
-  name: string;
-  price: number;
-  category: string;
 };
 
 const defaultValues: AddProductDialogFormData = {
@@ -49,7 +43,7 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({
   ...rest
 }) => {
   const { handleSubmit, reset, control } = useForm<AddProductDialogFormData>({
-    resolver: yupResolver(schema),
+    resolver: zodResolver(schema),
     defaultValues,
   });
 

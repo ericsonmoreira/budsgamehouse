@@ -85,9 +85,9 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({
       return names.filter(
         (name) => !commands.some((command) => command.name === name),
       );
-    } else {
-      return names;
     }
+
+    return names;
   }, [commands]);
 
   const { handleSubmit, reset, control } = useForm<AddCommandDialogFormData>({
@@ -145,11 +145,20 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
         <Grid container spacing={2}>
+          <Grid item xs={8}>
+            <ControlledTextField
+              name="displayName"
+              control={control}
+              variant="outlined"
+              label="Nome do Cliente"
+              size="small"
+              fullWidth
+            />
+          </Grid>
           <Grid item xs={4}>
             <ControlledTextField
               name="name"
               control={control}
-              defaultValue={possibleCommandsNames[0]}
               variant="outlined"
               label="Comanda"
               size="small"
@@ -174,16 +183,6 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({
                 );
               })}
             </ControlledTextField>
-          </Grid>
-          <Grid item xs={8}>
-            <ControlledTextField
-              name="displayName"
-              control={control}
-              variant="outlined"
-              label="Nome do Cliente"
-              size="small"
-              fullWidth
-            />
           </Grid>
         </Grid>
       </DialogContent>

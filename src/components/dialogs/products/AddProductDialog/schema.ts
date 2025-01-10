@@ -1,12 +1,13 @@
-import * as yup from "yup";
+import { z } from "zod";
 
-const schema = yup.object().shape({
-  name: yup.string().required("Campo obrigatório"),
-  price: yup
-    .number()
-    .required("Campo obrigatório")
+const schema = z.object({
+  name: z.string({ required_error: "Campo obrigatório" }),
+  price: z.coerce
+    .number({ required_error: "Campo obrigatório" })
     .positive("O valor tem que ser mior que R$ 0,00"),
-  category: yup.string().required("Campo obrigatório"),
+  category: z.string({ required_error: "Campo obrigatório" }),
 });
+
+export type AddProductDialogFormData = z.infer<typeof schema>;
 
 export default schema;
