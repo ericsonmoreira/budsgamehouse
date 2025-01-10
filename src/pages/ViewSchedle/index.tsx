@@ -1,13 +1,20 @@
-import { Box, Divider, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
 import { EditorContent } from "@tiptap/react";
 import { format } from "date-fns";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import { useCopyToClipboard } from "usehooks-ts";
 import Page from "../../components/Page";
 import PageHeader from "../../components/PageHeader";
 import useRickTextEditor from "../../hooks/useRickTextEditor";
 import useSchedle from "../../hooks/useSchedle";
-import { CalendarMonthIcon, PixIcon, VideogameAssetIcon } from "../../icons";
+import {
+  CalendarMonthIcon,
+  ContentCopyIcon,
+  PixIcon,
+  VideogameAssetIcon,
+} from "../../icons";
 import { formatterCurrencyBRL } from "../../utils/formatters";
 
 type ViewSchedleParams = {
@@ -23,6 +30,22 @@ function ViewSchedle() {
     editable: false,
   });
 
+  const [_, copy] = useCopyToClipboard();
+
+  const handleCopy = async () => {
+    if (editor) {
+      await copy(
+        editor
+          .getText()
+          .split("\n")
+          .filter((line) => line.trim() !== "")
+          .join("\n"),
+      );
+
+      toast.success("Texto cópiado com sucesso.");
+    }
+  };
+
   useEffect(() => {
     if (data && editor) {
       editor.commands.setContent(data.description);
@@ -36,7 +59,23 @@ function ViewSchedle() {
         {data && (
           <Paper sx={{ padding: 1 }}>
             <Stack direction="column" spacing={1}>
-              <Typography variant="h5">{data.title}</Typography>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Typography variant="h5">{data.title}</Typography>
+                <Button
+                  size="large"
+                  variant="outlined"
+                  color="info"
+                  onClick={handleCopy}
+                  startIcon={<ContentCopyIcon />}
+                >
+                  Copiar Conteúdo
+                </Button>
+              </Box>
+
               <Stack
                 spacing={1}
                 direction="row"

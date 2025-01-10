@@ -11,6 +11,7 @@ export { default as ManaWIcon } from "./ManaWIcon";
 export { default as ArrowForwardIcon } from "@mui/icons-material/ArrowForward";
 export { default as AttachMoneyIcon } from "@mui/icons-material/AttachMoney";
 export { default as CalendarMonthIcon } from "@mui/icons-material/CalendarMonth";
+export { default as ContentCopyIcon } from "@mui/icons-material/ContentCopy";
 export { default as DeleteIcon } from "@mui/icons-material/Delete";
 export { default as EditIcon } from "@mui/icons-material/Edit";
 export { default as FormatAlignCenterIcon } from "@mui/icons-material/FormatAlignCenter";
