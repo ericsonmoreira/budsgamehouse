@@ -67,7 +67,7 @@ function AutocompleteProducts({
           }
         }}
         renderOption={(props, option) => (
-          <Box component="li" {...props}>
+          <Box component="li" {...props} key={option.id}>
             {option.imgUrl && (
               <img
                 src={option.imgUrl}

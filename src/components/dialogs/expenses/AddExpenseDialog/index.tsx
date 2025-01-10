@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { zodResolver } from "@hookform/resolvers/zod";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Backdrop,
@@ -25,7 +25,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { Timestamp } from "firebase/firestore";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -36,23 +36,12 @@ import { auth } from "../../../../services/firebaseConfig";
 import AutocompleteProducts from "../../../AutocompleteProducts";
 import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
 import ControlledTextField from "../../../textfields/ControlledTextField";
-import schema from "./schema";
+import schema, { AddExpenseDialogFormData } from "./schema";
 
 type AddExpenseDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-type AddExpenseDialogFormData = {
-  name: string;
-  value: number;
-  description: string;
-  products: {
-    productId: string;
-    name: string;
-    amount: number;
-  }[];
 };
 
 const defaultValues: AddExpenseDialogFormData = {
@@ -78,7 +67,7 @@ const AddExpenseDialog: React.FC<AddExpenseDialogProps & DialogProps> = ({
 
   const { handleSubmit, reset, control, watch } =
     useForm<AddExpenseDialogFormData>({
-      resolver: yupResolver(schema),
+      resolver: zodResolver(schema),
       defaultValues,
     });
 
@@ -89,15 +78,12 @@ const AddExpenseDialog: React.FC<AddExpenseDialogProps & DialogProps> = ({
 
   const selectedProducts = watch("products");
 
-  const validProdutos = useMemo(() => {
-    if (produtos && selectedProducts) {
-      return produtos.filter(
-        (product) => !fields.some((field) => field.name === product.name),
-      );
-    }
-
-    return [];
-  }, [produtos, selectedProducts]);
+  const validProdutos =
+    produtos && selectedProducts
+      ? produtos.filter(
+          (product) => !fields.some((field) => field.name === product.name),
+        )
+      : [];
 
   const handleAddProductToShoppingCart = () => {
     if (selectedProduct) {

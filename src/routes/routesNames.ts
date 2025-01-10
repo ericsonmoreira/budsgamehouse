@@ -16,7 +16,7 @@ const routesNames = {
   LOGIN: "/login",
   SCHEDULES: "/schedules",
   VIEW_SCHEDLE: "/schedules/:id",
-  EDIT_SCHEDLE: "/schedules/edit/:id",
+  EDIT_SCHEDLE: "/schedules/:id/edit",
   RECOVER_PASSWORD: "/recover-password",
   TOURNAMENT_PRIZES: "/tournament-prizes",
   LIGA_PODIUM: "/liga-podium",
