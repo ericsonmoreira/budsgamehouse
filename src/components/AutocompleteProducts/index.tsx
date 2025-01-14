@@ -29,17 +29,18 @@ function AutocompleteProducts({
   onClickAddProductButton,
   disabled = false,
 }: AutocompleteProductsProps) {
-  const [validProductsWithPriority, setValidProductsWithPriority] = useState<
-    ProductWithPriority[]
-  >(() => validProdutos?.map((item) => ({ ...item, priority: 0 })) || []);
+  const [priorities, setPriorities] = useState<Record<string, number>>({}); // mapeamento das prioridades pelo id do produto
 
   const validProductsSorted = useMemo<Product[]>(
     () =>
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      validProductsWithPriority
-        .sort((a, b) => b.priority - a.priority)
-        .map(({ priority, ...rest }) => ({ ...rest })),
-    [validProductsWithPriority],
+      validProdutos.sort((a, b) => {
+        const aPriority = priorities[a.id] || 0;
+
+        const bPriority = priorities[b.id] || 0;
+
+        return bPriority - aPriority;
+      }),
+    [priorities, validProdutos],
   );
 
   return (
@@ -48,22 +49,16 @@ function AutocompleteProducts({
         disabled={disabled}
         value={selectedProduct}
         options={validProductsSorted}
-        onChange={(_, newValue) => {
+        onChange={(e, newValue) => {
+          e.preventDefault();
+
           setSelectedProduct(newValue);
 
           if (newValue) {
-            setValidProductsWithPriority((old) => {
-              const selectedProductIndex = old.findIndex(
-                (item) => item.id === newValue.id,
-              );
-
-              if (selectedProductIndex !== -1) {
-                old[selectedProductIndex].priority =
-                  old[selectedProductIndex].priority + 1;
-              }
-
-              return [...old];
-            });
+            setPriorities((old) => ({
+              ...old,
+              [newValue.id]: (old[newValue.id] || 0) + 1,
+            }));
           }
         }}
         renderOption={(props, option) => (
