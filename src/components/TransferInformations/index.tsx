@@ -1,11 +1,11 @@
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AvatarPlayer from "@/components/AvatarPlayer";
+import TypographyBalance from "@/components/TypographyBalance";
+import usePlayer from "@/hooks/usePlayer";
+import { CalendarMonthIcon } from "@/icons";
 import ForwardIcon from "@mui/icons-material/Forward";
-import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
+import { Box, Grid2 as Grid, Paper, Stack, Typography } from "@mui/material";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import usePlayer from "../../hooks/usePlayer";
-import AvatarPlayer from "../AvatarPlayer";
-import TypographyBalance from "../TypographyBalance";
 
 type TransferInformationsProps = {
   data: Transfer;
@@ -32,13 +32,13 @@ function TransferInformations({ data }: TransferInformationsProps) {
         </Stack>
         {sendingPlayer && receiverPlayer && (
           <Grid container alignItems="center" spacing={1}>
-            <Grid item xs={12} sm={5}>
+            <Grid size={{ xs: 12, sm: 5 }}>
               <Stack direction="row" spacing={1} alignItems="center">
                 <AvatarPlayer playerId={sendingPlayer.id} />
                 <Typography variant="h6">{sendingPlayer.name}</Typography>
               </Stack>
             </Grid>
-            <Grid item xs={12} sm={2}>
+            <Grid size={{ xs: 12, sm: 5 }}>
               <Box
                 display="flex"
                 alignItems="center"
@@ -49,7 +49,7 @@ function TransferInformations({ data }: TransferInformationsProps) {
                 <ForwardIcon />
               </Box>
             </Grid>
-            <Grid item xs={12} sm={5}>
+            <Grid size={{ xs: 12, sm: 5 }}>
               <Stack
                 direction="row"
                 spacing={1}

@@ -3,7 +3,7 @@ import {
   formatterCurrencyBRL,
   formatterDecimal,
   formatterPercentage,
-} from "../../utils/formatters";
+} from "@/utils/formatters";
 
 describe("Number Formatters", () => {
   it("should format numbers as BRL currency", () => {

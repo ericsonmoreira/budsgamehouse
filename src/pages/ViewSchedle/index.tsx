@@ -5,17 +5,17 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { useCopyToClipboard } from "usehooks-ts";
-import Page from "../../components/Page";
-import PageHeader from "../../components/PageHeader";
-import useRickTextEditor from "../../hooks/useRickTextEditor";
-import useSchedle from "../../hooks/useSchedle";
+import Page from "@/components/Page";
+import PageHeader from "@/components/PageHeader";
+import useRickTextEditor from "@/hooks/useRickTextEditor";
+import useSchedle from "@/hooks/useSchedle";
 import {
   CalendarMonthIcon,
   ContentCopyIcon,
   PixIcon,
   VideogameAssetIcon,
-} from "../../icons";
-import { formatterCurrencyBRL } from "../../utils/formatters";
+} from "@/icons";
+import { formatterCurrencyBRL } from "@/utils/formatters";
 
 type ViewSchedleParams = {
   id: string;

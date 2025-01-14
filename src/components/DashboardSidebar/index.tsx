@@ -1,6 +1,8 @@
+import { WorkspacePremiumIcon } from "@/icons";
+import routesNames from "@/routes/routesNames";
+import { auth } from "@/services/firebaseConfig";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import CachedIcon from "@mui/icons-material/Cached";
 import CalendarViewMonthIcon from "@mui/icons-material/CalendarViewMonth";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import HomeIcon from "@mui/icons-material/Home";
@@ -23,10 +25,7 @@ import { useTheme } from "@mui/material/styles";
 import { useSignOut } from "react-firebase-hooks/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { version } from "../../../package.json";
-import routesNames from "../../routes/routesNames";
-import { auth } from "../../services/firebaseConfig";
 import NavItem from "../NavItem";
-import { WorkspacePremiumIcon } from "../../icons";
 
 type AppDrawerItemData = {
   to: string;

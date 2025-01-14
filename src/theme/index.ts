@@ -1,16 +1,29 @@
 import { alpha, createTheme } from "@mui/material/styles";
-import { ptBR } from "@mui/x-data-grid";
+import { ptBR } from "@mui/x-data-grid/locales";
 
 const lightTheme = createTheme(
   {
     palette: {
       mode: "light",
       primary: {
-        main: "#2e6bff",
+        main: "#3762C1", // Azul mais escuro para maior contraste
+        light: "#5A86E8",
+        dark: "#25448B",
+        contrastText: "#FFFFFF",
+      },
+      secondary: {
+        main: "#E35B48", // Vermelho mais escuro para complementar
+        light: "#FF8A73",
+        dark: "#AF362E",
+        contrastText: "#FFFFFF",
       },
       background: {
-        default: "#d0dee2",
-        paper: "#e3f8ff",
+        default: "#E5E9EC", // Cinza mais escuro para o fundo geral
+        paper: "#F2F4F5", // Levemente mais escuro para destacar do default
+      },
+      text: {
+        primary: "#212121", // Cinza muito escuro para o texto principal
+        secondary: "#424242", // Cinza escuro para texto secundário
       },
     },
     typography: {

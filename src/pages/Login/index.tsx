@@ -1,20 +1,19 @@
+import Page from "@/components/Page";
+import PaperGlass from "@/components/PaperGlass";
+import ControlledPasswordTextField from "@/components/textfields/ControlledPasswordTextField";
+import ControlledTextField from "@/components/textfields/ControlledTextField";
+import routesNames from "@/routes/routesNames";
+import { auth } from "@/services/firebaseConfig";
+import verifyFirebaseErroCode from "@/services/verifyFirebaseErroCode";
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonIcon from "@mui/icons-material/Person";
-import { Button, Grid, Stack, Typography } from "@mui/material";
+import { Button, Grid2 as Grid, Stack, Typography } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
-import { getAuth } from "firebase/auth";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
-import Page from "../../components/Page";
-import PaperGlass from "../../components/PaperGlass";
-import ControlledPasswordTextField from "../../components/textfields/ControlledPasswordTextField";
-import ControlledTextField from "../../components/textfields/ControlledTextField";
-import routesNames from "../../routes/routesNames";
-import verifyFirebaseErroCode from "../../services/verifyFirebaseErroCode";
 import schema, { SchemaData } from "./schema ";
-import { auth } from "../../services/firebaseConfig";
 
 function Login() {
   const navigate = useNavigate();
@@ -86,7 +85,7 @@ function Login() {
           </Stack>
         </form>
         <Grid container mt={1} spacing={1}>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <Button
               variant="outlined"
               fullWidth
@@ -95,7 +94,7 @@ function Login() {
               Redefinir senha
             </Button>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <Button
               fullWidth
               variant="outlined"

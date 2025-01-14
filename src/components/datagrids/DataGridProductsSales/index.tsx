@@ -15,7 +15,7 @@ type DataGridProductsSalesRowData = {
   price: number;
 };
 
-const columns: GridColDef[] = [
+const columns: GridColDef<DataGridProductsSalesRowData>[] = [
   {
     field: "name",
     headerName: "Produto",
@@ -30,14 +30,14 @@ const columns: GridColDef[] = [
     field: "price",
     headerName: "Unid.",
     width: 100,
-    valueFormatter: ({ value }) => formatterCurrencyBRL.format(value),
+    valueFormatter: (value, row) => formatterCurrencyBRL.format(row.price),
   },
   {
     field: "total",
     headerName: "Total",
     width: 100,
-    valueGetter: ({ row }) => row.amount * row.price,
-    valueFormatter: ({ value }) => formatterCurrencyBRL.format(value),
+    valueGetter: (value, row) => row.amount * row.price,
+    valueFormatter: (value) => formatterCurrencyBRL.format(value),
   },
 ];
 

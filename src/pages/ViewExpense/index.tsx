@@ -1,3 +1,7 @@
+import Page from "@/components/Page";
+import PageHeader from "@/components/PageHeader";
+import TypographyBalance from "@/components/TypographyBalance";
+import useExpense from "@/hooks/useExpense";
 import {
   Box,
   Card,
@@ -12,10 +16,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import Page from "../../components/Page";
-import PageHeader from "../../components/PageHeader";
-import TypographyBalance from "../../components/TypographyBalance";
-import useExpense from "../../hooks/useExpense";
 
 type ViewExpenseParams = {
   id: string;

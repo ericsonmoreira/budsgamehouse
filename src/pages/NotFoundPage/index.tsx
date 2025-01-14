@@ -1,9 +1,8 @@
+import NotFoundAnimation from "@/assets/lotties/404.json";
+import Page from "@/components/Page";
+import PageHeader from "@/components/PageHeader";
 import { Box } from "@mui/material";
 import Lottie from "lottie-react";
-import React from "react";
-import NotFoundAnimation from "../../assets/lotties/404.json";
-import Page from "../../components/Page";
-import PageHeader from "../../components/PageHeader";
 
 function NotFoundPage() {
   return (

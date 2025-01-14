@@ -1,4 +1,9 @@
-import PaidIcon from "@mui/icons-material/Paid";
+import AvatarPlayer from "@/components/AvatarPlayer";
+import Page from "@/components/Page";
+import PlayerExtract from "@/components/PlayerExtract";
+import TypographyBalance from "@/components/TypographyBalance";
+import usePlayer from "@/hooks/usePlayer";
+import { PaidIcon } from "@/icons";
 import {
   Box,
   Button,
@@ -9,13 +14,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import AvatarPlayer from "../../components/AvatarPlayer";
-import Page from "../../components/Page";
-import PlayerExtract from "../../components/PlayerExtract";
-import TypographyBalance from "../../components/TypographyBalance";
-import usePlayer from "../../hooks/usePlayer";
 
 type ViewClientParams = {
   id: string;

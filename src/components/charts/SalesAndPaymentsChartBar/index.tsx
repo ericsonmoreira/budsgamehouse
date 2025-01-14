@@ -1,3 +1,4 @@
+import { formatterCurrencyBRL } from "@/utils/formatters";
 import { Box, Paper } from "@mui/material";
 import {
   AllSeriesType,
@@ -9,8 +10,7 @@ import {
   ResponsiveChartContainer,
 } from "@mui/x-charts";
 import { eachDayOfInterval, endOfMonth, format, startOfMonth } from "date-fns";
-import React, { useMemo } from "react";
-import { formatterCurrencyBRL } from "../../../utils/formatters";
+import { useMemo } from "react";
 
 type SalesAndPaymentsChartBarProps = {
   sales: Sale[] | undefined;
@@ -66,7 +66,6 @@ function SalesAndPaymentsChartBar({
     return salesByDayOfMonth;
   }, [sales, todasAsDatasDoMes]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const calculatePaymentsByDayOfMonth = useMemo(() => {
     const paymentsByDayOfMonth: { day: string; value: number }[] =
       todasAsDatasDoMes.map((date) => ({
@@ -93,7 +92,7 @@ function SalesAndPaymentsChartBar({
     paymentsByDayOfMonth.sort((a, b) => a.day.localeCompare(b.day));
 
     return paymentsByDayOfMonth;
-  }, [payments]);
+  }, [payments, todasAsDatasDoMes]);
 
   const series = useMemo<AllSeriesType[]>(
     () => [
@@ -101,13 +100,13 @@ function SalesAndPaymentsChartBar({
         type: "bar",
         label: "Venda",
         data: calculateSalesByDayOfMonth.map((elem) => elem.value),
-        valueFormatter: (value) => formatterCurrencyBRL.format(value),
+        valueFormatter: (value) => formatterCurrencyBRL.format(value as number),
       },
       {
         type: "line",
         label: "Pagamento",
         data: calculatePaymentsByDayOfMonth.map((elem) => elem.value),
-        valueFormatter: (value) => formatterCurrencyBRL.format(value),
+        valueFormatter: (value) => formatterCurrencyBRL.format(value as number),
       },
     ],
     [calculateSalesByDayOfMonth, calculatePaymentsByDayOfMonth],

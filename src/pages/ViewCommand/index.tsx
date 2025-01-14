@@ -1,3 +1,16 @@
+import AutocompleteProducts from "@/components/AutocompleteProducts";
+import CommandTitleName from "@/components/CommandCard/CommandTitleName";
+import Page from "@/components/Page";
+import PageHeader from "@/components/PageHeader";
+import useCommand from "@/hooks/useCommand";
+import useConfirmation from "@/hooks/useConfirmation";
+import useProducts from "@/hooks/useProducts";
+import updateCommand from "@/resources/commands/updateCommand";
+import updateProductStock from "@/resources/products/updateProductStock";
+import addSale from "@/resources/sales/addSale";
+import routesNames from "@/routes/routesNames";
+import { auth } from "@/services/firebaseConfig";
+import { formatterCurrencyBRL } from "@/utils/formatters";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import BlockIcon from "@mui/icons-material/Block";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -7,7 +20,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import {
   Box,
   Button,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   Paper,
   Stack,
@@ -27,19 +40,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import toast from "react-hot-toast";
 import { Navigate, useParams } from "react-router-dom";
 import "react-vertical-timeline-component/style.min.css";
-import AutocompleteProducts from "../../components/AutocompleteProducts";
-import CommandTitleName from "../../components/CommandCard/CommandTitleName";
-import Page from "../../components/Page";
-import PageHeader from "../../components/PageHeader";
-import useCommand from "../../hooks/useCommand";
-import useProducts from "../../hooks/useProducts";
-import updateCommand from "../../resources/commands/updateCommand";
-import updateProductStock from "../../resources/products/updateProductStock";
-import addSale from "../../resources/sales/addSale";
-import routesNames from "../../routes/routesNames";
-import { auth } from "../../services/firebaseConfig";
-import { formatterCurrencyBRL } from "../../utils/formatters";
-import useConfirmation from "../../hooks/useConfirmation";
 
 type ViewCommandParams = {
   id: string;
@@ -322,17 +322,17 @@ function ViewCommand() {
         <Grid container spacing={1}>
           {command && (
             <>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography color="text.primary" variant="h5">
                   Cliente: {command.displayName || "Não Informado"}
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <CommandTitleName command={command} />
               </Grid>
             </>
           )}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <AutocompleteProducts
               disabled={isDisableCommandEdition}
               selectedProduct={selectedProduct}
@@ -341,7 +341,7 @@ function ViewCommand() {
               onClickAddProductButton={handleAddProductToShoppingCart}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TableContainer component={Paper}>
               <Table size="small">
                 <TableHead>
@@ -433,7 +433,7 @@ function ViewCommand() {
               </Table>
             </TableContainer>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <Button
               color="warning"
               variant="outlined"
@@ -445,7 +445,7 @@ function ViewCommand() {
               Cancelar Comanda
             </Button>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <Button
               variant="contained"
               startIcon={<DoneAllIcon />}
@@ -456,7 +456,7 @@ function ViewCommand() {
               Fechar Comanda
             </Button>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <Button
               variant="contained"
               startIcon={<SaveIcon />}

@@ -1,8 +1,8 @@
-import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import AvatarPlayer from "../../AvatarPlayer";
-import TypographyBalance from "../../TypographyBalance";
-import ActionsCell from "../../cells/ActionsCell";
-import CustomDataGrid from "../CustomDataGrid";
+import AvatarPlayer from "@/components/AvatarPlayer";
+import TypographyBalance from "@/components/TypographyBalance";
+import ActionsCell from "@/components/cells/ActionsCell";
+import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
+import { GridColDef } from "@mui/x-data-grid";
 
 type DataGridBalancesRowData = Player & {
   actions: {
@@ -16,7 +16,7 @@ type DataGridBalancesProps = {
   loading?: boolean;
 };
 
-const columns: GridColDef[] = [
+const columns: GridColDef<DataGridBalancesRowData>[] = [
   {
     field: "Imagem",
     headerName: "",
@@ -52,15 +52,10 @@ const columns: GridColDef[] = [
     align: "right",
     disableColumnMenu: true,
     sortable: false,
-    renderCell: (
-      params: GridRenderCellParams<{
-        handleUpdate(): void;
-        handleTransfer(): void;
-      }>,
-    ) => (
+    renderCell: ({ row }) => (
       <ActionsCell
-        handleUpdate={params.value?.handleUpdate}
-        handleTransfer={params.value?.handleTransfer}
+        handleUpdate={row.actions.handleUpdate}
+        handleTransfer={row.actions.handleTransfer}
       />
     ),
   },

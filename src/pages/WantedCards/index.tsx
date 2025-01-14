@@ -2,15 +2,15 @@ import { Box, Grid, MenuItem, TextField, styled } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import PageHeader from "../../components/PageHeader";
-import DataGridWantedCards from "../../components/datagrids/DataGridWantedCards";
-import AddWantCardDialog from "../../components/dialogs/wantCards/AddWantCardDialog";
+import PageHeader from "@/components/PageHeader";
+import DataGridWantedCards from "@/components/datagrids/DataGridWantedCards";
+import AddWantCardDialog from "@/components/dialogs/wantCards/AddWantCardDialog";
 import UpdateWantedCardDialog, {
   WantedCardUpdateData,
-} from "../../components/dialogs/wantCards/UpdateWantedCardDialog";
-import useConfirmation from "../../hooks/useConfirmation";
-import useWantedCards from "../../hooks/useWantedCards";
-import Page from "../../components/Page";
+} from "@/components/dialogs/wantCards/UpdateWantedCardDialog";
+import useConfirmation from "@/hooks/useConfirmation";
+import useWantedCards from "@/hooks/useWantedCards";
+import Page from "@/components/Page";
 type PreviewModeType = "Tabela" | "Visual";
 
 const viewingModes: PreviewModeType[] = ["Tabela", "Visual"];

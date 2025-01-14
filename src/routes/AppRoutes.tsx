@@ -1,8 +1,8 @@
+import LoadingTransition from "@/components/LoadingTransition";
+import AreaClientLayout from "@/layouts/AreaClientLayout";
+import DashboardLayout from "@/layouts/DashboardLayout";
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import LoadingTransition from "../components/LoadingTransition";
-import AreaClientLayout from "../layouts/AreaClientLayout";
-import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoutes from "./PrivateRoutes";
 import routesNames from "./routesNames";
 

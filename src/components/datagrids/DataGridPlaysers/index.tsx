@@ -19,7 +19,7 @@ type DataGridPlaysersProps = {
   loading?: boolean;
 };
 
-const columns: GridColDef[] = [
+const columns: GridColDef<DataGridPlaysersRowData>[] = [
   {
     field: "avatar",
     headerName: "",
@@ -41,15 +41,10 @@ const columns: GridColDef[] = [
     align: "right",
     disableColumnMenu: true,
     sortable: false,
-    renderCell: (
-      params: GridRenderCellParams<{
-        handleUpdate(): void;
-        handledelete(): void;
-      }>,
-    ) => (
+    renderCell: (params) => (
       <ActionsCell
-        handleUpdate={params.value?.handleUpdate}
-        handledelete={params.value?.handledelete}
+        handleUpdate={params.row.actions.handleUpdate}
+        handledelete={params.row.actions.handledelete}
       />
     ),
   },

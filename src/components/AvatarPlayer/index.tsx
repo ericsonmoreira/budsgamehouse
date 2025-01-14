@@ -1,13 +1,13 @@
+import usePlayer from "@/hooks/usePlayer";
+import routesNames from "@/routes/routesNames";
 import {
   Avatar,
   AvatarProps,
+  IconButton,
   Tooltip,
   Typography,
-  IconButton,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import routesNames from "../../routes/routesNames";
-import usePlayer from "../../hooks/usePlayer";
 
 type AvatarPlayerProps = {
   playerId: string;

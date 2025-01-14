@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Button, Grid, Stack, Typography } from "@mui/material";
+import { Button, Grid2 as Grid, Stack, Typography } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { AuthError } from "firebase/auth";
 import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
@@ -48,7 +48,7 @@ function RecoverPassword() {
             Redefinir senha
           </Typography>
           <Grid container spacing={1}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <ControlledTextField
                 autoFocus
                 name="email"
@@ -65,7 +65,7 @@ function RecoverPassword() {
                 </Typography>
               )}
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack direction="row" spacing={1}>
                 <Button
                   disableElevation

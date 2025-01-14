@@ -1,3 +1,10 @@
+import AvatarPlayer from "@/components/AvatarPlayer";
+import TypographyBalance from "@/components/TypographyBalance";
+import ControlledCurrencyTextField from "@/components/textfields/ControlledCurrencyTextField";
+import ControlledTextField from "@/components/textfields/ControlledTextField";
+import addPayment from "@/resources/payments/addPayment";
+import updatePlayer from "@/resources/players/updatePlayer";
+import { auth } from "@/services/firebaseConfig";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {
@@ -20,13 +27,6 @@ import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import addPayment from "../../../../resources/payments/addPayment";
-import updatePlayer from "../../../../resources/players/updatePlayer";
-import { auth } from "../../../../services/firebaseConfig";
-import AvatarPlayer from "../../../AvatarPlayer";
-import TypographyBalance from "../../../TypographyBalance";
-import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
-import ControlledTextField from "../../../textfields/ControlledTextField";
 import schema from "./schema ";
 
 type PaymentDialogProps = {

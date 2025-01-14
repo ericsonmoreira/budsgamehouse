@@ -1,4 +1,11 @@
 import {
+  CardsClubIcon,
+  CardsDiamondIcon,
+  CardsHeartIcon,
+  CardsSpadeIcon,
+  WarningIcon,
+} from "@/icons";
+import {
   Box,
   Chip,
   Stack,
@@ -7,13 +14,6 @@ import {
   Typography,
 } from "@mui/material";
 import { differenceInHours } from "date-fns";
-import {
-  CardsClubIcon,
-  CardsDiamondIcon,
-  CardsHeartIcon,
-  CardsSpadeIcon,
-  WarningIcon,
-} from "../../../icons";
 
 type CommandTitleName = {
   command: Command;

@@ -1,18 +1,18 @@
+import Page from "@/components/Page";
+import PageHeader from "@/components/PageHeader";
+import DataGridPlaysers from "@/components/datagrids/DataGridPlaysers";
+import AddPlayerDialog from "@/components/dialogs/players/AddPlayerDialog";
+import UpdatePlayerDialog from "@/components/dialogs/players/UpdatePlayerDialog";
+import SearchTextField from "@/components/textfields/SearchTextField";
+import useConfirmation from "@/hooks/useConfirmation";
+import usePlayers from "@/hooks/usePlayers";
+import deletePlayer from "@/resources/players/deletePlayer";
 import { Box } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import { useDebounce } from "usehooks-ts"; // TODO: ajustar isso depois
-import Page from "../../components/Page";
-import PageHeader from "../../components/PageHeader";
-import DataGridPlaysers from "../../components/datagrids/DataGridPlaysers";
-import AddPlayerDialog from "../../components/dialogs/players/AddPlayerDialog";
-import UpdatePlayerDialog from "../../components/dialogs/players/UpdatePlayerDialog";
-import SearchTextField from "../../components/textfields/SearchTextField";
-import useConfirmation from "../../hooks/useConfirmation";
-import usePlayers from "../../hooks/usePlayers";
-import deletePlayer from "../../resources/players/deletePlayer";
 
 function Players() {
   const queryClient = useQueryClient();
