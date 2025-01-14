@@ -66,7 +66,13 @@ function MarketCard() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const [shoppingCart, setShoppingCart] = useState<
-    { id: string; name: string; amount: number; price: number }[]
+    {
+      id: string;
+      name: string;
+      amount: number;
+      price: number;
+      imgUrl?: string;
+    }[]
   >([]);
 
   const { handleSubmit, control, watch, resetField } = useForm<SchemaData>({
@@ -78,15 +84,20 @@ function MarketCard() {
 
   const looseValueWatch = Number(watch("looseValue"));
 
-  const validProdutos = useMemo(() => {
-    if (products && shoppingCart) {
-      return products.filter(
-        (product) => !shoppingCart.some((elem) => elem.id === product.id),
-      );
-    }
+  const validProdutos =
+    products?.filter(
+      (product) => !shoppingCart.some((elem) => elem.id === product.id),
+    ) || [];
 
-    return [];
-  }, [products, shoppingCart]);
+  // const validProdutos = useMemo(() => {
+  //   if (products && shoppingCart) {
+  //     return products.filter(
+  //       (product) => !shoppingCart.some((elem) => elem.id !== product.id),
+  //     );
+  //   }
+
+  //   return [];
+  // }, [products, shoppingCart]);
 
   const handleAddProductToShoppingCart = () => {
     if (selectedProduct) {
@@ -201,13 +212,13 @@ function MarketCard() {
       },
     });
 
-  const handleClearFields = useCallback(() => {
+  const handleClearFields = () => {
     setShoppingCart([]);
 
     resetField("looseValue");
 
     setSelectedPlayer(null);
-  }, [setShoppingCart, resetField, setSelectedPlayer]);
+  };
 
   const handleConfirm = (data: SchemaData) => {
     confirmMutate(data);
@@ -269,7 +280,9 @@ function MarketCard() {
               />
             </Grid>
             <Grid item xs={12}>
-              <Typography>Produtos selecioandos</Typography>
+              <Typography variant="h5" mb={1}>
+                Produtos selecioandos
+              </Typography>
               <TableContainer component={Paper} variant="outlined">
                 <Table size="small">
                   <TableHead>
@@ -293,9 +306,28 @@ function MarketCard() {
                               alignItems="center"
                               justifyContent="space-between"
                             >
-                              <Typography variant="inherit">
-                                {row.name}
-                              </Typography>
+                              <Stack
+                                direction="row"
+                                spacing={1}
+                                display="flex"
+                                alignItems="center"
+                              >
+                                {row.imgUrl && (
+                                  <img
+                                    src={row.imgUrl}
+                                    alt="product-img"
+                                    style={{
+                                      width: 25,
+                                      height: 25,
+                                      borderRadius: "50%",
+                                      marginRight: 4,
+                                    }}
+                                  />
+                                )}
+                                <Typography variant="inherit">
+                                  {row.name}
+                                </Typography>
+                              </Stack>
                               <Stack direction="row">
                                 <IconButton
                                   onClick={() =>
