@@ -8,7 +8,7 @@ import routesNames from "@/routes/routesNames";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import PersonIcon from "@mui/icons-material/Person";
-import Grid from "@mui/material/Grid2";
+import { Grid2 as Grid } from "@mui/material";
 
 function Home() {
   const { data: players, isLoading: isLoadingPlayers } = usePlayers();

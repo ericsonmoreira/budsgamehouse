@@ -1,4 +1,4 @@
-import { Box, Grid, MenuItem, TextField, styled } from "@mui/material";
+import { Box, Grid2 as Grid, MenuItem, TextField, styled } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -142,7 +142,7 @@ function WantedCards() {
         {previewMode === "Visual" && (
           <Grid container>
             {wantedCards?.map(({ id, imgUrl, amount }) => (
-              <Grid item xs={2} p={1} key={id}>
+              <Grid size={2} p={1} key={id}>
                 <PreviewModeImg amount={amount}>
                   <img
                     src={imgUrl}
