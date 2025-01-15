@@ -1,3 +1,10 @@
+import AutocompleteProducts from "@/components/AutocompleteProducts";
+import ControlledCurrencyTextField from "@/components/textfields/ControlledCurrencyTextField";
+import ControlledTextField from "@/components/textfields/ControlledTextField";
+import useProducts from "@/hooks/useProducts";
+import addExpense from "@/resources/expenses/addExpense";
+import updateProductStock from "@/resources/products/updateProductStock";
+import { auth } from "@/services/firebaseConfig";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
@@ -11,7 +18,7 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   Paper,
   Table,
@@ -29,13 +36,6 @@ import { useCallback, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import useProducts from "../../../../hooks/useProducts";
-import addExpense from "../../../../resources/expenses/addExpense";
-import updateProductStock from "../../../../resources/products/updateProductStock";
-import { auth } from "../../../../services/firebaseConfig";
-import AutocompleteProducts from "../../../AutocompleteProducts";
-import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
-import ControlledTextField from "../../../textfields/ControlledTextField";
 import schema, { AddExpenseDialogFormData } from "./schema";
 
 type AddExpenseDialogProps = {
@@ -173,7 +173,7 @@ const AddExpenseDialog: React.FC<AddExpenseDialogProps & DialogProps> = ({
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ControlledTextField
               name="name"
               control={control}
@@ -183,7 +183,7 @@ const AddExpenseDialog: React.FC<AddExpenseDialogProps & DialogProps> = ({
               fullWidth
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ControlledTextField
               name="description"
               control={control}
@@ -195,7 +195,7 @@ const AddExpenseDialog: React.FC<AddExpenseDialogProps & DialogProps> = ({
               fullWidth
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ControlledCurrencyTextField
               name="value"
               control={control}
@@ -205,7 +205,7 @@ const AddExpenseDialog: React.FC<AddExpenseDialogProps & DialogProps> = ({
               fullWidth
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <AutocompleteProducts
               selectedProduct={selectedProduct}
               setSelectedProduct={setSelectedProduct}
@@ -213,7 +213,7 @@ const AddExpenseDialog: React.FC<AddExpenseDialogProps & DialogProps> = ({
               onClickAddProductButton={handleAddProductToShoppingCart}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography gutterBottom>
               Produdos para entrada em Estoque
             </Typography>

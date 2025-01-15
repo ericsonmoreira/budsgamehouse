@@ -1,5 +1,21 @@
+import Page from "@/components/Page";
+import PageHeader from "@/components/PageHeader";
+import RichTextEditor from "@/components/RichTextEditor";
+import ControlledCurrencyTextField from "@/components/textfields/ControlledCurrencyTextField";
+import ControlledTextField from "@/components/textfields/ControlledTextField";
+import useRickTextEditor from "@/hooks/useRickTextEditor";
+import useSchedle from "@/hooks/useSchedle";
+import { SaveIcon } from "@/icons";
+import updateSchedule from "@/resources/schedules/updateSchedule";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Grid, MenuItem, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid2 as Grid,
+  MenuItem,
+  Paper,
+  Typography,
+} from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { Timestamp } from "firebase/firestore";
@@ -7,15 +23,6 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
-import Page from "../../components/Page";
-import PageHeader from "../../components/PageHeader";
-import RichTextEditor from "../../components/RichTextEditor";
-import ControlledCurrencyTextField from "../../components/textfields/ControlledCurrencyTextField";
-import ControlledTextField from "../../components/textfields/ControlledTextField";
-import useRickTextEditor from "../../hooks/useRickTextEditor";
-import useSchedle from "../../hooks/useSchedle";
-import { SaveIcon } from "../../icons";
-import updateSchedule from "../../resources/schedules/updateSchedule";
 import schema, { SchemaData } from "./schema";
 
 type EditSchedleParams = {
@@ -103,7 +110,7 @@ function EditSchedle() {
             onSubmit={handleSubmit(handleConfirmAction)}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <ControlledTextField
                   name="title"
                   control={control}
@@ -113,7 +120,7 @@ function EditSchedle() {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid size={4}>
                 <ControlledTextField
                   name="start"
                   type="datetime-local"
@@ -125,7 +132,7 @@ function EditSchedle() {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid size={4}>
                 <ControlledCurrencyTextField
                   name="price"
                   control={control}
@@ -135,7 +142,7 @@ function EditSchedle() {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid size={4}>
                 <ControlledTextField
                   name="format"
                   control={control}
@@ -153,7 +160,7 @@ function EditSchedle() {
                   ))}
                 </ControlledTextField>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography variant="h6" sx={{ mb: 1 }}>
                   Descrição
                 </Typography>

@@ -1,10 +1,10 @@
-import { Box, Grid, Paper } from "@mui/material";
+import Page from "@/components/Page";
+import PageHeader from "@/components/PageHeader";
+import SchedleCard from "@/components/SchedleCard";
+import AddSchedulesDialog from "@/components/dialogs/schedules/AddSchedulesDialog";
+import useSchedules from "@/hooks/useSchedules";
+import { Box, Grid2 as Grid, Paper } from "@mui/material";
 import { useState } from "react";
-import Page from "../../components/Page";
-import PageHeader from "../../components/PageHeader";
-import AddSchedulesDialog from "../../components/dialogs/schedules/AddSchedulesDialog";
-import useSchedules from "../../hooks/useSchedules";
-import SchedleCard from "../../components/SchedleCard";
 
 function Schedules() {
   const { data: schedules, isLoading } = useSchedules();
@@ -29,7 +29,7 @@ function Schedules() {
         {schedules && (
           <Grid container spacing={1}>
             {schedules.map((item) => (
-              <Grid item key={item.id} xs={12} sm={6} md={4} lg={3}>
+              <Grid key={item.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                 <SchedleCard schedule={item} />
               </Grid>
             ))}

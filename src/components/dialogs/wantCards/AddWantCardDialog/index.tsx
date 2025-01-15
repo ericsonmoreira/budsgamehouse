@@ -1,3 +1,8 @@
+import ImgCard from "@/components/ImgCard";
+import useAutoCompleteCardNames from "@/hooks/useAutoCompleteCardNames";
+import useCardByName from "@/hooks/useCardByName";
+import useDebounce from "@/hooks/useDebounce";
+import useWantedCards from "@/hooks/useWantedCards";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
@@ -9,7 +14,7 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
-  Grid,
+  Grid2 as Grid,
   InputAdornment,
   MenuItem,
   TextField,
@@ -17,11 +22,6 @@ import {
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import useAutoCompleteCardNames from "../../../../hooks/useAutoCompleteCardNames";
-import useCardByName from "../../../../hooks/useCardByName";
-import useDebounce from "../../../../hooks/useDebounce";
-import useWantedCards from "../../../../hooks/useWantedCards";
-import ImgCard from "../../../ImgCard";
 
 type AddWantCardDialogProps = {
   title: string;
@@ -111,27 +111,29 @@ function AddWantCardDialog({
       <DialogContent>
         <DialogContentText>{subTitle}</DialogContentText>
         <Grid container spacing={1}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               variant="outlined"
               size="small"
               fullWidth
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {isLoading && <CircularProgress size={16} />}
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      {isLoading && <CircularProgress size={16} />}
+                    </InputAdornment>
+                  ),
+                },
               }}
               {...register("searchTerm")}
             />
           </Grid>
-          <Grid item xs={8}>
+          <Grid size={8}>
             <TextField
               fullWidth
               select
@@ -150,7 +152,7 @@ function AddWantCardDialog({
               ))}
             </TextField>
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <TextField
               fullWidth
               type="number"
@@ -161,10 +163,9 @@ function AddWantCardDialog({
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setAmount(e.target.value)
               }
-              inputProps={{ min: 1 }}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             {cardNames?.map((name) => (
               <Chip
                 sx={{ marginLeft: 0.5, marginBottom: 0.5 }}
@@ -177,8 +178,7 @@ function AddWantCardDialog({
             ))}
           </Grid>
           <Grid
-            item
-            xs={12}
+            size={12}
             sx={{
               display: "flex",
               alignItems: "center",

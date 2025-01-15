@@ -1,14 +1,14 @@
+import HomeCard, { HomeCardProps } from "@/components/HomeCard";
+import MarketCard from "@/components/MarketCard";
+import Page from "@/components/Page";
+import usePlayers from "@/hooks/usePlayers";
+import useProducts from "@/hooks/useProducts";
+import useWantedCards from "@/hooks/useWantedCards";
+import routesNames from "@/routes/routesNames";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import PersonIcon from "@mui/icons-material/Person";
-import { Grid } from "@mui/material";
-import HomeCard, { HomeCardProps } from "../../components/HomeCard";
-import MarketCard from "../../components/MarketCard";
-import Page from "../../components/Page";
-import usePlayers from "../../hooks/usePlayers";
-import useProducts from "../../hooks/useProducts";
-import useWantedCards from "../../hooks/useWantedCards";
-import routesNames from "../../routes/routesNames";
+import { Grid2 as Grid } from "@mui/material";
 
 function Home() {
   const { data: players, isLoading: isLoadingPlayers } = usePlayers();
@@ -48,11 +48,11 @@ function Home() {
   return (
     <Page>
       <Grid container spacing={1} p={1}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <MarketCard />
         </Grid>
         {items.map((item) => (
-          <Grid key={item.title} item xs={12} md={6} lg={4} xl={3}>
+          <Grid key={item.title} size={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
             <HomeCard {...item} />
           </Grid>
         ))}

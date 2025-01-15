@@ -1,17 +1,17 @@
+import Page from "@/components/Page";
+import PageHeader from "@/components/PageHeader";
+import DataGridBalances from "@/components/datagrids/DataGridBalances";
+import TransferBalanceBetweenPlayersDialog from "@/components/dialogs/balances/TransferBalanceBetweenPlayersDialog";
+import UpdateBalanceDialog from "@/components/dialogs/balances/UpdateBalanceDialog";
+import SearchTextField from "@/components/textfields/SearchTextField";
+import usePlayers from "@/hooks/usePlayers";
+import { formatterCurrencyBRL } from "@/utils/formatters";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import PersonIcon from "@mui/icons-material/Person";
-import { Box, Chip, Grid, Tooltip } from "@mui/material";
+import { Box, Chip, Grid2 as Grid, Tooltip } from "@mui/material";
 import React, { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDebounce } from "usehooks-ts";
-import Page from "../../components/Page";
-import PageHeader from "../../components/PageHeader";
-import DataGridBalances from "../../components/datagrids/DataGridBalances";
-import TransferBalanceBetweenPlayersDialog from "../../components/dialogs/balances/TransferBalanceBetweenPlayersDialog";
-import UpdateBalanceDialog from "../../components/dialogs/balances/UpdateBalanceDialog";
-import SearchTextField from "../../components/textfields/SearchTextField";
-import usePlayers from "../../hooks/usePlayers";
-import { formatterCurrencyBRL } from "../../utils/formatters";
 
 type ContentCard = {
   title: string;
@@ -151,7 +151,7 @@ function Balances() {
       <Box m={1}>
         <Grid container spacing={1}>
           {contentCards.map(({ tooltipTitle, icon, color, title, value }) => (
-            <Grid item key={title}>
+            <Grid key={title}>
               <Tooltip title={tooltipTitle}>
                 <Chip
                   size="small"

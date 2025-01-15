@@ -1,3 +1,6 @@
+import { ArrowForwardIcon, EditIcon } from "@/icons";
+import routesNames from "@/routes/routesNames";
+import { formatterCurrencyBRL } from "@/utils/formatters";
 import {
   Button,
   Card,
@@ -9,9 +12,6 @@ import {
   Typography,
 } from "@mui/material";
 import { format } from "date-fns";
-import { ArrowForwardIcon, EditIcon } from "../../icons";
-import { formatterCurrencyBRL } from "../../utils/formatters";
-import routesNames from "../../routes/routesNames";
 import { useNavigate } from "react-router-dom";
 
 type SchedleCardProps = {

@@ -12,17 +12,19 @@ function PasswordTextField(props: TextFieldProps) {
       {...props}
       type={isPasswordVisible ? "text" : "password"}
       autoComplete="current-password"
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <IconButton
-              disableRipple
-              onClick={() => setIsPasswordVisible((old) => !old)}
-            >
-              {isPasswordVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
-            </IconButton>
-          </InputAdornment>
-        ),
+      slotProps={{
+        input: {
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                disableRipple
+                onClick={() => setIsPasswordVisible((old) => !old)}
+              >
+                {isPasswordVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        },
       }}
     />
   );

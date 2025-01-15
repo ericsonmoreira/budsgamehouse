@@ -1,3 +1,12 @@
+import AutocompletePlayers from "@/components/AutocompletePlayers";
+import AvatarPlayer from "@/components/AvatarPlayer";
+import TypographyBalance from "@/components/TypographyBalance";
+import ControlledCurrencyTextField from "@/components/textfields/ControlledCurrencyTextField";
+import ControlledTextField from "@/components/textfields/ControlledTextField";
+import usePlayers from "@/hooks/usePlayers";
+import updatePlayer from "@/resources/players/updatePlayer";
+import addTransfer from "@/resources/transfers/addTransfer";
+import { auth } from "@/services/firebaseConfig";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ForwardIcon from "@mui/icons-material/Forward";
 import {
@@ -13,7 +22,7 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
-  Grid,
+  Grid2 as Grid,
   Stack,
   Typography,
 } from "@mui/material";
@@ -23,15 +32,6 @@ import { useMemo, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import usePlayers from "../../../../hooks/usePlayers";
-import updatePlayer from "../../../../resources/players/updatePlayer";
-import addTransfer from "../../../../resources/transfers/addTransfer";
-import { auth } from "../../../../services/firebaseConfig";
-import AutocompletePlayers from "../../../AutocompletePlayers";
-import AvatarPlayer from "../../../AvatarPlayer";
-import TypographyBalance from "../../../TypographyBalance";
-import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
-import ControlledTextField from "../../../textfields/ControlledTextField";
 import schema, { SchemaData } from "./schema";
 
 type TransferBalanceBetweenPlayersDialogProps = {
@@ -158,7 +158,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<
           </DialogContentText>
         )}
         <Grid container alignItems="center" spacing={1}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <AutocompletePlayers
               disabled={disableTransfer}
               validPlayers={playersEligibleToReceive}
@@ -166,7 +166,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<
               setSelectedPlayer={setSelectedPlayer}
             />
           </Grid>
-          <Grid item xs={5}>
+          <Grid size={5}>
             <Card>
               <CardContent>
                 <Stack direction="row" spacing={1} alignItems="center">
@@ -196,7 +196,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={2}>
+          <Grid size={2}>
             <Box
               display="flex"
               alignItems="center"
@@ -206,7 +206,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<
               <ForwardIcon fontSize="large" />
             </Box>
           </Grid>
-          <Grid item xs={5}>
+          <Grid size={5}>
             {selectedPlayer && (
               <Card>
                 <CardContent>
@@ -238,7 +238,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<
               </Card>
             )}
           </Grid>
-          <Grid item xs={12} mt={1}>
+          <Grid size={12} mt={1}>
             <ControlledCurrencyTextField
               disabled={disableTransfer}
               control={control}
@@ -249,7 +249,7 @@ const TransferBalanceBetweenPlayersDialog: React.FC<
               variant="outlined"
             />
           </Grid>
-          <Grid item xs={12} mt={1}>
+          <Grid size={12} mt={1}>
             <ControlledTextField
               disabled={disableTransfer}
               control={control}

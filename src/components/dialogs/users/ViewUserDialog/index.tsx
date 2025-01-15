@@ -12,8 +12,8 @@ import {
 import { useMemo } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import routesNames from "../../../../routes/routesNames";
-import { auth } from "../../../../services/firebaseConfig";
+import routesNames from "@/routes/routesNames";
+import { auth } from "@/services/firebaseConfig";
 
 type ViewUserDialogProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;

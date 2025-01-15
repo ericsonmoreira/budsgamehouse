@@ -1,5 +1,5 @@
+import findExpensesPerMonth from "@/resources/expenses/findExpensesPerMonth";
 import { useQuery } from "@tanstack/react-query";
-import findExpensesPerMonth from "../resources/expenses/findExpensesPerMonth";
 
 function useExpensesPerMonth(month: Date) {
   return useQuery({

@@ -24,6 +24,7 @@ export { default as FormatItalicIcon } from "@mui/icons-material/FormatItalic";
 export { default as FormatListBulletedIcon } from "@mui/icons-material/FormatListBulleted";
 export { default as FormatListNumberedIcon } from "@mui/icons-material/FormatListNumbered";
 export { default as HighlightIcon } from "@mui/icons-material/Highlight";
+export { default as PaidIcon } from "@mui/icons-material/Paid";
 export { default as PhoneIcon } from "@mui/icons-material/Phone";
 export { default as PixIcon } from "@mui/icons-material/Pix";
 export { default as QuestionMarkIcon } from "@mui/icons-material/QuestionMark";

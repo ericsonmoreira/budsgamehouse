@@ -1,3 +1,4 @@
+import { PhoneIcon } from "@/icons";
 import { InputAdornment, TextField, TextFieldProps } from "@mui/material";
 import {
   FieldPath,
@@ -6,7 +7,6 @@ import {
   useController,
 } from "react-hook-form";
 import { PatternFormat, PatternFormatProps } from "react-number-format";
-import { PhoneIcon } from "../../../icons";
 
 type ControlledPhoneTextFieldProps<
   TextFieldValues extends FieldValues,
@@ -36,13 +36,15 @@ const ControlledPhoneTextField = <
       error={!!error}
       helperText={error?.message}
       format="(##) #####-####"
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="start">
-            <PhoneIcon />
-          </InputAdornment>
-        ),
-        inputMode: "tel",
+      slotProps={{
+        input: {
+          endAdornment: (
+            <InputAdornment position="start">
+              <PhoneIcon />
+            </InputAdornment>
+          ),
+          inputMode: "tel",
+        },
       }}
     />
   );

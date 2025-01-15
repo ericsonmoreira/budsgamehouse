@@ -1,6 +1,6 @@
+import { firestore } from "@/services/firebaseConfig";
 import { endOfMonth, startOfMonth } from "date-fns";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { firestore } from "../../services/firebaseConfig";
 
 const path = "expenses";
 

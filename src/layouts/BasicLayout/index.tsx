@@ -1,7 +1,7 @@
+import BackGroundLoginPageImg from "@/assets/bgLogin.jpg";
 import { Box, Container, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Outlet } from "react-router-dom";
-import BackGroundLoginPageImg from "../../assets/bgLogin.jpg";
 
 function BasicLayout() {
   const theme = useTheme();

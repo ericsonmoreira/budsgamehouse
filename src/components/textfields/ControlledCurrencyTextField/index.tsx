@@ -36,8 +36,10 @@ const ControlledCurrencyTextField = <
       decimalScale={2}
       helperText={error?.message}
       customInput={TextField}
-      InputProps={{
-        startAdornment: <InputAdornment position="start">R$</InputAdornment>,
+      slotProps={{
+        input: {
+          startAdornment: <InputAdornment position="start">R$</InputAdornment>,
+        },
       }}
     />
   );

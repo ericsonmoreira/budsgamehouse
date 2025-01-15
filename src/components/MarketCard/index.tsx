@@ -1,3 +1,16 @@
+import AutocompletePlayers from "@/components/AutocompletePlayers";
+import AutocompleteProducts from "@/components/AutocompleteProducts";
+import AvatarPlayer from "@/components/AvatarPlayer";
+import TypographyBalance from "@/components/TypographyBalance";
+import ControlledCurrencyTextField from "@/components/textfields/ControlledCurrencyTextField";
+import usePlayers from "@/hooks/usePlayers";
+import useProducts from "@/hooks/useProducts";
+import updatePlayer from "@/resources/players/updatePlayer";
+import updateProductStock from "@/resources/products/updateProductStock";
+import addSale from "@/resources/sales/addSale";
+import { auth } from "@/services/firebaseConfig";
+import { PLAYER_LIMIT } from "@/utils/constants";
+import { formatterCurrencyBRL } from "@/utils/formatters";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -11,7 +24,7 @@ import {
   CardContent,
   CardHeader,
   CircularProgress,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   Paper,
   Stack,
@@ -26,23 +39,10 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { Timestamp } from "firebase/firestore";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import usePlayers from "../../hooks/usePlayers";
-import useProducts from "../../hooks/useProducts";
-import updatePlayer from "../../resources/players/updatePlayer";
-import updateProductStock from "../../resources/products/updateProductStock";
-import addSale from "../../resources/sales/addSale";
-import { auth } from "../../services/firebaseConfig";
-import { PLAYER_LIMIT } from "../../utils/constants";
-import { formatterCurrencyBRL } from "../../utils/formatters";
-import AutocompletePlayers from "../AutocompletePlayers";
-import AutocompleteProducts from "../AutocompleteProducts";
-import AvatarPlayer from "../AvatarPlayer";
-import TypographyBalance from "../TypographyBalance";
-import ControlledCurrencyTextField from "../textfields/ControlledCurrencyTextField";
 import schema, { SchemaData } from "./schema";
 
 type MarketCardCart = {
@@ -237,7 +237,7 @@ function MarketCard() {
       {players && products && (
         <CardContent>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <AutocompletePlayers
                 validPlayers={players}
                 selectedPlayer={selectedPlayer}
@@ -251,7 +251,7 @@ function MarketCard() {
               />
             </Grid>
             {selectedPlayer && (
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <AvatarPlayer playerId={selectedPlayer.id} />
                   <Typography>Saldo do Player</Typography>
@@ -259,7 +259,7 @@ function MarketCard() {
                 </Stack>
               </Grid>
             )}
-            <Grid item xs={12}>
+            <Grid size={12}>
               <AutocompleteProducts
                 validProdutos={validProdutos}
                 selectedProduct={selectedProduct}
@@ -268,7 +268,7 @@ function MarketCard() {
                 disabled={selectedPlayerIsExceededLimit}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <ControlledCurrencyTextField
                 control={control}
                 name="looseValue"
@@ -279,7 +279,7 @@ function MarketCard() {
                 disabled={selectedPlayerIsExceededLimit}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant="h5" mb={1}>
                 Produtos selecioandos
               </Typography>
@@ -377,7 +377,7 @@ function MarketCard() {
                 </Table>
               </TableContainer>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box
                 display="flex"
                 alignItems="center"

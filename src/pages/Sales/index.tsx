@@ -1,7 +1,17 @@
+import Page from "@/components/Page";
+import PageHeader from "@/components/PageHeader";
+import SalesAndPaymentsChartBar from "@/components/charts/SalesAndPaymentsChartBar";
+import DataGridProductsSales from "@/components/datagrids/DataGridProductsSales";
+import DataGridSales from "@/components/datagrids/DataGridSales";
+import ViewSaleDialog from "@/components/dialogs/sales/ViewSaleDialog";
+import useLastTwelveMonths from "@/hooks/useLastTwelveMonths";
+import usePaymentsPerMonth from "@/hooks/usePaymentsPerMonth";
+import useSalesPerMonth from "@/hooks/useSalesPerMonth";
+import { formatterCurrencyBRL } from "@/utils/formatters";
 import {
   Box,
   Chip,
-  Grid,
+  Grid2 as Grid,
   MenuItem,
   Stack,
   TextField,
@@ -9,16 +19,6 @@ import {
 } from "@mui/material";
 import { format } from "date-fns";
 import React, { useMemo, useState } from "react";
-import Page from "../../components/Page";
-import PageHeader from "../../components/PageHeader";
-import SalesAndPaymentsChartBar from "../../components/charts/SalesAndPaymentsChartBar";
-import DataGridProductsSales from "../../components/datagrids/DataGridProductsSales";
-import DataGridSales from "../../components/datagrids/DataGridSales";
-import ViewSaleDialog from "../../components/dialogs/sales/ViewSaleDialog";
-import useLastTwelveMonths from "../../hooks/useLastTwelveMonths";
-import usePaymentsPerMonth from "../../hooks/usePaymentsPerMonth";
-import useSalesPerMonth from "../../hooks/useSalesPerMonth";
-import { formatterCurrencyBRL } from "../../utils/formatters";
 
 function Sales() {
   const [selectedMonth, setSelectedMonth] = useState(
@@ -81,7 +81,7 @@ function Sales() {
     <Page>
       <PageHeader title="Vendas" />
       <Grid container component={Box} p={1} spacing={1}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Stack spacing={1} direction="row" alignItems="center">
             <TextField
               select
@@ -110,14 +110,14 @@ function Sales() {
             />
           </Stack>
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <SalesAndPaymentsChartBar
             sales={sales}
             payments={payments}
             month={selectedMonth}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography color="text.secondary" gutterBottom>
             Produtos vendidos
           </Typography>
@@ -125,7 +125,7 @@ function Sales() {
             <DataGridProductsSales sales={sales} loading={isLoading} />
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography color="text.secondary" gutterBottom>
             Vendas Realizadas
           </Typography>

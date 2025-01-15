@@ -1,14 +1,14 @@
+import Page from "@/components/Page";
+import PageHeader from "@/components/PageHeader";
+import DataGridExpenses from "@/components/datagrids/DataGridExpenses";
+import AddExpenseDialog from "@/components/dialogs/expenses/AddExpenseDialog";
+import useExpensesPerMonth from "@/hooks/useExpensesPerMonth";
+import useLastTwelveMonths from "@/hooks/useLastTwelveMonths";
+import routesNames from "@/routes/routesNames";
 import { Box, MenuItem, TextField, Typography } from "@mui/material";
 import { format } from "date-fns";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Page from "../../components/Page";
-import PageHeader from "../../components/PageHeader";
-import DataGridExpenses from "../../components/datagrids/DataGridExpenses";
-import AddExpenseDialog from "../../components/dialogs/expenses/AddExpenseDialog";
-import useExpensesPerMonth from "../../hooks/useExpensesPerMonth";
-import useLastTwelveMonths from "../../hooks/useLastTwelveMonths";
-import routesNames from "../../routes/routesNames";
 
 function Expenses() {
   const [openAddExpenseDialog, setOpenAddExpenseDialog] = useState(false);

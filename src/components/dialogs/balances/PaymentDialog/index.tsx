@@ -1,3 +1,10 @@
+import AvatarPlayer from "@/components/AvatarPlayer";
+import TypographyBalance from "@/components/TypographyBalance";
+import ControlledCurrencyTextField from "@/components/textfields/ControlledCurrencyTextField";
+import ControlledTextField from "@/components/textfields/ControlledTextField";
+import addPayment from "@/resources/payments/addPayment";
+import updatePlayer from "@/resources/players/updatePlayer";
+import { auth } from "@/services/firebaseConfig";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {
@@ -10,7 +17,7 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
-  Grid,
+  Grid2 as Grid,
   Stack,
   Typography,
 } from "@mui/material";
@@ -20,13 +27,6 @@ import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import addPayment from "../../../../resources/payments/addPayment";
-import updatePlayer from "../../../../resources/players/updatePlayer";
-import { auth } from "../../../../services/firebaseConfig";
-import AvatarPlayer from "../../../AvatarPlayer";
-import TypographyBalance from "../../../TypographyBalance";
-import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
-import ControlledTextField from "../../../textfields/ControlledTextField";
 import schema from "./schema ";
 
 type PaymentDialogProps = {
@@ -129,13 +129,13 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
         <Grid container spacing={1}>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Stack direction="row" spacing={1} alignItems="center">
               <AvatarPlayer playerId={playerToUpdate.id} />
               <Typography variant="h4">{playerToUpdate.name}</Typography>
             </Stack>
           </Grid>
-          <Grid item xs={12} md={8} display="flex" alignItems="center">
+          <Grid size={{ xs: 12, md: 8 }} display="flex" alignItems="center">
             <Stack direction="row" spacing={1} alignItems="center">
               <TypographyBalance
                 variant="h5"
@@ -149,7 +149,7 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
               />
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ControlledCurrencyTextField
               control={control}
               name="paymentValue"
@@ -158,7 +158,7 @@ const PaymentDialog: React.FC<PaymentDialogProps> = ({
               size="small"
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ControlledTextField
               control={control}
               multiline

@@ -1,3 +1,4 @@
+import { formatterCurrencyBRL } from "@/utils/formatters";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   Autocomplete,
@@ -8,7 +9,6 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useMemo, useState } from "react";
-import { formatterCurrencyBRL } from "../../utils/formatters";
 
 type ProductWithPriority = {
   priority: number;

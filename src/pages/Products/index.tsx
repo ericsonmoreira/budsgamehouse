@@ -1,18 +1,18 @@
-import { Box, Grid } from "@mui/material";
+import Page from "@/components/Page";
+import PageHeader from "@/components/PageHeader";
+import DataGridProducts from "@/components/datagrids/DataGridProducts";
+import AddProductDialog from "@/components/dialogs/products/AddProductDialog";
+import UpdateProductDialog from "@/components/dialogs/products/UpdateProductDialog";
+import SearchTextField from "@/components/textfields/SearchTextField";
+import useConfirmation from "@/hooks/useConfirmation";
+import useDebounce from "@/hooks/useDebounce";
+import useProducts from "@/hooks/useProducts";
+import deleteProduct from "@/resources/products/deleteProduct";
+import { Box, Grid2 as Grid } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
-import Page from "../../components/Page";
-import PageHeader from "../../components/PageHeader";
-import DataGridProducts from "../../components/datagrids/DataGridProducts";
-import AddProductDialog from "../../components/dialogs/products/AddProductDialog";
-import UpdateProductDialog from "../../components/dialogs/products/UpdateProductDialog";
-import SearchTextField from "../../components/textfields/SearchTextField";
-import useConfirmation from "../../hooks/useConfirmation";
-import useDebounce from "../../hooks/useDebounce";
-import useProducts from "../../hooks/useProducts";
-import deleteProduct from "../../resources/products/deleteProduct";
 
 function Products() {
   const [searchParams, setSearchParams] = useSearchParams({ searchTerm: "" });
@@ -86,7 +86,7 @@ function Products() {
       />
       <Box mx={1}>
         <Grid container spacing={1}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <SearchTextField
               autoFocus
               value={searchTerm}

@@ -1,3 +1,9 @@
+import ImageDropZone from "@/components/ImageDropZone";
+import ControlledCurrencyTextField from "@/components/textfields/ControlledCurrencyTextField";
+import ControlledTextField from "@/components/textfields/ControlledTextField";
+import addProduct from "@/resources/products/addProduct";
+import uploadImageInStorage from "@/resources/uploadImageInStorage";
+import { PRODUCT_CATEGORIES } from "@/utils/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Backdrop,
@@ -9,19 +15,13 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
-  Grid,
+  Grid2 as Grid,
   MenuItem,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import addProduct from "../../../../resources/products/addProduct";
-import uploadImageInStorage from "../../../../resources/uploadImageInStorage";
-import { PRODUCT_CATEGORIES } from "../../../../utils/constants";
-import ImageDropZone from "../../../ImageDropZone";
-import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
-import ControlledTextField from "../../../textfields/ControlledTextField";
 import schema, { AddProductDialogFormData } from "./schema";
 
 type AddProductDialogProps = {
@@ -96,10 +96,10 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ImageDropZone file={file} setFile={setFile} />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ControlledTextField
               name="name"
               control={control}
@@ -109,7 +109,7 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({
               fullWidth
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ControlledTextField
               name="category"
               control={control}
@@ -126,7 +126,7 @@ const AddProductDialog: React.FC<AddProductDialogProps & DialogProps> = ({
               ))}
             </ControlledTextField>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ControlledCurrencyTextField
               name="price"
               control={control}

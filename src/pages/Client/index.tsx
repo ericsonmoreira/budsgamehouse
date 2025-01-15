@@ -1,15 +1,15 @@
+import Page from "@/components/Page";
+import PaperGlass from "@/components/PaperGlass";
+import ControlledTextField from "@/components/textfields/ControlledTextField";
+import findPlayerByEmail from "@/resources/players/findPlayerByEmail";
+import routesNames from "@/routes/routesNames";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Button, Grid, Stack, Typography } from "@mui/material";
+import { Button, Grid2 as Grid, Stack, Typography } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import Page from "../../components/Page";
-import PaperGlass from "../../components/PaperGlass";
-import ControlledTextField from "../../components/textfields/ControlledTextField";
-import findPlayerByEmail from "../../resources/players/findPlayerByEmail";
-import routesNames from "../../routes/routesNames";
 import schema, { SchemaData } from "./schema ";
 
 function Client() {
@@ -52,7 +52,7 @@ function Client() {
             Acessar Área do Cliente
           </Typography>
           <Grid container spacing={1}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <ControlledTextField
                 autoFocus
                 name="email"
@@ -64,7 +64,7 @@ function Client() {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack direction="row" spacing={1}>
                 <Button
                   disableElevation

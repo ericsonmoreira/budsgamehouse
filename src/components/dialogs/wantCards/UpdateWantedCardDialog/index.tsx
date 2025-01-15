@@ -1,3 +1,6 @@
+import ControlledTextField from "@/components/textfields/ControlledTextField";
+import useWantedCards from "@/hooks/useWantedCards";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
   Button,
@@ -13,10 +16,7 @@ import {
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import useWantedCards from "../../../../hooks/useWantedCards";
-import ControlledTextField from "../../../textfields/ControlledTextField";
 import schema from "./schema ";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 const priorityMapValues: { value: WantedCardPriority; label: string }[] = [
   { value: "high", label: "Alto" },
@@ -123,7 +123,6 @@ function UpdateWantedCardDialog({
               size="small"
               label="Quantidade"
               type="number"
-              InputProps={{ inputProps: { min: 1 } }}
             />
             <ControlledTextField
               name="priority"

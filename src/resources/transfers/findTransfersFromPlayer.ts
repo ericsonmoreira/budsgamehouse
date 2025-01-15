@@ -1,3 +1,4 @@
+import { firestore } from "@/services/firebaseConfig";
 import {
   collection,
   getDocs,
@@ -6,7 +7,6 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { firestore } from "../../services/firebaseConfig";
 
 const path = "transfers";
 

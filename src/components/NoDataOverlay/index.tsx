@@ -1,6 +1,6 @@
+import NotDataAnimation from "@/assets/lotties/noData.json";
 import { Box, Typography } from "@mui/material";
 import Lottie from "lottie-react";
-import NotDataAnimation from "../../assets/lotties/noData.json";
 
 function NoDataOverlay() {
   return (

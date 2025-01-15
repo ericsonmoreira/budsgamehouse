@@ -1,12 +1,8 @@
-import {
-  GridColDef,
-  GridComparatorFn,
-  GridRenderCellParams,
-} from "@mui/x-data-grid";
-import ActionsCell from "../../cells/ActionsCell";
-import ImageCell from "../../cells/ImageCell";
-import PriorityCell from "../../cells/PriorityCell";
-import CustomDataGrid from "../CustomDataGrid";
+import ActionsCell from "@/components/cells/ActionsCell";
+import ImageCell from "@/components/cells/ImageCell";
+import PriorityCell from "@/components/cells/PriorityCell";
+import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
+import { GridColDef, GridComparatorFn } from "@mui/x-data-grid";
 
 const priorityGridComparatorFn: GridComparatorFn<WantedCardPriority> = (
   a,
@@ -38,7 +34,7 @@ type DataGridWantedCardsProps = {
   loading?: boolean;
 };
 
-const columns: GridColDef[] = [
+const columns: GridColDef<DataGridWantedCardsRowData>[] = [
   {
     field: "imgUrl",
     headerName: "",
@@ -74,15 +70,10 @@ const columns: GridColDef[] = [
     align: "right",
     disableColumnMenu: true,
     sortable: false,
-    renderCell: (
-      params: GridRenderCellParams<{
-        handleUpdate(): void;
-        handledelete(): void;
-      }>,
-    ) => (
+    renderCell: (params) => (
       <ActionsCell
-        handleUpdate={params.value?.handleUpdate}
-        handledelete={params.value?.handledelete}
+        handleUpdate={params.row.actions.handleUpdate}
+        handledelete={params.row.actions.handledelete}
       />
     ),
   },

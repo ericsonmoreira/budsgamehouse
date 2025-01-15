@@ -10,6 +10,7 @@ const useThemeDetector = (): "dark" | "light" => {
     setIsDarkTheme(e.matches);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
 

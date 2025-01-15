@@ -1,3 +1,13 @@
+import AutocompleteProducts from "@/components/AutocompleteProducts";
+import AvatarPlayer from "@/components/AvatarPlayer";
+import TypographyBalance from "@/components/TypographyBalance";
+import useProducts from "@/hooks/useProducts";
+import updatePlayer from "@/resources/players/updatePlayer";
+import updateProduct from "@/resources/products/updateProduct";
+import addSale from "@/resources/sales/addSale";
+import { auth } from "@/services/firebaseConfig";
+import { PLAYER_LIMIT } from "@/utils/constants";
+import { formatterCurrencyBRL } from "@/utils/formatters";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -13,7 +23,7 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   Paper,
   Stack,
@@ -31,16 +41,6 @@ import { Timestamp } from "firebase/firestore";
 import { useMemo, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import toast from "react-hot-toast";
-import useProducts from "../../../../hooks/useProducts";
-import updatePlayer from "../../../../resources/players/updatePlayer";
-import updateProduct from "../../../../resources/products/updateProduct";
-import addSale from "../../../../resources/sales/addSale";
-import { auth } from "../../../../services/firebaseConfig";
-import { formatterCurrencyBRL } from "../../../../utils/formatters";
-import AutocompleteProducts from "../../../AutocompleteProducts";
-import AvatarPlayer from "../../../AvatarPlayer";
-import TypographyBalance from "../../../TypographyBalance";
-import { PLAYER_LIMIT } from "../../../../utils/constants";
 
 type UpdateBalanceDialogProps = {
   title: string;
@@ -199,13 +199,13 @@ const UpdateBalanceDialog: React.FC<UpdateBalanceDialogProps & DialogProps> = ({
           </Typography>
         )}
         <Grid container alignItems="center" spacing={1}>
-          <Grid item>
+          <Grid>
             <Stack direction="row" spacing={1} alignItems="center">
               <AvatarPlayer playerId={playerToUpdate.id} />
               <Typography variant="h4">{playerToUpdate.name}</Typography>
             </Stack>
           </Grid>
-          <Grid item>
+          <Grid>
             <Stack direction="row" spacing={1} alignItems="center">
               <TypographyBalance
                 variant="h4"

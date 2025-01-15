@@ -1,7 +1,7 @@
-import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import { formatterCurrencyBRL } from "../../../utils/formatters";
-import ActionsCell from "../../cells/ActionsCell";
-import CustomDataGrid from "../CustomDataGrid";
+import ActionsCell from "@/components/cells/ActionsCell";
+import { formatterCurrencyBRL } from "@/utils/formatters";
+import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
+import { GridColDef } from "@mui/x-data-grid";
 
 type DataGridProductsRowData = Product & {
   actions: {
@@ -15,7 +15,7 @@ type DataGridProductsProps = {
   loading?: boolean;
 };
 
-const columns: GridColDef[] = [
+const columns: GridColDef<DataGridProductsRowData>[] = [
   {
     field: "Imagem",
     headerName: "",
@@ -38,7 +38,7 @@ const columns: GridColDef[] = [
     headerName: "Preço",
     flex: 1,
     minWidth: 80,
-    valueFormatter: ({ value }) => formatterCurrencyBRL.format(value),
+    valueFormatter: (value, row) => formatterCurrencyBRL.format(row.price),
   },
   {
     field: "stock",
@@ -54,15 +54,10 @@ const columns: GridColDef[] = [
     align: "right",
     disableColumnMenu: true,
     sortable: false,
-    renderCell: (
-      params: GridRenderCellParams<{
-        handleUpdate(): void;
-        handledelete(): void;
-      }>,
-    ) => (
+    renderCell: (params) => (
       <ActionsCell
-        handleUpdate={params.value?.handleUpdate}
-        handledelete={params.value?.handledelete}
+        handleUpdate={params.row.actions.handleUpdate}
+        handledelete={params.row.actions.handledelete}
       />
     ),
   },

@@ -1,6 +1,6 @@
+import NoDataOverlay from "@/components/NoDataOverlay";
 import { alpha, styled } from "@mui/material";
 import { DataGrid, DataGridProps, gridClasses } from "@mui/x-data-grid";
-import NoDataOverlay from "../../NoDataOverlay";
 
 const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
   [`& .${gridClasses.row}.even`]: {

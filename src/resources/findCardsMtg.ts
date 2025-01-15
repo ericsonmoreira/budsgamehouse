@@ -1,5 +1,5 @@
+import mtgApi from "@/api/mtgApi";
 import { AxiosResponse } from "axios";
-import mtgApi from "../api/mtgApi";
 
 export type FindCardsMtgProps = {
   name: string;

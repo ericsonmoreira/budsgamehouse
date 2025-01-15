@@ -1,3 +1,6 @@
+import AvatarPlayer from "@/components/AvatarPlayer";
+import SaleInformationsTable from "@/components/SaleInformations";
+import usePlayer from "@/hooks/usePlayer";
 import {
   Backdrop,
   Box,
@@ -12,9 +15,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import usePlayer from "../../../../hooks/usePlayer";
-import AvatarPlayer from "../../../AvatarPlayer";
-import SaleInformationsTable from "../../../SaleInformations";
 
 type ViewSaleDialogProps = {
   title: string;

@@ -1,9 +1,9 @@
+import TypographyBalance from "@/components/TypographyBalance";
+import ActionsCell from "@/components/cells/ActionsCell";
+import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import TypographyBalance from "../../TypographyBalance";
-import ActionsCell from "../../cells/ActionsCell";
-import CustomDataGrid from "../CustomDataGrid";
 
 type DataGridExpensesRowData = Expense & {
   actions: {
@@ -16,7 +16,7 @@ type DataGridExpensesProps = {
   loading?: boolean;
 };
 
-const columns: GridColDef[] = [
+const columns: GridColDef<DataGridExpensesRowData>[] = [
   {
     field: "name",
     headerName: "Nome",
@@ -32,8 +32,8 @@ const columns: GridColDef[] = [
     field: "createdAt",
     headerName: "Data",
     flex: 1,
-    valueFormatter: ({ value }) =>
-      format(value.toDate(), "PPPp", { locale: ptBR }),
+    valueFormatter: (value, row) =>
+      format(row.createdAt.toDate(), "PPPp", { locale: ptBR }),
   },
   {
     field: "actions",
@@ -42,11 +42,9 @@ const columns: GridColDef[] = [
     align: "right",
     disableColumnMenu: true,
     sortable: false,
-    renderCell: (
-      params: GridRenderCellParams<{
-        handleView(): void;
-      }>,
-    ) => <ActionsCell handleView={params.value?.handleView} />,
+    renderCell: (params: GridRenderCellParams<DataGridExpensesRowData>) => (
+      <ActionsCell handleView={params.value?.handleView} />
+    ),
   },
 ];
 

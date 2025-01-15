@@ -1,3 +1,8 @@
+import ImageDropZone from "@/components/ImageDropZone";
+import ControlledPhoneTextField from "@/components/textfields/ControlledPhoneTextField";
+import ControlledTextField from "@/components/textfields/ControlledTextField";
+import addPlayer from "@/resources/players/addPlayer";
+import uploadImageInStorage from "@/resources/uploadImageInStorage";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Backdrop,
@@ -15,11 +20,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import addPlayer from "../../../../resources/players/addPlayer";
-import uploadImageInStorage from "../../../../resources/uploadImageInStorage";
-import ImageDropZone from "../../../ImageDropZone";
-import ControlledPhoneTextField from "../../../textfields/ControlledPhoneTextField";
-import ControlledTextField from "../../../textfields/ControlledTextField";
 import schema, { AddPlayerDialogFormData } from "./schema ";
 
 type AddPlayerDialogProps = {

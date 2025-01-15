@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import Lottie from "lottie-react";
-import LoadingAnimation from "../../assets/lotties/loading.json";
+import LoadingAnimation from "@/assets/lotties/loading.json";
 
 function LoadingTransition() {
   return (

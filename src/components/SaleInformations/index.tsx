@@ -1,3 +1,4 @@
+import { formatterCurrencyBRL } from "@/utils/formatters";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import {
   Box,
@@ -15,7 +16,6 @@ import {
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useMemo } from "react";
-import { formatterCurrencyBRL } from "../../utils/formatters";
 
 type SaleInformationsProps = {
   data: Sale;

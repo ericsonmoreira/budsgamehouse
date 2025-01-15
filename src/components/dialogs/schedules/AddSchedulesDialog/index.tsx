@@ -1,3 +1,8 @@
+import RichTextEditor from "@/components/RichTextEditor";
+import ControlledCurrencyTextField from "@/components/textfields/ControlledCurrencyTextField";
+import ControlledTextField from "@/components/textfields/ControlledTextField";
+import useRickTextEditor from "@/hooks/useRickTextEditor";
+import addSchedule from "@/resources/schedules/addSchedule";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Backdrop,
@@ -9,7 +14,7 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
-  Grid,
+  Grid2 as Grid,
   MenuItem,
   Typography,
 } from "@mui/material";
@@ -18,11 +23,6 @@ import { format } from "date-fns";
 import { Timestamp } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import useRickTextEditor from "../../../../hooks/useRickTextEditor";
-import addSchedule from "../../../../resources/schedules/addSchedule";
-import RichTextEditor from "../../../RichTextEditor";
-import ControlledCurrencyTextField from "../../../textfields/ControlledCurrencyTextField";
-import ControlledTextField from "../../../textfields/ControlledTextField";
 import schema, { SchemaData } from "./schema";
 
 type AddSchedulesDialogProps = {
@@ -133,7 +133,7 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ControlledTextField
               name="title"
               control={control}
@@ -143,7 +143,7 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
               fullWidth
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <ControlledTextField
               name="start"
               type="datetime-local"
@@ -154,7 +154,7 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
               fullWidth
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <ControlledCurrencyTextField
               name="price"
               control={control}
@@ -164,7 +164,7 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
               fullWidth
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <ControlledTextField
               name="format"
               control={control}
@@ -182,7 +182,7 @@ const AddSchedulesDialog: React.FC<AddSchedulesDialogProps & DialogProps> = ({
               ))}
             </ControlledTextField>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="h6" sx={{ mb: 1 }}>
               Descrição
             </Typography>

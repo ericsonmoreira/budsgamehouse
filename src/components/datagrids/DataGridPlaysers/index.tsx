@@ -1,7 +1,7 @@
-import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import AvatarPlayer from "../../AvatarPlayer";
-import ActionsCell from "../../cells/ActionsCell";
-import CustomDataGrid from "../CustomDataGrid";
+import AvatarPlayer from "@/components/AvatarPlayer";
+import ActionsCell from "@/components/cells/ActionsCell";
+import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
+import { GridColDef } from "@mui/x-data-grid";
 
 type DataGridPlaysersRowData = {
   id: string;
@@ -19,7 +19,7 @@ type DataGridPlaysersProps = {
   loading?: boolean;
 };
 
-const columns: GridColDef[] = [
+const columns: GridColDef<DataGridPlaysersRowData>[] = [
   {
     field: "avatar",
     headerName: "",
@@ -41,15 +41,10 @@ const columns: GridColDef[] = [
     align: "right",
     disableColumnMenu: true,
     sortable: false,
-    renderCell: (
-      params: GridRenderCellParams<{
-        handleUpdate(): void;
-        handledelete(): void;
-      }>,
-    ) => (
+    renderCell: (params) => (
       <ActionsCell
-        handleUpdate={params.value?.handleUpdate}
-        handledelete={params.value?.handledelete}
+        handleUpdate={params.row.actions.handleUpdate}
+        handledelete={params.row.actions.handledelete}
       />
     ),
   },

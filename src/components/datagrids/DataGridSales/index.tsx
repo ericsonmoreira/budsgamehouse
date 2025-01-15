@@ -1,10 +1,10 @@
+import AvatarPlayer from "@/components/AvatarPlayer";
+import ActionsCell from "@/components/cells/ActionsCell";
+import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
+import { formatterCurrencyBRL } from "@/utils/formatters";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { formatterCurrencyBRL } from "../../../utils/formatters";
-import AvatarPlayer from "../../AvatarPlayer";
-import ActionsCell from "../../cells/ActionsCell";
-import CustomDataGrid from "../CustomDataGrid";
 
 type DataGridSalesRowData = Sale & {
   actions: {
@@ -17,13 +17,13 @@ type DataGridSalesProps = {
   loading?: boolean;
 };
 
-const columns: GridColDef[] = [
+const columns: GridColDef<DataGridSalesRowData>[] = [
   {
     field: "playerId",
     headerName: "",
     align: "center",
     width: 20,
-    renderCell: ({ row }) =>
+    renderCell: ({ row }: GridRenderCellParams<DataGridSalesRowData>) =>
       row.playerId ? (
         <AvatarPlayer sx={{ width: 24, height: 24 }} playerId={row.playerId} />
       ) : null,
@@ -32,8 +32,8 @@ const columns: GridColDef[] = [
     field: "products",
     headerName: "Valor",
     flex: 1,
-    valueGetter: ({ value, row }) =>
-      value.reduce(
+    valueGetter: (value, row) =>
+      row.products.reduce(
         (
           acc: number,
           curr: {
@@ -43,14 +43,14 @@ const columns: GridColDef[] = [
         ) => acc + curr.amount * curr.price,
         0,
       ) + (row?.looseValue || 0),
-    valueFormatter: ({ value }) => formatterCurrencyBRL.format(value),
+    valueFormatter: (value) => formatterCurrencyBRL.format(value),
   },
   {
     field: "createdAt",
     headerName: "Data",
     flex: 1,
-    valueFormatter: ({ value }) =>
-      format(value.toDate(), "PPPp", { locale: ptBR }),
+    valueFormatter: (value, row) =>
+      format(row.createdAt.toDate(), "PPPp", { locale: ptBR }),
   },
   {
     field: "actions",
@@ -60,11 +60,9 @@ const columns: GridColDef[] = [
     align: "right",
     disableColumnMenu: true,
     sortable: false,
-    renderCell: (
-      params: GridRenderCellParams<{
-        handleView(): void;
-      }>,
-    ) => <ActionsCell handleView={params.value?.handleView} />,
+    renderCell: ({ row }) => (
+      <ActionsCell handleView={row.actions.handleView} />
+    ),
   },
 ];
 

@@ -1,11 +1,11 @@
+import TypographyBalance from "@/components/TypographyBalance";
+import routesNames from "@/routes/routesNames";
 import { Box, ButtonBase, Paper, Typography } from "@mui/material";
 import { differenceInHours, format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import routesNames from "../../routes/routesNames";
 import CommandTitleName from "./CommandTitleName";
-import TypographyBalance from "../TypographyBalance";
 
 type CommandCardProps = {
   data: Command;

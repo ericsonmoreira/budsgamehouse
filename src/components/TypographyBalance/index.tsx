@@ -1,6 +1,5 @@
+import { formatterCurrencyBRL } from "@/utils/formatters";
 import { Typography, TypographyProps } from "@mui/material";
-import React from "react";
-import { formatterCurrencyBRL } from "../../utils/formatters";
 
 type TypographyBalanceProps = {
   balance: number;

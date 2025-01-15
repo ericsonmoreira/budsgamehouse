@@ -1,17 +1,17 @@
+import Page from "@/components/Page";
+import PaperGlass from "@/components/PaperGlass";
+import ControlledTextField from "@/components/textfields/ControlledTextField";
+import { auth } from "@/services/firebaseConfig";
+import verifyFirebaseErroCode from "@/services/verifyFirebaseErroCode";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Button, Grid, Stack, Typography } from "@mui/material";
+import { Button, Grid2 as Grid, Stack, Typography } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { AuthError } from "firebase/auth";
 import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import Page from "../../components/Page";
-import PaperGlass from "../../components/PaperGlass";
-import ControlledTextField from "../../components/textfields/ControlledTextField";
-import { auth } from "../../services/firebaseConfig";
-import verifyFirebaseErroCode from "../../services/verifyFirebaseErroCode";
 import schema, { SchemaData } from "./schema ";
 
 function RecoverPassword() {
@@ -48,7 +48,7 @@ function RecoverPassword() {
             Redefinir senha
           </Typography>
           <Grid container spacing={1}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <ControlledTextField
                 autoFocus
                 name="email"
@@ -65,7 +65,7 @@ function RecoverPassword() {
                 </Typography>
               )}
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack direction="row" spacing={1}>
                 <Button
                   disableElevation
