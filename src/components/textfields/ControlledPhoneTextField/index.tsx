@@ -36,13 +36,15 @@ const ControlledPhoneTextField = <
       error={!!error}
       helperText={error?.message}
       format="(##) #####-####"
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="start">
-            <PhoneIcon />
-          </InputAdornment>
-        ),
-        inputMode: "tel",
+      slotProps={{
+        input: {
+          endAdornment: (
+            <InputAdornment position="start">
+              <PhoneIcon />
+            </InputAdornment>
+          ),
+          inputMode: "tel",
+        },
       }}
     />
   );

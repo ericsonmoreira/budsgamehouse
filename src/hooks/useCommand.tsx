@@ -1,5 +1,5 @@
+import findCommand from "@/resources/commands/findCommand";
 import { useQuery } from "@tanstack/react-query";
-import findCommand from "../resources/commands/findCommand";
 
 function useCommand(commandId = "") {
   return useQuery({

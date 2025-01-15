@@ -1,14 +1,14 @@
 import HomeCard, { HomeCardProps } from "@/components/HomeCard";
+import MarketCard from "@/components/MarketCard";
+import Page from "@/components/Page";
 import usePlayers from "@/hooks/usePlayers";
 import useProducts from "@/hooks/useProducts";
 import useWantedCards from "@/hooks/useWantedCards";
+import routesNames from "@/routes/routesNames";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import PersonIcon from "@mui/icons-material/Person";
 import Grid from "@mui/material/Grid2";
-import MarketCard from "../../components/MarketCard";
-import Page from "../../components/Page";
-import routesNames from "../../routes/routesNames";
 
 function Home() {
   const { data: players, isLoading: isLoadingPlayers } = usePlayers();

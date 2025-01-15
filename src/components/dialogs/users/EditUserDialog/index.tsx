@@ -1,3 +1,7 @@
+import ImageDropZone from "@/components/ImageDropZone";
+import ControlledTextField from "@/components/textfields/ControlledTextField";
+import uploadImageInStorage from "@/resources/uploadImageInStorage";
+import { auth } from "@/services/firebaseConfig";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Backdrop,
@@ -17,10 +21,6 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import uploadImageInStorage from "../../../../resources/uploadImageInStorage";
-import { auth } from "../../../../services/firebaseConfig";
-import ImageDropZone from "../../../ImageDropZone";
-import ControlledTextField from "../../../textfields/ControlledTextField";
 import schema, { SchemaData } from "./schema ";
 
 type EditUserDialogProps = {

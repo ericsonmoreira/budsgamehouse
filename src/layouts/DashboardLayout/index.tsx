@@ -1,9 +1,9 @@
+import DashboardNavbar from "@/components/DashboardNavbar";
+import DashboardSidebar from "@/components/DashboardSidebar";
 import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
-import DashboardNavbar from "../../components/DashboardNavbar";
-import DashboardSidebar from "../../components/DashboardSidebar";
 
 function DashboardLayout() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);

@@ -1,3 +1,4 @@
+import TypographyBalance from "@/components/TypographyBalance";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import {
   Box,
@@ -13,7 +14,6 @@ import {
 } from "@mui/material";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import TypographyBalance from "../TypographyBalance";
 
 type PaymentInformationsProps = {
   data: Payment;

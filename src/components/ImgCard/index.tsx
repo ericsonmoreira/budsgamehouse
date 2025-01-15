@@ -2,7 +2,7 @@ import { Box, Skeleton } from "@mui/material";
 import { ImgHTMLAttributes, useState } from "react";
 import ReactCardFlip from "react-card-flip";
 import { Card } from "scryfall-sdk";
-import NoCardImg from "../../assets/nocard.jpg";
+import NoCardImg from "@/assets/nocard.jpg";
 
 type ImgCardProps = {
   card?: Card | null;

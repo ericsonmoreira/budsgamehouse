@@ -1,3 +1,17 @@
+import PaymentInformations from "@/components/PaymentInformations";
+import SaleInformations from "@/components/SaleInformations";
+import TransferInformations from "@/components/TransferInformations";
+import TypographyBalance from "@/components/TypographyBalance";
+import usePaymentsFromPlayer from "@/hooks/usePaymentsFromPlayer";
+import useSalesFromPlayer from "@/hooks/useSalesFromPlayer";
+import useTransfersFromPlayer from "@/hooks/useTransfersFromPlayer";
+import {
+  AttachMoneyIcon,
+  QuestionMarkIcon,
+  ShoppingCartIcon,
+  SwapHorizIcon,
+  VisibilityIcon,
+} from "@/icons";
 import {
   Button,
   CircularProgress,
@@ -19,20 +33,6 @@ import {
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import React, { useCallback, useMemo, useState } from "react";
-import usePaymentsFromPlayer from "../../hooks/usePaymentsFromPlayer";
-import useSalesFromPlayer from "../../hooks/useSalesFromPlayer";
-import useTransfersFromPlayer from "../../hooks/useTransfersFromPlayer";
-import {
-  AttachMoneyIcon,
-  QuestionMarkIcon,
-  ShoppingCartIcon,
-  SwapHorizIcon,
-  VisibilityIcon,
-} from "../../icons";
-import PaymentInformations from "../PaymentInformations";
-import SaleInformations from "../SaleInformations";
-import TransferInformations from "../TransferInformations";
-import TypographyBalance from "../TypographyBalance";
 
 type PlayerExtractProps = {
   player: Player;

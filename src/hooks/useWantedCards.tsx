@@ -1,3 +1,4 @@
+import { firestore } from "@/services/firebaseConfig";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   addDoc,
@@ -7,7 +8,6 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import { firestore } from "../services/firebaseConfig";
 
 function useWantedCards() {
   const queryClient = useQueryClient();

@@ -32,8 +32,10 @@ const ControlledPasswordTextField = <
       inputRef={ref}
       error={!!error}
       helperText={error?.message}
-      InputProps={{
-        inputMode: "email",
+      slotProps={{
+        input: {
+          inputMode: "email",
+        },
       }}
     />
   );

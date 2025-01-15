@@ -1,5 +1,5 @@
+import findPaymentsPerMonth from "@/resources/payments/findPaymentsPerMonth";
 import { useQuery } from "@tanstack/react-query";
-import findPaymentsPerMonth from "../resources/payments/findPaymentsPerMonth";
 
 function usePaymentsPerMonth(month: Date) {
   return useQuery({

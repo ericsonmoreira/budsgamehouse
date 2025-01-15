@@ -1,5 +1,3 @@
-import { Box, IconButton, Paper, Tooltip, Typography } from "@mui/material";
-import { Editor, EditorContent, EditorContentProps } from "@tiptap/react";
 import {
   FormatAlignCenterIcon,
   FormatAlignJustifyIcon,
@@ -13,8 +11,10 @@ import {
   HighlightIcon,
   RedoIcon,
   UndoIcon,
-} from "../../icons";
+} from "@/icons";
 import { StrikethroughS } from "@mui/icons-material";
+import { Box, IconButton, Paper, Tooltip, Typography } from "@mui/material";
+import { Editor, EditorContent, EditorContentProps } from "@tiptap/react";
 
 type MenuBarProps = {
   editor: Editor | null;

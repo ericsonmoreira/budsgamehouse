@@ -1,6 +1,6 @@
+import { firestore } from "@/services/firebaseConfig";
 import { useQuery } from "@tanstack/react-query";
 import { doc, getDoc } from "firebase/firestore";
-import { firestore } from "../services/firebaseConfig";
 
 const path = "expenses";
 

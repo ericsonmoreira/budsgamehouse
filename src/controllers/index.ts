@@ -9,7 +9,7 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import { firestore } from "../services/firebaseConfig";
+import { firestore } from "@/services/firebaseConfig";
 
 // TODO: melhorar isso aqui
 interface ControllerData {

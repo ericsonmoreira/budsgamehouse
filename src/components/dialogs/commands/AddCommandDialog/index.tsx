@@ -1,3 +1,13 @@
+import ControlledTextField from "@/components/textfields/ControlledTextField";
+import useCommands from "@/hooks/useCommands";
+import {
+  CardsClubIcon,
+  CardsDiamondIcon,
+  CardsHeartIcon,
+  CardsSpadeIcon,
+} from "@/icons";
+import addCommand from "@/resources/commands/addCommand";
+import { auth } from "@/services/firebaseConfig";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Backdrop,
@@ -9,7 +19,7 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
-  Grid,
+  Grid2 as Grid,
   MenuItem,
   Stack,
   SvgIconProps,
@@ -21,16 +31,6 @@ import { useMemo } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import useCommands from "../../../../hooks/useCommands";
-import {
-  CardsClubIcon,
-  CardsDiamondIcon,
-  CardsHeartIcon,
-  CardsSpadeIcon,
-} from "../../../../icons";
-import addCommand from "../../../../resources/commands/addCommand";
-import { auth } from "../../../../services/firebaseConfig";
-import ControlledTextField from "../../../textfields/ControlledTextField";
 import schema, { AddCommandDialogFormData } from "./schema";
 
 const cardNumbers = ["A", "J", "Q", "K"];
@@ -53,12 +53,12 @@ type AddCommandDialogProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({
+function AddCommandDialog({
   title,
   subTitle,
   setOpen,
   ...rest
-}) => {
+}: AddCommandDialogProps & DialogProps) {
   const queryClient = useQueryClient();
 
   const month = format(Date.now(), "MM/yyyy");
@@ -145,7 +145,7 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({
       <DialogContent>
         <DialogContentText gutterBottom>{subTitle}</DialogContentText>
         <Grid container spacing={2}>
-          <Grid item xs={8}>
+          <Grid size={8}>
             <ControlledTextField
               name="displayName"
               control={control}
@@ -155,7 +155,7 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({
               fullWidth
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <ControlledTextField
               name="name"
               control={control}
@@ -202,6 +202,6 @@ const AddCommandDialog: React.FC<AddCommandDialogProps & DialogProps> = ({
       </Backdrop>
     </Dialog>
   );
-};
+}
 
 export default AddCommandDialog;

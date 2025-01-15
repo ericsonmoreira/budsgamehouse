@@ -123,7 +123,6 @@ function UpdateWantedCardDialog({
               size="small"
               label="Quantidade"
               type="number"
-              InputProps={{ inputProps: { min: 1 } }}
             />
             <ControlledTextField
               name="priority"
