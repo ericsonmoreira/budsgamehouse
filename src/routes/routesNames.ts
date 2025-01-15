@@ -13,6 +13,7 @@ const routesNames = {
   VIEW_PLAYER: "/players/:id",
   PRODUCTS: "/products",
   SALES: "/sales",
+  VIEW_SALE: "/sales/:id",
   LOGIN: "/login",
   SCHEDULES: "/schedules",
   VIEW_SCHEDLE: "/schedules/:id",

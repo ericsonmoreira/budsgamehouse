@@ -81,18 +81,13 @@ function SaleInformations({ data }: SaleInformationsProps) {
             </TableFooter>
           </Table>
         </TableContainer>
-        {looseValue && (
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            width="100%"
-            marginTop={1}
-          >
-            <Typography>Valor em cartas avulsas</Typography>
-            <Typography>{formatterCurrencyBRL.format(looseValue)}</Typography>
-          </Box>
-        )}
+        <Stack direction="column" mt={2}>
+          <Typography variant="h6">Total em cartas Avulsas</Typography>
+          <Typography>
+            {formatterCurrencyBRL.format(looseValue ?? 0)}
+          </Typography>
+        </Stack>
+
         <Box
           display="flex"
           alignItems="center"
