@@ -19,6 +19,7 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -66,37 +67,42 @@ function AddWantCardDialog({
 
   const { card } = useCardByName(cardNameSelected);
 
-  // TODO: passar isso pra uma mutation
-  const handleConfirmAction = () => {
-    try {
-      if (card) {
-        const imgUrl =
-          (card.card_faces.length === 2
-            ? card.card_faces[0].image_uris?.normal
-            : card.image_uris?.normal) || "";
+  const { mutate: addWantedCardMutate, isPending: addWantedCardIsPending } =
+    useMutation({
+      mutationFn: async () => {
+        if (card) {
+          const imgUrl =
+            (card.card_faces.length === 2
+              ? card.card_faces[0].image_uris?.normal
+              : card.image_uris?.normal) || "";
 
-        addWantedCard({
-          name: card.name,
-          amount: Number(amount),
-          imgUrl,
-          priority,
-        });
-
+          addWantedCard({
+            name: card.name,
+            amount: Number(amount),
+            imgUrl,
+            priority,
+          });
+        }
+      },
+      onSuccess: () => {
         toast.success("Card adicionado com sucesso");
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      resetField("searchTerm");
+        resetField("searchTerm");
 
-      setCardNameSelected("");
+        setCardNameSelected("");
 
-      setAmount("1");
+        setAmount("1");
 
-      setPriority("medium");
+        setPriority("medium");
 
-      setOpen(false);
-    }
+        setOpen(false);
+      },
+      onError: () => {
+        toast.error("Erro ao adicionar card");
+      },
+    });
+
+  const handleConfirmAction = () => {
+    addWantedCardMutate();
   };
 
   const handleCancelAction = () => {
@@ -190,9 +196,19 @@ function AddWantCardDialog({
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCancelAction}>Cancelar</Button>
-        <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>
-          Add
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleCancelAction}
+        >
+          Cancelar
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={handleSubmit(handleConfirmAction)}
+          autoFocus
+        >
+          Confirmar
         </Button>
       </DialogActions>
     </Dialog>
