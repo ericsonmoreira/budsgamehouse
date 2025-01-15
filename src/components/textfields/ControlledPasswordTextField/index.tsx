@@ -1,11 +1,11 @@
+import PasswordTextField from "@/components/PasswordTextField";
 import { TextFieldProps } from "@mui/material";
 import {
   FieldPath,
   FieldValues,
-  useController,
   UseControllerProps,
+  useController,
 } from "react-hook-form";
-import PasswordTextField from "../../PasswordTextField";
 
 type ControlledPasswordTextFieldProps<
   TextFieldValues extends FieldValues,

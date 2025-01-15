@@ -1,12 +1,8 @@
-import {
-  GridColDef,
-  GridComparatorFn,
-  GridRenderCellParams,
-} from "@mui/x-data-grid";
-import ActionsCell from "../../cells/ActionsCell";
-import ImageCell from "../../cells/ImageCell";
-import PriorityCell from "../../cells/PriorityCell";
-import CustomDataGrid from "../CustomDataGrid";
+import ActionsCell from "@/components/cells/ActionsCell";
+import ImageCell from "@/components/cells/ImageCell";
+import PriorityCell from "@/components/cells/PriorityCell";
+import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
+import { GridColDef, GridComparatorFn } from "@mui/x-data-grid";
 
 const priorityGridComparatorFn: GridComparatorFn<WantedCardPriority> = (
   a,

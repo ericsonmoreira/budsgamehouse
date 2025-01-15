@@ -1,5 +1,5 @@
-import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
-import { firestore } from "../../services/firebaseConfig";
+import { firestore } from "@/services/firebaseConfig";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 
 const path = "payments";
 

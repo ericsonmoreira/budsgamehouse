@@ -1,5 +1,5 @@
+import { firestore } from "@/services/firebaseConfig";
 import { deleteDoc, doc } from "firebase/firestore";
-import { firestore } from "../../services/firebaseConfig";
 
 const path = "players";
 

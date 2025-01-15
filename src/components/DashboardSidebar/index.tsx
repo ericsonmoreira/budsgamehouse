@@ -1,3 +1,4 @@
+import NavItem from "@/components/NavItem";
 import { WorkspacePremiumIcon } from "@/icons";
 import routesNames from "@/routes/routesNames";
 import { auth } from "@/services/firebaseConfig";
@@ -25,7 +26,6 @@ import { useTheme } from "@mui/material/styles";
 import { useSignOut } from "react-firebase-hooks/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { version } from "../../../package.json";
-import NavItem from "../NavItem";
 
 type AppDrawerItemData = {
   to: string;

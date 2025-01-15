@@ -1,3 +1,12 @@
+import AvatarPlayer from "@/components/AvatarPlayer";
+import Page from "@/components/Page";
+import PageHeader from "@/components/PageHeader";
+import PlayerExtract from "@/components/PlayerExtract";
+import TypographyBalance from "@/components/TypographyBalance";
+import PaymentDialog from "@/components/dialogs/balances/PaymentDialog";
+import usePlayer from "@/hooks/usePlayer";
+import { PhoneIcon } from "@/icons";
+import routesNames from "@/routes/routesNames";
 import EmailIcon from "@mui/icons-material/Email";
 import PaidIcon from "@mui/icons-material/Paid";
 import PaymentIcon from "@mui/icons-material/Payment";
@@ -14,15 +23,6 @@ import {
 import { useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import "react-vertical-timeline-component/style.min.css";
-import AvatarPlayer from "../../components/AvatarPlayer";
-import Page from "../../components/Page";
-import PageHeader from "../../components/PageHeader";
-import PlayerExtract from "../../components/PlayerExtract";
-import TypographyBalance from "../../components/TypographyBalance";
-import PaymentDialog from "../../components/dialogs/balances/PaymentDialog";
-import usePlayer from "../../hooks/usePlayer";
-import routesNames from "../../routes/routesNames";
-import { PhoneIcon } from "../../icons";
 
 type ViewPlayerParams = {
   id: string;

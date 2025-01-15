@@ -1,3 +1,8 @@
+import Page from "@/components/Page";
+import PaperGlass from "@/components/PaperGlass";
+import ControlledTextField from "@/components/textfields/ControlledTextField";
+import { auth } from "@/services/firebaseConfig";
+import verifyFirebaseErroCode from "@/services/verifyFirebaseErroCode";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Button, Grid2 as Grid, Stack, Typography } from "@mui/material";
@@ -7,11 +12,6 @@ import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import Page from "../../components/Page";
-import PaperGlass from "../../components/PaperGlass";
-import ControlledTextField from "../../components/textfields/ControlledTextField";
-import { auth } from "../../services/firebaseConfig";
-import verifyFirebaseErroCode from "../../services/verifyFirebaseErroCode";
 import schema, { SchemaData } from "./schema ";
 
 function RecoverPassword() {

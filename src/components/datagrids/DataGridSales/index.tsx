@@ -1,10 +1,10 @@
+import AvatarPlayer from "@/components/AvatarPlayer";
+import ActionsCell from "@/components/cells/ActionsCell";
+import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
 import { formatterCurrencyBRL } from "@/utils/formatters";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import AvatarPlayer from "../../AvatarPlayer";
-import ActionsCell from "../../cells/ActionsCell";
-import CustomDataGrid from "../CustomDataGrid";
 
 type DataGridSalesRowData = Sale & {
   actions: {

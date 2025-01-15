@@ -1,7 +1,7 @@
+import ActionsCell from "@/components/cells/ActionsCell";
+import { formatterCurrencyBRL } from "@/utils/formatters";
+import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
 import { GridColDef } from "@mui/x-data-grid";
-import { formatterCurrencyBRL } from "../../../utils/formatters";
-import ActionsCell from "../../cells/ActionsCell";
-import CustomDataGrid from "../CustomDataGrid";
 
 type DataGridProductsRowData = Product & {
   actions: {

@@ -1,3 +1,4 @@
+import ViewUserDialog from "@/components/dialogs/users/ViewUserDialog";
 import { ManaBIcon, ManaWIcon } from "@/icons";
 import { auth } from "@/services/firebaseConfig";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -16,7 +17,6 @@ import { styled } from "@mui/material/styles";
 import { useMemo, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useLocalStorage } from "usehooks-ts";
-import ViewUserDialog from "../dialogs/users/ViewUserDialog";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,

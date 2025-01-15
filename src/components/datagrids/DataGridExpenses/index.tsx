@@ -1,9 +1,9 @@
+import TypographyBalance from "@/components/TypographyBalance";
+import ActionsCell from "@/components/cells/ActionsCell";
+import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import TypographyBalance from "@/components/TypographyBalance";
-import ActionsCell from "@/components/cells/ActionsCell";
-import CustomDataGrid from "../CustomDataGrid";
 
 type DataGridExpensesRowData = Expense & {
   actions: {

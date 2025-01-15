@@ -1,5 +1,5 @@
+import { firestore } from "@/services/firebaseConfig";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { firestore } from "../../services/firebaseConfig";
 
 const path = "products";
 

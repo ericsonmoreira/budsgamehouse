@@ -1,7 +1,7 @@
+import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
+import { formatterCurrencyBRL } from "@/utils/formatters";
 import { GridColDef } from "@mui/x-data-grid";
 import { useMemo } from "react";
-import { formatterCurrencyBRL } from "../../../utils/formatters";
-import CustomDataGrid from "../CustomDataGrid";
 
 type DataGridProductsSalesProps = {
   sales?: Sale[];

@@ -1,7 +1,7 @@
-import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import AvatarPlayer from "../../AvatarPlayer";
-import ActionsCell from "../../cells/ActionsCell";
-import CustomDataGrid from "../CustomDataGrid";
+import AvatarPlayer from "@/components/AvatarPlayer";
+import ActionsCell from "@/components/cells/ActionsCell";
+import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
+import { GridColDef } from "@mui/x-data-grid";
 
 type DataGridPlaysersRowData = {
   id: string;

@@ -1,3 +1,4 @@
+import { DeleteIcon, SearchIcon } from "@/icons";
 import {
   IconButton,
   InputAdornment,
@@ -5,7 +6,6 @@ import {
   TextField,
   TextFieldProps,
 } from "@mui/material";
-import { DeleteIcon, SearchIcon } from "../../../icons";
 
 type SearchTextFieldProps = {
   handleClearSearchTerm: () => void;
