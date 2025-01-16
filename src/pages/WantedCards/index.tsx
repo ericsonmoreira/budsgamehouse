@@ -45,7 +45,7 @@ function WantedCards() {
     useState<WantedCardUpdateData>({
       id: "",
       name: "",
-      amount: "",
+      amount: 0,
       imgUrl: "",
       priority: "medium",
     });
@@ -128,7 +128,7 @@ function WantedCards() {
                     handleUpdate({
                       id,
                       name,
-                      amount: String(amount),
+                      amount,
                       imgUrl,
                       priority,
                     }),

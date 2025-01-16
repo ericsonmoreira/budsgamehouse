@@ -16,7 +16,7 @@ import {
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import schema from "./schema ";
+import schema, { SchemaData } from "./schema ";
 
 const priorityMapValues: { value: WantedCardPriority; label: string }[] = [
   { value: "high", label: "Alto" },
@@ -28,7 +28,7 @@ export type WantedCardUpdateData = {
   id: string;
   name: string;
   imgUrl: string;
-  amount: string;
+  amount: number;
   priority: WantedCardPriority;
 };
 
@@ -39,14 +39,6 @@ type UpdateWantedCardDialogProps = {
   tradingCardToUpdate: WantedCardUpdateData;
 } & DialogProps;
 
-type UpdateWantedCardDialogFormData = {
-  name: string;
-  imgUrl: string;
-  amount: string;
-  priority: WantedCardPriority;
-};
-
-// TODO: ajustar esse component depois
 function UpdateWantedCardDialog({
   title,
   subTitle,
@@ -58,18 +50,17 @@ function UpdateWantedCardDialog({
 
   const { updateWantedCard } = useWantedCards();
 
-  const { control, handleSubmit, setValue } =
-    useForm<UpdateWantedCardDialogFormData>({
-      resolver: zodResolver(schema),
-    });
+  const { control, handleSubmit, setValue } = useForm<SchemaData>({
+    resolver: zodResolver(schema),
+  });
 
   const handleConfirmAction = ({
     name,
     amount,
     imgUrl,
     priority,
-  }: UpdateWantedCardDialogFormData) => {
-    updateWantedCard({ id, name, amount: Number(amount), imgUrl, priority });
+  }: SchemaData) => {
+    updateWantedCard({ id, name, amount, imgUrl: imgUrl || "", priority });
 
     toast.success("Card Atualizado com sucesso!");
 

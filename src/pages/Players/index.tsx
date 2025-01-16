@@ -9,13 +9,15 @@ import usePlayers from "@/hooks/usePlayers";
 import deletePlayer from "@/resources/players/deletePlayer";
 import { Box } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
-import { useDebounce } from "usehooks-ts"; // TODO: ajustar isso depois
+import { useDebounceCallback } from "usehooks-ts";
 
 function Players() {
   const queryClient = useQueryClient();
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const { showDialog, confirmationDialog: ConfirmationDialog } =
     useConfirmation();
@@ -37,17 +39,19 @@ function Players() {
     balance: 0,
   });
 
-  const searchTermDebounced = useDebounce(searchTerm, 300);
+  const debounced = useDebounceCallback((value: string) => {
+    setSearchParams({ searchTerm: value });
+  }, 500);
 
   const searchedPlayers = useMemo(() => {
     if (players) {
       return players.filter(({ name }) =>
-        name.toLowerCase().includes(searchTermDebounced?.toLowerCase() || ""),
+        name.toLowerCase().includes(searchTerm?.toLowerCase() || ""),
       );
     }
 
     return [];
-  }, [players, searchTermDebounced]);
+  }, [players, searchTerm]);
 
   const { mutate: deletePlayerMutate, isPending: deletePlayerMutateIsloading } =
     useMutation({
@@ -98,6 +102,14 @@ function Players() {
     }
   };
 
+  const handleClearSearchTerm = (): void => {
+    if (inputRef.current) {
+      inputRef.current.value = "";
+
+      setSearchParams({ searchTerm: "" });
+    }
+  };
+
   return (
     <Page loading={deletePlayerMutateIsloading}>
       <PageHeader
@@ -107,11 +119,11 @@ function Players() {
       <Box mx={1}>
         <SearchTextField
           autoFocus
-          value={searchTerm}
+          inputRef={inputRef}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setSearchParams({ searchTerm: event.target.value });
+            debounced(event.target.value);
           }}
-          handleClearSearchTerm={() => setSearchParams({ searchTerm: "" })}
+          handleClearSearchTerm={handleClearSearchTerm}
           placeholder="Buscar por nome..."
           size="small"
           fullWidth

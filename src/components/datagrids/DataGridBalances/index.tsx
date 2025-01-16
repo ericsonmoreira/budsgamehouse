@@ -43,7 +43,9 @@ const columns: GridColDef<DataGridBalancesRowData>[] = [
     field: "balance",
     headerName: "Saldo",
     flex: 1,
-    renderCell: ({ row }) => <TypographyBalance balance={row.balance} />,
+    renderCell: ({ row }) => (
+      <TypographyBalance variant="inherit" balance={row.balance} />
+    ),
   },
   {
     field: "actions",

@@ -9,9 +9,9 @@ import { formatterCurrencyBRL } from "@/utils/formatters";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import PersonIcon from "@mui/icons-material/Person";
 import { Box, Chip, Grid2 as Grid, Tooltip } from "@mui/material";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useDebounce } from "usehooks-ts";
+import { useDebounceCallback } from "usehooks-ts";
 
 type ContentCard = {
   title: string;
@@ -29,6 +29,8 @@ type ContentCard = {
 };
 
 function Balances() {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
   const [searchParams, setSearchParams] = useSearchParams({ searchTerm: "" });
 
   const searchTerm = searchParams.get("searchTerm");
@@ -45,17 +47,19 @@ function Balances() {
     {} as Player,
   );
 
-  const searchTermDebounced = useDebounce(searchTerm, 300);
+  const debounced = useDebounceCallback((value: string) => {
+    setSearchParams({ searchTerm: value });
+  }, 500);
 
   const searchedPlayers = useMemo(() => {
     if (players) {
       return players.filter(({ name }) =>
-        name.toLowerCase().includes(searchTermDebounced?.toLowerCase() || ""),
+        name.toLowerCase().includes(searchTerm?.toLowerCase() || ""),
       );
     }
 
     return [];
-  }, [players, searchTermDebounced]);
+  }, [players, searchTerm]);
 
   const totalPlayersNegativeBaleance = useMemo(() => {
     if (players) {
@@ -145,6 +149,13 @@ function Balances() {
     setTransferDialogOpen(true);
   };
 
+  const handleClearSearchTerm = (): void => {
+    if (inputRef.current) {
+      inputRef.current.value = "";
+      setSearchParams({ searchTerm: "" });
+    }
+  };
+
   return (
     <Page>
       <PageHeader title="Saldos" />
@@ -168,11 +179,11 @@ function Balances() {
       <Box mx={1}>
         <SearchTextField
           autoFocus
-          value={searchTerm}
+          inputRef={inputRef}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setSearchParams({ searchTerm: event.target.value });
+            debounced(event.target.value);
           }}
-          handleClearSearchTerm={() => setSearchParams({ searchTerm: "" })}
+          handleClearSearchTerm={handleClearSearchTerm}
           placeholder="Buscar por nome..."
           size="small"
           fullWidth

@@ -26,7 +26,9 @@ const columns: GridColDef<DataGridExpensesRowData>[] = [
     field: "value",
     headerName: "Valor",
     flex: 1,
-    renderCell: ({ row }) => <TypographyBalance balance={-row.value} />,
+    renderCell: ({ row }) => (
+      <TypographyBalance variant="inherit" balance={-row.value} />
+    ),
   },
   {
     field: "createdAt",

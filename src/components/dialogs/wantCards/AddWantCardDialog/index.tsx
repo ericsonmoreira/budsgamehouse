@@ -1,13 +1,11 @@
 import ImgCard from "@/components/ImgCard";
+import SearchTextField from "@/components/textfields/SearchTextField";
 import useAutoCompleteCardNames from "@/hooks/useAutoCompleteCardNames";
 import useCardByName from "@/hooks/useCardByName";
-import useDebounce from "@/hooks/useDebounce";
 import useWantedCards from "@/hooks/useWantedCards";
-import SearchIcon from "@mui/icons-material/Search";
 import {
   Button,
   Chip,
-  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -15,23 +13,19 @@ import {
   DialogProps,
   DialogTitle,
   Grid2 as Grid,
-  InputAdornment,
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useDebounceCallback } from "usehooks-ts";
 
 type AddWantCardDialogProps = {
   title: string;
   subTitle: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 } & DialogProps;
-
-type AddWantCardDialogFormData = {
-  searchTerm: string;
-};
 
 const priorityMapValues: { value: WantedCardPriority; label: string }[] = [
   { value: "high", label: "Alto" },
@@ -45,8 +39,7 @@ function AddWantCardDialog({
   setOpen,
   ...rest
 }: AddWantCardDialogProps) {
-  const { register, handleSubmit, watch, resetField } =
-    useForm<AddWantCardDialogFormData>();
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const [cardNameSelected, setCardNameSelected] = useState<string>("");
 
@@ -56,53 +49,62 @@ function AddWantCardDialog({
 
   const { addWantedCard } = useWantedCards();
 
-  const searchTermWatch = watch("searchTerm");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const searchTermWatchDebounce = useDebounce(searchTermWatch, 500);
+  const debounced = useDebounceCallback(setSearchTerm, 500);
 
-  const { cardNames, isLoading } = useAutoCompleteCardNames(
-    searchTermWatchDebounce,
-  );
+  const { cardNames, isLoading } = useAutoCompleteCardNames(searchTerm);
 
   const { card } = useCardByName(cardNameSelected);
 
-  // TODO: passar isso pra uma mutation
-  const handleConfirmAction = () => {
-    try {
-      if (card) {
-        const imgUrl =
-          (card.card_faces.length === 2
-            ? card.card_faces[0].image_uris?.normal
-            : card.image_uris?.normal) || "";
+  const { mutate: addWantedCardMutate, isPending: addWantedCardIsPending } =
+    useMutation({
+      mutationFn: async () => {
+        if (card) {
+          const imgUrl =
+            (card.card_faces.length === 2
+              ? card.card_faces[0].image_uris?.normal
+              : card.image_uris?.normal) || "";
 
-        addWantedCard({
-          name: card.name,
-          amount: Number(amount),
-          imgUrl,
-          priority,
-        });
-
+          addWantedCard({
+            name: card.name,
+            amount: Number(amount),
+            imgUrl,
+            priority,
+          });
+        }
+      },
+      onSuccess: () => {
         toast.success("Card adicionado com sucesso");
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      resetField("searchTerm");
 
-      setCardNameSelected("");
+        setCardNameSelected("");
 
-      setAmount("1");
+        setAmount("1");
 
-      setPriority("medium");
+        setPriority("medium");
 
-      setOpen(false);
-    }
+        setOpen(false);
+      },
+      onError: () => {
+        toast.error("Erro ao adicionar card");
+      },
+    });
+
+  const handleConfirmAction = () => {
+    addWantedCardMutate();
   };
 
   const handleCancelAction = () => {
-    resetField("searchTerm");
     setCardNameSelected("");
     setOpen(false);
+  };
+
+  const handleClearSearchTerm = (): void => {
+    if (inputRef.current) {
+      inputRef.current.value = "";
+
+      setSearchTerm("");
+    }
   };
 
   return (
@@ -112,25 +114,16 @@ function AddWantCardDialog({
         <DialogContentText>{subTitle}</DialogContentText>
         <Grid container spacing={1}>
           <Grid size={12}>
-            <TextField
-              variant="outlined"
+            <SearchTextField
+              autoFocus
+              inputRef={inputRef}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                debounced(event.target.value);
+              }}
+              handleClearSearchTerm={handleClearSearchTerm}
+              placeholder="Buscar por nome..."
               size="small"
               fullWidth
-              slotProps={{
-                input: {
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      {isLoading && <CircularProgress size={16} />}
-                    </InputAdornment>
-                  ),
-                },
-              }}
-              {...register("searchTerm")}
             />
           </Grid>
           <Grid size={8}>
@@ -190,9 +183,15 @@ function AddWantCardDialog({
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCancelAction}>Cancelar</Button>
-        <Button onClick={handleSubmit(handleConfirmAction)} autoFocus>
-          Add
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleCancelAction}
+        >
+          Cancelar
+        </Button>
+        <Button variant="outlined" onClick={handleConfirmAction} autoFocus>
+          Confirmar
         </Button>
       </DialogActions>
     </Dialog>

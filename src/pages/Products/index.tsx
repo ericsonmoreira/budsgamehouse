@@ -5,16 +5,18 @@ import AddProductDialog from "@/components/dialogs/products/AddProductDialog";
 import UpdateProductDialog from "@/components/dialogs/products/UpdateProductDialog";
 import SearchTextField from "@/components/textfields/SearchTextField";
 import useConfirmation from "@/hooks/useConfirmation";
-import useDebounce from "@/hooks/useDebounce";
 import useProducts from "@/hooks/useProducts";
 import deleteProduct from "@/resources/products/deleteProduct";
 import { Box, Grid2 as Grid } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
+import { useDebounceCallback } from "usehooks-ts";
 
 function Products() {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
   const [searchParams, setSearchParams] = useSearchParams({ searchTerm: "" });
 
   const searchTerm = searchParams.get("searchTerm");
@@ -35,17 +37,19 @@ function Products() {
   const [updateProductDialogOpen, setUpdatePproductDialogOpen] =
     useState(false);
 
-  const searchTermDebounced = useDebounce(searchTerm, 300);
+  const debounced = useDebounceCallback((value: string) => {
+    setSearchParams({ searchTerm: value });
+  }, 500);
 
   const searchedProducts = useMemo(() => {
     if (products) {
       return products.filter(({ name }) =>
-        name.toLowerCase().includes(searchTermDebounced?.toLowerCase() || ""),
+        name.toLowerCase().includes(searchTerm?.toLowerCase() || ""),
       );
     }
 
     return [];
-  }, [products, searchTermDebounced]);
+  }, [products, searchTerm]);
 
   const handleUpdate = (product: Product) => {
     setProductToUpdate(product);
@@ -78,6 +82,13 @@ function Products() {
     }
   };
 
+  const handleClearSearchTerm = (): void => {
+    if (inputRef.current) {
+      inputRef.current.value = "";
+      setSearchParams({ searchTerm: "" });
+    }
+  };
+
   return (
     <Page loading={deleteProductMutateIsloading}>
       <PageHeader
@@ -89,11 +100,11 @@ function Products() {
           <Grid size={12}>
             <SearchTextField
               autoFocus
-              value={searchTerm}
+              inputRef={inputRef}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setSearchParams({ searchTerm: event.target.value });
+                debounced(event.target.value);
               }}
-              handleClearSearchTerm={() => setSearchParams({ searchTerm: "" })}
+              handleClearSearchTerm={handleClearSearchTerm}
               placeholder="Buscar por nome..."
               size="small"
               fullWidth

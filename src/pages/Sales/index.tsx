@@ -3,10 +3,10 @@ import PageHeader from "@/components/PageHeader";
 import SalesAndPaymentsChartBar from "@/components/charts/SalesAndPaymentsChartBar";
 import DataGridProductsSales from "@/components/datagrids/DataGridProductsSales";
 import DataGridSales from "@/components/datagrids/DataGridSales";
-import ViewSaleDialog from "@/components/dialogs/sales/ViewSaleDialog";
 import useLastTwelveMonths from "@/hooks/useLastTwelveMonths";
 import usePaymentsPerMonth from "@/hooks/usePaymentsPerMonth";
 import useSalesPerMonth from "@/hooks/useSalesPerMonth";
+import routesNames from "@/routes/routesNames";
 import { formatterCurrencyBRL } from "@/utils/formatters";
 import {
   Box,
@@ -19,8 +19,11 @@ import {
 } from "@mui/material";
 import { format } from "date-fns";
 import React, { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Sales() {
+  const navigate = useNavigate();
+
   const [selectedMonth, setSelectedMonth] = useState(
     format(Date.now(), "MM/yyyy"),
   );
@@ -34,16 +37,10 @@ function Sales() {
   const { data: payments, isLoading: isLoadingPaymentsPerMonth } =
     usePaymentsPerMonth(new Date(`${ano}-${mes}-01T00:00:00`));
 
-  const [viewSaleDialogOpen, setViewSaleDialogOpen] = useState(false);
-
-  const [saleToview, setSaleToview] = useState<Sale>({} as Sale);
-
   const lastTwelveMonths = useLastTwelveMonths(12);
 
   const handleView = (sale: Sale) => {
-    setSaleToview(sale);
-
-    setViewSaleDialogOpen(true);
+    navigate(routesNames.VIEW_SALE.replace(":id", sale.id));
   };
 
   const totalSales = useMemo(() => {
@@ -140,13 +137,6 @@ function Sales() {
           </Box>
         </Grid>
       </Grid>
-      <ViewSaleDialog
-        title="Venda"
-        subTitle="Informações sobre a Venda..."
-        open={viewSaleDialogOpen}
-        setOpen={setViewSaleDialogOpen}
-        saleToview={saleToview}
-      />
     </Page>
   );
 }
