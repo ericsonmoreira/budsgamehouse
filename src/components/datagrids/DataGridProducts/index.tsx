@@ -2,6 +2,8 @@ import ActionsCell from "@/components/cells/ActionsCell";
 import { formatterCurrencyBRL } from "@/utils/formatters";
 import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
 import { GridColDef } from "@mui/x-data-grid";
+import routesNames from "@/routes/routesNames";
+import { Link } from "@mui/material";
 
 type DataGridProductsRowData = Product & {
   actions: {
@@ -31,7 +33,21 @@ const columns: GridColDef<DataGridProductsRowData>[] = [
         />
       ),
   },
-  { field: "name", headerName: "Nome", flex: 2 },
+  {
+    field: "name",
+    headerName: "Nome",
+    flex: 2,
+    renderCell(params) {
+      return (
+        <Link
+          href={routesNames.VIEM_PRODUCT.replace(":id", params.row.id)}
+          underline="none"
+        >
+          {params.row.name}
+        </Link>
+      );
+    },
+  },
   { field: "category", headerName: "Categoria", flex: 1 },
   {
     field: "price",

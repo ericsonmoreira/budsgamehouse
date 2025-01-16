@@ -28,6 +28,7 @@ const ViewClient = lazy(() => import("../pages/ViewClient"));
 const ViewCommand = lazy(() => import("../pages/ViewCommand"));
 const ViewExpense = lazy(() => import("../pages/ViewExpense"));
 const ViewPlayer = lazy(() => import("../pages/ViewPlayer"));
+const ViewProduct = lazy(() => import("../pages/ViewProduct"));
 const ViewSale = lazy(() => import("../pages/ViewSale"));
 const ViewSchedle = lazy(() => import("../pages/ViewSchedle"));
 const WantedCards = lazy(() => import("../pages/WantedCards"));
@@ -67,6 +68,10 @@ function AppRoutes() {
                 element={<ViewExpense />}
               />
               <Route path={routesNames.VIEW_PLAYER} element={<ViewPlayer />} />
+              <Route
+                path={routesNames.VIEM_PRODUCT}
+                element={<ViewProduct />}
+              />
               <Route path={routesNames.VIEW_SALE} element={<ViewSale />} />
               <Route
                 path={routesNames.VIEW_SCHEDLE}
