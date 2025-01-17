@@ -1,12 +1,6 @@
 import usePlayer from "@/hooks/usePlayer";
 import routesNames from "@/routes/routesNames";
-import {
-  Avatar,
-  AvatarProps,
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Avatar, AvatarProps, Tooltip, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 type AvatarPlayerProps = {
@@ -61,44 +55,49 @@ function AvatarPlayer({
   if (!player.name) {
     return (
       <Tooltip title="Desconhecido">
-        <IconButton
+        <Avatar
+          sx={{ ...originalSx, cursor: "pointer" }}
           onClick={() =>
             navigate(routesNames.VIEW_PLAYER.replace(":id", player.id))
           }
+          {...rest}
         >
-          <Avatar sx={originalSx} {...rest}>
-            <Typography variant="inherit">?</Typography>
-          </Avatar>
-        </IconButton>
+          <Typography variant="inherit">?</Typography>
+        </Avatar>
       </Tooltip>
     );
   }
 
   return (
     <Tooltip title={player.name}>
-      <IconButton
-        onClick={() =>
-          navigate(routesNames.VIEW_PLAYER.replace(":id", player.id))
-        }
-      >
-        {player.avatarImgUrl ? (
-          <Avatar
-            sx={{ ...originalSx, ...stringAvatar(player.name).sx }}
-            {...rest}
-            src={player.avatarImgUrl}
-          />
-        ) : (
-          <Avatar
-            sx={{ ...originalSx, ...stringAvatar(player.name).sx }}
-            {...rest}
-            src={player.avatarImgUrl}
-          >
-            <Typography variant="inherit" sx={{ fontSize: 10 }}>
-              {stringAvatar(player.name).children}
-            </Typography>
-          </Avatar>
-        )}
-      </IconButton>
+      {player.avatarImgUrl ? (
+        <Avatar
+          sx={{
+            ...originalSx,
+            ...stringAvatar(player.name).sx,
+            cursor: "pointer",
+          }}
+          onClick={() =>
+            navigate(routesNames.VIEW_PLAYER.replace(":id", player.id))
+          }
+          {...rest}
+          src={player.avatarImgUrl}
+        />
+      ) : (
+        <Avatar
+          sx={{
+            ...originalSx,
+            ...stringAvatar(player.name).sx,
+            cursor: "pointer",
+          }}
+          {...rest}
+          src={player.avatarImgUrl}
+        >
+          <Typography variant="inherit" sx={{ fontSize: 10 }}>
+            {stringAvatar(player.name).children}
+          </Typography>
+        </Avatar>
+      )}
     </Tooltip>
   );
 }

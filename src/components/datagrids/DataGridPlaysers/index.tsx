@@ -1,6 +1,7 @@
 import AvatarPlayer from "@/components/AvatarPlayer";
 import ActionsCell from "@/components/cells/ActionsCell";
 import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
+import { Box, TableCell } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 
 type DataGridPlaysersRowData = {
@@ -28,7 +29,15 @@ const columns: GridColDef<DataGridPlaysersRowData>[] = [
     disableColumnMenu: true,
     sortable: false,
     renderCell: ({ row }) => (
-      <AvatarPlayer playerId={row.id} sx={{ width: 24, height: 24 }} />
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        width="100%"
+        height="100%"
+      >
+        <AvatarPlayer playerId={row.id} sx={{ width: 24, height: 24 }} />
+      </Box>
     ),
   },
   { field: "name", headerName: "Nome", flex: 2 },

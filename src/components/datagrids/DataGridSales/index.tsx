@@ -2,6 +2,7 @@ import AvatarPlayer from "@/components/AvatarPlayer";
 import ActionsCell from "@/components/cells/ActionsCell";
 import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
 import { formatterCurrencyBRL } from "@/utils/formatters";
+import { Box } from "@mui/material";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -25,7 +26,18 @@ const columns: GridColDef<DataGridSalesRowData>[] = [
     width: 20,
     renderCell: ({ row }: GridRenderCellParams<DataGridSalesRowData>) =>
       row.playerId ? (
-        <AvatarPlayer sx={{ width: 24, height: 24 }} playerId={row.playerId} />
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          width="100%"
+          height="100%"
+        >
+          <AvatarPlayer
+            sx={{ width: 24, height: 24 }}
+            playerId={row.playerId}
+          />
+        </Box>
       ) : null,
   },
   {

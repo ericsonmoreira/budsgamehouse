@@ -2,6 +2,7 @@ import AvatarPlayer from "@/components/AvatarPlayer";
 import TypographyBalance from "@/components/TypographyBalance";
 import ActionsCell from "@/components/cells/ActionsCell";
 import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
+import { Box } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 
 type DataGridBalancesRowData = Player & {
@@ -25,7 +26,15 @@ const columns: GridColDef<DataGridBalancesRowData>[] = [
     disableColumnMenu: true,
     sortable: false,
     renderCell: ({ row }) => (
-      <AvatarPlayer sx={{ width: 24, height: 24 }} playerId={row.id} />
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        width="100%"
+        height="100%"
+      >
+        <AvatarPlayer sx={{ width: 24, height: 24 }} playerId={row.id} />
+      </Box>
     ),
   },
   {
