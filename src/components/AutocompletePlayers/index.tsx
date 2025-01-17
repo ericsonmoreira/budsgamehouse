@@ -54,7 +54,11 @@ function AutocompletePlayers({
           }
         }}
         renderOption={(props, option) => (
-          <Box component="li" {...props}>
+          <Box
+            component="li"
+            {...props}
+            key={`autocomplete-option-${option.id}`}
+          >
             {option.avatarImgUrl && (
               <img
                 alt="avatar-image"
