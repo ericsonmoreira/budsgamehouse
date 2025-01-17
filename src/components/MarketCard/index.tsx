@@ -3,8 +3,10 @@ import AutocompleteProducts from "@/components/AutocompleteProducts";
 import AvatarPlayer from "@/components/AvatarPlayer";
 import TypographyBalance from "@/components/TypographyBalance";
 import ControlledCurrencyTextField from "@/components/textfields/ControlledCurrencyTextField";
+import useConfirmation from "@/hooks/useConfirmation";
 import usePlayers from "@/hooks/usePlayers";
 import useProducts from "@/hooks/useProducts";
+import { PaymentIcon } from "@/icons";
 import updatePlayer from "@/resources/players/updatePlayer";
 import updateProductStock from "@/resources/products/updateProductStock";
 import addSale from "@/resources/sales/addSale";
@@ -65,6 +67,9 @@ function MarketCard() {
 
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
+  const { showDialog, confirmationDialog: ConfirmationDialog } =
+    useConfirmation();
+
   const [shoppingCart, setShoppingCart] = useState<
     {
       id: string;
@@ -88,16 +93,6 @@ function MarketCard() {
     products?.filter(
       (product) => !shoppingCart.some((elem) => elem.id === product.id),
     ) || [];
-
-  // const validProdutos = useMemo(() => {
-  //   if (products && shoppingCart) {
-  //     return products.filter(
-  //       (product) => !shoppingCart.some((elem) => elem.id !== product.id),
-  //     );
-  //   }
-
-  //   return [];
-  // }, [products, shoppingCart]);
 
   const handleAddProductToShoppingCart = () => {
     if (selectedProduct) {
@@ -164,7 +159,7 @@ function MarketCard() {
             ),
           );
 
-          // // Criando uma nova compra
+          // Criando uma nova compra
           await addSale({
             createdAt: Timestamp.now(),
             playerId: selectedPlayer?.id || "",
@@ -220,8 +215,15 @@ function MarketCard() {
     setSelectedPlayer(null);
   };
 
-  const handleConfirm = (data: SchemaData) => {
-    confirmMutate(data);
+  const handleConfirm = async (data: SchemaData) => {
+    const confirmation = await showDialog({
+      title: "Finalização do Pedido",
+      message: "Deseja Realmente Finalizar o Pedido",
+    });
+
+    if (confirmation) {
+      confirmMutate(data);
+    }
   };
 
   const selectedPlayerIsExceededLimit = selectedPlayer
@@ -395,14 +397,21 @@ function MarketCard() {
         </CardContent>
       )}
       <CardActions>
-        <Button variant="contained" color="error" onClick={handleClearFields}>
+        <Button
+          variant="contained"
+          color="error"
+          size="large"
+          onClick={handleClearFields}
+        >
           Cancelar
         </Button>
         <Button
           variant="contained"
           color="success"
+          size="large"
           onClick={handleSubmit(handleConfirm)}
           disabled={disabledConfirm || selectedPlayerIsExceededLimit}
+          endIcon={<PaymentIcon />}
         >
           Finalizar Pedido
         </Button>
@@ -413,6 +422,7 @@ function MarketCard() {
       >
         <CircularProgress color="primary" />
       </Backdrop>
+      <ConfirmationDialog />
     </Card>
   );
 }
