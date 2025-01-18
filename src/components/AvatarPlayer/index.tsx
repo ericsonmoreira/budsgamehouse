@@ -90,6 +90,9 @@ function AvatarPlayer({
             ...stringAvatar(player.name).sx,
             cursor: "pointer",
           }}
+          onClick={() =>
+            navigate(routesNames.VIEW_PLAYER.replace(":id", player.id))
+          }
           {...rest}
           src={player.avatarImgUrl}
         >
