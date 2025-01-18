@@ -30,7 +30,6 @@ function BasicLayout() {
           sx={{
             padding: 1,
             display: "flex",
-            // flex: 1,
             alignItems: "center",
             justifyContent: "center",
           }}
