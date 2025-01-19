@@ -3,6 +3,7 @@ const routesNames = {
   CLIENT: "/client",
   CLIENT_LIGA_PODIUM: "/client-liga-podium",
   COMMANDS: "/commands",
+  EDIT_PRODUCT: "/products/:id/edit",
   EDIT_SCHEDLE: "/schedules/:id/edit",
   EXPENSES: "/expenses",
   HOME: "/",
