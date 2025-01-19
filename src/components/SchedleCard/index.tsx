@@ -8,7 +8,6 @@ import {
   CardContent,
   CardHeader,
   IconButton,
-  Link,
   Typography,
 } from "@mui/material";
 import { format } from "date-fns";
@@ -44,15 +43,14 @@ function SchedleCard({ schedule }: SchedleCardProps) {
         <Typography>Formato: {schedule.format}</Typography>
       </CardContent>
       <CardActions style={{ justifyContent: "end" }}>
-        <Link
-          component={Button}
+        <Button
           endIcon={<ArrowForwardIcon />}
-          href={routesNames.VIEW_SCHEDLE.replace(":id", schedule.id)}
-          underline="none"
-          size="small"
+          onClick={() =>
+            navigate(routesNames.VIEW_SCHEDLE.replace(":id", schedule.id))
+          }
         >
           Visualizar
-        </Link>
+        </Button>
       </CardActions>
     </Card>
   );

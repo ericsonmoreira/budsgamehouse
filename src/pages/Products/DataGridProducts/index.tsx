@@ -1,9 +1,10 @@
 import ActionsCell from "@/components/cells/ActionsCell";
-import { formatterCurrencyBRL } from "@/utils/formatters";
 import CustomDataGrid from "@/components/datagrids/CustomDataGrid";
-import { GridColDef } from "@mui/x-data-grid";
 import routesNames from "@/routes/routesNames";
-import { Link } from "@mui/material";
+import { formatterCurrencyBRL } from "@/utils/formatters";
+import { Link as MuiLink } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
+import { Link } from "react-router-dom";
 
 type DataGridProductsRowData = Product & {
   actions: {
@@ -39,12 +40,13 @@ const columns: GridColDef<DataGridProductsRowData>[] = [
     flex: 2,
     renderCell(params) {
       return (
-        <Link
-          href={routesNames.VIEM_PRODUCT.replace(":id", params.row.id)}
+        <MuiLink
+          component={Link}
+          to={routesNames.VIEM_PRODUCT.replace(":id", params.row.id)}
           underline="none"
         >
           {params.row.name}
-        </Link>
+        </MuiLink>
       );
     },
   },

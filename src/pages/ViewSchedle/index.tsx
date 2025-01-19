@@ -1,10 +1,3 @@
-import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
-import { EditorContent } from "@tiptap/react";
-import { format } from "date-fns";
-import { useEffect } from "react";
-import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
-import { useCopyToClipboard } from "usehooks-ts";
 import Page from "@/components/Page";
 import PageHeader from "@/components/PageHeader";
 import useRickTextEditor from "@/hooks/useRickTextEditor";
@@ -16,6 +9,13 @@ import {
   VideogameAssetIcon,
 } from "@/icons";
 import { formatterCurrencyBRL } from "@/utils/formatters";
+import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
+import { EditorContent } from "@tiptap/react";
+import { format } from "date-fns";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
+import { useCopyToClipboard } from "usehooks-ts";
 
 type ViewSchedleParams = {
   id: string;
@@ -24,7 +24,7 @@ type ViewSchedleParams = {
 function ViewSchedle() {
   const { id } = useParams<ViewSchedleParams>();
 
-  const { data } = useSchedle(id);
+  const { data, isLoading } = useSchedle(id);
 
   const editor = useRickTextEditor({
     editable: false,
@@ -53,7 +53,7 @@ function ViewSchedle() {
   }, [data, editor]);
 
   return (
-    <Page>
+    <Page loading={isLoading}>
       <PageHeader title="Programação" containsBackButton />
       <Box padding={1}>
         {data && (

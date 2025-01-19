@@ -1,21 +1,23 @@
 import Page from "@/components/Page";
 import PageHeader from "@/components/PageHeader";
-import DataGridProducts from "@/components/datagrids/DataGridProducts";
-import AddProductDialog from "@/components/dialogs/products/AddProductDialog";
-import UpdateProductDialog from "@/components/dialogs/products/UpdateProductDialog";
 import SearchTextField from "@/components/textfields/SearchTextField";
 import useConfirmation from "@/hooks/useConfirmation";
 import useProducts from "@/hooks/useProducts";
 import deleteProduct from "@/resources/products/deleteProduct";
+import routesNames from "@/routes/routesNames";
 import { Box, Grid2 as Grid } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDebounceCallback } from "usehooks-ts";
+import AddProductDialog from "./AddProductDialog";
+import DataGridProducts from "./DataGridProducts";
 
 function Products() {
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams({ searchTerm: "" });
 
@@ -29,13 +31,6 @@ function Products() {
   const queryClient = useQueryClient();
 
   const { data: products, isLoading } = useProducts();
-
-  const [productToUpdate, setProductToUpdate] = useState<Product>(
-    {} as Product,
-  );
-
-  const [updateProductDialogOpen, setUpdatePproductDialogOpen] =
-    useState(false);
 
   const debounced = useDebounceCallback((value: string) => {
     setSearchParams({ searchTerm: value });
@@ -52,9 +47,7 @@ function Products() {
   }, [products, searchTerm]);
 
   const handleUpdate = (product: Product) => {
-    setProductToUpdate(product);
-
-    setUpdatePproductDialogOpen(true);
+    navigate(routesNames.EDIT_PRODUCT.replace(":id", product.id));
   };
 
   const {
@@ -85,6 +78,7 @@ function Products() {
   const handleClearSearchTerm = (): void => {
     if (inputRef.current) {
       inputRef.current.value = "";
+
       setSearchParams({ searchTerm: "" });
     }
   };
@@ -129,14 +123,6 @@ function Products() {
         subTitle="Adiciona um novo Produto"
         open={addProductDialogOpen}
         setOpen={setAddProductDialogOpen}
-      />
-      <UpdateProductDialog
-        productToUpdate={productToUpdate}
-        title="Atualizar Produto"
-        subTitle="Atualiza um Produto"
-        open={updateProductDialogOpen}
-        setOpen={setUpdatePproductDialogOpen}
-        onClose={() => setUpdatePproductDialogOpen(false)}
       />
       <ConfirmationDialog />
     </Page>
