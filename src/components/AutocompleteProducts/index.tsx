@@ -6,6 +6,7 @@ import {
   IconButton,
   Stack,
   TextField,
+  type TextFieldProps,
   Typography,
 } from "@mui/material";
 import React, { useMemo, useState } from "react";
@@ -20,6 +21,7 @@ type AutocompleteProductsProps = {
   validProdutos: Product[];
   onClickAddProductButton(): void;
   disabled?: boolean;
+  textFieldProps?: TextFieldProps;
 };
 
 function AutocompleteProducts({
@@ -28,6 +30,7 @@ function AutocompleteProducts({
   validProdutos,
   onClickAddProductButton,
   disabled = false,
+  textFieldProps,
 }: AutocompleteProductsProps) {
   const [priorities, setPriorities] = useState<Record<string, number>>({}); // mapeamento das prioridades pelo id do produto
 
@@ -84,7 +87,13 @@ function AutocompleteProducts({
         getOptionLabel={(option) => option.name}
         fullWidth
         renderInput={(params) => (
-          <TextField {...params} ref={null} size="small" label="Produtos" />
+          <TextField
+            {...params}
+            ref={null}
+            size="small"
+            label="Produtos"
+            {...textFieldProps}
+          />
         )}
       />
       <IconButton

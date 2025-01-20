@@ -3,7 +3,9 @@ import { z } from "zod";
 const schema = z.object({
   name: z
     .string({ required_error: "Campo obrigatório." })
-    .max(100, "Máximo de 100 caracteres."),
+    .max(100, "Máximo de 100 caracteres.")
+    .min(10, "Mínimo de 10 caracteres."),
+
   value: z.coerce
     .number({ required_error: "Campo obrigatório." })
     .positive("O valor tem que ser mior que R$ 0,00."),

@@ -249,6 +249,7 @@ function MarketCard() {
                     ? "Jogador com limite de saldo negativo"
                     : null,
                   error: selectedPlayerIsExceededLimit,
+                  size: "medium",
                 }}
               />
             </Grid>
@@ -268,6 +269,9 @@ function MarketCard() {
                 setSelectedProduct={setSelectedProduct}
                 onClickAddProductButton={handleAddProductToShoppingCart}
                 disabled={selectedPlayerIsExceededLimit}
+                textFieldProps={{
+                  size: "medium",
+                }}
               />
             </Grid>
             <Grid size={12}>

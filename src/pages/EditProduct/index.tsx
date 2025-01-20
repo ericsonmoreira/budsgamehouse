@@ -1,22 +1,29 @@
+import ImageDropZone from "@/components/ImageDropZone";
 import Page from "@/components/Page";
 import PageHeader from "@/components/PageHeader";
 import ControlledCurrencyTextField from "@/components/textfields/ControlledCurrencyTextField";
 import ControlledTextField from "@/components/textfields/ControlledTextField";
+import useConfirmation from "@/hooks/useConfirmation";
 import useProduct from "@/hooks/useProduct";
 import { SaveIcon } from "@/icons";
 import updateProduct from "@/resources/products/updateProduct";
+import uploadImageInStorage from "@/resources/uploadImageInStorage";
+import routesNames from "@/routes/routesNames";
 import { PRODUCT_CATEGORIES } from "@/utils/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Grid2 as Grid, MenuItem, Paper } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid2 as Grid,
+  MenuItem,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import schema, { UpdateProductDialogFormData } from "./schema ";
-import ImageDropZone from "@/components/ImageDropZone";
-import routesNames from "@/routes/routesNames";
-import uploadImageInStorage from "@/resources/uploadImageInStorage";
 
 type EditProductParams = {
   id: string;
@@ -29,18 +36,15 @@ function EditProduct() {
 
   const queryClient = useQueryClient();
 
+  const { showDialog, confirmationDialog: ConfirmationDialog } =
+    useConfirmation();
+
   const { data: product, isLoading: isLoadingProduct } = useProduct(id);
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<UpdateProductDialogFormData>({
+  const { control, handleSubmit } = useForm<UpdateProductDialogFormData>({
     resolver: zodResolver(schema),
     values: product,
   });
-
-  const [file, setFile] = useState<File | null>();
 
   const {
     mutate: updateProductMutate,
@@ -53,6 +57,7 @@ function EditProduct() {
       category,
       stock,
       imgUrl,
+      file,
     }: UpdateProductDialogFormData) => {
       if (file) {
         const newImgUrl = await uploadImageInStorage(file);
@@ -88,8 +93,15 @@ function EditProduct() {
     },
   });
 
-  const handleSave = (data: UpdateProductDialogFormData) => {
-    updateProductMutate(data);
+  const handleSave = async (data: UpdateProductDialogFormData) => {
+    const confirmation = await showDialog({
+      title: "Edição de Produto",
+      message: `Deseja Realmente Editar o Produto: ${data.name}?`,
+    });
+
+    if (confirmation) {
+      updateProductMutate(data);
+    }
   };
 
   return (
@@ -117,7 +129,21 @@ function EditProduct() {
               </Grid>
             )}
             <Grid size={12}>
-              <ImageDropZone file={file} setFile={setFile} />
+              <Controller
+                control={control}
+                name="file"
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <Stack direction="column" spacing={1}>
+                    <ImageDropZone file={value} setFile={onChange} />
+                    {error && (
+                      <Typography color="error">{error.message}</Typography>
+                    )}
+                  </Stack>
+                )}
+              />
             </Grid>
             <Grid size={{ lg: 6, xs: 12 }}>
               <ControlledTextField
@@ -179,6 +205,7 @@ function EditProduct() {
           </Grid>
         </Box>
       )}
+      <ConfirmationDialog />
     </Page>
   );
 }
