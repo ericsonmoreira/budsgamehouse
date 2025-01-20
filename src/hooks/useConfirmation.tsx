@@ -34,10 +34,15 @@ const ConfirmationDialog = ({
       <DialogContentText>{message}</DialogContentText>
     </DialogContent>
     <DialogActions>
-      <Button onClick={handleCancel} color="warning">
+      <Button onClick={handleCancel} variant="contained" color="warning">
         Cancelar
       </Button>
-      <Button onClick={handleConfirm} color="success" autoFocus>
+      <Button
+        onClick={handleConfirm}
+        variant="outlined"
+        color="success"
+        autoFocus
+      >
         Confirmar
       </Button>
     </DialogActions>

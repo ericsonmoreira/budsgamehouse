@@ -1,6 +1,6 @@
 import DashboardNavbar from "@/components/DashboardNavbar";
 import DashboardSidebar from "@/components/DashboardSidebar";
-import { Box } from "@mui/material";
+import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
@@ -14,6 +14,7 @@ function DashboardLayout() {
     maxWidth: "100%",
     height: "100dvh",
     paddingTop: 64,
+    overflow: "auto",
     backgroundColor: theme.palette.background.default,
     [theme.breakpoints.up("lg")]: {
       paddingLeft: 180,
@@ -22,17 +23,17 @@ function DashboardLayout() {
 
   return (
     <DashboardLayoutRoot>
-      <Box
+      <Container
+        maxWidth="xl"
         sx={{
           display: "flex",
           flex: "1 1 auto",
           flexDirection: "column",
           width: "100%",
-          overflowY: "auto",
         }}
       >
         <Outlet />
-      </Box>
+      </Container>
       <DashboardNavbar onSidebarOpen={() => setSidebarOpen(true)} />
       <DashboardSidebar
         onClose={() => setSidebarOpen(false)}

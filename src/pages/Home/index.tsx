@@ -1,5 +1,3 @@
-import HomeCard, { HomeCardProps } from "@/components/HomeCard";
-import MarketCard from "@/components/MarketCard";
 import Page from "@/components/Page";
 import usePlayers from "@/hooks/usePlayers";
 import useProducts from "@/hooks/useProducts";
@@ -9,6 +7,8 @@ import AddCardIcon from "@mui/icons-material/AddCard";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import PersonIcon from "@mui/icons-material/Person";
 import { Grid2 as Grid } from "@mui/material";
+import HomeCard, { HomeCardProps } from "./HomeCard";
+import MarketCard from "./MarketCard";
 
 function Home() {
   const { data: players, isLoading: isLoadingPlayers } = usePlayers();

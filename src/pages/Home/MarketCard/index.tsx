@@ -249,15 +249,19 @@ function MarketCard() {
                     ? "Jogador com limite de saldo negativo"
                     : null,
                   error: selectedPlayerIsExceededLimit,
+                  size: "medium",
                 }}
               />
             </Grid>
             {selectedPlayer && (
               <Grid size={12}>
-                <Stack direction="row" spacing={1} alignItems="center">
+                <Stack direction="row" spacing={2} alignItems="center">
                   <AvatarPlayer playerId={selectedPlayer.id} />
-                  <Typography>Saldo do Player</Typography>
-                  <TypographyBalance balance={selectedPlayer.balance} />
+                  <Typography variant="h5">Saldo do Player</Typography>
+                  <TypographyBalance
+                    variant="h5"
+                    balance={selectedPlayer.balance}
+                  />
                 </Stack>
               </Grid>
             )}
@@ -268,6 +272,9 @@ function MarketCard() {
                 setSelectedProduct={setSelectedProduct}
                 onClickAddProductButton={handleAddProductToShoppingCart}
                 disabled={selectedPlayerIsExceededLimit}
+                textFieldProps={{
+                  size: "medium",
+                }}
               />
             </Grid>
             <Grid size={12}>
@@ -276,7 +283,7 @@ function MarketCard() {
                 name="looseValue"
                 label="Valor em cartas avulsas"
                 fullWidth
-                size="small"
+                size="medium"
                 variant="outlined"
                 disabled={selectedPlayerIsExceededLimit}
               />

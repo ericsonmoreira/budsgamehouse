@@ -1,21 +1,23 @@
 import Page from "@/components/Page";
 import PageHeader from "@/components/PageHeader";
-import DataGridPlaysers from "@/components/datagrids/DataGridPlaysers";
-import AddPlayerDialog from "@/components/dialogs/players/AddPlayerDialog";
-import UpdatePlayerDialog from "@/components/dialogs/players/UpdatePlayerDialog";
 import SearchTextField from "@/components/textfields/SearchTextField";
 import useConfirmation from "@/hooks/useConfirmation";
 import usePlayers from "@/hooks/usePlayers";
 import deletePlayer from "@/resources/players/deletePlayer";
+import routesNames from "@/routes/routesNames";
 import { Box } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDebounceCallback } from "usehooks-ts";
+import AddPlayerDialog from "./AddPlayerDialog";
+import DataGridPlaysers from "./DataGridPlaysers";
 
 function Players() {
   const queryClient = useQueryClient();
+
+  const navigate = useNavigate();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -28,16 +30,7 @@ function Players() {
 
   const [addPlayerDialogOpen, setAddPlayerDialogOpen] = useState(false);
 
-  const [updatePlayerDialogOpen, setUpdatePlayerDialogOpen] = useState(false);
-
   const { data: players, isLoading } = usePlayers();
-
-  const [playerToUpdate, setPlayerToUpdate] = useState<Player>({
-    id: "",
-    name: "",
-    email: "",
-    balance: 0,
-  });
 
   const debounced = useDebounceCallback((value: string) => {
     setSearchParams({ searchTerm: value });
@@ -55,19 +48,19 @@ function Players() {
 
   const { mutate: deletePlayerMutate, isPending: deletePlayerMutateIsloading } =
     useMutation({
-      mutationFn: async (playerId: string) => {
-        await deletePlayer(playerId);
+      mutationFn: async (player: Player) => {
+        await deletePlayer(player.id);
 
         await queryClient.invalidateQueries({ queryKey: ["usePlayers"] });
 
         await queryClient.invalidateQueries({
-          queryKey: ["usePlayer", playerToUpdate.id],
+          queryKey: ["usePlayer", player.id],
         });
 
         await queryClient.invalidateQueries({ queryKey: ["usePayments"] });
 
         await queryClient.invalidateQueries({
-          queryKey: ["usePaymentsFromPlayer", playerToUpdate.id],
+          queryKey: ["usePaymentsFromPlayer", player.id],
         });
       },
       onSuccess: () => {
@@ -78,27 +71,18 @@ function Players() {
       },
     });
 
-  const handleUpdate = ({
-    id,
-    name,
-    email,
-    avatarImgUrl,
-    balance,
-    phone,
-  }: Player) => {
-    setPlayerToUpdate({ id, name, email, avatarImgUrl, balance, phone });
-
-    setUpdatePlayerDialogOpen(true);
+  const handleUpdate = (player: Player) => {
+    navigate(routesNames.EDIT_PLAYER.replace(":id", player.id));
   };
 
-  const handledelete = async (id: string) => {
+  const handledelete = async (player: Player) => {
     const confirmation = await showDialog({
       title: "Remover Player",
       message: "Deseja realmente remover esse Jogador?",
     });
 
     if (confirmation) {
-      deletePlayerMutate(id);
+      deletePlayerMutate(player);
     }
   };
 
@@ -132,11 +116,11 @@ function Players() {
       <Box sx={{ margin: 1, height: 1 }}>
         <DataGridPlaysers
           loading={isLoading}
-          rows={searchedPlayers.map((row) => ({
-            ...row,
+          rows={searchedPlayers.map((player) => ({
+            ...player,
             actions: {
-              handleUpdate: () => handleUpdate(row),
-              handledelete: () => handledelete(row.id),
+              handleUpdate: () => handleUpdate(player),
+              handledelete: () => handledelete(player),
             },
           }))}
         />
@@ -147,13 +131,7 @@ function Players() {
         open={addPlayerDialogOpen}
         setOpen={setAddPlayerDialogOpen}
       />
-      <UpdatePlayerDialog
-        title="Update Player"
-        subTitle="Atualize aqui o Jogador"
-        open={updatePlayerDialogOpen}
-        setOpen={setUpdatePlayerDialogOpen}
-        playerToUpdate={playerToUpdate}
-      />
+
       <ConfirmationDialog />
     </Page>
   );

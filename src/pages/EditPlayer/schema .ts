@@ -1,16 +1,13 @@
 import { z } from "zod";
 
 const schema = z.object({
-  id: z.string({ required_error: "Campo obrigatório" }),
+  id: z.string(),
   name: z.string({ required_error: "Campo obrigatório" }),
-  price: z.coerce
-    .number({ required_error: "Campo obrigatório" })
-    .positive("O valor tem que ser mior que R$ 0,00"),
-  category: z.string({ required_error: "Campo obrigatório" }),
-  stock: z.coerce
-    .number({ required_error: "Campo obrigatório" })
-    .min(0, "Valor náo pode ser menor que 0"),
-  imgUrl: z.string().optional(),
+  phone: z.string().optional(),
+  email: z
+    .string({ required_error: "Campo obrigatório" })
+    .email("Email inválido"),
+  avatarImgUrl: z.string().optional(),
   file: z
     .instanceof(File)
     .optional()
@@ -27,8 +24,16 @@ const schema = z.object({
         message: "O arquivo deve ser uma imagem PNG ou JPEG",
       },
     ),
+  balance: z.number(),
 });
 
-export type UpdateProductDialogFormData = z.infer<typeof schema>;
+export type EditPlayerDialogFormData = z.infer<typeof schema>;
 
 export default schema;
+
+// id: string;
+// name: string;
+// email: string;
+// avatarImgUrl?: string;
+// phone?: string;
+// balance: number;

@@ -3,9 +3,10 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   Autocomplete,
   Box,
-  IconButton,
+  Button,
   Stack,
   TextField,
+  type TextFieldProps,
   Typography,
 } from "@mui/material";
 import React, { useMemo, useState } from "react";
@@ -20,6 +21,7 @@ type AutocompleteProductsProps = {
   validProdutos: Product[];
   onClickAddProductButton(): void;
   disabled?: boolean;
+  textFieldProps?: TextFieldProps;
 };
 
 function AutocompleteProducts({
@@ -28,6 +30,7 @@ function AutocompleteProducts({
   validProdutos,
   onClickAddProductButton,
   disabled = false,
+  textFieldProps,
 }: AutocompleteProductsProps) {
   const [priorities, setPriorities] = useState<Record<string, number>>({}); // mapeamento das prioridades pelo id do produto
 
@@ -44,7 +47,7 @@ function AutocompleteProducts({
   );
 
   return (
-    <Stack direction="row" spacing={1} width={1}>
+    <Stack direction="row" spacing={1} width={1} alignItems="center">
       <Autocomplete
         disabled={disabled}
         value={selectedProduct}
@@ -84,16 +87,25 @@ function AutocompleteProducts({
         getOptionLabel={(option) => option.name}
         fullWidth
         renderInput={(params) => (
-          <TextField {...params} ref={null} size="small" label="Produtos" />
+          <TextField
+            {...params}
+            ref={null}
+            size="small"
+            label="Produtos"
+            {...textFieldProps}
+          />
         )}
       />
-      <IconButton
+      <Button
+        variant="contained"
         color="success"
-        disabled={!selectedProduct}
         onClick={onClickAddProductButton}
+        disabled={!selectedProduct}
+        endIcon={<AddCircleIcon />}
+        size="large"
       >
-        <AddCircleIcon />
-      </IconButton>
+        Adicionar
+      </Button>
     </Stack>
   );
 }

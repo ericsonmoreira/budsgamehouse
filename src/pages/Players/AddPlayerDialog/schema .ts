@@ -8,6 +8,6 @@ const schema = z.object({
     .email("Email inválido"),
 });
 
-export type UpdatePlayerDialogFormData = z.infer<typeof schema>;
+export type AddPlayerDialogFormData = z.infer<typeof schema>;
 
 export default schema;
