@@ -3,7 +3,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   Autocomplete,
   Box,
-  IconButton,
+  Button,
   Stack,
   TextField,
   type TextFieldProps,
@@ -47,7 +47,7 @@ function AutocompleteProducts({
   );
 
   return (
-    <Stack direction="row" spacing={1} width={1}>
+    <Stack direction="row" spacing={1} width={1} alignItems="center">
       <Autocomplete
         disabled={disabled}
         value={selectedProduct}
@@ -96,13 +96,16 @@ function AutocompleteProducts({
           />
         )}
       />
-      <IconButton
+      <Button
+        variant="contained"
         color="success"
-        disabled={!selectedProduct}
         onClick={onClickAddProductButton}
+        disabled={!selectedProduct}
+        endIcon={<AddCircleIcon />}
+        size="large"
       >
-        <AddCircleIcon />
-      </IconButton>
+        Adicionar
+      </Button>
     </Stack>
   );
 }

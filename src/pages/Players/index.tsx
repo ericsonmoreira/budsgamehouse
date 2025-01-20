@@ -1,6 +1,5 @@
 import Page from "@/components/Page";
 import PageHeader from "@/components/PageHeader";
-import DataGridPlaysers from "@/components/datagrids/DataGridPlaysers";
 import SearchTextField from "@/components/textfields/SearchTextField";
 import useConfirmation from "@/hooks/useConfirmation";
 import usePlayers from "@/hooks/usePlayers";
@@ -13,6 +12,7 @@ import toast from "react-hot-toast";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDebounceCallback } from "usehooks-ts";
 import AddPlayerDialog from "./AddPlayerDialog";
+import DataGridPlaysers from "./DataGridPlaysers";
 
 function Players() {
   const queryClient = useQueryClient();
