@@ -46,7 +46,7 @@ function Home() {
   ];
 
   return (
-    <Page>
+    <Page loading={isLoadingPlayers || isLoadingProducts}>
       <Grid container spacing={1} p={1}>
         <Grid size={12}>
           <MarketCard />

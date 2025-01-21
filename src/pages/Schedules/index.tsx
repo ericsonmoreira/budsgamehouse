@@ -1,21 +1,21 @@
 import Page from "@/components/Page";
 import PageHeader from "@/components/PageHeader";
-import SchedleCard from "@/components/SchedleCard";
-import AddSchedulesDialog from "@/components/dialogs/schedules/AddSchedulesDialog";
 import useSchedules from "@/hooks/useSchedules";
+import routesNames from "@/routes/routesNames";
 import { Box, Grid2 as Grid, Paper } from "@mui/material";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import SchedleCard from "./SchedleCard";
 
 function Schedules() {
-  const { data: schedules, isLoading } = useSchedules();
+  const navigate = useNavigate();
 
-  const [addScheduleDialogOpen, setAddScheduleDialogOpen] = useState(false);
+  const { data: schedules, isLoading } = useSchedules();
 
   return (
     <Page loading={isLoading}>
       <PageHeader
         title="Programações"
-        onClickAddButton={() => setAddScheduleDialogOpen(true)}
+        onClickAddButton={() => navigate(routesNames.CREATE_SCHEDULE)}
       />
       <Paper
         sx={{
@@ -36,12 +36,6 @@ function Schedules() {
           </Grid>
         )}
       </Paper>
-      <AddSchedulesDialog
-        title="Adicionar Programação"
-        subTitle="Adicionar Programação"
-        open={addScheduleDialogOpen}
-        setOpen={setAddScheduleDialogOpen}
-      />
     </Page>
   );
 }

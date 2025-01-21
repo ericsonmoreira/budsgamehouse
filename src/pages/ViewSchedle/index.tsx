@@ -57,8 +57,8 @@ function ViewSchedle() {
       <PageHeader title="Programação" containsBackButton />
       <Box padding={1}>
         {data && (
-          <Paper sx={{ padding: 1 }}>
-            <Stack direction="column" spacing={1}>
+          <Paper>
+            <Stack direction="column" px={2} py={1}>
               <Box
                 display="flex"
                 alignItems="center"
@@ -75,7 +75,6 @@ function ViewSchedle() {
                   Copiar Conteúdo
                 </Button>
               </Box>
-
               <Stack
                 spacing={1}
                 direction="row"
@@ -107,9 +106,12 @@ function ViewSchedle() {
                 <VideogameAssetIcon />
                 <Typography>Formato: {data.format}</Typography>
               </Stack>
-              <Divider />
-              <EditorContent editor={editor} />
             </Stack>
+            <Divider />
+            <Box px={2} py={1}>
+              <Typography variant="h5">Descrição</Typography>
+              <EditorContent editor={editor} />
+            </Box>
           </Paper>
         )}
       </Box>
