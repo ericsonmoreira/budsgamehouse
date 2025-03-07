@@ -339,6 +339,9 @@ function ViewCommand() {
               setSelectedProduct={setSelectedProduct}
               validProdutos={validProdutos}
               onClickAddProductButton={handleAddProductToShoppingCart}
+              textFieldProps={{
+                size: "medium",
+              }}
             />
           </Grid>
           <Grid size={12}>

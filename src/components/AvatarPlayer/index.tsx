@@ -96,7 +96,7 @@ function AvatarPlayer({
           {...rest}
           src={player.avatarImgUrl}
         >
-          <Typography variant="inherit" sx={{ fontSize: 10 }}>
+          <Typography variant="inherit">
             {stringAvatar(player.name).children}
           </Typography>
         </Avatar>

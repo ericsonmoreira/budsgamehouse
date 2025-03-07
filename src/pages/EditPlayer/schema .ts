@@ -30,10 +30,3 @@ const schema = z.object({
 export type EditPlayerDialogFormData = z.infer<typeof schema>;
 
 export default schema;
-
-// id: string;
-// name: string;
-// email: string;
-// avatarImgUrl?: string;
-// phone?: string;
-// balance: number;

@@ -8,7 +8,7 @@ function LigaPodium() {
       <iframe
         height="100%"
         width="100%"
-        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRtBctJ67dOeMus6sysL6k-S8i5usYgLXGW_dhY2LrOpKb0D-UeKCUdZ4JmAnif27LinMxzDcBwAi9U/pubhtml"
+        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSlRJ3xaVqcUE_NfDB-gnijQ1mTxajyP0y8vdWTOwjUKdYHcELrKUf3Upjoktl9AqmHwRrXDMbPjF39/pubhtml?gid=1569588811&single=true"
       ></iframe>
     </Page>
   );

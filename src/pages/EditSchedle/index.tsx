@@ -2,11 +2,13 @@ import Page from "@/components/Page";
 import PageHeader from "@/components/PageHeader";
 import RichTextEditor from "@/components/RichTextEditor";
 import ControlledCurrencyTextField from "@/components/textfields/ControlledCurrencyTextField";
+import ControlledDateTimePicker from "@/components/textfields/ControlledDateTimePicker";
 import ControlledTextField from "@/components/textfields/ControlledTextField";
 import useRickTextEditor from "@/hooks/useRickTextEditor";
 import useSchedle from "@/hooks/useSchedle";
 import { SaveIcon } from "@/icons";
 import updateSchedule from "@/resources/schedules/updateSchedule";
+import routesNames from "@/routes/routesNames";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
@@ -17,12 +19,11 @@ import {
   Typography,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { format } from "date-fns";
 import { Timestamp } from "firebase/firestore";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import schema, { SchemaData } from "./schema";
 
 type EditSchedleParams = {
@@ -45,36 +46,48 @@ const formats: MTGFormat[] = [
 function EditSchedle() {
   const { id } = useParams<EditSchedleParams>();
 
-  const { data, isLoading: isLoadingData } = useSchedle(id);
+  const navigate = useNavigate();
+
+  const { data: schedle, isLoading: isLoadingSchedle } = useSchedle(id);
 
   const queryClient = useQueryClient();
 
   const editor = useRickTextEditor();
 
-  const { handleSubmit, reset, control } = useForm<SchemaData>({
+  const { handleSubmit, control } = useForm<SchemaData>({
     resolver: zodResolver(schema),
+    values: schedle
+      ? {
+          ...schedle,
+          start: schedle.start.toDate(),
+          createdAt: schedle.createdAt.toDate(),
+        }
+      : undefined,
   });
 
   const {
     mutate: updateScheduleMutate,
     isPending: updateScheduleMutateIsloading,
   } = useMutation({
-    mutationFn: async ({ title, start, price }: SchemaData) => {
-      if (data && editor) {
+    mutationFn: async (data: SchemaData) => {
+      if (editor) {
         await updateSchedule({
-          id: data.id,
-          title,
-          format: "Pioneer",
-          price,
+          ...data,
           description: editor.getHTML(),
-          start: Timestamp.fromDate(new Date(start)),
+          start: Timestamp.fromDate(new Date(data.start)),
           createdAt: Timestamp.now(),
         });
       }
 
       await queryClient.invalidateQueries({ queryKey: ["useSchedules"] });
+
+      await queryClient.invalidateQueries({
+        queryKey: ["useSchedle", data.id],
+      });
     },
     onSuccess: () => {
+      navigate(routesNames.SCHEDULES);
+
       toast.success("Programação salva com sucesso");
     },
     onError: (error: Error) => {
@@ -87,23 +100,16 @@ function EditSchedle() {
   };
 
   useEffect(() => {
-    if (data && editor) {
-      reset({
-        format: data.format,
-        price: data.price,
-        start: format(data.start.toDate(), "yyyy-MM-dd'T'HH:mm"),
-        title: data.title,
-      });
-
-      editor.commands.setContent(data.description);
+    if (schedle && editor) {
+      editor.commands.setContent(schedle.description);
     }
-  }, [data, editor, reset]);
+  }, [schedle, editor]);
 
   return (
-    <Page loading={updateScheduleMutateIsloading || isLoadingData}>
+    <Page loading={updateScheduleMutateIsloading || isLoadingSchedle}>
       <PageHeader title="Editar Programação" containsBackButton />
       <Box padding={1}>
-        {data && (
+        {schedle && (
           <Paper
             sx={{ padding: 2 }}
             component="form"
@@ -121,15 +127,15 @@ function EditSchedle() {
                 />
               </Grid>
               <Grid size={4}>
-                <ControlledTextField
+                <ControlledDateTimePicker
                   name="start"
-                  type="datetime-local"
                   control={control}
-                  variant="outlined"
-                  size="small"
-                  label="Início"
-                  InputLabelProps={{ shrink: true }}
-                  fullWidth
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
+                      size: "small",
+                    },
+                  }}
                 />
               </Grid>
               <Grid size={4}>
