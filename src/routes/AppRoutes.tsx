@@ -10,6 +10,7 @@ import routesNames from "./routesNames";
 const Balances = lazy(() => import("../pages/Balances"));
 const BasicLayout = lazy(() => import("../layouts/BasicLayout"));
 const Client = lazy(() => import("../pages/Client"));
+const CreateExpense = lazy(() => import("../pages/CreateExpense"));
 const CreateSchedle = lazy(() => import("../pages/CreateSchedle"));
 const Commands = lazy(() => import("../pages/Commands"));
 const EditPlayer = lazy(() => import("../pages/EditPlayer"));
@@ -44,6 +45,10 @@ function AppRoutes() {
           <Route element={<PrivateRoutes />}>
             <Route element={<DashboardLayout />}>
               <Route path={routesNames.BALANCES} element={<Balances />} />
+              <Route
+                path={routesNames.CREATE_EXPENSE}
+                element={<CreateExpense />}
+              />
               <Route
                 path={routesNames.CREATE_SCHEDULE}
                 element={<CreateSchedle />}

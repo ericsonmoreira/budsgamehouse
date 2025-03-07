@@ -5,23 +5,17 @@ import ControlledCurrencyTextField from "@/components/textfields/ControlledCurre
 import ControlledDateTimePicker from "@/components/textfields/ControlledDateTimePicker";
 import ControlledTextField from "@/components/textfields/ControlledTextField";
 import useRickTextEditor from "@/hooks/useRickTextEditor";
+import { SaveIcon } from "@/icons";
 import addSchedule from "@/resources/schedules/addSchedule";
 import routesNames from "@/routes/routesNames";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Box,
-  Button,
-  Grid2 as Grid,
-  MenuItem,
-  Typography,
-} from "@mui/material";
+import { Button, Grid2 as Grid, MenuItem, Typography } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Timestamp } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import schema, { SchemaData } from "./schema";
-import { SaveIcon } from "@/icons";
 
 const formats: MTGFormat[] = [
   "Standard",

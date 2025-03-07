@@ -2,6 +2,7 @@ const routesNames = {
   BALANCES: "/balances",
   CLIENT: "/client",
   CLIENT_LIGA_PODIUM: "/client-liga-podium",
+  CREATE_EXPENSE: "/expenses/create",
   CREATE_SCHEDULE: "/schedules/create",
   COMMANDS: "/commands",
   EDIT_PLAYER: "/players/:id/edit",

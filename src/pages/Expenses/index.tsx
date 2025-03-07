@@ -31,7 +31,7 @@ function Expenses() {
     <Page>
       <PageHeader
         title="Despesas"
-        onClickAddButton={() => setOpenAddExpenseDialog(true)}
+        onClickAddButton={() => navigate(routesNames.CREATE_EXPENSE)}
       />
       <Box height={1} px={1} pb={1} flexDirection="column" display="flex">
         <TextField
