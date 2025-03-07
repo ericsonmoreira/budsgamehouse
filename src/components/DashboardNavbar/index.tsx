@@ -50,20 +50,15 @@ function DashboardNavbar({
   };
 
   return (
-    <DashboardNavbarRoot
-      sx={{
-        left: {
-          lg: 0,
-        },
-      }}
-      {...rest}
-    >
+    <DashboardNavbarRoot {...rest}>
       <Toolbar
         disableGutters
         sx={{
-          minHeight: 64,
           left: 0,
-          px: 2,
+          px: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
         <IconButton
@@ -75,28 +70,18 @@ function DashboardNavbar({
             },
             marginRight: 2,
           }}
-          edge="start"
+          edge="end"
         >
           <MenuIcon fontSize="small" />
         </IconButton>
-        <Box
-          sx={{
-            display: "flex",
-          }}
-        >
-          <img src="/buds-logo.png" alt="Buds Logo" style={{ width: "4rem" }} />
+        <Box display="flex">
+          <img
+            src="/buds-logo.svg"
+            alt="Buds Logo"
+            style={{ height: "2rem" }}
+          />
         </Box>
-        <Box
-          flexGrow={1}
-          display="flex"
-          alignItems="center"
-          justifyContent={"center"}
-        >
-          <Typography variant="h5" color="text.primary" fontWeight={900}>
-            Buds Game House
-          </Typography>
-        </Box>
-        <Box>
+        <Box display="flex" alignItems="center" justifyContent="flex-end">
           <Tooltip title="Tema da interface">
             <IconButton onClick={handleToggleTheme} size="small">
               {isDarkTheme ? <ManaBIcon /> : <ManaWIcon />}

@@ -1,5 +1,5 @@
 import BackGroundLoginPageImg from "@/assets/bgLogin.jpg";
-import { Box, Container, useMediaQuery } from "@mui/material";
+import { Box, Container, Grid2 as Grid, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Outlet } from "react-router-dom";
 
@@ -18,39 +18,36 @@ function BasicLayout() {
         backgroundPosition: "center center",
       }}
     >
-      <Container
-        maxWidth="xl"
-        sx={{
-          display: "flex",
-          flexDirection: upMd ? "row" : "column",
-          height: "100dvh",
-        }}
-      >
-        <Box
+      <Container maxWidth="xl">
+        <Grid
+          container
+          spacing={2}
+          direction={upMd ? "row" : "column"}
           sx={{
-            padding: 1,
-            display: "flex",
-            alignItems: "center",
+            height: "100%",
             justifyContent: "center",
+            alignItems: upMd ? "center" : "stretch",
           }}
         >
-          <img
-            src="/buds-logo.png"
-            style={{ maxWidth: upMd ? "300px" : "220px", width: "auto" }}
-          />
-        </Box>
-        <Box
-          sx={{
-            padding: 1,
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-            alignItems: "center",
-            justifyContent: upMd ? "center" : "flex-start",
-          }}
-        >
-          <Outlet />
-        </Box>
+          <Grid
+            size={{ md: 6 }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src="/buds-hero.svg"
+              style={{
+                maxWidth: upMd ? "400px" : "200px",
+              }}
+            />
+          </Grid>
+          <Grid size={{ md: 6 }}>
+            <Outlet />
+          </Grid>
+        </Grid>
       </Container>
     </Box>
   );

@@ -13,11 +13,15 @@ function DashboardLayout() {
     flex: "1 1 auto",
     maxWidth: "100%",
     height: "100dvh",
-    paddingTop: 64,
+    paddingTop: 54,
     overflow: "auto",
     backgroundColor: theme.palette.background.default,
     [theme.breakpoints.up("lg")]: {
       paddingLeft: 180,
+      paddingTop: 64,
+    },
+    [theme.breakpoints.up("sm")]: {
+      paddingTop: 64,
     },
   }));
 
@@ -25,6 +29,7 @@ function DashboardLayout() {
     <DashboardLayoutRoot>
       <Container
         maxWidth="xl"
+        disableGutters
         sx={{
           display: "flex",
           flex: "1 1 auto",
